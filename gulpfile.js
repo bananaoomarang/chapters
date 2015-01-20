@@ -8,6 +8,7 @@ var buffer      = require('vinyl-buffer');
 var watchify    = require('watchify');
 var browserify  = require('browserify');
 var sass        = require('gulp-sass');
+var react       = require('gulp-react')
 var browserSync = require('browser-sync');
 var async       = require('async');
 var server      = require('./server');
@@ -37,15 +38,21 @@ function compileJS() {
     .on('error', gutil.log.bind(gutil, 'Browserify Error'))
     .pipe(source('bundle.js'))
     .pipe(buffer())
-    .pipe(sourcemaps.init({loadMaps: true}))
+    .pipe(sourcemaps.init({ loadMaps: true }))
     .pipe(sourcemaps.write('./')) 
-    .pipe(gulp.dest('./demo/public'));
+    .pipe(gulp.dest('public'));
 }
 
 gulp.task('js', compileJS);
 bundler.on('update', compileJS);
 
-gulp.task('html', function copyHTML() {
+gulp.task('jsx', function compileJSX () {
+  gulp.src(paths.jsx)
+    .pipe(react())
+    .pipe(gulp.dest('src/js'));
+});
+
+gulp.task('html', function copyHTML () {
   gulp.src('src/html/index.html')
     .pipe(gulp.dest('public'));
 });
@@ -54,7 +61,7 @@ gulp.task('sass', function compileSass() {
   gulp.src('src/style/sass/*.scss')
     .pipe(sass())
     .pipe(sourcemaps.write('./'))
-    .pipe(gulp.dest('/public/style/css'));
+    .pipe(gulp.dest('public/style/css'));
 });
 
 gulp.task('serve', function serveDemo() {
@@ -78,9 +85,10 @@ gulp.task('serve', function serveDemo() {
 
 gulp.task('watch', function watchFiles() {
   gulp.watch(paths.js, ['js']);
+  gulp.watch(paths.jsx, ['jsx']);
   gulp.watch(paths.sass, ['sass']);
   gulp.watch(paths.html, ['html']);
   gulp.watch(paths.src, reload);
 });
 
-gulp.task('default', ['html', 'js', 'sass', 'serve', 'watch']);
+gulp.task('default', ['html', 'jsx', 'js', 'sass', 'serve', 'watch']);

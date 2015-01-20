@@ -1,37 +1,37 @@
 var React = require('react');
 
-var Comment = React.createClass({
+var Comment = React.createClass({displayName: "Comment",
   render: function() {
     return (
-      <div className="comment">
-        <h2 className="commentAuthor">
-          {this.props.author}
-        </h2>
-      </div>
+      React.createElement("div", {className: "comment"}, 
+        React.createElement("h2", {className: "commentAuthor"}, 
+          this.props.author
+        )
+      )
     );
   }
 });
 
 
-var CommentList = React.createClass({
+var CommentList = React.createClass({displayName: "CommentList",
   render: function() {
     var commentNodes = this.props.data.map(function (comment) {
       return (
-        <Comment author={comment.author}>
-          {comment.text}
-        </Comment>
+        React.createElement(Comment, {author: comment.author}, 
+          comment.text
+        )
       );
     });
 
     return (
-      <div className="commentList">
-        {commentNodes}
-      </div>
+      React.createElement("div", {className: "commentList"}, 
+        commentNodes
+      )
     );
   }
 });
 
-var CommentForm = React.createClass({
+var CommentForm = React.createClass({displayName: "CommentForm",
   handleSubmit: function(e) {
     e.preventDefault();
 
@@ -48,16 +48,16 @@ var CommentForm = React.createClass({
   },
   render: function() {
     return (
-      <form className="commentForm" onSubmit={this.handleSubmit}>
-        <input type="text" placeholder="Your name" ref="author" />
-        <input type="text" placeholder="Say something..." ref="text" />
-        <input type="submit" value="Post" />
-      </form>
+      React.createElement("form", {className: "commentForm", onSubmit: this.handleSubmit}, 
+        React.createElement("input", {type: "text", placeholder: "Your name", ref: "author"}), 
+        React.createElement("input", {type: "text", placeholder: "Say something...", ref: "text"}), 
+        React.createElement("input", {type: "submit", value: "Post"})
+      )
     );
   }
 });
 
-var CommentBox = React.createClass({
+var CommentBox = React.createClass({displayName: "CommentBox",
   loadCommentsFromServer: function() {
     $.ajax({
       url: this.props.url,
@@ -96,11 +96,11 @@ var CommentBox = React.createClass({
   },
   render: function() {
     return (
-      <div className="commentBox">
-        <h1>Comments</h1>
-        <CommentList data={this.state.data} />
-        <CommentForm onCommentSubmit={this.handleCommentSubmit} />
-      </div>
+      React.createElement("div", {className: "commentBox"}, 
+        React.createElement("h1", null, "Comments"), 
+        React.createElement(CommentList, {data: this.state.data}), 
+        React.createElement(CommentForm, {onCommentSubmit: this.handleCommentSubmit})
+      )
     );
   }
 });
