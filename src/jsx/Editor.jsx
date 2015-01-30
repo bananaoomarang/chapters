@@ -2,6 +2,7 @@ var React     = require('react');
 var kbjs      = require('keyboardjs');
 var rangy     = require('rangy');
 var Paragraph = require('./Paragraph');
+var Toolbar = require('./Toolbar');
 
 var Editor = {
   getInitialState: function () {
@@ -60,7 +61,7 @@ var Editor = {
 
       if(!currentParagraph) return;
 
-      if (caret.position === 0 && previousParagraph) {
+      if (caret.position === 0 && previousParagraph.tagName !== 'DIV') {
 
         newParagraphsArray.splice(currentIndex, 1);
 
@@ -106,6 +107,7 @@ var Editor = {
   render: function () {
     return (
       <div>
+        <Toolbar />
         {
           this.state.paragraphs.map(function(p, index) {
             return <Paragraph key={p.props.id} ref={p.props.id} index={index} onFocus={this.handleFocus} onBlur={this.handleBlur}/>;
