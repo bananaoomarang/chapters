@@ -18,7 +18,7 @@ var reload      = browserSync.reload;
 var paths = {
   js: ['src/js/*'],
   jsx: ['src/jsx/*'],
-  sass: ['src/style/sass/*.scss'],
+  sass: ['src/sass/*.scss'],
   html: ['src/html/*'],
   src: ['public/index.html', 'public/bundle.js', 'public/style/css/*.css']
 };
@@ -53,12 +53,12 @@ gulp.task('jsx', function compileJSX () {
 });
 
 gulp.task('html', function copyHTML () {
-  gulp.src('src/html/index.html')
+  gulp.src(paths.html)
     .pipe(gulp.dest('public'));
 });
 
 gulp.task('sass', function compileSass() {
-  gulp.src('src/style/sass/*.scss')
+  gulp.src('src/sass/*.scss')
     .pipe(sass())
     .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest('public/style/css'));

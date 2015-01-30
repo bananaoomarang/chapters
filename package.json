@@ -30,6 +30,9 @@
     "good": "^5.1.1",
     "good-console": "^4.1.0",
     "hapi": "^8.1.0",
+    "hapi-auth-jwt": "^2.0.0",
+    "jsonwebtoken": "^3.2.2",
+    "keyboardjs": "^0.4.2",
     "react": "^0.12.2"
   }
 }
