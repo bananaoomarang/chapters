@@ -2,3 +2,4 @@ node_modules
 public/bundle.js
 public/bundle.js.map
 public/index.html
+src/js/*
