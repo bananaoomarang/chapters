@@ -21,7 +21,7 @@ var Paragraph = {
 
   render: function () {
     return (
-      <p type="number" data-index={this.props.index} onInput={this.handleInput} onBlur={this.handleBlur} contentEditable="true" onChange={this.handleChange} onFocus={this.props.onFocus}></p>
+      <p type="number" data-index={this.props.index} onInput={this.handleInput} onBlur={this.props.onBlur} contentEditable="true" onChange={this.handleChange} onFocus={this.props.onFocus}></p>
     );
   }
 };
