@@ -1,8 +1,10 @@
+'use strict';
+
 var React     = require('react');
 var kbjs      = require('keyboardjs');
 var rangy     = require('rangy');
 var Paragraph = require('./Paragraph');
-var Toolbar = require('./Toolbar');
+var Toolbar   = require('./Toolbar');
 
 var Editor = {
   getInitialState: function () {
@@ -20,20 +22,61 @@ var Editor = {
   },
 
   getCaret: function (element) {
-    var range     = rangy.getSelection(element);
+
+    var currentHTML      = element.innerHTML;
+    var range            = rangy.createRange();
+    var elementSelection = rangy.getSelection(element);
+    var windowSelection  = rangy.getSelection();
+    var node             = element.childNodes[0];
 
     return {
-      position : range.anchorOffset,
-      selection: range.focusOffset
+      position    : elementSelection.anchorOffset,
+
+      selection   : elementSelection.focusOffset,
+
+      setPosition : function (newPosition) {
+
+        setTimeout( function delayCaretMove () {
+
+          switch(newPosition) {
+            case 'start':
+              range.setStart(node, 0);
+
+              break;
+
+            case 'end':
+              range.setStart(node, currentHTML.length);
+
+              break;
+
+            default:
+              range.setStart(node, newPosition);
+
+              break;
+          }
+
+          range.collapse(true);
+
+          windowSelection.setSingleRange(range);
+
+        });
+
+
+      },
+
     };
   },
 
   bindKeys: function () {
     kbjs.on('enter', function onEnter (e) {
 
-      var currentIndex       = Number(this.state.focusedParagraph.dataset.index);
+      var currentParagraph   = this.state.focusedParagraph;
+      var caret              = this.getCaret(currentParagraph);
+      var currentIndex       = Number(currentParagraph.dataset.index);
+      var currentHTML        = currentParagraph.innerHTML;
       var newParagraphId     = this.state.paragraphs.length;
       var newParagraph       = <Paragraph id={newParagraphId} />
+      var newParagraphDOM    = null;
       var newParagraphsArray = this.state.paragraphs.slice();
 
       // Stop event bubbling
@@ -47,13 +90,20 @@ var Editor = {
         paragraphs: newParagraphsArray
       });
 
-      // Focus said paragraph
-      this.refs[newParagraphId].getDOMNode().focus();
+      newParagraphDOM    = this.refs[newParagraphId].getDOMNode();
+
+      newParagraphDOM.focus();
+
+      newParagraphDOM.innerHTML += currentHTML.slice(caret.position, currentHTML.length);
+      currentParagraph.innerHTML = currentHTML.slice(0, caret.position);
+
 
     }.bind(this));
 
     kbjs.on('backspace', function onBackspace (e) {
+
       var currentParagraph   = this.state.focusedParagraph;
+      var currentHTML        = currentParagraph.innerHTML;
       var currentIndex       = Number(currentParagraph.dataset.index);
       var previousParagraph  = currentParagraph.previousSibling;
       var caret              = this.getCaret(currentParagraph);
@@ -63,13 +113,25 @@ var Editor = {
 
       if (caret.position === 0 && previousParagraph.tagName !== 'DIV') {
 
+        // Remove paragraph
         newParagraphsArray.splice(currentIndex, 1);
 
         this.setState({
           paragraphs: newParagraphsArray
         });
 
-        previousParagraph.focus();
+        if(previousParagraph.innerHTML.length) {
+
+          this.getCaret(previousParagraph)
+            .setPosition('end');
+
+        } else if (previousParagraph) {
+
+          previousParagraph.focus();
+
+        }
+
+        previousParagraph.innerHTML += currentHTML;
 
         // Stop event bubbling
         e.preventDefault();
@@ -80,7 +142,9 @@ var Editor = {
     }.bind(this));
 
     kbjs.on('up', function onUp (e) {
+
       var currentParagraph   = this.state.focusedParagraph;
+      var caret              = this.getCaret(currentParagraph);
       var previousParagraph  = currentParagraph.previousSibling;
 
       if(!currentParagraph) return;
@@ -90,6 +154,7 @@ var Editor = {
     }.bind(this));
 
     kbjs.on('down', function onDown (e) {
+
       var currentParagraph   = this.state.focusedParagraph;
       var nextParagraph  = currentParagraph.nextSibling;
 
@@ -110,7 +175,7 @@ var Editor = {
         <Toolbar />
         {
           this.state.paragraphs.map(function(p, index) {
-            return <Paragraph key={p.props.id} ref={p.props.id} index={index} onFocus={this.handleFocus} onBlur={this.handleBlur}/>;
+            return <Paragraph key={p.props.id} ref={p.props.id} index={index} onFocus={this.handleFocus} onBlur={this.handleBlur} />;
           }.bind(this))
         }
       </div>
