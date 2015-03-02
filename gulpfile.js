@@ -11,7 +11,7 @@ var sass        = require('gulp-sass');
 var react       = require('gulp-react')
 var browserSync = require('browser-sync');
 var async       = require('async');
-var server      = require('./server');
+var server      = require('chapters-server');
 
 var reload      = browserSync.reload;
 
