@@ -1,33 +1,54 @@
-var db = require('nano')('http://localhost:5984/accounts_couch');
+var db    = require('nano')('http://localhost:5984/_users');
+var debug = require('debug')('accounts');
 
 module.exports = {
   add: function (user, cb) {
 
-    db.insert({ email: user.email, password: user.password }, user.username, function couchInsert (err, body) {
+    debug('creating %s', user.username);
+
+    var doc = {
+      _id      : 'org.couchdb.user:' + user.username,
+      name     : user.username,
+      type     : 'user',
+      roles    : [],
+      password : user.password
+    };
+
+
+    db.insert(doc, function couchInsert (err, body) {
+
       if (err) return cb(err);
 
       return cb(null, body);
+
     });
 
   },
 
   remove: function (username, cb) {
-    console.log('removing: ' + username);
 
-    db.destroy(username, 'dsa', function (err, body) {
+    debug('removing: %s', username);
+
+    db.destroy(username, 'revision', function (err, body) {
+
       if (err) return cb(err);
 
       return cb(null, body);
+
     });
 
   },
 
   get: function (username, cb) {
+    
+    debug('getting: %s', username);
 
-    db.get(username, function (err, body, headers) {
+    db.get('org.couchdb.user:' + username, function (err, body, headers) {
+
       if (err) return cb(err);
 
       cb(null, body);
+
     });
 
   },
@@ -35,9 +56,11 @@ module.exports = {
   list: function (cb) {
 
     db.list(function getDBList (err, body) {
+
       if(err) return cb(err);
 
       cb(null, body);
+
     });
 
   }

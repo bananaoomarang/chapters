@@ -61,7 +61,6 @@ var Editor = {
 
         });
 
-
       },
 
     };
@@ -81,7 +80,7 @@ var Editor = {
 
       // Stop event bubbling
       e.preventDefault();
-      e.stopPropagation();
+     e.stopPropagation();
 
       // Splice new paragraph
       newParagraphsArray.splice(currentIndex + 1, 0, newParagraph);
@@ -173,11 +172,14 @@ var Editor = {
     return (
       <div>
         <Toolbar />
-        {
-          this.state.paragraphs.map(function(p, index) {
-            return <Paragraph key={p.props.id} ref={p.props.id} index={index} onFocus={this.handleFocus} onBlur={this.handleBlur} />;
-          }.bind(this))
-        }
+
+        <div className="paragraphs">
+          {
+            this.state.paragraphs.map(function(p, index) {
+              return <Paragraph key={p.props.id} ref={p.props.id} index={index} onFocus={this.handleFocus} onBlur={this.handleBlur} />;
+            }.bind(this))
+          }
+        </div>
       </div>
     );
   }
