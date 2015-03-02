@@ -3,6 +3,7 @@
 var React     = require('react');
 var kbjs      = require('keyboardjs');
 var rangy     = require('rangy');
+var Dropzone  = require('dropzone');
 var Paragraph = require('./Paragraph');
 var Toolbar   = require('./Toolbar');
 
@@ -166,6 +167,8 @@ var Editor = {
 
   componentDidMount: function () {
     this.bindKeys();
+
+    var dropzone = new Dropzone('div#editor', { url: '/story/upload' });
   },
 
   render: function () {
