@@ -20,7 +20,7 @@
     "gulp": "^3.8.10",
     "gulp-jsx": "^0.6.1",
     "gulp-react": "^2.0.0",
-    "gulp-sass": "^1.3.2",
+    "gulp-sass": "^1.3.3",
     "gulp-sourcemaps": "^1.3.0",
     "gulp-util": "^3.0.2",
     "vinyl-buffer": "^1.0.0",
@@ -29,8 +29,12 @@
   },
   "dependencies": {
     "dropzone": "^4.0.1",
+    "flux": "^2.0.1",
     "keyboardjs": "^0.4.2",
+    "object-assign": "^2.0.0",
+    "please-ajax": "^1.0.8",
     "rangy": "^1.3.0-alpha.20140921",
-    "react": "^0.12.2"
+    "react": "^0.12.2",
+    "react-form-data": "^0.2.2"
   }
 }

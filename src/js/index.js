@@ -5,7 +5,7 @@ var Editor       = require('./Editor');
 var Login        = require('./Login');
 var SessionStore = require('./stores/SessionStore');
 
-var BaseView = React.createClass({
+var BaseView = React.createClass({displayName: "BaseView",
 
   getInitialState: function () {
     return { 
@@ -27,19 +27,19 @@ var BaseView = React.createClass({
 
   render: function () {
     return (
-      <div className="mainView">
-        <Editor token={this.state.token} />
-        <div id="login">
-          <Login signedIn={this.state.user}/>
-        </div>
-      </div>
+      React.createElement("div", {className: "mainView"}, 
+        React.createElement(Editor, {token: this.state.token}), 
+        React.createElement("div", {id: "login"}, 
+          React.createElement(Login, {signedIn: this.state.user})
+        )
+      )
     );
   }
 
 });
 
 React.render(
-  <BaseView />,
+  React.createElement(BaseView, null),
   document.getElementById('editor')
 );
 

@@ -1,18 +1,34 @@
 'use strict';
 
-var React = require('react');
+var React         = require('react');
+var EditorActions = require('./actions/EditorActions');
 
 var FontSize = React.createClass({
 
   getInitialState: function () {
-    return { value: this.props.defaultSize };
-  },
-
-  handleChange: function (event) {
-    this.setState({ value: event.target.value });
+    return {
+      value: this.props.defaultSize
+    }
   },
 
   componentDidMount: function () {
+    var font = {
+      size: this.state.value
+    };
+
+    EditorActions.setFont(font);
+  },
+
+  handleChange: function (event) {
+    var font = {
+      size: event.target.value
+    };
+
+    EditorActions.setFont(font);
+
+    this.setState({
+      value: event.target.value
+    });
   },
 
   render: function () {

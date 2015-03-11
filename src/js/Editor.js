@@ -17,7 +17,7 @@ var Editor = {
 
   getInitialState: function () {
     return { 
-      paragraphs: [<Paragraph id="0" />],
+      paragraphs: [React.createElement(Paragraph, {id: "0"})],
       font: {
         size: null
       }
@@ -85,7 +85,7 @@ var Editor = {
       var currentIndex       = Number(currentParagraph.dataset.index);
       var currentHTML        = currentParagraph.innerHTML;
       var newParagraphId     = this.state.paragraphs.length;
-      var newParagraph       = <Paragraph id={newParagraphId} />
+      var newParagraph       = React.createElement(Paragraph, {id: newParagraphId})
       var newParagraphDOM    = null;
       var newParagraphsArray = this.state.paragraphs.slice();
 
@@ -195,17 +195,17 @@ var Editor = {
     };
 
     return (
-      <div>
-        <Toolbar token={this.props.token} />
+      React.createElement("div", null, 
+        React.createElement(Toolbar, {token: this.props.token}), 
 
-        <div className="paragraphs" style={style}>
-          {
+        React.createElement("div", {className: "paragraphs", style: style}, 
+          
             this.state.paragraphs.map(function(p, index) {
-              return <Paragraph key={p.props.id} ref={p.props.id} index={index} onFocus={this.handleFocus} onBlur={this.handleBlur} />;
+              return React.createElement(Paragraph, {key: p.props.id, ref: p.props.id, index: index, onFocus: this.handleFocus, onBlur: this.handleBlur});
             }.bind(this))
-          }
-        </div>
-      </div>
+          
+        )
+      )
     );
   }
 };
