@@ -1,6 +1,7 @@
 'use strict';
 
 var React         = require('react');
+var please        = require('please-ajax')(window);
 var EditorActions = require('./actions/EditorActions');
 
 var FontSize = React.createClass({displayName: "FontSize",
@@ -42,6 +43,26 @@ var FontSize = React.createClass({displayName: "FontSize",
 });
 
 var Toolbar = {
+  handleSave: function () {
+    var opts = {
+      headers: {
+        Authorization: 'Bearer ' + this.props.token
+      },
+      success: function (data) {
+        console.log('Successfully saved!');
+      },
+      error: function (err) {
+        console.error(err);
+      }
+    };
+
+    var json = JSON.stringify({
+      story: 'Once upon a time...'
+    });
+
+    please.post('/story/upload', json, opts)
+  },
+
   render: function () {
     return (
       React.createElement("div", {className: "toolbar"}, 
@@ -51,7 +72,7 @@ var Toolbar = {
         React.createElement("button", {className: "btn", name: "center"}, "Center"), 
         React.createElement("button", {className: "btn", name: "right"}, "Right"), 
         React.createElement("button", {className: "btn", name: "load"}, "Load"), 
-        React.createElement("button", {className: "btn", name: "save"}, "Save")
+        React.createElement("button", {className: "btn", name: "save", onClick: this.handleSave}, "Save")
       )
     );
   }

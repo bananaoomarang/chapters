@@ -3,6 +3,9 @@
     "node": true,
     "browser": true
   },
+  "ecmaFeatures": {
+    "jsx": true
+  },
   "globals": {
     "$": true,
     "window": true,

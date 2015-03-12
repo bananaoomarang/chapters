@@ -2,7 +2,6 @@
 
 var React          = require('react');
 var FormData       = require('react-form-data');
-var please         = require('please-ajax')(window);
 var SessionActions = require('./actions/SessionActions');
 
 var Login = {
@@ -31,7 +30,8 @@ var Login = {
             React.createElement("input", {type: "password", name: "password", id: "form-password-field", placeholder: "password"}), 
 
             React.createElement("input", {type: "submit", name: "user-login", id: "submit-user-form", value: "Go"})
-          )
+          ), 
+          React.createElement("a", {className: "error-msg"}, this.props.error)
         )
       );
       

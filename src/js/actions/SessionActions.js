@@ -24,7 +24,8 @@ var SessionActions = {
       if (err) {
 
         AppDispatcher.dispatch({
-          actionType: 'session-invalid'
+          actionType: 'session-invalid',
+          error: err
         });
 
       } else {

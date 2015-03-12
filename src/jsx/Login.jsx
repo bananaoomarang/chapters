@@ -2,7 +2,6 @@
 
 var React          = require('react');
 var FormData       = require('react-form-data');
-var please         = require('please-ajax')(window);
 var SessionActions = require('./actions/SessionActions');
 
 var Login = {
@@ -32,6 +31,7 @@ var Login = {
 
             <input type="submit" name="user-login" id="submit-user-form" value="Go" />
           </form>
+          <a className="error-msg">{this.props.error}</a>
         </div>
       );
       

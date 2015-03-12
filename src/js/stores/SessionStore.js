@@ -3,11 +3,20 @@ var EventEmitter  = require('events').EventEmitter;
 var assign        = require('object-assign');
 
 var _data = {
-  name: null,
-  token: null
+  name:  null,
+  token: null,
+  error: null
 };
 
 var Store = assign({}, EventEmitter.prototype, {
+
+  getAll: function () {
+    return _data;
+  },
+
+  getError: function () {
+    return _data.error;
+  },
 
   getUser: function () {
     return _data.name;
@@ -29,6 +38,12 @@ var Store = assign({}, EventEmitter.prototype, {
 
 AppDispatcher.register(function (action) {
   switch(action.actionType) {
+
+    case 'session-invalid':
+      _data.error = action.error.data.message;
+
+      Store.emitChange();
+      break;
 
     case 'session-open':
       _data.name = action.name;
