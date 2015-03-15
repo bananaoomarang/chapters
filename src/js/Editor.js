@@ -2,6 +2,7 @@
 
 var React     = require('react');
 var kbjs      = require('keyboardjs');
+var request   = require('superagent');
 var rangy     = require('rangy');
 var Dropzone  = require('dropzone');
 var Paragraph = require('./Paragraph');
@@ -30,6 +31,23 @@ var Editor = {
 
   handleBlur: function (event) {
     this.setState({ focusedParagraph: null });
+  },
+
+  handleSave: function (event) {
+    var payload = {
+      title: 'UserCreated',
+      text: this.exportText()
+    };
+
+    request
+      .post('/story/upload')
+      .send(payload)
+      .set('Authorization', 'Bearer ' + this.props.token)
+      .end(function (err, res) {
+        if (err) return console.error(err);
+
+        console.log('Save successful');
+      });
   },
 
   // Concatanate html tags into one string for exporting
@@ -220,7 +238,7 @@ var Editor = {
 
     return (
       React.createElement("div", null, 
-        React.createElement(Toolbar, {token: this.props.token}), 
+        React.createElement(Toolbar, {token: this.props.token, handleSave: this.handleSave}), 
 
         React.createElement("div", {className: "paragraphs", id: "paragraph-container", style: style}, 
           

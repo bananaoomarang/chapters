@@ -27,7 +27,7 @@ var EditorStore = assign({}, EventEmitter.prototype, {
 AppDispatcher.register(function (action) {
   switch(action.actionType) {
 
-    case 'editor-font':
+    case 'toolbar-font':
 
       _data.font = action.font;
 

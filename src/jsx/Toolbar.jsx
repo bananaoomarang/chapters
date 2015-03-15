@@ -45,20 +45,6 @@ var FontSize = React.createClass({
 var Toolbar = {
   handleSave: function () {
 
-    var payload = {
-      title: 'Fairytale',
-      text: 'Once upon a time...'
-    };
-
-    request
-      .post('/story/upload')
-      .send(payload)
-      .set('Authorization', 'Bearer ' + this.props.token)
-      .end(function (err, res) {
-        if (err) return console.error(err);
-
-        console.log('Save successful');
-      });
   },
 
   render: function () {
@@ -70,7 +56,7 @@ var Toolbar = {
         <button className="btn" name="center">Center</button>
         <button className="btn" name="right">Right</button> 
         <button className="btn" name="load">Load</button> 
-        <button className="btn" name="save" onClick={this.handleSave}>Save</button> 
+        <button className="btn" name="save" onClick={this.props.handleSave}>Save</button> 
       </div>
     );
   }

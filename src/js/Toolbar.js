@@ -45,20 +45,6 @@ var FontSize = React.createClass({displayName: "FontSize",
 var Toolbar = {
   handleSave: function () {
 
-    var payload = {
-      title: 'Fairytale',
-      text: 'Once upon a time...'
-    };
-
-    request
-      .post('/story/upload')
-      .send(payload)
-      .set('Authorization', 'Bearer ' + this.props.token)
-      .end(function (err, res) {
-        if (err) return console.error(err);
-
-        console.log('Save successful');
-      });
   },
 
   render: function () {
@@ -70,7 +56,7 @@ var Toolbar = {
         React.createElement("button", {className: "btn", name: "center"}, "Center"), 
         React.createElement("button", {className: "btn", name: "right"}, "Right"), 
         React.createElement("button", {className: "btn", name: "load"}, "Load"), 
-        React.createElement("button", {className: "btn", name: "save", onClick: this.handleSave}, "Save")
+        React.createElement("button", {className: "btn", name: "save", onClick: this.props.handleSave}, "Save")
       )
     );
   }
