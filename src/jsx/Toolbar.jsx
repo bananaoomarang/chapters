@@ -54,7 +54,8 @@ var Toolbar = {
 
         <button className="btn" name="left"   onClick={this.handleAlignment} >Left</button>
         <button className="btn" name="center" onClick={this.handleAlignment} >Center</button>
-        <button className="btn" name="right"  onClick={this.handleAlignment} >Right</button> 
+        <button className="btn" name="right"  onClick={this.handleAlignment} >Right</button>
+        <br />
         <button className="btn" name="load"   onClick={this.handleAlignement}>Load</button> 
         <button className="btn" name="save"   onClick={this.props.handleSave}>Save</button> 
       </div>
