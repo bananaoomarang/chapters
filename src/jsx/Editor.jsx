@@ -32,6 +32,24 @@ var Editor = {
     this.setState({ focusedParagraph: null });
   },
 
+  // Concatanate html tags into one string for exporting
+  exportText: function () {
+    var div    = document.getElementById('paragraph-container');
+    var string = '';
+
+    if(div.hasChildNodes()) {
+
+      for (var child in div.childNodes) {
+        var p    = div.childNodes[child];
+        var text = p.innerText; 
+
+        if(text) string += text + '\n\n';
+      }
+    }
+
+    return string;
+  },
+
   getCaret: function (element) {
 
     var currentHTML      = element.innerHTML;
@@ -204,7 +222,7 @@ var Editor = {
       <div>
         <Toolbar token={this.props.token} />
 
-        <div className="paragraphs" style={style}>
+        <div className="paragraphs" id="paragraph-container" style={style}>
           {
             this.state.paragraphs.map(function(p, index) {
               return <Paragraph key={p.props.id} ref={p.props.id} index={index} onFocus={this.handleFocus} onBlur={this.handleBlur} />;
