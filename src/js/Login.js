@@ -31,7 +31,9 @@ var Login = {
 
             React.createElement("input", {type: "submit", name: "user-login", id: "submit-user-form", value: "Go"})
           ), 
-          React.createElement("a", {className: "error-msg"}, this.props.error)
+          React.createElement("a", {className: "error-msg"}, this.props.error), 
+          React.createElement("br", null), 
+          React.createElement("a", {href: "/createUser.html"}, "Register")
         )
       );
       

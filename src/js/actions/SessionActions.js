@@ -6,7 +6,7 @@ function getToken (credentials, cb) {
     .post('/user/login')
     .send(credentials)
     .end(function (err, res) {
-      if (err) return cb(err);
+      if (err) return cb(res.body.message);
       
       cb(null, res.text)
     });

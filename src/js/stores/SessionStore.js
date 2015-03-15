@@ -40,7 +40,7 @@ AppDispatcher.register(function (action) {
   switch(action.actionType) {
 
     case 'session-invalid':
-      _data.error = action.error.data.message;
+      _data.error = action.error;
 
       Store.emitChange();
       break;

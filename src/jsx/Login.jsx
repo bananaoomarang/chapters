@@ -26,12 +26,14 @@ var Login = {
       return (
         <div className="login">
           <form onChange={this.updateFormData} onSubmit={this.handleSubmit}>
-            <input type="text"     name="username" id="form-username-field" placeholder="Bill" />
+            <input type="text"     name="username" id="form-username-field" placeholder="Bill"     />
             <input type="password" name="password" id="form-password-field" placeholder="password" />
 
             <input type="submit" name="user-login" id="submit-user-form" value="Go" />
           </form>
           <a className="error-msg">{this.props.error}</a>
+          <br />
+          <a href="/createUser.html">Register</a>
         </div>
       );
       
