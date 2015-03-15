@@ -43,8 +43,8 @@ var FontSize = React.createClass({displayName: "FontSize",
 });
 
 var Toolbar = {
-  handleSave: function () {
-
+  handleAlignment: function (event) {
+    ToolbarActions.setAlignment(event.target.name);
   },
 
   render: function () {
@@ -52,10 +52,10 @@ var Toolbar = {
       React.createElement("div", {className: "toolbar"}, 
         React.createElement(FontSize, {defaultSize: "24"}), 
 
-        React.createElement("button", {className: "btn", name: "left"}, "Left"), 
-        React.createElement("button", {className: "btn", name: "center"}, "Center"), 
-        React.createElement("button", {className: "btn", name: "right"}, "Right"), 
-        React.createElement("button", {className: "btn", name: "load"}, "Load"), 
+        React.createElement("button", {className: "btn", name: "left", onClick: this.handleAlignment}, "Left"), 
+        React.createElement("button", {className: "btn", name: "center", onClick: this.handleAlignment}, "Center"), 
+        React.createElement("button", {className: "btn", name: "right", onClick: this.handleAlignment}, "Right"), 
+        React.createElement("button", {className: "btn", name: "load", onClick: this.handleAlignement}, "Load"), 
         React.createElement("button", {className: "btn", name: "save", onClick: this.props.handleSave}, "Save")
       )
     );

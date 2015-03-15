@@ -5,13 +5,18 @@ var assign        = require('object-assign');
 var _data = {
   font: {
     size: null
-  }
+  },
+  alignment: null
 };
 
 var EditorStore = assign({}, EventEmitter.prototype, {
 
   getFont: function () {
     return _data.font;
+  },
+
+  getAlignment: function () {
+    return _data.alignment;
   },
 
   emitChange: function () {
@@ -30,6 +35,13 @@ AppDispatcher.register(function (action) {
     case 'toolbar-font':
 
       _data.font = action.font;
+
+      EditorStore.emitChange();
+      break;
+
+    case 'toolbar-alignment':
+
+      _data.alignment = action.alignment;
 
       EditorStore.emitChange();
       break;

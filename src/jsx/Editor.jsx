@@ -12,7 +12,8 @@ var EditorStore = require('./stores/EditorStore');
 var Editor = {
   onEditorChange: function () {
     this.setState({
-      font: EditorStore.getFont()
+      font: EditorStore.getFont(),
+      alignment: EditorStore.getAlignment()
     });
   },
 
@@ -21,7 +22,8 @@ var Editor = {
       paragraphs: [<Paragraph id="0" />],
       font: {
         size: null
-      }
+      },
+      alignment: null
     }
   },
 
@@ -233,12 +235,13 @@ var Editor = {
   render: function () {
 
     var style = {
-      fontSize: this.state.font.size
+      fontSize: this.state.font.size,
+      textAlign: this.state.alignment
     };
 
     return (
       <div>
-        <Toolbar token={this.props.token} handleSave={this.handleSave}/>
+        <Toolbar token={this.props.token} handleSave={this.handleSave} />
 
         <div className="paragraphs" id="paragraph-container" style={style}>
           {
