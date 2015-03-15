@@ -48,7 +48,7 @@ bundler.on('update', compileJS);
 
 gulp.task('jsx', function compileJSX () {
   gulp.src(paths.jsx)
-    .on('error', gutil.log.bind(gutil, 'Browserify Error'))
+    .on('error', gutil.log.bind(gutil, 'JSX Error'))
     .pipe(react())
     .pipe(gulp.dest('src/js'));
 });

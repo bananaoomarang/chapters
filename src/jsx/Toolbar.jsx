@@ -1,8 +1,8 @@
 'use strict';
 
-var React         = require('react');
-var please        = require('please-ajax')(window);
-var EditorActions = require('./actions/EditorActions');
+var React          = require('react');
+var request        = require('superagent');
+var ToolbarActions = require('./actions/ToolbarActions');
 
 var FontSize = React.createClass({
 
@@ -17,7 +17,7 @@ var FontSize = React.createClass({
       size: this.state.value
     };
 
-    EditorActions.setFont(font);
+    ToolbarActions.setFont(font);
   },
 
   handleChange: function (event) {
@@ -25,7 +25,7 @@ var FontSize = React.createClass({
       size: event.target.value
     };
 
-    EditorActions.setFont(font);
+    ToolbarActions.setFont(font);
 
     this.setState({
       value: event.target.value
@@ -44,23 +44,21 @@ var FontSize = React.createClass({
 
 var Toolbar = {
   handleSave: function () {
-    var opts = {
-      headers: {
-        Authorization: 'Bearer ' + this.props.token
-      },
-      success: function (data) {
-        console.log('Successfully saved!');
-      },
-      error: function (err) {
-        console.error(err);
-      }
+
+    var payload = {
+      title: 'Fairytale',
+      text: 'Once upon a time...'
     };
 
-    var json = JSON.stringify({
-      story: 'Once upon a time...'
-    });
+    request
+      .post('/story/upload')
+      .send(payload)
+      .set('Authorization', 'Bearer ' + this.props.token)
+      .end(function (err, res) {
+        if (err) return console.error(err);
 
-    please.post('/story/upload', json, opts)
+        console.log('Save successful');
+      });
   },
 
   render: function () {

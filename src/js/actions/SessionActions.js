@@ -1,19 +1,15 @@
-var please = require('please-ajax')(window);
+var request       = require('superagent');
 var AppDispatcher = require('../AppDispatcher');
 
 function getToken (credentials, cb) {
-  var handlers = {
-    success: function (data) {
-      var token = data.data;
-
-      cb(null, token);
-    },
-    error: function (err) {
-      cb(err);
-    }
-  };
-
-  please.post('/user/login', JSON.stringify(credentials), handlers)
+  request
+    .post('/user/login')
+    .send(credentials)
+    .end(function (err, res) {
+      if (err) return cb(err);
+      
+      cb(null, res.text)
+    });
 };
 
 var SessionActions = {
@@ -29,7 +25,7 @@ var SessionActions = {
         });
 
       } else {
-        
+
         AppDispatcher.dispatch({
           actionType: 'session-open',
           name: credentials.username,

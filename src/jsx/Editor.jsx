@@ -182,10 +182,16 @@ var Editor = {
 
     var dropzoneOpts = {
       url: '/story/upload',
-      paramName: 'story'
+      headers: {
+        Authorization: 'Bearer ' + this.props.token
+      }
     };
 
     var dropzone  = new Dropzone('body', dropzoneOpts);
+
+    dropzone.on('sending', function(file, xhr, formData) {
+      formData.append('filename', file.name);
+    });
   },
 
   render: function () {
