@@ -4,8 +4,8 @@ var React        = require('react');
 var Router       = require('react-router');
 var MainView     = require('./MainView');
 var Login        = require('./Login');
+var Register     = require('./Register');
 var Editor       = require('./Editor');
-var SessionStore = require('./stores/SessionStore');
 
 var Route = Router.Route;
 var DefaultRoute = Router.DefaultRoute;
@@ -14,8 +14,9 @@ var routes = (
   <Route handler={MainView}>
     <DefaultRoute handler={Login} />
 
-    <Route name="login"  handler={Login}  />
-    <Route name="editor" handler={Editor} />
+    <Route name="login"     handler={Login}    />
+    <Route name="register"  handler={Register} />
+    <Route name="editor"    handler={Editor}   />
   </Route>
 );
 

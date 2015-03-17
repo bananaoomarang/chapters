@@ -2,11 +2,26 @@
 
 var React          = require('react');
 var FormData       = require('react-form-data');
-var Router         = require('react-router');
+var Link           = require('react-router').Link;
+var SessionStore   = require('./stores/SessionStore');
 var SessionActions = require('./actions/SessionActions');
 
 var Login = {
-  mixins: [FormData, Router.Navigation],
+  mixins: [FormData],
+
+  getInitialState: function () {
+    return {
+      error: ''
+    };
+  },
+
+  onSessionChange: function () {
+    this.setState({ error: SessionStore.getError() })
+  },
+
+  componentDidMount: function () {
+    SessionStore.addChangeListener(this.onSessionChange);
+  },
 
   handleSubmit: function (e) {
     e.preventDefault();
@@ -24,9 +39,12 @@ var Login = {
 
           <input type="submit" name="user-login" id="submit-user-form" value="Go" />
         </form>
-        <a className="error-msg">{this.props.error}</a>
+
+        <a className="error-msg">{this.state.error}</a>
+
         <br />
-        <a href="/createUser.html">Register</a>
+
+        <Link to="register">Register</Link>
       </div>
     );
 

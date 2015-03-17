@@ -21,6 +21,22 @@ var MainView = {
     }
   },
 
+  onSessionChange: function () {
+    var token = SessionStore.getToken();
+
+    if(token) this.transitionTo('/editor');
+
+    // Update window.sessionStorage
+    if(token !== this.state.token) window.sessionStorage.setItem('token', token);
+
+    this.setState({
+      user: SessionStore.getUser(),
+      token: token,
+      loginError: SessionStore.getError()
+    });
+
+  },
+
   componentDidMount: function () {
     SessionStore.addChangeListener(this.onSessionChange);
 
@@ -39,22 +55,6 @@ var MainView = {
     this.setState({ token: sessionToken });
   },
 
-  onSessionChange: function () {
-    var token = SessionStore.getToken();
-
-    if(token) this.transitionTo('/editor');
-
-    // Update window.sessionStorage
-    if(token !== this.state.token) window.sessionStorage.setItem('token', token);
-
-    this.setState({
-      user: SessionStore.getUser(),
-      token: token,
-      loginError: SessionStore.getError()
-    });
-
-  },
-
   render: function () {
 
     return (
@@ -62,20 +62,6 @@ var MainView = {
         React.createElement(RouteHandler, null)
       )
     );
-
-    //if(this.state.token) {
-      //return (
-        //<div className="mainView">
-          //<Editor token={this.state.token} />
-        //</div>
-      //);
-    //} else {
-      //return (
-        //<div className="mainView">
-          //<Login signedIn={this.state.user} error={this.state.loginError} />
-        //</div>
-      //);
-    //}
 
   }
 
