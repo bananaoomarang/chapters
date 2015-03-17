@@ -47,6 +47,10 @@ var Toolbar = {
     ToolbarActions.setAlignment(event.target.name);
   },
 
+  handleLoad: function () {
+    ToolbarActions.setLoading(true);
+  },
+
   render: function () {
     return (
       React.createElement("div", {className: "toolbar"}, 
@@ -56,7 +60,7 @@ var Toolbar = {
         React.createElement("button", {className: "btn", name: "center", onClick: this.handleAlignment}, "Center"), 
         React.createElement("button", {className: "btn", name: "right", onClick: this.handleAlignment}, "Right"), 
         React.createElement("br", null), 
-        React.createElement("button", {className: "btn", name: "load", onClick: this.handleAlignement}, "Load"), 
+        React.createElement("button", {className: "btn", name: "load", onClick: this.handleLoad}, "Load"), 
         React.createElement("button", {className: "btn", name: "save", onClick: this.props.handleSave}, "Save")
       )
     );

@@ -1,13 +1,14 @@
 'use strict';
 
-var React     = require('react');
-var kbjs      = require('keyboardjs');
-var request   = require('superagent');
-var rangy     = require('rangy');
-var Dropzone  = require('dropzone');
-var Paragraph = require('./Paragraph');
-var Toolbar   = require('./Toolbar');
-var EditorStore = require('./stores/EditorStore');
+var React         = require('react');
+var kbjs          = require('keyboardjs');
+var request       = require('superagent');
+var rangy         = require('rangy');
+var Dropzone      = require('dropzone');
+var Paragraph     = require('./Paragraph');
+var Toolbar       = require('./Toolbar');
+var StorySelector = require('./StorySelector');
+var EditorStore   = require('./stores/EditorStore');
 
 function sanitizeTitle (string) {
   string = string.trim();
@@ -22,30 +23,36 @@ function sanitizeTitle (string) {
 var Editor = {
   onEditorChange: function () {
     this.setState({
+      story: EditorStore.getStory(),
       font: EditorStore.getFont(),
-      alignment: EditorStore.getAlignment()
+      alignment: EditorStore.getAlignment(),
+      loadDialogue: EditorStore.getIsLoading()
     });
   },
 
   getInitialState: function () {
     return { 
       paragraphs: [React.createElement(Paragraph, {id: "0"})],
-      font: {
-        size: null
-      },
-      alignment: null,
-      title: 'Untitled'
+      story: EditorStore.getStory(),
+      font: EditorStore.getFont(),
+      alignment: EditorStore.getAlignment(),
+      loadDialogue: EditorStore.getIsLoading()
     }
   },
 
-  handleTitleChange: function (event) {
+  handleTitleChange: function () {
     var title = document.getElementById('title');
 
-    this.setState({ title: title.innerText });
+    this.setState({ 
+      story: {
+        title: title.innerText
+      }
+    });
+
   },
 
   handleFocus: function (event) {
-    this.setState({ focusedParagraph: event.target });
+    if(event.target.tag === 'P') this.setState({ focusedParagraph: event.target });
   },
 
   handleBlur: function (event) {
@@ -178,6 +185,7 @@ var Editor = {
 
       if (caret.position === 0 && previousParagraph.tagName !== 'DIV') {
 
+
         // Remove paragraph
         newParagraphsArray.splice(currentIndex, 1);
 
@@ -256,12 +264,16 @@ var Editor = {
       textAlign: this.state.alignment
     };
 
+    var storySelectorStyle = {
+      opacity: this.state.loadDialogue ? 1 : 0
+    };
+
     return (
       React.createElement("div", null, 
 
         React.createElement(Toolbar, {token: this.props.token, handleSave: this.handleSave}), 
 
-        React.createElement("h1", {id: "title", contentEditable: "true", onInput: this.handleTitleChange}, this.state.title), 
+        React.createElement("h1", {id: "title", contentEditable: "true", onInput: this.handleTitleChange}, this.state.story.title), 
 
         React.createElement("hr", null), 
 
@@ -271,7 +283,9 @@ var Editor = {
               return React.createElement(Paragraph, {key: p.props.id, ref: p.props.id, index: index, onFocus: this.handleFocus, onBlur: this.handleBlur});
             }.bind(this))
           
-        )
+        ), 
+
+        React.createElement(StorySelector, {style: storySelectorStyle})
       )
     );
   }

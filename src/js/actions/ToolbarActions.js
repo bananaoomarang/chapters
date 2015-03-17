@@ -17,6 +17,25 @@ var ToolbarActions = {
       actionType: 'toolbar-alignment',
       alignment: alignment
     });
+
+  },
+
+  setLoading: function (bool) {
+
+    AppDispatcher.dispatch({
+      actionType: 'toolbar-load',
+      isLoading: bool
+    });
+
+  },
+
+  setStory: function (obj) {
+
+    AppDispatcher.dispatch({
+      actionType: 'toolbar-story',
+      story: obj
+    });
+
   }
 
 }
