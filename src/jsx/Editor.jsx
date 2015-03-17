@@ -55,7 +55,8 @@ var Editor = {
   },
 
   handleFocus: function (event) {
-    if(event.target.tag === 'P') this.setState({ focusedParagraph: event.target });
+    if(event.target.tagName === 'P') this.setState({ focusedParagraph: event.target });
+    else this.setState({ focusedParagraph: null });
   },
 
   handleBlur: function (event) {
@@ -147,7 +148,14 @@ var Editor = {
   bindKeys: function () {
     kbjs.on('enter', function onEnter (e) {
 
+      // Stop event bubbling
+      e.preventDefault();
+      e.stopPropagation();
+
       var currentParagraph   = this.state.focusedParagraph;
+
+      if(!currentParagraph) return;
+
       var caret              = this.getCaret(currentParagraph);
       var currentIndex       = Number(currentParagraph.dataset.index);
       var currentHTML        = currentParagraph.innerHTML;
@@ -156,9 +164,6 @@ var Editor = {
       var newParagraphDOM    = null;
       var newParagraphsArray = this.state.paragraphs.slice();
 
-      // Stop event bubbling
-      e.preventDefault();
-      e.stopPropagation();
 
       // Splice new paragraph
       newParagraphsArray.splice(currentIndex + 1, 0, newParagraph);
@@ -180,6 +185,9 @@ var Editor = {
     kbjs.on('backspace', function onBackspace (e) {
 
       var currentParagraph   = this.state.focusedParagraph;
+
+      if(!currentParagraph) return;
+
       var currentHTML        = currentParagraph.innerHTML;
       var currentIndex       = Number(currentParagraph.dataset.index);
       var previousParagraph  = currentParagraph.previousSibling;
@@ -222,6 +230,9 @@ var Editor = {
     kbjs.on('up', function onUp (e) {
 
       var currentParagraph   = this.state.focusedParagraph;
+
+      if(!currentParagraph) return;
+
       var caret              = this.getCaret(currentParagraph);
       var previousParagraph  = currentParagraph.previousSibling;
 
@@ -234,6 +245,9 @@ var Editor = {
     kbjs.on('down', function onDown (e) {
 
       var currentParagraph   = this.state.focusedParagraph;
+
+      if(!currentParagraph) return;
+
       var nextParagraph  = currentParagraph.nextSibling;
 
       if(!currentParagraph) return;

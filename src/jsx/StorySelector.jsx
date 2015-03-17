@@ -20,8 +20,8 @@ var StorySelector = {
       <div id="story-selector" style={this.props.style}>
         <ul>
           {
-            this.props.storyList.map(function(story) {
-              return <li onClick={this.handleSelection}>{story.title}</li>;
+            this.props.storyList.map(function(story, index) {
+              return <li key={index} onClick={this.handleSelection}>{story.title}</li>;
             }.bind(this))
           }
         </ul>

@@ -20,8 +20,8 @@ var StorySelector = {
       React.createElement("div", {id: "story-selector", style: this.props.style}, 
         React.createElement("ul", null, 
           
-            this.props.storyList.map(function(story) {
-              return React.createElement("li", {onClick: this.handleSelection}, story.title);
+            this.props.storyList.map(function(story, index) {
+              return React.createElement("li", {key: index, onClick: this.handleSelection}, story.title);
             }.bind(this))
           
         )
