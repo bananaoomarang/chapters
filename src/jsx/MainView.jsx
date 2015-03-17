@@ -28,7 +28,7 @@ var MainView = {
 
     if (sessionToken) {
 
-      this.transitionTo('/editor', { token: sessionToken });
+      this.transitionTo('/editor');
 
     } else {
 

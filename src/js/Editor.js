@@ -36,6 +36,8 @@ var Editor = {
   },
 
   handleSave: function (event) {
+    var sessionToken = window.sessionStorage.getItem('token');
+
     var payload = {
       title: 'UserCreated',
       text: this.exportText()
@@ -44,7 +46,7 @@ var Editor = {
     request
       .post('/story/upload')
       .send(payload)
-      .set('Authorization', 'Bearer ' + this.props.token)
+      .set('Authorization', 'Bearer ' + sessionToken)
       .end(function (err, res) {
         if (err) return console.error(err);
 
@@ -214,6 +216,8 @@ var Editor = {
   },
 
   componentDidMount: function () {
+    var sessionToken = window.sessionStorage.getItem('token');
+
     EditorStore.addChangeListener(this.onEditorChange);
 
     this.bindKeys();
@@ -221,7 +225,7 @@ var Editor = {
     var dropzoneOpts = {
       url: '/story/upload',
       headers: {
-        Authorization: 'Bearer ' + this.props.token
+        Authorization: 'Bearer ' + sessionToken
       }
     };
 
@@ -241,7 +245,7 @@ var Editor = {
 
     return (
       React.createElement("div", null, 
-        React.createElement(Toolbar, {token: this.props.token, handleSave: this.handleSave}), 
+        React.createElement(Toolbar, {handleSave: this.handleSave}), 
 
         React.createElement("div", {className: "paragraphs", id: "paragraph-container", style: style}, 
           
