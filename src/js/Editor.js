@@ -9,7 +9,7 @@ var Paragraph     = require('./Paragraph');
 var Toolbar       = require('./Toolbar');
 var StorySelector = require('./StorySelector');
 var EditorStore   = require('./stores/EditorStore');
-var ToolbarActions = require('./actions/ToolbarActions');
+var EditorActions = require('./actions/EditorActions');
 
 function sanitizeTitle (string) {
   string = string.trim();
@@ -47,7 +47,7 @@ var Editor = {
   handleTitleChange: function () {
     var title = document.getElementById('title');
 
-    ToolbarActions.setStory({ 
+    EditorActions.setStory({ 
       title: title.innerText
     });
 

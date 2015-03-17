@@ -58,35 +58,35 @@ var EditorStore = assign({}, EventEmitter.prototype, {
 AppDispatcher.register(function (action) {
   switch(action.actionType) {
 
-    case 'toolbar-font':
+    case 'editor-font':
 
       _data.font = action.font;
 
       EditorStore.emitChange();
       break;
 
-    case 'toolbar-alignment':
+    case 'editor-alignment':
 
       _data.alignment = action.alignment;
 
       EditorStore.emitChange();
       break;
 
-    case 'toolbar-load':
+    case 'editor-load':
 
       _data.isLoading = action.isLoading;
 
       EditorStore.emitChange();
       break;
 
-    case 'toolbar-story':
+    case 'editor-story':
 
       assign(_data.story, action.story);
 
       EditorStore.emitChange();
       break;
 
-    case 'toolbar-editableStories':
+    case 'editor-editableStories':
 
       _data.editableStories = action.stories;
 

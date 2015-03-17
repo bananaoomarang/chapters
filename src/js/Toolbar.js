@@ -2,7 +2,7 @@
 
 var React          = require('react');
 var request        = require('superagent');
-var ToolbarActions = require('./actions/ToolbarActions');
+var EditorActions  = require('./actions/EditorActions');
 
 var FontSize = React.createClass({displayName: "FontSize",
 
@@ -17,9 +17,9 @@ var FontSize = React.createClass({displayName: "FontSize",
       size: this.state.value
     };
 
-    ToolbarActions.setFont(font);
+    EditorActions.setFont(font);
 
-    ToolbarActions.populateStories();
+    EditorActions.populateStories();
   },
 
   handleChange: function (event) {
@@ -27,7 +27,7 @@ var FontSize = React.createClass({displayName: "FontSize",
       size: event.target.value
     };
 
-    ToolbarActions.setFont(font);
+    EditorActions.setFont(font);
 
     this.setState({
       value: event.target.value
@@ -46,11 +46,11 @@ var FontSize = React.createClass({displayName: "FontSize",
 
 var Toolbar = {
   handleAlignment: function (event) {
-    ToolbarActions.setAlignment(event.target.name);
+    EditorActions.setAlignment(event.target.name);
   },
 
   handleLoad: function () {
-    ToolbarActions.setLoading(true);
+    EditorActions.setLoading(true);
   },
 
   render: function () {

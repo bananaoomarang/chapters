@@ -1,17 +1,17 @@
 'use strict';
 
 var React          = require('react');
-var ToolbarActions = require('./actions/ToolbarActions');
+var EditorActions = require('./actions/EditorActions');
 
 var StorySelector = {
   handleSelection: function (event) {
     console.log('User selected: %s', event.target.innerText);
 
-    ToolbarActions.setStory({
+    EditorActions.setStory({
       title: event.target.innerText
     });
 
-    ToolbarActions.setLoading(false);
+    EditorActions.setLoading(false);
   },
 
   render: function () {

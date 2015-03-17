@@ -1,13 +1,13 @@
 var request       = require('superagent');
 var AppDispatcher = require('../AppDispatcher');
 
-var ToolbarActions = {
+var EditorActions = {
 
   // Take a guess?
   setFont: function (font) {
 
     AppDispatcher.dispatch({
-      actionType: 'toolbar-font',
+      actionType: 'editor-font',
       font: font
     });
 
@@ -17,7 +17,7 @@ var ToolbarActions = {
   setAlignment: function (alignment) {
 
     AppDispatcher.dispatch({
-      actionType: 'toolbar-alignment',
+      actionType: 'editor-alignment',
       alignment: alignment
     });
 
@@ -27,7 +27,7 @@ var ToolbarActions = {
   setLoading: function (bool) {
 
     AppDispatcher.dispatch({
-      actionType: 'toolbar-load',
+      actionType: 'editor-load',
       isLoading: bool
     });
 
@@ -37,7 +37,7 @@ var ToolbarActions = {
   setStory: function (obj) {
 
     AppDispatcher.dispatch({
-      actionType: 'toolbar-story',
+      actionType: 'editor-story',
       story: obj
     });
 
@@ -54,7 +54,7 @@ var ToolbarActions = {
         if (err) return console.error(err);
 
         AppDispatcher.dispatch({
-          actionType: 'toolbar-editableStories',
+          actionType: 'editor-editableStories',
           stories: res.body
         });
 
@@ -63,4 +63,4 @@ var ToolbarActions = {
 
 }
 
-module.exports = ToolbarActions;
+module.exports = EditorActions;
