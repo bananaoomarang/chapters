@@ -9,6 +9,7 @@ var Paragraph     = require('./Paragraph');
 var Toolbar       = require('./Toolbar');
 var StorySelector = require('./StorySelector');
 var EditorStore   = require('./stores/EditorStore');
+var ToolbarActions = require('./actions/ToolbarActions');
 
 function sanitizeTitle (string) {
   string = string.trim();
@@ -46,10 +47,8 @@ var Editor = {
   handleTitleChange: function () {
     var title = document.getElementById('title');
 
-    this.setState({ 
-      story: {
-        title: title.innerText
-      }
+    ToolbarActions.setStory({ 
+      title: title.innerText
     });
 
   },
@@ -67,7 +66,7 @@ var Editor = {
     var sessionToken = window.sessionStorage.getItem('token');
 
     var payload = {
-      title: sanitizeTitle(this.state.title),
+      title: sanitizeTitle(this.state.story.title),
       text: this.exportText()
     };
 
