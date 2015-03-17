@@ -18,6 +18,8 @@ var FontSize = React.createClass({
     };
 
     ToolbarActions.setFont(font);
+
+    ToolbarActions.populateStories();
   },
 
   handleChange: function (event) {

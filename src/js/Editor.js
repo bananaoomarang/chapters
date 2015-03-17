@@ -21,23 +21,26 @@ function sanitizeTitle (string) {
 }
 
 var Editor = {
-  onEditorChange: function () {
-    this.setState({
-      story: EditorStore.getStory(),
-      font: EditorStore.getFont(),
-      alignment: EditorStore.getAlignment(),
-      loadDialogue: EditorStore.getIsLoading()
-    });
-  },
 
   getInitialState: function () {
     return { 
       paragraphs: [React.createElement(Paragraph, {id: "0"})],
       story: EditorStore.getStory(),
+      editableStories: EditorStore.getEditableStories(),
       font: EditorStore.getFont(),
       alignment: EditorStore.getAlignment(),
       loadDialogue: EditorStore.getIsLoading()
     }
+  },
+
+  onEditorChange: function () {
+    this.setState({
+      story: EditorStore.getStory(),
+      editableStories: EditorStore.getEditableStories(),
+      font: EditorStore.getFont(),
+      alignment: EditorStore.getAlignment(),
+      loadDialogue: EditorStore.getIsLoading()
+    });
   },
 
   handleTitleChange: function () {
@@ -285,7 +288,7 @@ var Editor = {
           
         ), 
 
-        React.createElement(StorySelector, {style: storySelectorStyle})
+        React.createElement(StorySelector, {style: storySelectorStyle, storyList: this.state.editableStories})
       )
     );
   }

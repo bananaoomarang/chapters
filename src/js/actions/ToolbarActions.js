@@ -1,7 +1,9 @@
+var request       = require('superagent');
 var AppDispatcher = require('../AppDispatcher');
 
 var ToolbarActions = {
 
+  // Take a guess?
   setFont: function (font) {
 
     AppDispatcher.dispatch({
@@ -11,6 +13,7 @@ var ToolbarActions = {
 
   },
 
+  // Set paragraph alignment
   setAlignment: function (alignment) {
 
     AppDispatcher.dispatch({
@@ -20,6 +23,7 @@ var ToolbarActions = {
 
   },
 
+  // Set whether the to display loading interface
   setLoading: function (bool) {
 
     AppDispatcher.dispatch({
@@ -29,6 +33,7 @@ var ToolbarActions = {
 
   },
 
+  // Set the story currently being edited
   setStory: function (obj) {
 
     AppDispatcher.dispatch({
@@ -36,6 +41,24 @@ var ToolbarActions = {
       story: obj
     });
 
+  },
+
+  // Load a list of possibly editable stories for user
+  populateStories: function (token) {
+    var sessionToken = window.sessionStorage.getItem('token');
+
+    request
+      .get('/story/list')
+      .set('Authorization', 'Bearer ' + sessionToken)
+      .end(function (err, res) {
+        if (err) return console.error(err);
+
+        AppDispatcher.dispatch({
+          actionType: 'toolbar-editableStories',
+          stories: res.body
+        });
+
+      });
   }
 
 }

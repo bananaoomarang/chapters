@@ -3,12 +3,15 @@ var EventEmitter  = require('events').EventEmitter;
 var assign        = require('object-assign');
 
 var _data = {
-  // Metadata for story
+  // Metadata for story being edited
   story: {
     title: 'Untitled',
     author: null,
     wordCount: null
   },
+
+  // Stories possible to edit
+  editableStories: [],
 
   // Styling
   font: {
@@ -24,6 +27,10 @@ var EditorStore = assign({}, EventEmitter.prototype, {
 
   getStory: function () {
     return _data.story;
+  },
+
+  getEditableStories: function () {
+    return _data.editableStories;
   },
 
   getFont: function () {
@@ -75,6 +82,13 @@ AppDispatcher.register(function (action) {
     case 'toolbar-story':
 
       assign(_data.story, action.story);
+
+      EditorStore.emitChange();
+      break;
+
+    case 'toolbar-editableStories':
+
+      _data.editableStories = action.stories;
 
       EditorStore.emitChange();
       break;
