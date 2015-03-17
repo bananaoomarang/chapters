@@ -1,64 +1,27 @@
 'use strict';
 
 var React        = require('react');
-var Editor       = require('./Editor');
+var Router       = require('react-router');
+var MainView     = require('./MainView');
 var Login        = require('./Login');
+var Editor       = require('./Editor');
 var SessionStore = require('./stores/SessionStore');
 
-var BaseView = React.createClass({displayName: "BaseView",
+var Route = Router.Route;
+var DefaultRoute = Router.DefaultRoute;
 
-  getInitialState: function () {
-    return { 
-      user:       null,
-      token:      null,
-      loginError: null
-    }
-  },
+var routes = (
+  React.createElement(Route, {handler: MainView}, 
+    React.createElement(DefaultRoute, {handler: Login}), 
 
-  componentDidMount: function () {
-    SessionStore.addChangeListener(this.onSessionChange);
+    React.createElement(Route, {name: "login", handler: Login}), 
+    React.createElement(Route, {name: "editor", handler: Editor})
+  )
+);
 
-    var sessionToken = window.sessionStorage.getItem('token');
+Router.run(routes, function (Handler) {
 
-    this.setState({ token: sessionToken });
-  },
-
-  onSessionChange: function () {
-    var token = SessionStore.getToken();
-
-    // Update window.sessionStorage
-    if(token !== this.state.token) window.sessionStorage.setItem('token', token);
-
-    this.setState({
-      user: SessionStore.getUser(),
-      token: token,
-      loginError: SessionStore.getError()
-    });
-
-  },
-
-  render: function () {
-
-    if(this.state.token) {
-      return (
-        React.createElement("div", {className: "mainView"}, 
-          React.createElement(Editor, {token: this.state.token})
-        )
-      );
-    } else {
-      return (
-        React.createElement("div", {className: "mainView"}, 
-          React.createElement(Login, {signedIn: this.state.user, error: this.state.loginError})
-        )
-      );
-    }
-
-  }
+  React.render(React.createElement(Handler, null), document.getElementById('editor'));
 
 });
-
-React.render(
-  React.createElement(BaseView, null),
-  document.getElementById('editor')
-);
 

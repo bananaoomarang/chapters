@@ -1,64 +1,27 @@
 'use strict';
 
 var React        = require('react');
-var Editor       = require('./Editor');
+var Router       = require('react-router');
+var MainView     = require('./MainView');
 var Login        = require('./Login');
+var Editor       = require('./Editor');
 var SessionStore = require('./stores/SessionStore');
 
-var BaseView = React.createClass({
+var Route = Router.Route;
+var DefaultRoute = Router.DefaultRoute;
 
-  getInitialState: function () {
-    return { 
-      user:       null,
-      token:      null,
-      loginError: null
-    }
-  },
+var routes = (
+  <Route handler={MainView}>
+    <DefaultRoute handler={Login} />
 
-  componentDidMount: function () {
-    SessionStore.addChangeListener(this.onSessionChange);
+    <Route name="login"  handler={Login}  />
+    <Route name="editor" handler={Editor} />
+  </Route>
+);
 
-    var sessionToken = window.sessionStorage.getItem('token');
+Router.run(routes, function (Handler) {
 
-    this.setState({ token: sessionToken });
-  },
-
-  onSessionChange: function () {
-    var token = SessionStore.getToken();
-
-    // Update window.sessionStorage
-    if(token !== this.state.token) window.sessionStorage.setItem('token', token);
-
-    this.setState({
-      user: SessionStore.getUser(),
-      token: token,
-      loginError: SessionStore.getError()
-    });
-
-  },
-
-  render: function () {
-
-    if(this.state.token) {
-      return (
-        <div className="mainView">
-          <Editor token={this.state.token} />
-        </div>
-      );
-    } else {
-      return (
-        <div className="mainView">
-          <Login signedIn={this.state.user} error={this.state.loginError} />
-        </div>
-      );
-    }
-
-  }
+  React.render(<Handler />, document.getElementById('editor'));
 
 });
-
-React.render(
-  <BaseView />,
-  document.getElementById('editor')
-);
 
