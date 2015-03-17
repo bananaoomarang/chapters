@@ -9,6 +9,16 @@ var Paragraph = require('./Paragraph');
 var Toolbar   = require('./Toolbar');
 var EditorStore = require('./stores/EditorStore');
 
+function sanitizeTitle (string) {
+  string = string.trim();
+
+  string = string.replace(/\ /g, '_');
+
+  string = string.toLowerCase();
+
+  return string;
+}
+
 var Editor = {
   onEditorChange: function () {
     this.setState({
@@ -23,8 +33,15 @@ var Editor = {
       font: {
         size: null
       },
-      alignment: null
+      alignment: null,
+      title: 'Untitled'
     }
+  },
+
+  handleTitleChange: function (event) {
+    var title = document.getElementById('title');
+
+    this.setState({ title: title.innerText });
   },
 
   handleFocus: function (event) {
@@ -37,7 +54,7 @@ var Editor = {
 
   handleSave: function (event) {
     var payload = {
-      title: 'UserCreated',
+      title: sanitizeTitle(this.state.title),
       text: this.exportText()
     };
 
@@ -241,7 +258,12 @@ var Editor = {
 
     return (
       <div>
+
         <Toolbar token={this.props.token} handleSave={this.handleSave} />
+
+        <h1 id="title" contentEditable="true" onInput={this.handleTitleChange}>{this.state.title}</h1>
+
+        <hr />
 
         <div className="paragraphs" id="paragraph-container" style={style}>
           {
