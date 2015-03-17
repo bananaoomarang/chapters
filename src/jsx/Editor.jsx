@@ -1,34 +1,61 @@
 'use strict';
 
-var React     = require('react');
-var kbjs      = require('keyboardjs');
-var request   = require('superagent');
-var rangy     = require('rangy');
-var Dropzone  = require('dropzone');
-var Paragraph = require('./Paragraph');
-var Toolbar   = require('./Toolbar');
-var EditorStore = require('./stores/EditorStore');
+var React         = require('react');
+var kbjs          = require('keyboardjs');
+var request       = require('superagent');
+var rangy         = require('rangy');
+var Dropzone      = require('dropzone');
+var Paragraph     = require('./Paragraph');
+var Toolbar       = require('./Toolbar');
+var StorySelector = require('./StorySelector');
+var EditorStore   = require('./stores/EditorStore');
+
+function sanitizeTitle (string) {
+  string = string.trim();
+
+  string = string.replace(/\ /g, '_');
+
+  string = string.toLowerCase();
+
+  return string;
+}
 
 var Editor = {
-  onEditorChange: function () {
-    this.setState({
-      font: EditorStore.getFont(),
-      alignment: EditorStore.getAlignment()
-    });
-  },
 
   getInitialState: function () {
     return { 
       paragraphs: [<Paragraph id="0" />],
-      font: {
-        size: null
-      },
-      alignment: null
+      story: EditorStore.getStory(),
+      editableStories: EditorStore.getEditableStories(),
+      font: EditorStore.getFont(),
+      alignment: EditorStore.getAlignment(),
+      loadDialogue: EditorStore.getIsLoading()
     }
   },
 
+  onEditorChange: function () {
+    this.setState({
+      story: EditorStore.getStory(),
+      editableStories: EditorStore.getEditableStories(),
+      font: EditorStore.getFont(),
+      alignment: EditorStore.getAlignment(),
+      loadDialogue: EditorStore.getIsLoading()
+    });
+  },
+
+  handleTitleChange: function () {
+    var title = document.getElementById('title');
+
+    this.setState({ 
+      story: {
+        title: title.innerText
+      }
+    });
+
+  },
+
   handleFocus: function (event) {
-    this.setState({ focusedParagraph: event.target });
+    if(event.target.tag === 'P') this.setState({ focusedParagraph: event.target });
   },
 
   handleBlur: function (event) {
@@ -39,7 +66,7 @@ var Editor = {
     var sessionToken = window.sessionStorage.getItem('token');
 
     var payload = {
-      title: 'UserCreated',
+      title: sanitizeTitle(this.state.title),
       text: this.exportText()
     };
 
@@ -163,6 +190,7 @@ var Editor = {
 
       if (caret.position === 0 && previousParagraph.tagName !== 'DIV') {
 
+
         // Remove paragraph
         newParagraphsArray.splice(currentIndex, 1);
 
@@ -243,9 +271,17 @@ var Editor = {
       textAlign: this.state.alignment
     };
 
+    var storySelectorStyle = {
+      opacity: this.state.loadDialogue ? 1 : 0
+    };
+
     return (
       <div>
         <Toolbar handleSave={this.handleSave} />
+
+        <h1 id="title" contentEditable="true" onInput={this.handleTitleChange}>{this.state.story.title}</h1>
+
+        <hr />
 
         <div className="paragraphs" id="paragraph-container" style={style}>
           {
@@ -254,6 +290,8 @@ var Editor = {
             }.bind(this))
           }
         </div>
+
+        <StorySelector style={storySelectorStyle} storyList={this.state.editableStories} />
       </div>
     );
   }
