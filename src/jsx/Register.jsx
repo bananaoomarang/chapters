@@ -1,19 +1,55 @@
 'use strict';
 
-var React          = require('react');
-var FormData       = require('react-form-data');
-var Router         = require('react-router');
+var React    = require('react');
+var FormData = require('react-form-data');
+var Router   = require('react-router');
+var classSet = require('classnames');
+var request  = require('superagent');
 
-var Login = {
+function ajaxRegister (data, cb) {
+  request
+    .post('/user/create')
+    .send(data)
+    .end(function (err, res) {
+      if (err) return cb(res.body.message);
+
+      cb(null, res.text)
+    });
+}
+
+var Register = {
   mixins: [FormData, Router.Navigation],
+
+  getInitialState: function () {
+    return {
+      error: ''
+    };
+  },
 
   handleSubmit: function (e) {
     e.preventDefault();
 
-    this.formData;
+    if(this.formData.username &&
+       this.formData.email    &&
+         this.formData.password) {
+
+      ajaxRegister(this.formData, function (err, cb) {
+        if (err) 
+          this.setState({ error: err });
+        else
+         this.transitionTo('login'); 
+      }.bind(this));
+
+    } else {
+      this.setState({ error: 'Please fill in form' });
+    }
   },
 
   render: function () {
+    var errClasses = classSet({
+      'error-msg': true,
+      'invisible': !this.state.error
+    });
 
     return (
       <div className="register">
@@ -26,8 +62,7 @@ var Login = {
           <input type="submit" name="submit-user" id="submit-user-form" value="Register" />
         </form>
 
-        <a className="error-msg">{this.props.error}</a>
-        <br />
+        <a className={errClasses}>{this.state.error}</a>
 
       </div>
     );
@@ -35,4 +70,4 @@ var Login = {
   }
 };
 
-module.exports = React.createClass(Login);
+module.exports = React.createClass(Register);

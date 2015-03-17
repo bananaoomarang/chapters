@@ -30,7 +30,7 @@ var Login = {
     if (this.formData.username && this.formData.password)
       SessionActions.open(this.formData);
     else 
-      this.setState({ error: 'Please fill form' })
+      this.setState({ error: 'Please fill in form' })
   },
 
   render: function () {
