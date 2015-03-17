@@ -2,6 +2,7 @@
 
 var React          = require('react');
 var FormData       = require('react-form-data');
+var classSet       = require('classnames');
 var Link           = require('react-router').Link;
 var SessionStore   = require('./stores/SessionStore');
 var SessionActions = require('./actions/SessionActions');
@@ -26,10 +27,17 @@ var Login = {
   handleSubmit: function (e) {
     e.preventDefault();
 
-    SessionActions.open(this.formData);
+    if (this.formData.username && this.formData.password)
+      SessionActions.open(this.formData);
+    else 
+      this.setState({ error: 'Please fill form' })
   },
 
   render: function () {
+    var errClasses = classSet({
+      'error-msg': true,
+      'invisible': !this.state.error
+    });
 
     return (
       React.createElement("div", {className: "login"}, 
@@ -40,7 +48,7 @@ var Login = {
           React.createElement("input", {type: "submit", name: "user-login", id: "submit-user-form", value: "Go"})
         ), 
 
-        React.createElement("a", {className: "error-msg"}, this.state.error), 
+        React.createElement("a", {className: errClasses}, this.state.error), 
 
         React.createElement("br", null), 
 

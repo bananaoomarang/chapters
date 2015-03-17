@@ -28,6 +28,7 @@
     "watchify": "^2.2.1"
   },
   "dependencies": {
+    "classnames": "^1.2.0",
     "dropzone": "^4.0.1",
     "flux": "^2.0.1",
     "keyboardjs": "^0.4.2",
