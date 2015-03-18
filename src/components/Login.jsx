@@ -1,14 +1,14 @@
 'use strict';
 
 var React          = require('react');
-var FormData       = require('react-form-data');
 var classSet       = require('classnames');
+var FormDataMixin  = require('react-form-data');
 var Link           = require('react-router').Link;
 var SessionStore   = require('./stores/SessionStore');
 var SessionActions = require('./actions/SessionActions');
 
 var Login = {
-  mixins: [FormData],
+  mixins: [FormDataMixin],
 
   getInitialState: function () {
     return {
@@ -17,7 +17,7 @@ var Login = {
   },
 
   onSessionChange: function () {
-    this.setState({ error: SessionStore.getError() })
+    this.setState({ error: SessionStore.getError() });
   },
 
   componentDidMount: function () {
@@ -29,8 +29,8 @@ var Login = {
 
     if (this.formData.username && this.formData.password)
       SessionActions.open(this.formData);
-    else 
-      this.setState({ error: 'Please fill in form' })
+    else
+      this.setState({ error: 'Please fill in form' });
   },
 
   render: function () {

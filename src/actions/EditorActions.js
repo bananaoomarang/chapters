@@ -1,3 +1,5 @@
+'use strict';
+
 var request       = require('superagent');
 var AppDispatcher = require('../AppDispatcher');
 
@@ -8,7 +10,7 @@ var EditorActions = {
 
     AppDispatcher.dispatch({
       actionType: 'editor-font',
-      font: font
+      font:       font
     });
 
   },
@@ -18,7 +20,7 @@ var EditorActions = {
 
     AppDispatcher.dispatch({
       actionType: 'editor-alignment',
-      alignment: alignment
+      alignment:  alignment
     });
 
   },
@@ -28,7 +30,7 @@ var EditorActions = {
 
     AppDispatcher.dispatch({
       actionType: 'editor-load',
-      isLoading: bool
+      isLoading:  bool
     });
 
   },
@@ -38,13 +40,13 @@ var EditorActions = {
 
     AppDispatcher.dispatch({
       actionType: 'editor-story',
-      story: obj
+      story:      obj
     });
 
   },
 
   // Load a list of possibly editable stories for user
-  populateStories: function (token) {
+  populateStories: function () {
     var sessionToken = window.sessionStorage.getItem('token');
 
     request
@@ -55,12 +57,12 @@ var EditorActions = {
 
         AppDispatcher.dispatch({
           actionType: 'editor-editableStories',
-          stories: res.body
+          stories:    res.body
         });
 
       });
   }
 
-}
+};
 
 module.exports = EditorActions;

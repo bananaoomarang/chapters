@@ -1,7 +1,6 @@
 'use strict';
 
 var React          = require('react');
-var request        = require('superagent');
 var EditorActions  = require('./actions/EditorActions');
 
 var FontSize = React.createClass({
@@ -9,7 +8,7 @@ var FontSize = React.createClass({
   getInitialState: function () {
     return {
       value: this.props.defaultSize
-    }
+    };
   },
 
   componentDidMount: function () {
@@ -58,8 +57,8 @@ var Toolbar = {
       <div className="toolbar">
         <FontSize defaultSize="24" />
 
-        <button className="btn" name="load"   onClick={this.handleLoad}      >Load</button> 
-        <button className="btn" name="save"   onClick={this.props.handleSave}>Save</button> 
+        <button className="btn" name="load"   onClick={this.handleLoad}      >Load</button>
+        <button className="btn" name="save"   onClick={this.props.handleSave}>Save</button>
 
         <br />
 

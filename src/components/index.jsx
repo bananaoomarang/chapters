@@ -1,11 +1,11 @@
 'use strict';
 
-var React        = require('react');
-var Router       = require('react-router');
-var MainView     = require('./MainView');
-var Login        = require('./Login');
-var Register     = require('./Register');
-var Editor       = require('./Editor');
+var React    = require('react');
+var Router   = require('react-router');
+var MainView = require('./MainView');
+var Login    = require('./Login');
+var Register = require('./Register');
+var Editor   = require('./Editor');
 
 var Route = Router.Route;
 var DefaultRoute = Router.DefaultRoute;
@@ -25,4 +25,3 @@ Router.run(routes, function (Handler) {
   React.render(<Handler />, document.getElementById('editor'));
 
 });
-

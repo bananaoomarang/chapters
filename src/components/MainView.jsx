@@ -2,11 +2,8 @@
 
 var React        = require('react');
 var Router       = require('react-router');
-var Editor       = require('./Editor');
-var Login        = require('./Login');
 var SessionStore = require('./stores/SessionStore');
 
-var Link         = Router.Link;
 var RouteHandler = Router.RouteHandler;
 
 var MainView = {
@@ -18,7 +15,7 @@ var MainView = {
       user:       null,
       token:      null,
       loginError: null
-    }
+    };
   },
 
   onSessionChange: function () {
@@ -30,8 +27,8 @@ var MainView = {
     if(token !== this.state.token) window.sessionStorage.setItem('token', token);
 
     this.setState({
-      user: SessionStore.getUser(),
-      token: token,
+      user:       SessionStore.getUser(),
+      token:      token,
       loginError: SessionStore.getError()
     });
 
@@ -58,9 +55,9 @@ var MainView = {
   render: function () {
 
     return (
-      React.createElement("div", null, 
-        React.createElement(RouteHandler, null)
-      )
+      <div>
+        <RouteHandler />
+      </div>
     );
 
   }

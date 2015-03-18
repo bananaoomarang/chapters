@@ -8,7 +8,7 @@ var buffer      = require('vinyl-buffer');
 var watchify    = require('watchify');
 var browserify  = require('browserify');
 var sass        = require('gulp-sass');
-var react       = require('gulp-react')
+var react       = require('gulp-react');
 var browserSync = require('browser-sync');
 var async       = require('async');
 var server      = require('chapters-server');
@@ -16,47 +16,57 @@ var server      = require('chapters-server');
 var reload      = browserSync.reload;
 
 var paths = {
-  js: ['src/js/*'],
-  jsx: ['src/jsx/*'],
+  js:   ['src/*.js', 'src/stores/*.js', 'src/actions/*.js'],
+  jsx:  ['src/components/*'],
   sass: ['src/sass/*.scss'],
   html: ['src/html/*'],
-  src: ['public/index.html', 'public/bundle.js', 'public/style/css/*.css']
+  src:  ['public/index.html', 'public/bundle.js', 'public/style/css/*.css']
 };
-
-var watchifyArgs = {
-  cache: {}, 
-  packageCache: {}, 
-  fullPaths: true,
-  debug: true
-};
-
-var bundler = watchify(browserify('./src/js/index.js', watchifyArgs));
-
-function compileJS() {
-  return bundler.bundle()
-    // log errors if they happen
-    .on('error', gutil.log.bind(gutil, 'Browserify Error'))
-    .pipe(source('bundle.js'))
-    .pipe(buffer())
-    .pipe(sourcemaps.init({ loadMaps: true }))
-    .pipe(sourcemaps.write('./')) 
-    .pipe(gulp.dest('public'));
-}
-
-gulp.task('js', compileJS);
-bundler.on('update', compileJS);
-
-gulp.task('jsx', function compileJSX () {
-  gulp.src(paths.jsx)
-    .on('error', gutil.log.bind(gutil, 'JSX Error'))
-    .pipe(react())
-    .pipe(gulp.dest('src/js'));
-});
 
 gulp.task('html', function copyHTML () {
   gulp.src(paths.html)
     .pipe(gulp.dest('public'));
 });
+
+gulp.task('jsx', function compileJSX () {
+  gulp.src(paths.jsx)
+    .on('error', gutil.log.bind(gutil, 'JSX Error'))
+    .pipe(react())
+    .pipe(gulp.dest('build/js'));
+});
+
+gulp.task('moveJs', function copyJs () {
+  gulp.src(paths.js[0])
+    .pipe(gulp.dest('build/js'));
+
+  gulp.src(paths.js[1])
+    .pipe(gulp.dest('build/js/stores'));
+
+  gulp.src(paths.js[2])
+    .pipe(gulp.dest('build/js/actions'));
+});
+
+var watchifyArgs = {
+  cache:        {},
+  packageCache: {},
+  fullPaths:    true,
+  debug:        true
+};
+
+var bundler = watchify(browserify('./build/js/index.js', watchifyArgs));
+
+function compileJS() {
+  return bundler.bundle()
+    .on('error', gutil.log.bind(gutil, 'Browserify Error'))
+    .pipe(source('bundle.js'))
+    .pipe(buffer())
+    .pipe(sourcemaps.init({ loadMaps: true }))
+    .pipe(sourcemaps.write('./'))
+    .pipe(gulp.dest('public'));
+}
+
+gulp.task('compileJs', compileJS);
+bundler.on('update', compileJS);
 
 gulp.task('sass', function compileSass() {
   gulp.src('src/sass/*.scss')
@@ -85,11 +95,19 @@ gulp.task('serve', function serveDemo() {
 });
 
 gulp.task('watch', function watchFiles() {
-  gulp.watch(paths.js, ['js']);
   gulp.watch(paths.jsx, ['jsx']);
+  gulp.watch(paths.js, ['moveJs']);
   gulp.watch(paths.sass, ['sass']);
   gulp.watch(paths.html, ['html']);
   gulp.watch(paths.src, reload);
 });
 
-gulp.task('default', ['html', 'jsx', 'js', 'sass', 'serve', 'watch']);
+gulp.task('default', [
+  'html',      // Move html from src tree
+  'jsx',       // Compile jsx files
+  'moveJs',    // Move rest of JS into same tree
+  'compileJs', // Browserify bundle it
+  'sass',      // Compile sass -> css
+  'serve',     // Serve using browserSync
+  'watch'      // Watch relavant files in src tree for changes
+]);

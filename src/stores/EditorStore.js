@@ -1,3 +1,5 @@
+'use strict';
+
 var AppDispatcher = require('../AppDispatcher');
 var EventEmitter  = require('events').EventEmitter;
 var assign        = require('object-assign');
@@ -5,8 +7,8 @@ var assign        = require('object-assign');
 var _data = {
   // Metadata for story being edited
   story: {
-    title: 'Untitled',
-    author: null,
+    title:     'Untitled',
+    author:    null,
     wordCount: null
   },
 
@@ -17,6 +19,7 @@ var _data = {
   font: {
     size: null
   },
+
   alignment: null,
 
   // Interface state

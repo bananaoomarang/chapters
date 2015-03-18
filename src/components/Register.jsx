@@ -1,10 +1,10 @@
 'use strict';
 
-var React    = require('react');
-var FormData = require('react-form-data');
-var Router   = require('react-router');
-var classSet = require('classnames');
-var request  = require('superagent');
+var React         = require('react');
+var FormDataMixin = require('react-form-data');
+var Router        = require('react-router');
+var classSet      = require('classnames');
+var request       = require('superagent');
 
 function ajaxRegister (data, cb) {
   request
@@ -13,12 +13,12 @@ function ajaxRegister (data, cb) {
     .end(function (err, res) {
       if (err) return cb(res.body.message);
 
-      cb(null, res.text)
+      cb(null, res.text);
     });
 }
 
 var Register = {
-  mixins: [FormData, Router.Navigation],
+  mixins: [FormDataMixin, Router.Navigation],
 
   getInitialState: function () {
     return {
@@ -33,11 +33,11 @@ var Register = {
        this.formData.email    &&
          this.formData.password) {
 
-      ajaxRegister(this.formData, function (err, cb) {
-        if (err) 
+      ajaxRegister(this.formData, function (err) {
+        if (err)
           this.setState({ error: err });
         else
-         this.transitionTo('login'); 
+          this.transitionTo('login');
       }.bind(this));
 
     } else {

@@ -24,30 +24,30 @@ function sanitizeTitle (string) {
 var Editor = {
 
   getInitialState: function () {
-    return { 
-      paragraphs: [React.createElement(Paragraph, {id: "0"})],
-      story: EditorStore.getStory(),
+    return {
+      paragraphs:      [<Paragraph id="0" />],
+      story:           EditorStore.getStory(),
       editableStories: EditorStore.getEditableStories(),
-      font: EditorStore.getFont(),
-      alignment: EditorStore.getAlignment(),
-      loadDialogue: EditorStore.getIsLoading()
-    }
+      font:            EditorStore.getFont(),
+      alignment:       EditorStore.getAlignment(),
+      loadDialogue:    EditorStore.getIsLoading()
+    };
   },
 
   onEditorChange: function () {
     this.setState({
-      story: EditorStore.getStory(),
+      story:           EditorStore.getStory(),
       editableStories: EditorStore.getEditableStories(),
-      font: EditorStore.getFont(),
-      alignment: EditorStore.getAlignment(),
-      loadDialogue: EditorStore.getIsLoading()
+      font:            EditorStore.getFont(),
+      alignment:       EditorStore.getAlignment(),
+      loadDialogue:    EditorStore.getIsLoading()
     });
   },
 
   handleTitleChange: function () {
     var title = document.getElementById('title');
 
-    EditorActions.setStory({ 
+    EditorActions.setStory({
       title: title.innerText
     });
 
@@ -58,23 +58,23 @@ var Editor = {
     else this.setState({ focusedParagraph: null });
   },
 
-  handleBlur: function (event) {
+  handleBlur: function () {
     this.setState({ focusedParagraph: null });
   },
 
-  handleSave: function (event) {
+  handleSave: function () {
     var sessionToken = window.sessionStorage.getItem('token');
 
     var payload = {
       title: sanitizeTitle(this.state.story.title),
-      text: this.exportText()
+      text:  this.exportText()
     };
 
     request
       .post('/story/upload')
       .send(payload)
       .set('Authorization', 'Bearer ' + sessionToken)
-      .end(function (err, res) {
+      .end(function (err) {
         if (err) return console.error(err);
 
         console.log('Save successful');
@@ -90,7 +90,7 @@ var Editor = {
 
       for (var child in div.childNodes) {
         var p    = div.childNodes[child];
-        var text = p.innerText; 
+        var text = p.innerText;
 
         if(text) string += text + '\n\n';
       }
@@ -108,11 +108,10 @@ var Editor = {
     var node             = element.childNodes[0];
 
     return {
-      position    : elementSelection.anchorOffset,
+      position:  elementSelection.anchorOffset,
+      selection: elementSelection.focusOffset,
 
-      selection   : elementSelection.focusOffset,
-
-      setPosition : function (newPosition) {
+      setPosition: function (newPosition) {
 
         setTimeout( function delayCaretMove () {
 
@@ -139,7 +138,7 @@ var Editor = {
 
         });
 
-      },
+      }
 
     };
   },
@@ -159,7 +158,7 @@ var Editor = {
       var currentIndex       = Number(currentParagraph.dataset.index);
       var currentHTML        = currentParagraph.innerHTML;
       var newParagraphId     = this.state.paragraphs.length;
-      var newParagraph       = React.createElement(Paragraph, {id: newParagraphId})
+      var newParagraph       = <Paragraph id={newParagraphId} />;
       var newParagraphDOM    = null;
       var newParagraphsArray = this.state.paragraphs.slice();
 
@@ -221,18 +220,17 @@ var Editor = {
         // Stop event bubbling
         e.preventDefault();
         e.stopPropagation();
-        
+
       }
 
     }.bind(this));
 
-    kbjs.on('up', function onUp (e) {
+    kbjs.on('up', function onUp () {
 
       var currentParagraph   = this.state.focusedParagraph;
 
       if(!currentParagraph) return;
 
-      var caret              = this.getCaret(currentParagraph);
       var previousParagraph  = currentParagraph.previousSibling;
 
       if(!currentParagraph) return;
@@ -241,7 +239,7 @@ var Editor = {
 
     }.bind(this));
 
-    kbjs.on('down', function onDown (e) {
+    kbjs.on('down', function onDown () {
 
       var currentParagraph   = this.state.focusedParagraph;
 
@@ -264,7 +262,7 @@ var Editor = {
     this.bindKeys();
 
     var dropzoneOpts = {
-      url: '/story/upload',
+      url:     '/story/upload',
       headers: {
         Authorization: 'Bearer ' + sessionToken
       }
@@ -280,7 +278,7 @@ var Editor = {
   render: function () {
 
     var style = {
-      fontSize: this.state.font.size,
+      fontSize:  this.state.font.size,
       textAlign: this.state.alignment
     };
 
@@ -289,23 +287,23 @@ var Editor = {
     };
 
     return (
-      React.createElement("div", null, 
-        React.createElement(Toolbar, {handleSave: this.handleSave}), 
+      <div>
+        <Toolbar handleSave={this.handleSave} />
 
-        React.createElement("h1", {id: "title", contentEditable: "true", onInput: this.handleTitleChange}, this.state.story.title), 
+        <h1 id="title" contentEditable="true" onInput={this.handleTitleChange}>{this.state.story.title}</h1>
 
-        React.createElement("hr", null), 
+        <hr />
 
-        React.createElement("div", {className: "paragraphs", id: "paragraph-container", style: style}, 
-          
+        <div className="paragraphs" id="paragraph-container" style={style}>
+          {
             this.state.paragraphs.map(function(p, index) {
-              return React.createElement(Paragraph, {key: p.props.id, ref: p.props.id, index: index, onFocus: this.handleFocus, onBlur: this.handleBlur});
+              return <Paragraph key={p.props.id} ref={p.props.id} index={index} onFocus={this.handleFocus} onBlur={this.handleBlur} />;
             }.bind(this))
-          
-        ), 
+          }
+        </div>
 
-        React.createElement(StorySelector, {style: storySelectorStyle, storyList: this.state.editableStories})
-      )
+        <StorySelector style={storySelectorStyle} storyList={this.state.editableStories} />
+      </div>
     );
   }
 };

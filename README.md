@@ -1,3 +1,3 @@
 # Chapters
 
-Connected literature.
+Platform for self-publishing of literary worlds

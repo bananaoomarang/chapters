@@ -7,15 +7,15 @@ var Paragraph = {
     return { focused: false };
   },
 
-  handleInput: function (e) {
+  handleInput: function () {
   },
 
-  handleFocus: function (event) {
-    this.setState({ focused: true })
+  handleFocus: function () {
+    this.setState({ focused: true });
   },
 
-  handleBlur: function (event) {
-    this.setState({ focused: false })
+  handleBlur: function () {
+    this.setState({ focused: false });
   },
 
   render: function () {

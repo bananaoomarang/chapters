@@ -1,3 +1,5 @@
+'use strict';
+
 var request       = require('superagent');
 var AppDispatcher = require('../AppDispatcher');
 
@@ -6,11 +8,13 @@ function getToken (credentials, cb) {
     .post('/user/login')
     .send(credentials)
     .end(function (err, res) {
+
       if (err) return cb(res.body.message);
 
-      cb(null, res.text)
+      cb(null, res.text);
+
     });
-};
+}
 
 var SessionActions = {
 
@@ -21,15 +25,15 @@ var SessionActions = {
 
         AppDispatcher.dispatch({
           actionType: 'session-invalid',
-          error: err
+          error:      err
         });
 
       } else {
 
         AppDispatcher.dispatch({
           actionType: 'session-open',
-          name: credentials.username,
-          token: token
+          name:       credentials.username,
+          token:      token
         });
 
       }
@@ -42,6 +46,6 @@ var SessionActions = {
       actionType: 'session-close'
     });
   }
-}
+};
 
 module.exports = SessionActions;
