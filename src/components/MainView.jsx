@@ -8,7 +8,9 @@ var RouteHandler = Router.RouteHandler;
 
 var MainView = {
 
-  mixins: [Router.Navigation],
+  contextTypes: {
+    router: React.PropTypes.func
+  },
 
   getInitialState: function () {
     return {
@@ -21,7 +23,7 @@ var MainView = {
   onSessionChange: function () {
     var token = SessionStore.getToken();
 
-    if(token) this.transitionTo('/editor');
+    if(token) this.context.router.transitionTo('/editor');
 
     // Update window.sessionStorage
     if(token !== this.state.token) window.sessionStorage.setItem('token', token);
@@ -41,11 +43,11 @@ var MainView = {
 
     if (sessionToken) {
 
-      this.transitionTo('/editor');
+      this.context.router.transitionTo('/editor');
 
     } else {
 
-      this.transitionTo('/login');
+      this.context.router.transitionTo('/login');
 
     }
 

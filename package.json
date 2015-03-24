@@ -18,19 +18,19 @@
   "license": "Apache",
   "devDependencies": {
     "async": "^0.9.0",
-    "browser-sync": "^1.9.0",
-    "browserify": "^8.1.1",
-    "debug": "^2.1.1",
-    "gulp": "^3.8.10",
-    "gulp-jsx": "^0.6.1",
-    "gulp-react": "^2.0.0",
+    "browser-sync": "^2.4.0",
+    "browserify": "^9.0.3",
+    "debug": "^2.1.3",
+    "gulp": "^3.8.11",
+    "gulp-jsx": "^0.9.0",
+    "gulp-react": "^3.0.1",
     "gulp-sass": "^1.3.3",
-    "gulp-sourcemaps": "^1.3.0",
-    "gulp-util": "^3.0.2",
+    "gulp-sourcemaps": "^1.5.1",
+    "gulp-util": "^3.0.4",
     "pre-commit": "^1.0.6",
     "vinyl-buffer": "^1.0.0",
-    "vinyl-source-stream": "^1.0.0",
-    "watchify": "^2.2.1"
+    "vinyl-source-stream": "^1.1.0",
+    "watchify": "^2.6.0"
   },
   "dependencies": {
     "classnames": "^1.2.0",
@@ -38,11 +38,11 @@
     "flux": "^2.0.1",
     "keyboardjs": "^0.4.2",
     "object-assign": "^2.0.0",
-    "rangy": "^1.3.0-alpha.20140921",
-    "react": "^0.12.2",
+    "rangy": "^1.3.0-beta.2",
+    "react": "^0.13.1",
     "react-form-data": "^0.2.2",
-    "react-router": "^0.12.4",
+    "react-router": "^0.13.1",
     "simple-ajax": "^1.0.1",
-    "superagent": "^1.0.0"
+    "superagent": "^1.1.0"
   }
 }

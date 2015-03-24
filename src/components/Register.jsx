@@ -31,7 +31,7 @@ var Register = {
 
     if(this.formData.username &&
        this.formData.email    &&
-         this.formData.password) {
+       this.formData.password) {
 
       ajaxRegister(this.formData, function (err) {
         if (err)
