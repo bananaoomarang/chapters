@@ -36,23 +36,34 @@ var EditorActions = {
   },
 
   // Set the story currently being edited
-  setStory: function (id) {
+  setStory: function (obj) {
     var sessionToken = window.sessionStorage.getItem('token');
 
-    request
-      .get('/story/' + id)
-      .set('Authorization', 'Bearer ' + sessionToken)
-      .end(function (err, res) {
-        if (err) return console.error(err);
+    if(obj.id) {
 
-        AppDispatcher.dispatch({
-          actionType: 'editor-story',
-          story:      { text: res.text }
-        });
+      request
+        .get('/story/' + obj.id)
+        .set('Authorization', 'Bearer ' + sessionToken)
+        .end(function (err, res) {
+          if (err) return console.error(err);
 
+          AppDispatcher.dispatch({
+            actionType: 'editor-story',
+            story:      {
+              title: obj.title,
+              text:  res.text
+            }
+          });
       });
 
+    } else {
 
+      AppDispatcher.dispatch({
+        actionType: 'editor-story',
+        story:      obj
+      });
+
+    }
   },
 
   // Load a list of possibly editable stories for user

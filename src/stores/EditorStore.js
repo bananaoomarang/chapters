@@ -85,8 +85,6 @@ AppDispatcher.register(function (action) {
 
     case 'editor-story':
 
-      console.log(action);
-
       assign(_data.story, action.story);
 
       EditorStore.emitChange();
