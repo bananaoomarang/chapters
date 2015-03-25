@@ -36,12 +36,22 @@ var EditorActions = {
   },
 
   // Set the story currently being edited
-  setStory: function (obj) {
+  setStory: function (id) {
+    var sessionToken = window.sessionStorage.getItem('token');
 
-    AppDispatcher.dispatch({
-      actionType: 'editor-story',
-      story:      obj
-    });
+    request
+      .get('/story/' + id)
+      .set('Authorization', 'Bearer ' + sessionToken)
+      .end(function (err, res) {
+        if (err) return console.error(err);
+
+        AppDispatcher.dispatch({
+          actionType: 'editor-story',
+          story:      { text: res.text }
+        });
+
+      });
+
 
   },
 
@@ -50,7 +60,7 @@ var EditorActions = {
     var sessionToken = window.sessionStorage.getItem('token');
 
     request
-      .get('/story/list')
+      .get('/story')
       .set('Authorization', 'Bearer ' + sessionToken)
       .end(function (err, res) {
         if (err) return console.error(err);

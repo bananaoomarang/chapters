@@ -1,15 +1,20 @@
 'use strict';
 
-var React          = require('react');
+var React         = require('react');
 var EditorActions = require('./actions/EditorActions');
 
 var StorySelector = {
   handleSelection: function (event) {
     console.log('User selected: %s', event.target.innerText);
 
-    EditorActions.setStory({
-      title: event.target.innerText
+    this.props.storyList.forEach(function (story) {
+
+      if(story.title === event.target.innerText) {
+        EditorActions.setStory(story.id);
+      }
+
     });
+
 
     EditorActions.setLoading(false);
   },

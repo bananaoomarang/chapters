@@ -8,6 +8,7 @@ var _data = {
   // Metadata for story being edited
   story: {
     title:     'Untitled',
+    text:      '',
     author:    null,
     wordCount: null
   },
@@ -83,6 +84,8 @@ AppDispatcher.register(function (action) {
       break;
 
     case 'editor-story':
+
+      console.log(action);
 
       assign(_data.story, action.story);
 

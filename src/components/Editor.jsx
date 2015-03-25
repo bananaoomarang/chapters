@@ -11,16 +11,6 @@ var StorySelector = require('./StorySelector');
 var EditorStore   = require('./stores/EditorStore');
 var EditorActions = require('./actions/EditorActions');
 
-function sanitizeTitle (string) {
-  string = string.trim();
-
-  string = string.replace(/\ /g, '_');
-
-  string = string.toLowerCase();
-
-  return string;
-}
-
 var Editor = {
 
   getInitialState: function () {
@@ -35,6 +25,13 @@ var Editor = {
   },
 
   onEditorChange: function () {
+    var previousStory = this.state.story;
+    var newStory      = EditorStore.getStory();
+
+    if(previousStory.text !== newStory.text) {
+      console.log(newStory.text);
+    }
+
     this.setState({
       story:           EditorStore.getStory(),
       editableStories: EditorStore.getEditableStories(),
@@ -66,7 +63,7 @@ var Editor = {
     var sessionToken = window.sessionStorage.getItem('token');
 
     var payload = {
-      title: sanitizeTitle(this.state.story.title),
+      title: this.state.story.title,
       text:  this.exportText()
     };
 
@@ -301,6 +298,8 @@ var Editor = {
             }.bind(this))
           }
         </div>
+
+        <div dangerouslySetInnerHTML={ {__html: this.state.story.text} }></div>
 
         <StorySelector style={storySelectorStyle} storyList={this.state.editableStories} />
       </div>
