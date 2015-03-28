@@ -280,7 +280,8 @@ var Editor = {
     };
 
     var storySelectorStyle = {
-      opacity: this.state.loadDialogue ? 1 : 0
+      visibility: this.state.loadDialogue ? 'visible' : 'hidden',
+      opacity:    this.state.loadDialogue ? 1 : 0
     };
 
     return (
@@ -299,7 +300,7 @@ var Editor = {
           }
         </div>
 
-        <div dangerouslySetInnerHTML={ {__html: this.state.story.text} }></div>
+        <div className="story-render hidden" dangerouslySetInnerHTML={ {__html: this.state.story.text} }></div>
 
         <StorySelector style={storySelectorStyle} storyList={this.state.editableStories} />
       </div>

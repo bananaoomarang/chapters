@@ -77,6 +77,10 @@ h1, h2, h3, h4, h5 {
   opacity: 0;
 }
 
+.hidden {
+  visibility: hidden;
+}
+
 .error-msg {
   @include transition (all 0.4s ease-in-out);
 
