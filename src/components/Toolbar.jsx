@@ -49,6 +49,7 @@ var Toolbar = {
   },
 
   handleLoad: function () {
+    EditorActions.populateStories();
     EditorActions.setLoading(true);
   },
 

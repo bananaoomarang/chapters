@@ -67,8 +67,6 @@ var Editor = {
       text:  this.exportText()
     };
 
-    console.log(payload);
-
     request
       .post('/story/upload')
       .send(payload)
