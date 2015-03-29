@@ -1,7 +1,8 @@
 'use strict';
 
-var React         = require('react');
-var EditorActions = require('../actions/EditorActions');
+var React            = require('react');
+var EditorActions    = require('../actions/EditorActions');
+var ParagraphActions = require('../actions/ParagraphActions');
 
 var FontSizeSelector = {
 
@@ -20,7 +21,7 @@ var FontSizeSelector = {
       size: this.state.value
     };
 
-    EditorActions.setFont(font);
+    ParagraphActions.setFont(font);
 
     EditorActions.populateStories();
   },
@@ -30,7 +31,7 @@ var FontSizeSelector = {
       size: event.target.value
     };
 
-    EditorActions.setFont(font);
+    ParagraphActions.setFont(font);
 
     this.setState({
       value: event.target.value

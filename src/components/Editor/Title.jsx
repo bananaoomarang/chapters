@@ -7,8 +7,7 @@ var EditorActions = require('../actions/EditorActions');
 var EditorTitle = {
   getInitialState: function () {
     return {
-      clicked:   false,
-      placehold: true
+      clicked: false
     };
   },
 
@@ -21,14 +20,9 @@ var EditorTitle = {
   },
 
   handleBlur: function () {
-    var titleDOM  = this.refs.title.getDOMNode();
-    var placehold = false;
-
-    if (!titleDOM.innerText) placehold = true;
 
     this.setState({
-      clicked:   false,
-      placehold: placehold
+      clicked: false
     });
 
   },
@@ -44,7 +38,7 @@ var EditorTitle = {
   render: function () {
 
     var classes = classSet({
-      placeholder: this.state.placehold
+      placeholder: this.props.title ? false : true
     });
 
     var display;
@@ -59,7 +53,7 @@ var EditorTitle = {
 
     } else {
 
-      display = this.state.placehold ? this.props.placeholder : this.props.title;
+      display = this.props.title ? this.props.title : this.props.placeholder;
 
       return (
         <h1 id="title" className={classes} onClick={this.handleClick}>{display}</h1>

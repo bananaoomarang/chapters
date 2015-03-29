@@ -1,29 +1,10 @@
 'use strict';
 
-var request       = require('superagent');
-var AppDispatcher = require('../AppDispatcher');
+var request          = require('superagent');
+var AppDispatcher    = require('../AppDispatcher');
+var ParagraphActions = require('../actions/ParagraphActions.js');
 
 var EditorActions = {
-
-  // Take a guess?
-  setFont: function (font) {
-
-    AppDispatcher.dispatch({
-      actionType: 'editor-font',
-      font:       font
-    });
-
-  },
-
-  // Set paragraph alignment
-  setAlignment: function (alignment) {
-
-    AppDispatcher.dispatch({
-      actionType: 'editor-alignment',
-      alignment:  alignment
-    });
-
-  },
 
   // Set whether the to display loading interface
   setLoading: function (bool) {
@@ -46,6 +27,8 @@ var EditorActions = {
         .set('Authorization', 'Bearer ' + sessionToken)
         .end(function (err, res) {
           if (err) return console.error(err);
+
+          ParagraphActions.setParagraphs(res.text);
 
           AppDispatcher.dispatch({
             actionType: 'editor-story',
@@ -81,6 +64,21 @@ var EditorActions = {
           stories:    res.body
         });
 
+      });
+  },
+
+  // Upload the story
+  save: function (payload) {
+    var sessionToken = window.sessionStorage.getItem('token');
+
+    request
+      .post('/story/upload')
+      .send(payload)
+      .set('Authorization', 'Bearer ' + sessionToken)
+      .end(function (err) {
+        if (err) return console.error(err);
+
+        console.log('Successfully saved %s', payload.title);
       });
   }
 

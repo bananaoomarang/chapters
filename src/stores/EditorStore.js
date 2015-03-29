@@ -16,13 +16,6 @@ var _data = {
   // Stories possible to edit
   editableStories: [],
 
-  // Styling
-  font: {
-    size: null
-  },
-
-  alignment: null,
-
   // Interface state
   isLoading: null
 };
@@ -35,14 +28,6 @@ var EditorStore = assign({}, EventEmitter.prototype, {
 
   getEditableStories: function () {
     return _data.editableStories;
-  },
-
-  getFont: function () {
-    return _data.font;
-  },
-
-  getAlignment: function () {
-    return _data.alignment;
   },
 
   getIsLoading: function () {
@@ -61,20 +46,6 @@ var EditorStore = assign({}, EventEmitter.prototype, {
 
 AppDispatcher.register(function (action) {
   switch(action.actionType) {
-
-    case 'editor-font':
-
-      _data.font = action.font;
-
-      EditorStore.emitChange();
-      break;
-
-    case 'editor-alignment':
-
-      _data.alignment = action.alignment;
-
-      EditorStore.emitChange();
-      break;
 
     case 'editor-load':
 

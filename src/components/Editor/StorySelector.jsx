@@ -1,7 +1,8 @@
 'use strict';
 
-var React         = require('react');
-var EditorActions = require('../actions/EditorActions');
+var React            = require('react');
+var ParagraphActions = require('../actions/ParagraphActions');
+var EditorActions    = require('../actions/EditorActions');
 
 var StorySelector = {
   handleSelection: function (event) {
@@ -11,6 +12,7 @@ var StorySelector = {
 
       if(story.title === event.target.innerText) {
         EditorActions.setStory(story);
+        ParagraphActions.setParagraphs(story.text);
       }
 
     });

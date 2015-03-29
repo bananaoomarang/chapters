@@ -1,60 +1,49 @@
 'use strict';
 
-var React          = require('react');
-var request        = require('superagent');
-var Dropzone       = require('dropzone');
-var EditorToolbar  = require('./Toolbar');
-var EditorTitle    = require('./Title');
-var EditorMainView = require('./MainView');
-var StorySelector  = require('./StorySelector');
-var EditorStore    = require('../stores/EditorStore.js');
+var React             = require('react');
+var Dropzone          = require('dropzone');
+var EditorToolbar     = require('./Toolbar');
+var EditorTitle       = require('./Title');
+var EditorMainView    = require('./MainView');
+var StorySelector     = require('./StorySelector');
+var EditorStore       = require('../stores/EditorStore.js');
+var EditorActions     = require('../actions/EditorActions.js');
+var ParagraphActions  = require('../actions/ParagraphActions.js');
 
 var Editor = {
+
+  cfg: {
+    defaultFont:      {
+      size: 24
+    },
+    defaultAlignment: 'center'
+  },
 
   getInitialState: function () {
     return {
       story:           EditorStore.getStory(),
       editableStories: EditorStore.getEditableStories(),
-      font:            EditorStore.getFont(),
-      alignment:       EditorStore.getAlignment(),
       loadDialogue:    EditorStore.getIsLoading()
     };
   },
 
   onEditorChange: function () {
-    var previousStory = this.state.story;
-    var newStory      = EditorStore.getStory();
-
-    if(previousStory.text !== newStory.text) {
-      console.log(newStory.text);
-    }
-
     this.setState({
       story:           EditorStore.getStory(),
       editableStories: EditorStore.getEditableStories(),
-      font:            EditorStore.getFont(),
-      alignment:       EditorStore.getAlignment(),
       loadDialogue:    EditorStore.getIsLoading()
     });
   },
 
   handleSave: function () {
-    var sessionToken = window.sessionStorage.getItem('token');
 
     var payload = {
       title: this.state.story.title,
       text:  this.exportText()
     };
 
-    request
-      .post('/story/upload')
-      .send(payload)
-      .set('Authorization', 'Bearer ' + sessionToken)
-      .end(function (err) {
-        if (err) return console.error(err);
+    EditorActions.save(payload);
 
-        console.log('Save successful');
-      });
   },
 
   // Concatanate html tags into one string for exporting
@@ -111,7 +100,7 @@ var Editor = {
 
         <hr />
 
-        <EditorMainView font={this.state.font} alignment={this.state.alignment} />
+        <EditorMainView defaultFont={this.cfg.defaultFont} alignment={this.cfg.defaultAlignment} />
 
         <StorySelector style={storySelectorStyle} storyList={this.state.editableStories} />
 

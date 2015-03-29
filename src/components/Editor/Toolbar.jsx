@@ -3,10 +3,11 @@
 var React            = require('react');
 var FontSizeSelector = require('./FontSizeSelector');
 var EditorActions    = require('../actions/EditorActions');
+var ParagraphActions = require('../actions/ParagraphActions');
 
 var Toolbar = {
   handleAlignment: function (event) {
-    EditorActions.setAlignment(event.target.name);
+    ParagraphActions.setAlignment(event.target.name);
   },
 
   handleLoad: function () {

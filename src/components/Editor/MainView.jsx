@@ -1,18 +1,28 @@
 'use strict';
 
-var React         = require('react');
-var kbjs          = require('keyboardjs');
-var Paragraph     = require('./Paragraph');
-var EditorStore   = require('../stores/EditorStore');
-var getCaret      = require('../lib/getCaret');
+var React            = require('react');
+var kbjs             = require('keyboardjs');
+var Paragraph        = require('./Paragraph');
+var ParagraphStore   = require('../stores/ParagraphStore');
+var ParagraphActions = require('../actions/ParagraphActions');
+var getCaret         = require('../lib/getCaret');
 
 var EditorTitle = {
   getInitialState: function () {
     return {
-      paragraphs: [<Paragraph id="0" />],
-      story:      EditorStore.getStory(),
-      alignment:  EditorStore.getAlignment()
+      paragraphs:       ParagraphStore.getParagraphs(),
+      font:             ParagraphStore.getFont(),
+      alignment:        ParagraphStore.getAlignement,
+      focusedParagraph: null
     };
+  },
+
+  onStoreChange: function () {
+    this.setState({
+      paragraphs: ParagraphStore.getParagraphs(),
+      font:       ParagraphStore.getFont(),
+      alignment:  ParagraphStore.getAlignement
+    });
   },
 
   handleFocus: function (event) {
@@ -144,20 +154,25 @@ var EditorTitle = {
 
   componentDidMount: function () {
     this.bindKeys();
+    ParagraphStore.addChangeListener(this.onStoreChange);
+
+    ParagraphActions.setFont(this.props.defaultFont);
+    ParagraphActions.setAlignment(this.props.defaultAlignment);
+    ParagraphActions.setParagraphs('<p id="0"></p>');
   },
 
   render: function () {
 
     var style = {
-      fontSize:  this.props.font.size,
-      textAlign: this.props.alignment
+      fontSize:  this.state.font.size,
+      textAlign: this.state.alignment
     };
 
     return (
       <div className="paragraphs" id="paragraph-container" style={style}>
         {
           this.state.paragraphs.map(function(p, index) {
-            return <Paragraph key={p.props.id} ref={p.props.id} index={index} onFocus={this.handleFocus} onBlur={this.handleBlur} />;
+            return <Paragraph key={index} ref={index} index={index} onFocus={this.handleFocus} onBlur={this.handleBlur} text={p.innerText} />;
           }.bind(this))
         }
       </div>
