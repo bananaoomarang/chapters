@@ -1,16 +1,13 @@
 {
+  "plugins": [
+    "react"
+  ],
   "env": {
     "node": true,
     "browser": true
   },
   "ecmaFeatures": {
     "jsx": true
-  },
-  "globals": {
-    "$": true,
-    "window": true,
-    "API": true,
-    "io": true
   },
   "rules": {
     // Ignore Rules
@@ -41,7 +38,6 @@
     "no-unused-vars": 2,
     "handle-callback-err": 2,
     "no-shadow-restricted-names": 2,
-    "radix": 2,
     "no-new-require": 2,
     "no-mixed-spaces-and-tabs": 2,
 
@@ -52,6 +48,19 @@
     "quotes": [2, "single"],
     "key-spacing": [2, {
       "align": "value",
-    }]
+    }],
+
+    // Plugin rules
+    "react/jsx-quotes": 1,
+    "react/jsx-no-undef": 1,
+    "react/jsx-uses-react": 1,
+    "react/jsx-uses-vars": 1,
+    "react/no-did-mount-set-state": 1,
+    "react/no-did-update-set-state": 1,
+    "react/no-multi-comp": 1,
+    "react/prop-types": 1,
+    "react/react-in-jsx-scope": 1,
+    "react/self-closing-comp": 1,
+    "react/wrap-multilines": 1
   }
 }
