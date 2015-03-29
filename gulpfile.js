@@ -17,7 +17,7 @@ var reload      = browserSync.reload;
 
 var paths = {
   js:   ['src/*.js', 'src/stores/*.js', 'src/actions/*.js', 'src/lib/*.js'],
-  jsx:  ['src/components/*'],
+  jsx:  ['src/components/**'],
   sass: ['src/sass/*.scss'],
   html: ['src/html/*'],
   src:  ['public/index.html', 'public/bundle.js', 'public/style/css/*.css']

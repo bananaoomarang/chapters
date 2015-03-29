@@ -13,9 +13,11 @@ var MainView = {
   },
 
   getInitialState: function () {
+    var sessionToken = window.sessionStorage.getItem('token');
+
     return {
       user:       null,
-      token:      null,
+      token:      sessionToken,
       loginError: null
     };
   },
@@ -39,9 +41,7 @@ var MainView = {
   componentDidMount: function () {
     SessionStore.addChangeListener(this.onSessionChange);
 
-    var sessionToken = window.sessionStorage.getItem('token');
-
-    if (sessionToken) {
+    if (this.state.token) {
 
       this.context.router.transitionTo('/editor');
 
@@ -50,8 +50,6 @@ var MainView = {
       this.context.router.transitionTo('/login');
 
     }
-
-    this.setState({ token: sessionToken });
   },
 
   render: function () {

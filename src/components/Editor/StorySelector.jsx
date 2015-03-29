@@ -1,7 +1,7 @@
 'use strict';
 
 var React         = require('react');
-var EditorActions = require('./actions/EditorActions');
+var EditorActions = require('../actions/EditorActions');
 
 var StorySelector = {
   handleSelection: function (event) {

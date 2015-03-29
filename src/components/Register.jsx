@@ -2,7 +2,6 @@
 
 var React         = require('react');
 var FormDataMixin = require('react-form-data');
-var Router        = require('react-router');
 var classSet      = require('classnames');
 var request       = require('superagent');
 
@@ -18,7 +17,11 @@ function ajaxRegister (data, cb) {
 }
 
 var Register = {
-  mixins: [FormDataMixin, Router.Navigation],
+  mixins: [FormDataMixin],
+
+  contextTypes: {
+    router: React.PropTypes.func
+  },
 
   getInitialState: function () {
     return {
@@ -37,7 +40,7 @@ var Register = {
         if (err)
           this.setState({ error: err });
         else
-          this.transitionTo('login');
+          this.context.router.transitionTo('login');
       }.bind(this));
 
     } else {
