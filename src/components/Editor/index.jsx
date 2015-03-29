@@ -107,11 +107,11 @@ var Editor = {
 
         <hr />
 
-        <EditorTitle title={this.state.story.title} />
+        <EditorTitle title={this.state.story.title} placeholder="Untitled" />
 
         <hr />
 
-        <EditorMainView font={this.state.font} alignment={this.state.alignment}/>
+        <EditorMainView font={this.state.font} alignment={this.state.alignment} />
 
         <StorySelector style={storySelectorStyle} storyList={this.state.editableStories} />
 

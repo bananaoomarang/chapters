@@ -1,23 +1,72 @@
 'use strict';
 
 var React         = require('react');
+var classSet      = require('classnames');
 var EditorActions = require('../actions/EditorActions');
 
 var EditorTitle = {
-  handleInput: function () {
-    var title = document.getElementById('title');
+  getInitialState: function () {
+    return {
+      clicked:   false,
+      placehold: true
+    };
+  },
+
+  handleInput: function (e) {
 
     EditorActions.setStory({
-      title: title.innerText
+      title: e.target.innerText
     });
 
   },
 
+  handleBlur: function () {
+    var titleDOM  = this.refs.title.getDOMNode();
+    var placehold = false;
+
+    if (!titleDOM.innerText) placehold = true;
+
+    this.setState({
+      clicked:   false,
+      placehold: placehold
+    });
+
+  },
+
+  handleClick: function () {
+    this.setState({ clicked: true }, function () {
+      var titleDOM = this.refs.title.getDOMNode();
+
+      titleDOM.focus();
+    });
+  },
+
   render: function () {
 
-    return (
-      <h1 id="title" contentEditable="true" onInput={this.handleInput}>{this.props.title}</h1>
-    );
+    var classes = classSet({
+      placeholder: this.state.placehold
+    });
+
+    var display;
+
+    if(this.state.clicked) {
+
+      display = this.props.title ? this.props.title : '';
+
+      return (
+        <h1 id="title" ref="title" contentEditable="true" onInput={this.handleInput} onBlur={this.handleBlur}>{display}</h1>
+      );
+
+    } else {
+
+      display = this.state.placehold ? this.props.placeholder : this.props.title;
+
+      return (
+        <h1 id="title" className={classes} onClick={this.handleClick}>{display}</h1>
+      );
+
+    }
+
   }
 };
 
