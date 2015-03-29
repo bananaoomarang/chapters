@@ -16,7 +16,7 @@ var server      = require('chapters-server');
 var reload      = browserSync.reload;
 
 var paths = {
-  js:   ['src/*.js', 'src/stores/*.js', 'src/actions/*.js'],
+  js:   ['src/*.js', 'src/stores/*.js', 'src/actions/*.js', 'src/lib/*.js'],
   jsx:  ['src/components/*'],
   sass: ['src/sass/*.scss'],
   html: ['src/html/*'],
@@ -36,14 +36,17 @@ gulp.task('jsx', function compileJSX () {
 });
 
 gulp.task('moveJs', function copyJs () {
-  gulp.src(paths.js[0])
-    .pipe(gulp.dest('build/js'));
 
-  gulp.src(paths.js[1])
-    .pipe(gulp.dest('build/js/stores'));
+  paths.js.forEach(function (path) {
 
-  gulp.src(paths.js[2])
-    .pipe(gulp.dest('build/js/actions'));
+    // Do I look like a give a shit?
+    var outputPath = path.split('/').length > 2 ? ['build', 'js', path.split('/')[1]].join('/') : ['build', 'js'].join('/');
+
+    gulp.src(path)
+      .pipe(gulp.dest(outputPath));
+  });
+
+
 });
 
 var watchifyArgs = {
