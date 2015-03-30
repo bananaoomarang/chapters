@@ -1,8 +1,9 @@
 'use strict';
 
 var React        = require('react');
-var Router       = require('react-router');
-var SessionStore = require('./stores/SessionStore');
+var Router         = require('react-router');
+var SessionStore   = require('./stores/SessionStore');
+var SessionActions = require('./actions/SessionActions');
 
 var RouteHandler = Router.RouteHandler;
 
@@ -13,22 +14,22 @@ var MainView = {
   },
 
   getInitialState: function () {
-    var sessionToken = window.sessionStorage.getItem('token');
+    var storedToken = window.sessionStorage.getItem('token');
+
+    if(storedToken) SessionActions.validate(storedToken);
 
     return {
-      user:       null,
-      token:      sessionToken,
-      loginError: null
+      user:       SessionStore.getUser(),
+      token:      SessionStore.getToken(),
+      loginError: SessionStore.getError()
     };
   },
 
   onSessionChange: function () {
+
     var token = SessionStore.getToken();
 
     if(token) this.context.router.transitionTo('/editor');
-
-    // Update window.sessionStorage
-    if(token !== this.state.token) window.sessionStorage.setItem('token', token);
 
     this.setState({
       user:       SessionStore.getUser(),

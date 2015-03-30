@@ -41,6 +41,32 @@ var SessionActions = {
 
   },
 
+  // Check token is still legit
+  validate: function (token) {
+    request
+      .get('/user/validate')
+      .set('Authorization', 'Bearer ' + token)
+      .end(function (err) {
+
+        if (err) {
+
+          AppDispatcher.dispatch({
+            actionType: 'session-invalid',
+            err:        err
+          });
+
+        } else {
+
+          AppDispatcher.dispatch({
+            actionType: 'session-open',
+            token:      token
+          });
+
+        }
+
+      });
+  },
+
   close: function () {
     AppDispatcher.dispatch({
       actionType: 'session-close'

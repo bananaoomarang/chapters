@@ -48,8 +48,11 @@ AppDispatcher.register(function (action) {
       break;
 
     case 'session-open':
-      _data.name = action.name;
+      _data.name  = action.name;
       _data.token = action.token;
+
+      // Update window.sessionStorage
+      window.sessionStorage.setItem('token', action.token);
 
       Store.emitChange();
       break;
