@@ -12,7 +12,7 @@ var EditorTitle = {
     return {
       paragraphs:       ParagraphStore.getParagraphs(),
       font:             ParagraphStore.getFont(),
-      alignment:        ParagraphStore.getAlignement,
+      alignment:        ParagraphStore.getAlignment(),
       focusedParagraph: null
     };
   },
@@ -21,7 +21,7 @@ var EditorTitle = {
     this.setState({
       paragraphs: ParagraphStore.getParagraphs(),
       font:       ParagraphStore.getFont(),
-      alignment:  ParagraphStore.getAlignement
+      alignment:  ParagraphStore.getAlignment()
     });
   },
 

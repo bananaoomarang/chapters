@@ -28,6 +28,7 @@ var EditorActions = {
         .end(function (err, res) {
           if (err) return console.error(err);
 
+          // I know action chains are bad. I'm sorry, K?
           ParagraphActions.setParagraphs(res.text);
 
           AppDispatcher.dispatch({
