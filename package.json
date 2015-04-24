@@ -8,6 +8,8 @@
   },
   "main": "server",
   "scripts": {
+    "init": "mkdir -p public/style/css && cp ./node_modules/normalize.css/normalize.css public/style/css/normalize.css && echo 'Cool beans, all set.'",
+    "start": "gulp",
     "validate": "eslint gulpfile.js src src/components/*.jsx",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -42,6 +44,7 @@
     "jparser": "0.0.2",
     "jquery": "^2.1.3",
     "keyboardjs": "^0.4.2",
+    "normalize.css": "^3.0.3",
     "object-assign": "^2.0.0",
     "rangy": "^1.3.0-beta.2",
     "react": "^0.13.1",
