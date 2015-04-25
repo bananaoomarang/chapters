@@ -2,7 +2,7 @@
 
 var React         = require('react');
 var classSet      = require('classnames');
-var EditorActions = require('../actions/EditorActions');
+var EditorActions = require('../../actions/EditorActions');
 
 var EditorTitle = {
   getInitialState: function () {

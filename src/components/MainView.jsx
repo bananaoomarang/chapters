@@ -1,9 +1,9 @@
 'use strict';
 
-var React        = require('react');
+var React          = require('react');
 var Router         = require('react-router');
-var SessionStore   = require('./stores/SessionStore');
-var SessionActions = require('./actions/SessionActions');
+var SessionStore   = require('../stores/SessionStore');
+var SessionActions = require('../actions/SessionActions');
 
 var RouteHandler = Router.RouteHandler;
 

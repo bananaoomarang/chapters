@@ -4,8 +4,8 @@ var React          = require('react');
 var classSet       = require('classnames');
 var FormDataMixin  = require('react-form-data');
 var Link           = require('react-router').Link;
-var SessionStore   = require('./stores/SessionStore');
-var SessionActions = require('./actions/SessionActions');
+var SessionStore   = require('.././stores/SessionStore');
+var SessionActions = require('.././actions/SessionActions');
 
 var Login = {
   mixins: [FormDataMixin],

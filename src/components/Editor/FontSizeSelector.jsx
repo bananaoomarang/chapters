@@ -1,8 +1,8 @@
 'use strict';
 
 var React            = require('react');
-var EditorActions    = require('../actions/EditorActions');
-var ParagraphActions = require('../actions/ParagraphActions');
+var EditorActions    = require('../../actions/EditorActions');
+var ParagraphActions = require('../../actions/ParagraphActions');
 
 var FontSizeSelector = {
 

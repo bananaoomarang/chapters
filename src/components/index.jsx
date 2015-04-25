@@ -5,7 +5,7 @@ var Router   = require('react-router');
 var MainView = require('./MainView');
 var Login    = require('./Login');
 var Register = require('./Register');
-var Editor   = require('./Editor');
+var Editor   = require('./Editor/index.jsx');
 
 var Route = Router.Route;
 var DefaultRoute = Router.DefaultRoute;
@@ -20,8 +20,12 @@ var routes = (
   </Route>
 );
 
-Router.run(routes, function (Handler) {
+module.exports = function () {
 
-  React.render(<Handler />, document.getElementById('editor'));
+  Router.run(routes, function (Handler) {
 
-});
+    React.render(<Handler />, document.getElementById('editor'));
+
+  });
+
+};

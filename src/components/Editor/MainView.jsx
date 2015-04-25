@@ -3,9 +3,9 @@
 var React            = require('react');
 var kbjs             = require('keyboardjs');
 var Paragraph        = require('./Paragraph');
-var ParagraphStore   = require('../stores/ParagraphStore');
-var ParagraphActions = require('../actions/ParagraphActions');
-var getCaret         = require('../lib/getCaret');
+var ParagraphStore   = require('../../stores/ParagraphStore');
+var ParagraphActions = require('../../actions/ParagraphActions');
+var getCaret         = require('../../lib/getCaret');
 
 var EditorTitle = {
   getInitialState: function () {
