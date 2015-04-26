@@ -41,16 +41,6 @@ var MainView = {
 
   componentDidMount: function () {
     SessionStore.addChangeListener(this.onSessionChange);
-
-    if (this.state.token) {
-
-      this.context.router.transitionTo('/editor');
-
-    } else {
-
-      this.context.router.transitionTo('/login');
-
-    }
   },
 
   render: function () {

@@ -16,7 +16,7 @@ var server      = require('chapters-server');
 var reload      = browserSync.reload;
 
 var paths = {
-  js:   ['src/*.js', 'src/stores/*.js', 'src/actions/*.js', 'src/lib/*.js', 'src/components/**'],
+  js:   ['src/*.js', 'src/stores/**', 'src/actions/**', 'src/lib/**', 'src/components/**'],
   sass: ['src/sass/*.scss'],
   html: ['src/html/*'],
   src:  ['public/index.html', 'public/bundle.js', 'public/style/css/*.css']
@@ -81,6 +81,7 @@ gulp.task('serve', ['initialJsCompile'], function serveDemo() {
 gulp.task('watch', ['initialJsCompile'], function watchFiles() {
   gulp.watch(paths.sass, ['sass']);
   gulp.watch(paths.html, ['html']);
+
   gulp.watch(paths.src,  reload);
 });
 

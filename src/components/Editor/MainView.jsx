@@ -7,7 +7,7 @@ var ParagraphStore   = require('../../stores/ParagraphStore');
 var ParagraphActions = require('../../actions/ParagraphActions');
 var getCaret         = require('../../lib/getCaret');
 
-var EditorTitle = {
+var MainView = {
   getInitialState: function () {
     return {
       paragraphs:       ParagraphStore.getParagraphs(),
@@ -31,6 +31,7 @@ var EditorTitle = {
       this.setState({ focusedParagraph: event.target });
 
     } else {
+
 
       this.setState({ focusedParagraph: null });
 
@@ -180,4 +181,4 @@ var EditorTitle = {
   }
 };
 
-module.exports = React.createClass(EditorTitle);
+module.exports = React.createClass(MainView);
