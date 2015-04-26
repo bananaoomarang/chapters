@@ -9,7 +9,7 @@ var watchify    = require('watchify');
 var browserify  = require('browserify');
 var reactify    = require('reactify');
 var sass        = require('gulp-sass');
-var browserSync = require('browser-sync');
+var browserSync = require('browser-sync').create();
 var async       = require('async');
 var server      = require('chapters-server');
 
@@ -69,7 +69,7 @@ gulp.task('serve', ['initialJsCompile'], function serveDemo() {
       });
     },
     function startBrowserSyncProxy (done) {
-      browserSync({
+      browserSync.init({
         proxy: 'http://localhost:8888'
       });
 
@@ -85,9 +85,9 @@ gulp.task('watch', ['initialJsCompile'], function watchFiles() {
 });
 
 gulp.task('default', [
-  'html',      // Move html from src tree
+  'html',             // Move html from src tree
   'initialJsCompile', // Browserify bundle
-  'sass',      // Compile sass -> css
-  'watch',     // Watch relavant files in src tree for changes
-  'serve'      // Serve using browserSync
+  'sass',             // Compile sass -> css
+  'serve',            // Serve using browserSync
+  'watch'             // Watch relavant files in src tree for changes
 ]);
