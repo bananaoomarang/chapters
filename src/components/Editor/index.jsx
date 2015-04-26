@@ -58,7 +58,7 @@ var Editor = {
         var text = p.innerText;
 
         if(text) string += text + '\n\n';
-        else     string += '&nbsp;\n\n';
+        else     string += '\n\n';
       }
 
     }

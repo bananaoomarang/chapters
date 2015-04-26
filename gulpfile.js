@@ -78,7 +78,7 @@ gulp.task('serve', ['initialJsCompile'], function serveDemo() {
   ]);
 });
 
-gulp.task('watch', ['initialJsCompile'], function watchFiles() {
+gulp.task('watch', function watchFiles() {
   gulp.watch(paths.sass, ['sass']);
   gulp.watch(paths.html, ['html']);
 

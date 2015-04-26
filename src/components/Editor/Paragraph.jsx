@@ -1,8 +1,11 @@
 'use strict';
 
-var React = require('react');
+var React  = require('react');
+var addons = require('react/addons').addons;
 
 var Paragraph = {
+  mixins: [addons.PureRenderMixin],
+
   getInitialState: function () {
     return { focused: false };
   },

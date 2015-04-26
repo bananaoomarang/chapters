@@ -57,24 +57,26 @@ var MainView = {
       var currentIndex       = Number(currentParagraph.dataset.index);
       var currentHTML        = currentParagraph.innerHTML;
       var newParagraphId     = this.state.paragraphs.length;
-      var newParagraph       = <Paragraph id={newParagraphId} />;
+      var newParagraph       = '';
       var newParagraphDOM    = null;
       var newParagraphsArray = this.state.paragraphs.slice();
-
 
       // Splice new paragraph
       newParagraphsArray.splice(currentIndex + 1, 0, newParagraph);
 
+      newParagraphsArray[currentIndex + 1]  = currentHTML.slice(caret.position, currentHTML.length);
+      newParagraphsArray[currentIndex]      = currentHTML.slice(0, caret.position);
+
       this.setState({
         paragraphs: newParagraphsArray
+      }, function () {
+
+        newParagraphDOM = this.refs[currentIndex + 1].getDOMNode();
+
+        newParagraphDOM.focus();
+
+
       });
-
-      newParagraphDOM    = this.refs[newParagraphId].getDOMNode();
-
-      newParagraphDOM.focus();
-
-      newParagraphDOM.innerHTML += currentHTML.slice(caret.position, currentHTML.length);
-      currentParagraph.innerHTML = currentHTML.slice(0, caret.position);
 
 
     }.bind(this));
@@ -95,9 +97,16 @@ var MainView = {
 
       if (caret.position === 0 && previousParagraph.tagName !== 'DIV') {
 
+        // Stop event bubbling
+        e.preventDefault();
+        e.stopPropagation();
 
         // Remove paragraph
         newParagraphsArray.splice(currentIndex, 1);
+
+        var caretPosition = newParagraphsArray[currentIndex - 1].length;
+
+        newParagraphsArray[currentIndex - 1] += currentHTML;
 
         this.setState({
           paragraphs: newParagraphsArray
@@ -106,19 +115,13 @@ var MainView = {
         if(previousParagraph.innerHTML.length) {
 
           getCaret(previousParagraph)
-            .setPosition('end');
+            .setPosition(caretPosition);
 
         } else if (previousParagraph) {
 
           previousParagraph.focus();
 
         }
-
-        previousParagraph.innerHTML += currentHTML;
-
-        // Stop event bubbling
-        e.preventDefault();
-        e.stopPropagation();
 
       }
 
@@ -173,7 +176,7 @@ var MainView = {
       <div className="paragraphs" id="paragraph-container" style={style}>
         {
           this.state.paragraphs.map(function(p, index) {
-            return <Paragraph key={index} ref={index} index={index} onFocus={this.handleFocus} onBlur={this.handleBlur} text={p.innerText} />;
+            return <Paragraph key={index} ref={index} index={index} onFocus={this.handleFocus} onBlur={this.handleBlur} text={p} />;
           }.bind(this))
         }
       </div>

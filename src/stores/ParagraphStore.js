@@ -6,7 +6,7 @@ var assign        = require('object-assign');
 var $             = require('jquery');
 
 var _data = {
-  paragraphs: [],
+  paragraphs: [''],
 
   // Styling
   font: {
@@ -53,6 +53,9 @@ AppDispatcher.register(function (action) {
 
         return true;
 
+      })
+      .map(function (p) {
+        return p.innerText;
       });
 
       ParagraphStore.emitChange();
