@@ -1,5 +1,5 @@
 'use strict';
 
-var componentIndex = require('./components/index.jsx');
+var componentIndex = require('./components');
 
 componentIndex();

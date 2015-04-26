@@ -5,7 +5,7 @@ var Router   = require('react-router');
 var MainView = require('./MainView');
 var Login    = require('./Login');
 var Register = require('./Register');
-var Editor   = require('./Editor/index.jsx');
+var Editor   = require('./Editor');
 
 var Route = Router.Route;
 var DefaultRoute = Router.DefaultRoute;
