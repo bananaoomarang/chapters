@@ -18,7 +18,7 @@ var paths = {
   js:   ['src/*.js', 'src/stores/**', 'src/actions/**', 'src/lib/**', 'src/components/**'],
   sass: ['src/sass/*.scss'],
   html: ['src/html/*'],
-  src:  ['public/index.html', 'public/bundle.js', 'public/style/css/*.css']
+  src:  ['public/index.html', 'public/style/css/*.css']
 };
 
 gulp.task('html', function copyHTML () {
@@ -80,6 +80,8 @@ gulp.task('serve', ['watchify', 'startHapi'], function serveDemo() {
 gulp.task('watch', function watchFiles() {
   gulp.watch(paths.sass, ['sass']);
   gulp.watch(paths.html, ['html']);
+
+  gulp.watch(paths.src, reload);
 });
 
 gulp.task('default', [
