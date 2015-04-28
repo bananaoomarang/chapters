@@ -10,7 +10,6 @@ var browserify  = require('browserify');
 var reactify    = require('reactify');
 var sass        = require('gulp-sass');
 var browserSync = require('browser-sync').create();
-var async       = require('async');
 var server      = require('chapters-server');
 
 var reload      = browserSync.reload;
@@ -64,23 +63,18 @@ gulp.task('sass', function compileSass() {
     .pipe(gulp.dest('public/style/css'));
 });
 
-gulp.task('serve', ['watchify'], function serveDemo() {
-  async.series([
-    function startHapiServer (done) {
-      server.start(function () {
-        server.log('info', 'Server running at: ' + server.info.uri);
+gulp.task('startHapi', function startHapiServer(done) {
+  server.start(function () {
+    server.log('info', 'Server running at: ' + server.info.uri);
 
-        done();
-      });
-    },
-    function startBrowserSyncProxy (done) {
-      browserSync.init({
-        proxy: 'http://localhost:8888'
-      });
+    done();
+  });
+});
 
-      done();
-    }
-  ]);
+gulp.task('serve', ['watchify', 'startHapi'], function serveDemo() {
+  browserSync.init({
+    proxy: 'http://localhost:8888'
+  });
 });
 
 gulp.task('watch', function watchFiles() {
