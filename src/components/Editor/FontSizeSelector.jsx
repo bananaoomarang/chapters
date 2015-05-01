@@ -7,7 +7,7 @@ var ParagraphActions = require('../../actions/ParagraphActions');
 var FontSizeSelector = {
 
   propTypes: {
-    defaultSize: React.PropTypes.string
+    defaultSize: React.PropTypes.number
   },
 
   getInitialState: function () {
