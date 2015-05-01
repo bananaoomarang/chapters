@@ -94,7 +94,7 @@ var Editor = {
 
     return (
       <div>
-        <EditorToolbar handleSave={this.handleSave} />
+        <EditorToolbar handleSave={this.handleSave} defaultFont={this.cfg.defaultFont} />
 
         <hr />
 

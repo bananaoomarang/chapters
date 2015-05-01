@@ -18,7 +18,7 @@ var Toolbar = {
   render: function () {
     return (
       <div className="toolbar">
-        <FontSizeSelector defaultSize="24" />
+        <FontSizeSelector defaultSize={this.props.defaultFont.size} />
 
         <br />
 
