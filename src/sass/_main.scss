@@ -43,6 +43,7 @@ h1, h2, h3, h4, h5 {
     width: 20%;
     left: 0;
     right: 0;
+    padding: 1em;
     @include position(absolute, 50% 0 null 0);
     @include margin(null auto null auto);
 
