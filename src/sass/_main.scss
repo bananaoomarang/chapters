@@ -32,25 +32,36 @@ h1, h2, h3, h4, h5 {
       height: 3em;
 
       margin: auto;
-
-      border-radius: 2px;
     }
   }
 
   #story-selector {
+    background-color: $light-gray;
     opacity: 0;
-    border-style: solid;
+    border: $black-border;
     text-align: left;
     width: 20%;
-    left: 50%;
-    margin-left: -10%;
-    position: absolute;
+    left: 0;
+    right: 0;
+    @include position(absolute, 50% 0 null 0);
+    @include margin(null auto null auto);
 
     li {
       cursor: pointer;
+      text-align: center;
+
+      &:hover {
+        background-color: darken($light-gray, 10%);
+      }
+
+      &:active {
+        background-color: darken($light-gray, 20%);
+      }
+
+      @include transition (all 0.2s ease-in-out);
     }
 
-    @include transition (all 0.4s ease-in-out);
+    @include transition (all 0.2s ease-in-out);
   }
 
   /* Editor defaults */

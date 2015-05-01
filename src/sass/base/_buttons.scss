@@ -2,9 +2,8 @@
 button {
   @include appearance(none);
   -webkit-font-smoothing: antialiased;
-  border-radius: $base-border-radius;
   background-color: #fff;
-  border: $base-border;
+  border: $black-border;
   color: #000;
   cursor: pointer;
   display: inline-block;
