@@ -16,38 +16,36 @@ var EditorActions = {
 
   },
 
-  // Set the story currently being edited
-  setStory: function (obj) {
+  // Load story from backend
+  fetchStory: function (id) {
     var sessionToken = window.sessionStorage.getItem('token');
 
-    if(obj.id) {
+    request
+      .get('/stories/' + id)
+      .set('Authorization', 'Bearer ' + sessionToken)
+      .end(function (err, res) {
+        if (err) return console.error(err);
 
-      request
-        .get('/story/' + obj.id)
-        .set('Authorization', 'Bearer ' + sessionToken)
-        .end(function (err, res) {
-          if (err) return console.error(err);
+        // I know action chains are bad. I'm sorry, K?
+        ParagraphActions.setParagraphs(res.text);
 
-          // I know action chains are bad. I'm sorry, K?
-          ParagraphActions.setParagraphs(res.text);
-
-          AppDispatcher.dispatch({
-            actionType: 'editor-story',
-            story:      {
-              title: obj.title,
-              text:  res.text
-            }
-          });
+        AppDispatcher.dispatch({
+          actionType: 'editor-story',
+          story:      {
+            text: res.text
+          }
+        });
       });
+  },
 
-    } else {
+  // Set the story currently being edited from object
+  setStory: function (obj) {
 
       AppDispatcher.dispatch({
         actionType: 'editor-story',
         story:      obj
       });
 
-    }
   },
 
   // Load a list of possibly editable stories for user
@@ -55,7 +53,7 @@ var EditorActions = {
     var sessionToken = window.sessionStorage.getItem('token');
 
     request
-      .get('/story')
+      .get('/stories')
       .set('Authorization', 'Bearer ' + sessionToken)
       .end(function (err, res) {
         if (err) return console.error(err);
@@ -73,7 +71,7 @@ var EditorActions = {
     var sessionToken = window.sessionStorage.getItem('token');
 
     request
-      .post('/story/upload')
+      .post('/stories/upload')
       .send(payload)
       .set('Authorization', 'Bearer ' + sessionToken)
       .end(function (err) {

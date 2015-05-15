@@ -7,6 +7,7 @@ var assign        = require('object-assign');
 var _data = {
   // Metadata for story being edited
   story: {
+    id:        '',
     title:     '',
     text:      '',
     author:    null,

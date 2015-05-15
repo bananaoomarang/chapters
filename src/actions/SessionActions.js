@@ -5,7 +5,7 @@ var AppDispatcher = require('../AppDispatcher');
 
 function getToken (credentials, cb) {
   request
-    .post('/user/login')
+    .post('/users/login')
     .send(credentials)
     .end(function (err, res) {
 
@@ -44,7 +44,7 @@ var SessionActions = {
   // Check token is still legit
   validate: function (token) {
     request
-      .get('/user/validate')
+      .get('/users/validate')
       .set('Authorization', 'Bearer ' + token)
       .end(function (err) {
 

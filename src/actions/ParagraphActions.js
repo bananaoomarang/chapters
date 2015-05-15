@@ -24,7 +24,7 @@ var ParagraphActions = {
 
   },
 
-  setParagraphs: function(html) {
+  setParagraphs: function (html) {
 
     AppDispatcher.dispatch({
       actionType: 'paragraph-paragraphs',

@@ -10,9 +10,13 @@ var StorySelector = {
 
     this.props.storyList.forEach(function (story) {
 
-      if(story.title === event.target.innerText) {
+      var clickedTitle = event.target.innerText;
+
+      if(story.title === clickedTitle) {
+
+        EditorActions.fetchStory(story.id);
         EditorActions.setStory(story);
-        ParagraphActions.setParagraphs(story.text);
+
       }
 
     });
