@@ -2,6 +2,7 @@
 
 var React  = require('react');
 var Slider = require('react-slick');
+var Link   = require('react-router').Link;
 
 var Carousel = {
   displayName: 'Carousel',
@@ -22,8 +23,14 @@ var Carousel = {
     return (
       <Slider {...cfg} >
         {
-          this.props.stories.map( function (slide, index) {
-            return <div key={index}><h3>{slide.title}</h3></div>;
+          this.props.stories.map( function (story, index) {
+            return (
+              <div key={index}>
+                <h3>
+                  <Link to="story" params={ { id: story.id } }>{story.title}</Link>
+                </h3>
+              </div>
+            );
           })
         }
       </Slider>
