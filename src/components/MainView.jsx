@@ -46,7 +46,11 @@ var MainView = {
   render: function () {
 
     return (
-      <div>
+      <div id="main-view">
+        <h1> <a href="#/home">Chapters</a> </h1>
+
+        <hr/>
+
         <RouteHandler />
       </div>
     );

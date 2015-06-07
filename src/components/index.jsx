@@ -8,7 +8,7 @@ module.exports = function () {
 
   Router.run(routes, function (Handler) {
 
-    React.render(<Handler />, document.getElementById('editor'));
+    React.render(<Handler />, document.getElementById('react-view'));
 
   });
 
