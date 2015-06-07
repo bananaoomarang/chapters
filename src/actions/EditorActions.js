@@ -4,6 +4,30 @@ var request          = require('superagent');
 var AppDispatcher    = require('../AppDispatcher');
 var ParagraphActions = require('../actions/ParagraphActions.js');
 
+function uploadNewStory(token, payload) {
+  request
+    .post('/stories/import')
+    .send(payload)
+    .set('Authorization', 'Bearer ' + token)
+    .end(function (err) {
+      if (err) return console.error(err);
+
+      console.log('Successfully saved %s', payload.title);
+  });
+}
+
+function updateStory(token, payload) {
+  request
+    .post('/stories/' + payload.id)
+    .send(payload)
+    .set('Authorization', 'Bearer ' + token)
+    .end(function (err) {
+      if (err) return console.error(err);
+
+      console.log('Successfully saved %s', payload.title);
+  });
+}
+
 var EditorActions = {
 
   // Set whether the to display loading interface
@@ -27,12 +51,12 @@ var EditorActions = {
         if (err) return console.error(err);
 
         // I know action chains are bad. I'm sorry, K?
-        ParagraphActions.setParagraphs(res.text);
+        ParagraphActions.setParagraphs(res.body.html);
 
         AppDispatcher.dispatch({
           actionType: 'editor-story',
           story:      {
-            text: res.text
+            text: res.body.text
           }
         });
       });
@@ -53,7 +77,7 @@ var EditorActions = {
     var sessionToken = window.sessionStorage.getItem('token');
 
     request
-      .get('/stories')
+      .get('/users/current/stories')
       .set('Authorization', 'Bearer ' + sessionToken)
       .end(function (err, res) {
         if (err) return console.error(err);
@@ -70,15 +94,11 @@ var EditorActions = {
   save: function (payload) {
     var sessionToken = window.sessionStorage.getItem('token');
 
-    request
-      .post('/stories/import')
-      .send(payload)
-      .set('Authorization', 'Bearer ' + sessionToken)
-      .end(function (err) {
-        if (err) return console.error(err);
-
-        console.log('Successfully saved %s', payload.title);
-      });
+    if(payload.id) {
+      updateStory(sessionToken, payload);
+    } else {
+      uploadNewStory(sessionToken, payload);
+    }
   }
 
 };
