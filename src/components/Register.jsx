@@ -7,7 +7,7 @@ var request       = require('superagent');
 
 function ajaxRegister (data, cb) {
   request
-    .post('/user/create')
+    .post('/users/create')
     .send(data)
     .end(function (err, res) {
       if (err) return cb(res.body.message);

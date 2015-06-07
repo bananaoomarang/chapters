@@ -71,7 +71,7 @@ var EditorActions = {
     var sessionToken = window.sessionStorage.getItem('token');
 
     request
-      .post('/stories/upload')
+      .post('/stories/import')
       .send(payload)
       .set('Authorization', 'Bearer ' + sessionToken)
       .end(function (err) {

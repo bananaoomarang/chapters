@@ -4,16 +4,16 @@ var React             = require('react');
 var Dropzone          = require('dropzone');
 var EditorToolbar     = require('./Toolbar');
 var EditorTitle       = require('./Title');
-var EditorMainView    = require('./MainView');
+var ParagraphView     = require('./ParagraphView');
 var StorySelector     = require('./StorySelector');
 var EditorStore       = require('../../stores/EditorStore');
 var EditorActions     = require('../../actions/EditorActions');
-var ParagraphActions  = require('../../actions/ParagraphActions');
 
 var Editor = {
+  displayName: 'Editor',
 
   cfg: {
-    defaultFont:      {
+    defaultFont: {
       size: 24
     },
     defaultAlignment: 'center'
@@ -38,6 +38,7 @@ var Editor = {
   handleSave: function () {
 
     var payload = {
+      id:    this.state.story.id,
       title: this.state.story.title,
       text:  this.exportText()
     };
@@ -102,7 +103,7 @@ var Editor = {
 
         <hr />
 
-        <EditorMainView defaultFont={this.cfg.defaultFont} alignment={this.cfg.defaultAlignment} />
+        <ParagraphView defaultFont={this.cfg.defaultFont} alignment={this.cfg.defaultAlignment} />
 
         <StorySelector style={storySelectorStyle} storyList={this.state.editableStories} />
 

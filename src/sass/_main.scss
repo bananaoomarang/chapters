@@ -8,6 +8,10 @@ h1, h2, h3, h4, h5 {
   outline: none;
 }
 
+#home {
+  overflow: hidden;
+}
+
 #editor {
   /* Make sure to play nice with container */
   overflow: auto;
