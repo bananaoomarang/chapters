@@ -19,20 +19,10 @@ var Carousel = {
       slidesToScroll: 1
     };
 
-    var fixture = [
-      { title: 'Ghost Poetry' },
-      { title: 'Threes' },
-      { title: 'Once upon a?' },
-      { title: 'Fours' },
-      { title: 'High Ocean' },
-      { title: 'Fives' },
-      { title: 'The King is Dead' }
-    ];
-
     return (
       <Slider {...cfg} >
         {
-          fixture.map( function (slide, index) {
+          this.props.stories.map( function (slide, index) {
             return <div key={index}><h3>{slide.title}</h3></div>;
           })
         }

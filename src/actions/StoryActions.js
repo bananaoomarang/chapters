@@ -3,17 +3,7 @@
 var request          = require('superagent');
 var AppDispatcher    = require('../AppDispatcher');
 
-var EditorActions = {
-
-  // Set whether the to display loading interface
-  setLoading: function (bool) {
-
-    AppDispatcher.dispatch({
-      actionType: 'editor-load',
-      isLoading:  bool
-    });
-
-  },
+var StoryActions = {
 
   // Load story from backend
   loadStory: function (id) {
@@ -24,8 +14,6 @@ var EditorActions = {
       .set('Authorization', 'Bearer ' + sessionToken)
       .end(function (err, res) {
         if (err) return console.error(err);
-
-        console.log(res.body);
 
         AppDispatcher.dispatch({
           actionType: 'story-current',
@@ -53,4 +41,4 @@ var EditorActions = {
 
 };
 
-module.exports = EditorActions;
+module.exports = StoryActions;
