@@ -2,6 +2,7 @@
 
 var React          = require('react');
 var Router         = require('react-router');
+var Link           = require('react-router').Link;
 var SessionStore   = require('../stores/SessionStore');
 var SessionActions = require('../actions/SessionActions');
 
@@ -47,7 +48,9 @@ var MainView = {
 
     return (
       <div id="main-view">
-        <h1> <a href="#/home">Chapters</a> </h1>
+        <h1>
+          <Link to="home">Chapters</Link>
+        </h1>
 
         <hr/>
 
