@@ -73,7 +73,7 @@ var Editor = {
     EditorStore.addChangeListener(this.onEditorChange);
 
     var dropzoneOpts = {
-      url:     '/story/upload',
+      url:     '/stories/upload',
       headers: {
         Authorization: 'Bearer ' + sessionToken
       }
