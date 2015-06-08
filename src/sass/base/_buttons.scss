@@ -18,7 +18,9 @@ button {
   white-space: nowrap;
 
   &:hover {
-    background-color: darken(#fff, 10%);
+    background-color: #000;
+    border: $white-border;
+    color: #fff;
   }
 
   &:active {
@@ -29,4 +31,6 @@ button {
     cursor: not-allowed;
     opacity: 0.5;
   }
+
+  @include transition (all 0.2s ease-in-out);
 }
