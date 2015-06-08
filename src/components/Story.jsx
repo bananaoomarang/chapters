@@ -3,6 +3,7 @@
 var React          = require('react');
 var StoryStore     = require('../stores/StoryStore');
 var StoryActions   = require('../actions/StoryActions');
+var Link           = require('react-router').Link;
 
 var Story = {
   displayName: 'Story',
@@ -22,10 +23,16 @@ var Story = {
   },
 
   render: function () {
-    console.log(this.state);
     return (
       <div id="story">
         <h1>{this.state.title}</h1>
+
+        <h2>
+          By&nbsp;
+          <Link to="user" params={ { user: this.state.author } }>{this.state.author}</Link>
+        </h2>
+
+        <br/>
 
         <p>{this.state.text}</p>
       </div>

@@ -6,7 +6,12 @@ var assign        = require('object-assign');
 
 var _data = {
   loadedUser:   [],
-  currentStory: {}
+  currentStory: {
+    title:  '',
+    author: '',
+    text:   '',
+    html:   ''
+  }
 };
 
 var StoryStore = assign({}, EventEmitter.prototype, {
