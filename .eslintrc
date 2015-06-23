@@ -4,10 +4,12 @@
   ],
   "env": {
     "node": true,
-    "browser": true
+    "browser": true,
+    "es6": true
   },
   "ecmaFeatures": {
-    "jsx": true
+    "jsx": true,
+    "modules": true
   },
   "rules": {
     // Ignore Rules

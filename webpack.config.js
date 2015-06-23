@@ -5,14 +5,14 @@ module.exports = {
   entry:  [
     'webpack-dev-server/client?http://localhost:8080/',
     'webpack/hot/only-dev-server',
-    './src/index'
+    './client'
   ],
   output: {
     path:     path.join(__dirname, 'dist'),
     filename: 'bundle.js'
   },
   resolve: {
-    extensions: ['', '.js', '.jsx']
+    extensions: ['', '.js', '.jsx', '.css', '.scss']
   },
   module: {
     loaders: [
@@ -20,6 +20,14 @@ module.exports = {
         test:    /\.jsx?$/,
         exclude: /node_modules/,
         loaders: ['react-hot', 'babel']
+      },
+      {
+        test:   /\.scss$/,
+        loader: 'style!css!sass'
+      },
+      {
+        test:   /\.css$/,
+        loader: 'style!css'
       }
     ]
   },
@@ -27,11 +35,11 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin()
   ],
-
+  devtool: 'inline-source-map',
   devServer: {
     hot: true,
     proxy: {
-      '*': 'http://localhost:8888'
+      '*': 'http://localhost:3000'
     }
   }
 };
