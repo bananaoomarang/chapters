@@ -35,9 +35,9 @@ var MainView = {
 
   _onChange: function () {
 
-    let { token } = SessionStore.getState();
+    let { legit } = SessionStore.getState();
 
-    if(token) this.context.router.transitionTo('/editor');
+    if(legit) this.context.router.transitionTo('/editor');
 
     this.setState(SessionStore.getState());
 
@@ -55,7 +55,9 @@ var MainView = {
 
         <RouteHandler />
 
-        <script type="application/javascript" src="/bundle.js"></script>
+        <link href='http://fonts.googleapis.com/css?family=Crimson+Text:400,400italic,700,700italic' rel='stylesheet' type='text/css' />
+        <script type="application/javascript" src="/bundle.js" />
+
       </div>
     );
 

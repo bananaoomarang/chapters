@@ -18,10 +18,11 @@ var Login = {
   handleSubmit: function (e) {
     e.preventDefault();
 
-    if (this.formData.username && this.formData.password)
+    if (this.formData.username && this.formData.password) {
       SessionActions.open(this.formData);
-    else
+    } else {
       this.setState({ error: 'Please fill in form' });
+    }
   },
 
   render: function () {

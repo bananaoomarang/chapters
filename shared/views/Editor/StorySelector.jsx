@@ -1,5 +1,4 @@
 import React            from 'react';
-import ParagraphActions from '../../actions/ParagraphActions';
 import EditorActions    from '../../actions/EditorActions';
 
 var StorySelector = {
@@ -24,7 +23,6 @@ var StorySelector = {
   },
 
   render: function () {
-
     return (
       <div id="story-selector" style={this.props.style}>
         <ul>

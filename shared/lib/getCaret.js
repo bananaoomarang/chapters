@@ -1,9 +1,11 @@
-'use strict';
+import runInBrowser from './runInBrowser';
 
-var rangy = require('rangy');
+var rangy = runInBrowser( () => {
+  return require('rangy');
+});
 
 // Uses rangy to get a manipulatable caret object
-module.exports = function (element) {
+export default function (element) {
 
   var currentHTML      = element.innerHTML;
   var range            = rangy.createRange();
@@ -45,4 +47,4 @@ module.exports = function (element) {
     }
 
   };
-};
+}

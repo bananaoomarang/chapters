@@ -1,5 +1,3 @@
-'use strict';
-
 import React         from 'react';
 import MagicState    from 'alt/mixins/ReactStateMagicMixin';
 import EditorToolbar from './Toolbar';
@@ -8,10 +6,11 @@ import ParagraphView from './ParagraphView';
 import StorySelector from './StorySelector';
 import EditorStore   from '../../stores/EditorStore';
 import EditorActions from '../../actions/EditorActions';
+import runInBrowser  from '../../lib/runInBrowser';
 
-if(typeof window !== 'undefined') {
-  var Dropzone = require('dropzone');
-}
+var Dropzone = runInBrowser( () => {
+  return require('dropzone');
+});
 
 var Editor = {
   displayName: 'Editor',
@@ -30,6 +29,8 @@ var Editor = {
   },
 
   handleSave: function () {
+
+    console.log(this.state.story.id);
 
     var payload = {
       id:    this.state.story.id,
@@ -62,17 +63,17 @@ var Editor = {
   },
 
   componentDidMount: function () {
-    var sessionToken = window.sessionStorage.getItem('token');
+    const sessionToken = window.sessionStorage.getItem('token');
 
-    var dropzoneOpts = {
+    const dropzoneOpts = {
       url:     '/stories/upload',
       headers: {
         Authorization: 'Bearer ' + sessionToken
       }
     };
 
-    if(window) {
-      var dropzone  = new Dropzone('body', dropzoneOpts);
+    if(Dropzone) {
+      let dropzone  = new Dropzone('body', dropzoneOpts);
 
       dropzone.on('sending', function(file, xhr, formData) {
         formData.append('filename', file.name);
@@ -84,8 +85,8 @@ var Editor = {
   render: function () {
 
     var storySelectorStyle = {
-      visibility: this.state.loadDialogue ? 'visible' : 'hidden',
-      opacity:    this.state.loadDialogue ? 1 : 0
+      visibility: this.state.isLoading ? 'visible' : 'hidden',
+      opacity:    this.state.isLoading ? 1 : 0
     };
 
     return (

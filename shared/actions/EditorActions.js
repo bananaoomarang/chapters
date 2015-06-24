@@ -6,11 +6,7 @@ class EditorActions {
 
   // Set whether the to display loading interface
   setLoading(bool) {
-
-    this.dispatch({
-      isLoading: bool
-    });
-
+    this.dispatch(bool);
   }
 
   // Load story from backend
@@ -25,21 +21,19 @@ class EditorActions {
 
     request
       .get('/stories/' + id, opts)
-      .then( (res) => {
+      .then( ({ data }) => {
         // I know action chains are bad. I'm sorry, K?
-        ParagraphActions.setParagraphs(res.body.html);
+        ParagraphActions.setParagraphs(data.html);
 
-        this.actions.setStory(res.body);
+        this.actions.setStory(data);
       })
       .catch(console.error);
 
   }
 
   // Set the story currently being edited from object
-  setStory(obj) {
-    this.dispatch({
-      story: obj
-    });
+  setStory(story) {
+    this.dispatch(story);
   }
 
   // Load a list of possibly editable stories for user
@@ -54,11 +48,7 @@ class EditorActions {
 
     request
       .get('/users/current/stories', opts)
-      .then( (res) => {
-        this.dispatch({
-          stories: res.body
-        });
-      })
+      .then( ({ data }) => this.dispatch(data))
       .catch(console.error);
   }
 
@@ -76,9 +66,9 @@ class EditorActions {
     };
 
     if(payload.id) {
-      opts.url = '/stories/import';
-    } else {
       opts.url = '/stories/' + payload.id;
+    } else {
+      opts.url = '/stories/import';
     }
 
     request(opts)

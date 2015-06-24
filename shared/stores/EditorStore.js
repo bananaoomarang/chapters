@@ -9,7 +9,7 @@ class EditorStore {
   constructor() {
     // Metadata for story being edited
     this.story = {
-      id:        '',
+      id:        null,
       title:     '',
       text:      '',
       author:    null,

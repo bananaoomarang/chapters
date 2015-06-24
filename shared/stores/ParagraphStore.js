@@ -17,7 +17,9 @@ class ParagraphStore {
     this.alignment = null;
 
     this.bindListeners({
-      loadParagraphs: ParagraphActions.SET_PARAGRAPHS
+      loadParagraphs: ParagraphActions.SET_PARAGRAPHS,
+      loadAlignment:  ParagraphActions.SET_ALIGNMENT,
+      loadFont:       ParagraphActions.SET_FONT
     });
   }
 

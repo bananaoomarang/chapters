@@ -4,11 +4,11 @@ import Paragraph        from './Paragraph';
 import ParagraphStore   from '../../stores/ParagraphStore';
 import ParagraphActions from '../../actions/ParagraphActions';
 import getCaret         from '../../lib/getCaret';
+import runInBrowser     from '../../lib/runInBrowser';
 
-if(typeof window !== 'undefined') {
-  var kbjs = require('keyboardjs');
-}
-
+var kbjs = runInBrowser( () => {
+  return require('keyboardjs');
+});
 
 var ParagraphView = {
   displayName: 'ParagraphView',
@@ -163,7 +163,7 @@ var ParagraphView = {
   },
 
   componentDidMount: function () {
-    if(window) this.bindKeys();
+    if(kbjs) this.bindKeys();
 
     ParagraphActions.setFont(this.props.defaultFont);
     ParagraphActions.setAlignment(this.props.defaultAlignment);

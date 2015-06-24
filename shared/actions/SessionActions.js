@@ -4,16 +4,12 @@ import alt     from '../alt';
 class SessionActions {
 
   open(credentials) {
-    const opts = {
-      data: credentials
-    };
-
     request
-      .post('/users/login', opts)
-      .then( (res) => {
+      .post('/users/login', credentials)
+      .then( ({ data }) => {
         this.dispatch({
           name:  credentials.username,
-          token: res.text
+          token: data
         });
       })
       .catch(this.actions.close);
@@ -33,7 +29,7 @@ class SessionActions {
 
     request
       .get('/users/validate', opts)
-      .then(this.actions.open)
+      .then( ( { data } ) => this.dispatch(data))
       .catch(this.actions.close);
   }
 }

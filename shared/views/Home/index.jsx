@@ -23,7 +23,7 @@ var Home = {
   render: function () {
     return (
       <div id="home">
-        <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/jquery.slick/1.3.15/slick.css"/>
+        <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/jquery.slick/1.3.15/slick.css" />
 
         <Carousel stories={this.state.stories} />
 

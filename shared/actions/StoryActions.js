@@ -15,9 +15,7 @@ class StoryActions {
 
     request
       .get('/stories/' + id, opts)
-      .then( (res) => {
-        this.dispatch(res.body);
-      })
+      .then( ({ data }) => this.dispatch(data))
       .catch(console.error);
   }
 
@@ -32,9 +30,7 @@ class StoryActions {
 
     request
       .get('/users/' + username + '/stories', opts)
-      .then( (res) => {
-        this.dispatch(res.body);
-      })
+      .then( ({ data }) => this.dispatch(data))
       .catch(console.error);
   }
 

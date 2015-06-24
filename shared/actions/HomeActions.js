@@ -7,7 +7,7 @@ class HomeActions {
   loadStories() {
     request
       .get('/stories')
-      .then(this.dispatch)
+      .then( ({ data }) => this.dispatch(data))
       .catch(console.error);
   }
 

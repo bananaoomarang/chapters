@@ -1,12 +1,14 @@
-'use strict';
+import runInBrowser from './runInBrowser';
 
-var rangy = require('rangy');
+var rangy = runInBrowser( () => {
+  return require('rangy');
+});
 
-module.exports = function (/* element */) {
+export default function (/* element */) {
 
   //var currentHTML = element.innerHTML;
   var selection   = rangy.getSelection();
 
   return selection;
 
-};
+}

@@ -16,7 +16,7 @@ var Story = {
   },
 
   getInitialState: function () {
-    return StoryStore.getCurrentStory();
+    return StoryStore.getState().currentStory;
   },
 
   _onChange: function () {
@@ -39,7 +39,7 @@ var Story = {
 
         <br/>
 
-        <p>{this.state.text}</p>
+        <div dangerouslySetInnerHTML={ { __html: this.state.html } } />
       </div>
     );
 

@@ -1,30 +1,33 @@
-var fs            = require('fs');
-var path          = require('path');
-var express       = require('express');
-var React         = require('react');
-var Router        = require('react-router');
-var routes        = require('./shared/routes');
-var proxy         = require('express-http-proxy');
-var app           = express();
+import fs      from 'fs';
+import path    from 'path';
+import express from 'express';
+import React   from 'react';
+import Router  from 'react-router';
+import routes  from './shared/routes';
+import proxy   from 'express-http-proxy';
 
 const BUNDLE_PATH = path.join(__dirname, 'dist', 'bundle.js');
 const API_URL     = 'http://localhost:8888';
 
+const app = express();
+
 app.get('/bundle.js', function (req, res) {
   fs.createReadStream(BUNDLE_PATH).pipe(res);
 });
+
+app.use('/api', proxy(API_URL));
 
 app.use(function (req, res, next) {
   const routePath = req.path;
 
   Router.run(routes, routePath, function (Handler, state) {
 
-    if(Handler) {
-      let View = (
-        <Handler {...state} />
+    if(state.routes.length) {
+      let html = React.renderToString(
+        <div id="react-view">
+          <Handler {...state} />
+        </div>
       );
-
-      let html = React.renderToString(View);
 
       res.end(html);
 
@@ -34,6 +37,4 @@ app.use(function (req, res, next) {
   });
 });
 
-app.use(proxy(API_URL));
-
-module.exports = app;
+export default app;
