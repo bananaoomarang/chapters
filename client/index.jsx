@@ -1,7 +1,9 @@
-import React  from 'react';
-import Router from 'react-router';
-import routes from '../shared/routes';
-import axios  from 'axios';
+import React        from 'react';
+import Router       from 'react-router';
+import routes       from 'routes';
+import axios        from 'axios';
+import AltContainer from 'alt/AltContainer';
+import Flux         from 'myAlt';
 
 // Load styles
 require('normalize.css/normalize');
@@ -14,11 +16,15 @@ axios.interceptors.request.use( (cfg) => {
   return cfg;
 });
 
+const flux = new Flux();
 
 Router.run(routes, Router.HistoryLocation, function (Handler, state) {
+
   React.render(
     <div id="react-view">
-      <Handler {...state} />
+      <AltContainer flux={flux}>
+        <Handler {...state} />
+      </AltContainer>
     </div>,
     document.body);
 });

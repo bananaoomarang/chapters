@@ -1,84 +1,91 @@
 import request          from 'axios';
-import alt              from '../alt';
-import ParagraphActions from '../actions/ParagraphActions.js';
+import ParagraphActions from 'actions/ParagraphActions.js';
+import { GET_STORY,
+         GET_EDITABLE_STORIES,
+         POST_STORY,
+         SET_LOADING } from 'consts/Actions';
 
-class EditorActions {
+export function getStory(id) {
 
-  // Set whether the to display loading interface
-  setLoading(bool) {
-    this.dispatch(bool);
-  }
+  const sessionToken = window.sessionStorage.getItem('token');
 
-  // Load story from backend
-  fetchStory(id) {
-    const sessionToken = window.sessionStorage.getItem('token');
+  const opts = {
+    headers: {
+      Authorization: 'Bearer ' + sessionToken
+    }
+  };
 
-    const opts = {
-      headers: {
-        Authorization: 'Bearer ' + sessionToken
-      }
-    };
-
+  return dispatch => {
     request
       .get('/stories/' + id, opts)
       .then( ({ data }) => {
-        // I know action chains are bad. I'm sorry, K?
-        ParagraphActions.setParagraphs(data.html);
+        // TODO Come on GTFO, refactor
+        dispatch(ParagraphActions.setParagraphs(data.html));
 
-        this.actions.setStory(data);
+        dispatch({
+          type:  GET_STORY,
+          story: data
+        });
       })
-      .catch(console.error);
-
-  }
-
-  // Set the story currently being edited from object
-  setStory(story) {
-    this.dispatch(story);
-  }
-
-  // Load a list of possibly editable stories for user
-  populateStories() {
-    const sessionToken = window.sessionStorage.getItem('token');
-
-    const opts = {
-      headers: {
-        Authorization: 'Bearer ' + sessionToken
-      }
-    };
-
-    request
-      .get('/users/current/stories', opts)
-      .then( ({ data }) => this.dispatch(data))
-      .catch(console.error);
-  }
-
-  // Upload the story
-  save(payload) {
-    const sessionToken = window.sessionStorage.getItem('token');
-
-    let opts = {
-      method:  'post',
-      url:     '',
-      data:    payload,
-      headers: {
-        Authorization: 'Bearer ' + sessionToken
-      }
-    };
-
-    if(payload.id) {
-      opts.url = '/stories/' + payload.id;
-    } else {
-      opts.url = '/stories/import';
-    }
-
-    request(opts)
-      .then( (story) => {
-        console.log('Successfully saved %s', story.title);
-      })
-      .catch(console.error);
-
-  }
-
+      .catch(err => console.error(err));
+  };
 }
 
-export default alt.createActions(EditorActions);
+// Load a list of possibly editable stories for user
+export function getStories() {
+  const sessionToken = window.sessionStorage.getItem('token');
+
+  const opts = {
+    headers: {
+      Authorization: 'Bearer ' + sessionToken
+    }
+  };
+
+  return dispatch => {
+    request
+      .get('/users/current/stories', opts)
+      .then( ({ data }) => dispatch({
+        type: GET_EDITABLE_STORIES,
+        list: data
+      }))
+      .catch(err => console.error(err));
+  };
+}
+
+// Upload the story
+export function postStory(payload) {
+  const sessionToken = window.sessionStorage.getItem('token');
+
+  let opts = {
+    method:  'post',
+    url:     '',
+    data:    payload,
+    headers: {
+      Authorization: 'Bearer ' + sessionToken
+    }
+  };
+
+  if(payload.id) {
+    opts.url = '/stories/' + payload.id;
+  } else {
+    opts.url = '/stories/import';
+  }
+
+  return dispatch => {
+    request(opts)
+      .then( (story) => {
+
+        dispatch({
+          type:  POST_STORY,
+          story
+        });
+
+        console.log('Successfully saved %s', story.title);
+      })
+      .catch(err => console.error(err));
+  };
+}
+
+export function setLoading(loading) {
+  return { type: SET_LOADING, loading};
+}

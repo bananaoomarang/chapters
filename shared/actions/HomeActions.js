@@ -1,16 +1,12 @@
-import request from 'axios';
-import alt     from '../alt';
+import request              from 'axios';
+import { GET_HOME_STORIES } from 'consts/Actions';
 
-class HomeActions {
-
-  // Load stories
-  loadStories() {
+// Load stories
+export function loadStories() {
+  return dispatch => {
     request
-      .get('/stories')
-      .then( ({ data }) => this.dispatch(data))
-      .catch(console.error);
-  }
-
+    .get('/stories')
+    .then( ({ data }) => dispatch({ type: GET_HOME_STORIES, list: data }))
+    .catch(err => console.error(err));
+  };
 }
-
-export default alt.createActions(HomeActions);

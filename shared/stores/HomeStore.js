@@ -1,19 +1,15 @@
-import alt         from '../alt';
-import HomeActions from '../actions/HomeActions';
+import { Map, List }        from 'immutable';
+import { GET_HOME_STORIES } from 'consts/Actions';
 
-class HomeStore {
-  constructor() {
-    // List of stories in system
-    this.stories = [];
+const defaultState = new Map({
+  stories: new List()
+});
 
-    this.bindListeners({
-      handleStories: HomeActions.LOAD_STORIES
-    });
-  }
-
-  handleStories(list) {
-    this.stories = list;
+export default function homeReducer(state = defaultState, action) {
+  switch(action.type) {
+    case GET_HOME_STORIES:
+      return state.set('stories', action.list);
+    default:
+      return state;
   }
 }
-
-export default alt.createStore(HomeStore);

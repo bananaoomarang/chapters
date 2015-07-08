@@ -5,14 +5,19 @@ import classSet       from 'classnames';
 import FormDataMixin  from 'react-form-data';
 import { Link }       from 'react-router';
 import MagicState     from 'alt/mixins/ReactStateMagicMixin';
-import SessionStore   from '../stores/SessionStore';
 import SessionActions from '../actions/SessionActions';
 
 var Login = {
+  contextTypes: {
+    flux: React.PropTypes.object.isRequired
+  },
+
   mixins: [MagicState, FormDataMixin],
 
   statics: {
-    registerStore: SessionStore
+      registerStore: this.context
+        .flux
+        .getStore('session')
   },
 
   handleSubmit: function (e) {

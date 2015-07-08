@@ -1,18 +1,13 @@
-import alt          from '../alt';
-import UsersActions from '../actions/UsersActions';
+import { List }  from 'immutable';
+import GET_USERS from 'consts/Actions';
 
-class UsersStore {
-  constructor() {
-    this.users = [];
+const defaultState = new List();
 
-    this.bindListeners({
-      loadUsers: UsersActions.GET_USERS
-    });
-  }
-
-  loadUsers(list) {
-    this.users = list;
+export default function usersReducer(state = defaultState, action) {
+  switch(action.type) {
+    case GET_USERS:
+      return new List(action.list);
+    default:
+      return state;
   }
 }
-
-export default alt.createStore(UsersStore);

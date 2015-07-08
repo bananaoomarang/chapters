@@ -1,52 +1,40 @@
-'use strict';
+import { Map, List }      from 'immutable';
+import $                  from 'jquery';
+import { SET_FONT,
+         SET_ALIGNMENT,
+         SET_PARAGRAPHS } from 'consts/Actions';
 
-import $                from 'jquery';
-import alt              from '../alt';
-import ParagraphActions from '../actions/ParagraphActions';
+const defaultState = new Map({
+  paragraphs: new List(''),
 
-class ParagraphStore {
-  constructor() {
+  // Styling
+  font: new Map({
+    size: null
+  }),
 
-    this.paragraphs = [''];
+  alignment: null
+});
 
-    // Styling
-    this.font = {
-      size: null
-    };
+ export default function paragraphReducer(state = defaultState, action) {
+   switch(action.type) {
+     case SET_PARAGRAPHS:
+      // No I don't want to pull in Jquery for this either.
+      // Could possibly render to hidden DOM element?
 
-    this.alignment = null;
+      const paragraphs = $(action.html)
+        .toArray()
+        .filter(p => p.nodeName !== '#text')
+        .map(p => p.textContent);
 
-    this.bindListeners({
-      loadParagraphs: ParagraphActions.SET_PARAGRAPHS,
-      loadAlignment:  ParagraphActions.SET_ALIGNMENT,
-      loadFont:       ParagraphActions.SET_FONT
-    });
-  }
+       return state.set('paragraphs', new List(paragraphs));
 
-  loadParagraphs(html) {
-    // No I don't want to pull in Jquery for this either.
-    // Could possibly render to hidden DOM element?
-    this.paragraphs = $(html)
-      .toArray()
-      .filter(function (p) {
-        if (p.nodeName === '#text')
-          return false;
-        else
-          return true;
+     case SET_FONT:
+       return state.set('font', action.font);
 
-      })
-      .map(function (p) {
-        return p.innerText;
-      });
-  }
+     case SET_ALIGNMENT:
+       return state.set('alignment', action.alignment);
 
-  loadFont(font) {
-   this.font = font;
-  }
-
-  loadAlignment(alignment) {
-    this.alignment = alignment;
-  }
+     default:
+       return state;
+   }
 }
-
-export default alt.createStore(ParagraphStore);

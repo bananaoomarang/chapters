@@ -1,38 +1,39 @@
-import alt            from '../alt';
-import SessionActions from '../actions/SessionActions';
+import { Map } from 'immutable';
+import { OPEN_SESSION,
+         CLOSE_SESSION,
+         VALIDATE_SESSION } from 'consts/Actions';
 
-class SessionStore {
-  constructor() {
-    this.name  = null;
-    this.token = null;
-    this.error = null;
-    this.legit = false;
+ const defaultState = new Map({
+    name:  null,
+    token: null,
+    error: null,
+    legit: false
+ });
 
-    this.bindListeners({
-      handleError:     SessionActions.CLOSE,
-      handleOpen:      SessionActions.OPEN,
-      handleValidated: SessionActions.VALIDATE
-    });
-  }
+ export default function sessionReducer(state = defaultState, action) {
+   switch(action.type) {
+     case OPEN_SESSION:
+       // Update window.sessionStorage
+       window.sessionStorage.setItem('token', this.token);
 
-  handleError(err) {
-    this.legit = false;
-    this.error = err;
-  }
+       return state.merge({
+         name:  action.name,
+         token: action.token
+       });
 
-  handleOpen(user) {
-    this.name  = user.name;
-    this.token = user.token;
-    this.legit = true;
+     case CLOSE_SESSION:
+       return state.merge({
+         legit: false,
+         error: action.error
+       });
 
-    // Update window.sessionStorage
-    window.sessionStorage.setItem('token', this.token);
-  }
+     case VALIDATE_SESSION:
+       return state.merge({
+         legit: true,
+         name:  action.name
+       });
 
-  handleValidated(username) {
-    this.name = username;
-    this.legit = true;
-  }
-}
-
-export default alt.createStore(SessionStore);
+     default:
+       return state;
+   }
+ }

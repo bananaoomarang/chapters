@@ -9,8 +9,8 @@
   "main": "server",
   "scripts": {
     "init": "mkdir -p public/style/css && cp ./node_modules/normalize.css/normalize.css public/style/css/normalize.css && echo 'Cool beans, all set.'",
-    "start": "node .",
-    "dev": "webpack-dev-server --progress --color",
+    "start": "NODE_PATH=$NODE_PATH:./shared node .",
+    "dev": "npm run start & webpack-dev-server --progress --color",
     "validate": "eslint shared shared/views/*.jsx shared/routes.jsx",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -22,6 +22,7 @@
   "devDependencies": {
     "babel": "^5.6.4",
     "babel-core": "^5.6.4",
+    "babel-eslint": "^3.1.23",
     "babel-loader": "^5.1.4",
     "css-loader": "^0.14.5",
     "eslint": "^0.23.0",
@@ -43,6 +44,7 @@
     "dropzone": "^4.0.1",
     "express": "^4.13.0",
     "express-http-proxy": "^0.6.0",
+    "immutable": "^3.7.4",
     "jquery": "^2.1.4",
     "keyboardjs": "^0.4.2",
     "normalize.css": "^3.0.3",
@@ -51,6 +53,7 @@
     "react": "^0.13.3",
     "react-form-data": "^0.2.3",
     "react-router": "^0.13.3",
-    "react-slick": "^0.6.0"
+    "react-slick": "^0.6.0",
+    "redux": "^0.12.0"
   }
 }

@@ -1,10 +1,10 @@
 import React            from 'react';
 import FluxyMixin       from 'alt/mixins/FluxyMixin';
 import Paragraph        from './Paragraph';
-import ParagraphStore   from '../../stores/ParagraphStore';
-import ParagraphActions from '../../actions/ParagraphActions';
-import getCaret         from '../../lib/getCaret';
-import runInBrowser     from '../../lib/runInBrowser';
+import ParagraphStore   from 'stores/ParagraphStore';
+import ParagraphActions from 'actions/ParagraphActions';
+import getCaret         from 'lib/getCaret';
+import runInBrowser     from 'lib/runInBrowser';
 
 var kbjs = runInBrowser( () => {
   return require('keyboardjs');

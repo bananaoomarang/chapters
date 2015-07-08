@@ -1,19 +1,30 @@
-import alt from '../alt';
+import { SET_FONT, SET_ALIGNMENT, SET_PARAGRAPHS } from 'consts/Actions';
 
 class ParagraphActions {
-  // Take a guess?
-  setFont(font) {
-    this.dispatch(font);
-  }
-
-  // Set paragraph alignment
-  setAlignment(alignment) {
-    this.dispatch(alignment);
-  }
-
-  setParagraphs(html) {
-    this.dispatch(html);
+  constructor() {
+    this.generateActions('setFont', 'setAlignment', 'setParagraphs');
   }
 }
 
-export default alt.createActions(ParagraphActions);
+export function setFont(font) {
+  return {
+    type: SET_FONT,
+    font
+  };
+}
+
+export function setAlignment(alignment) {
+  return {
+    type: SET_ALIGNMENT,
+    alignment
+  };
+}
+
+export function setParagraphs(html) {
+  return {
+    type: SET_PARAGRAPHS,
+    html
+  };
+}
+
+export default ParagraphActions;

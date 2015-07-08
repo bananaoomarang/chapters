@@ -1,6 +1,7 @@
 'use strict';
 
 require('babel/register');
+
 var server = require('./server');
 var api    = require('chapters-server');
 

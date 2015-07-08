@@ -1,26 +1,13 @@
-'use strict';
-
 import React          from 'react';
-import Router         from 'react-router';
+import { RouteHandler } from 'react-router';
 import { Link }       from 'react-router';
-import FluxyMixin     from 'alt/mixins/FluxyMixin';
-import SessionStore   from '../stores/SessionStore';
-import SessionActions from '../actions/SessionActions';
-
-var RouteHandler = Router.RouteHandler;
+import SessionActions from 'actions/SessionActions';
 
 var MainView = {
 
-  mixins: [FluxyMixin],
-
   contextTypes: {
+    flux:   React.PropTypes.object.isRequired,
     router: React.PropTypes.func
-  },
-
-  statics: {
-    storeListeners: {
-      _onChange: SessionStore
-    }
   },
 
   getInitialState: function () {
@@ -30,12 +17,15 @@ var MainView = {
 
     if(storedToken) SessionActions.validate(storedToken);
 
-    return SessionStore.getState();
+    return this.context.flux
+      .getStore('session')
+      .getState();
   },
 
   _onChange: function () {
 
-    let { legit } = SessionStore.getState();
+    let { legit } = this.context.flux
+      .getStore('session').getState();
 
     if(legit) this.context.router.transitionTo('/editor');
 

@@ -1,39 +1,40 @@
 import request from 'axios';
-import alt     from '../alt';
+import {
+  LOAD_STORY,
+  LOAD_USER_STORIES
+} from 'conts/Actions';
 
-class StoryActions {
+export function loadStory(id) {
+  const sessionToken = window.sessionStorage.getItem('token');
 
-  // Load story from backend
-  loadStory(id) {
-    const sessionToken = window.sessionStorage.getItem('token');
+  const opts = {
+    headers: {
+      Authorization: 'Bearer ' + sessionToken
+    }
+  };
 
-    const opts = {
-      headers: {
-        Authorization: 'Bearer ' + sessionToken
-      }
-    };
+  return dispatch => {
 
     request
       .get('/stories/' + id, opts)
-      .then( ({ data }) => this.dispatch(data))
-      .catch(console.error);
-  }
-
-  loadUserStories(username) {
-    const sessionToken = window.sessionStorage.getItem('token');
-
-    const opts = {
-      headers: {
-        Authorization: 'Bearer ' + sessionToken
-      }
-    };
-
-    request
-      .get('/users/' + username + '/stories', opts)
-      .then( ({ data }) => this.dispatch(data))
-      .catch(console.error);
-  }
-
+      .then( ({ data }) => dispatch({ type: LOAD_STORY, data }))
+      .catch(err => console.error(err));
+  };
 }
 
-export default alt.createActions(StoryActions);
+export function loadUserStories(username) {
+  const sessionToken = window.sessionStorage.getItem('token');
+
+  const opts = {
+    headers: {
+      Authorization: 'Bearer ' + sessionToken
+    }
+  };
+
+  return dispatch => {
+    request
+      .get('/users/' + username + '/stories', opts)
+      .then( ({ data }) => dispatch({ type: LOAD_USER_STORIES, data }))
+      .catch(err => console.error(err));
+  };
+}

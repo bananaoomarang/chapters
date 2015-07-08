@@ -1,37 +1,43 @@
 import request from 'axios';
-import alt     from '../alt';
+import { OPEN_SESSION,
+         CLOSE_SESSION,
+         VALIDATE_SESSION } from 'consts/Actions';
 
-class SessionActions {
 
-  open(credentials) {
+export function close(error) {
+  return {
+    type: CLOSE_SESSION,
+    error
+  };
+}
+
+export function open(credentials) {
+  return dispatch => {
+
     request
       .post('/users/login', credentials)
       .then( ({ data }) => {
-        this.dispatch({
+        dispatch({
+          type:  OPEN_SESSION,
           name:  credentials.username,
           token: data
         });
       })
-      .catch(this.actions.close);
-  }
-
-  close(err) {
-    this.dispatch(err);
-  }
-
-  // Check token is still legit
-  validate(token) {
-    const opts = {
-      headers: {
-        Authorization: 'Bearer ' + token
-      }
-    };
-
-    request
-      .get('/users/validate', opts)
-      .then( ( { data } ) => this.dispatch(data))
-      .catch(this.actions.close);
-  }
+      .catch(err => close(err));
+  };
 }
 
-export default alt.createActions(SessionActions);
+export function validate(token) {
+  const opts = {
+    headers: {
+      Authorization: 'Bearer ' + token
+    }
+  };
+
+  return dispatch => {
+    request
+      .get('/users/validate', opts)
+      .then( ( { data } ) => dispatch({ type: VALIDATE_SESSION, data }))
+      .catch(this.actions.close);
+  };
+}

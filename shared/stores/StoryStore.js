@@ -1,8 +1,5 @@
 // Should be merged with Editor code. No need for duplication.
 
-import alt          from '../alt';
-import StoryActions from '../actions/StoryActions';
-
 class StoryStore {
   constructor() {
     this.loadedUser   = [];
@@ -13,19 +10,16 @@ class StoryStore {
       html:   ''
     };
 
-    this.bindListeners({
-      handleUserStories: StoryActions.LOAD_USER_STORIES,
-      handleStory:       StoryActions.LOAD_STORY
-    });
+    this.bindActions(this.alt.getActions('story'));
   }
 
-  handleUserStories(list) {
+  onLoadUserStories(list) {
     this.loadedUser = list;
   }
 
-  handleStory(story) {
+  onLoadStory(story) {
     this.currentStory = story;
   }
 }
 
-module.exports = alt.createStore(StoryStore);
+module.exports = StoryStore;

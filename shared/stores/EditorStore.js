@@ -1,45 +1,37 @@
-'use strict';
+import { Map, List } from 'immutable';
+import { GET_STORY,
+         GET_EDITABLE_STORIES,
+         SET_LOADING } from 'consts/Actions';
 
-import assign        from 'object-assign';
-import alt           from '../alt';
-import EditorActions from '../actions/EditorActions';
+const defaultState = new Map({
+  // Metadata for story being edited
+  story: new Map({
+    id:        null,
+    title:     '',
+    text:      '',
+    author:    null,
+    wordCount: null
+  }),
 
-class EditorStore {
+  // Stories possible to edit
+  editableStories: new List(),
 
-  constructor() {
-    // Metadata for story being edited
-    this.story = {
-      id:        null,
-      title:     '',
-      text:      '',
-      author:    null,
-      wordCount: null
-    };
+  // Interface state
+  isLoading: false
+});
 
-    // Stories possible to edit
-    this.editableStories = [];
+export default function editorReducer(state = defaultState, action) {
+  switch(action.type) {
+    case GET_STORY:
+      return state.mergeIn('story', action.story);
 
-    // Interface state
-    this.isLoading = null;
+    case GET_EDITABLE_STORIES:
+      return state.set('editableStories', new List(action.list));
 
-    this.bindListeners({
-      loadingState:        EditorActions.SET_LOADING,
-      loadStory:           EditorActions.SET_STORY,
-      loadEditableStories: EditorActions.POPULATE_STORIES
-    });
-  }
+    case SET_LOADING:
+      return state.set('isLoading', action.bool);
 
-  loadingState(bool) {
-    this.isLoading = bool;
-  }
-
-  loadStory(story) {
-    assign(this.story, story);
-  }
-
-  loadEditableStories(list) {
-    this.editableStories = list;
+    default:
+      return state;
   }
 }
-
-export default alt.createStore(EditorStore);
