@@ -1,33 +1,28 @@
 import React        from 'react';
 import { Link }     from 'react-router';
-import FluxyMixin   from 'alt/mixins/FluxyMixin';
-import StoryStore   from '../stores/StoryStore';
-import StoryActions from '../actions/StoryActions';
+import StoryReducer   from 'reducers/StoryReducer';
+import StoryActions from 'actions/StoryActions';
 
 var Story = {
-  displayName: 'Story',
-
-  mixins: [FluxyMixin],
-
   statics: {
     storeListeners: {
-      _onChange: StoryStore
+      _onChange: StoryReducer
     }
   },
 
-  getInitialState: function () {
-    return StoryStore.getState().currentStory;
+  getInitialState () {
+    return StoryReducer.getState().currentStory;
   },
 
-  _onChange: function () {
-    this.setState(StoryStore.getState().currentStory);
+  _onChange () {
+    this.setState(StoryReducer.getState().currentStory);
   },
 
-  componentDidMount: function () {
+  componentDidMount () {
     StoryActions.loadStory(this.props.params.id);
   },
 
-  render: function () {
+  render () {
     return (
       <div id="story">
         <h1>{this.state.title}</h1>

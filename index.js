@@ -10,6 +10,6 @@ server.listen(3000, function () {
 });
 
 api.start(function () {
-    api.log('info', 'Server running at: ' + api.info.uri);
+    api.log('info', 'API server running at: ' + api.info.uri);
 });
 

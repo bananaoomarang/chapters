@@ -2,30 +2,31 @@
 
 import React       from 'react';
 import { Link }    from 'react-router';
+import { connect } from 'redux/react';
+import * as HomeActions from 'actions/HomeActions';
 import Carousel    from './Carousel';
-import MagicState  from 'alt/mixins/ReactStateMagicMixin';
-import HomeStore   from '../../stores/HomeStore';
-import HomeActions from '../../actions/HomeActions';
 
-var Home = {
-  displayName: 'Home',
+@connect(state => ({
+  home: state.home
+}))
 
-  mixins: [MagicState],
+export default class Home extends React.Component {
+  static contextTypes = {
+    redux: React.PropTypes.object.isRequired
+  }
 
-  statics: {
-    registerStore: HomeStore
-  },
+  constructor(props) {
+    super(props);
 
-  componentDidMount: function () {
-    HomeActions.loadStories();
-  },
+    HomeActions.getStories()(this.props.dispatch);
+  }
 
-  render: function () {
+  render() {
     return (
       <div id="home">
         <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/jquery.slick/1.3.15/slick.css" />
 
-        <Carousel stories={this.state.stories} />
+        <Carousel stories={this.props.home.get('stories')} />
 
         <hr />
 
@@ -38,6 +39,4 @@ var Home = {
     );
   }
 
-};
-
-module.exports = React.createClass(Home);
+}

@@ -1,39 +1,28 @@
 import React            from 'react';
-import FluxyMixin       from 'alt/mixins/FluxyMixin';
 import Paragraph        from './Paragraph';
-import ParagraphStore   from 'stores/ParagraphStore';
+import ParagraphReducer from 'reducers/ParagraphReducer';
 import ParagraphActions from 'actions/ParagraphActions';
 import getCaret         from 'lib/getCaret';
-import runInBrowser     from 'lib/runInBrowser';
+import ifdefBrowser     from 'lib/ifdefBrowser';
 
-var kbjs = runInBrowser( () => {
+var kbjs = ifdefBrowser( () => {
   return require('keyboardjs');
 });
 
 var ParagraphView = {
-  displayName: 'ParagraphView',
-
-  mixins: [FluxyMixin],
-
-  statics: {
-    storeListeners: {
-      _onChange: ParagraphStore
-    }
-  },
-
-  getInitialState: function () {
-    let state = ParagraphStore.getState();
+  getInitialState () {
+    let state = ParagraphReducer.getState();
 
     state.focusedParagraph = null;
 
     return state;
   },
 
-  _onChange: function () {
-    this.setState(ParagraphStore.getState());
+  _onChange () {
+    this.setState(ParagraphReducer.getState());
   },
 
-  handleFocus: function (event) {
+  handleFocus (event) {
     if(event.target.tagName === 'P') {
 
       this.setState({ focusedParagraph: event.target });
@@ -45,11 +34,11 @@ var ParagraphView = {
     }
   },
 
-  handleBlur: function () {
+  handleBlur () {
     this.setState({ focusedParagraph: null });
   },
 
-  bindKeys: function () {
+  bindKeys () {
     kbjs.on('enter', function onEnter (e) {
 
       // Stop event bubbling
@@ -162,7 +151,7 @@ var ParagraphView = {
     }.bind(this));
   },
 
-  componentDidMount: function () {
+  componentDidMount () {
     if(kbjs) this.bindKeys();
 
     ParagraphActions.setFont(this.props.defaultFont);
@@ -170,7 +159,7 @@ var ParagraphView = {
     ParagraphActions.setParagraphs('<p id="0"></p>');
   },
 
-  render: function () {
+  render () {
 
     var style = {
       fontSize:  this.state.font.size,
@@ -179,7 +168,7 @@ var ParagraphView = {
 
     return (
       <div className="paragraphs" id="paragraph-container" style={style}>
-        {
+      ()s{
           this.state.paragraphs.map(function(p, index) {
             return <Paragraph key={index} ref={index} index={index} onFocus={this.handleFocus} onBlur={this.handleBlur} text={p} />;
           }.bind(this))

@@ -1,7 +1,8 @@
 import { Map, List } from 'immutable';
 import { GET_STORY,
          GET_EDITABLE_STORIES,
-         SET_LOADING } from 'consts/Actions';
+         SET_LOADING,
+         SET_EDITING } from 'consts/Actions';
 
 const defaultState = new Map({
   // Metadata for story being edited
@@ -13,14 +14,16 @@ const defaultState = new Map({
     wordCount: null
   }),
 
-  // Stories possible to edit
-  editableStories: new List(),
+  // Stories it is possible to edit with current permissions
+  userStories: new List(),
 
   // Interface state
-  isLoading: false
+  loading: false,
+
+  editing: false
 });
 
-export default function editorReducer(state = defaultState, action) {
+export default function storyReducer(state = defaultState, action) {
   switch(action.type) {
     case GET_STORY:
       return state.mergeIn('story', action.story);
@@ -29,7 +32,10 @@ export default function editorReducer(state = defaultState, action) {
       return state.set('editableStories', new List(action.list));
 
     case SET_LOADING:
-      return state.set('isLoading', action.bool);
+      return state.set('loading', action.loading);
+
+    case SET_EDITING:
+      return state.set('editing', action.editing);
 
     default:
       return state;

@@ -2,7 +2,7 @@ import React            from 'react';
 import { Route }        from 'react-router';
 import { DefaultRoute } from 'react-router';
 
-import MainView    from './views/MainView';
+import Root        from './views';
 import Home        from './views/Home';
 import Login       from './views/Login';
 import Register    from './views/Register';
@@ -13,7 +13,7 @@ import Story       from './views/Story';
 import UserStories from './views/Users/Stories';
 
 export default (
-  <Route handler={MainView}>
+  <Route handler={Root}>
     <DefaultRoute handler={Home} />
 
     <Route name="home"         handler={Home}                                    />

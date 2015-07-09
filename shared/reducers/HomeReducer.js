@@ -1,8 +1,8 @@
-import { Map, List }        from 'immutable';
+import { Map }        from 'immutable';
 import { GET_HOME_STORIES } from 'consts/Actions';
 
 const defaultState = new Map({
-  stories: new List()
+  stories: []
 });
 
 export default function homeReducer(state = defaultState, action) {

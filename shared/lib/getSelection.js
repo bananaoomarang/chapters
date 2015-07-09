@@ -1,6 +1,6 @@
-import runInBrowser from './runInBrowser';
+import ifdefBrowser from './ifdefBrowser';
 
-var rangy = runInBrowser( () => {
+var rangy = ifdefBrowser( () => {
   return require('rangy');
 });
 

@@ -1,5 +1,4 @@
 import React         from 'react';
-import FormDataMixin from 'react-form-data';
 import classSet      from 'classnames';
 import request       from 'axios';
 
@@ -19,19 +18,17 @@ function ajaxRegister (data, cb) {
 }
 
 var Register = {
-  mixins: [FormDataMixin],
-
   contextTypes: {
     router: React.PropTypes.func
   },
 
-  getInitialState: function () {
+  getInitialState () {
     return {
       error: ''
     };
   },
 
-  handleSubmit: function (e) {
+  handleSubmit (e) {
     e.preventDefault();
 
     if(this.formData.username &&
@@ -50,7 +47,7 @@ var Register = {
     }
   },
 
-  render: function () {
+  render () {
     var errClasses = classSet({
       'error-msg': true,
       'invisible': !this.state.error

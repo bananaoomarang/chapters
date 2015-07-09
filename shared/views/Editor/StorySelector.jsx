@@ -1,8 +1,8 @@
-import React            from 'react';
-import EditorActions    from '../../actions/EditorActions';
+import React         from 'react';
+import EditorActions from 'actions/StoryActions';
 
 var StorySelector = {
-  handleSelection: function (event) {
+  handleSelection (event) {
     console.log('User selected: %s', event.target.innerText);
 
     this.props.storyList.forEach(function (story) {
@@ -22,11 +22,11 @@ var StorySelector = {
     EditorActions.setLoading(false);
   },
 
-  render: function () {
+  render () {
     return (
       <div id="story-selector" style={this.props.style}>
         <ul>
-          {
+        ()s{
             this.props.storyList.map(function(story, index) {
               return <li key={index} onClick={this.handleSelection}>{story.title}</li>;
             }.bind(this))

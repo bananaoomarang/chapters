@@ -1,6 +1,6 @@
 import React            from 'react';
-import EditorActions    from '../../actions/EditorActions';
-import ParagraphActions from '../../actions/ParagraphActions';
+import StoryActions     from 'actions/StoryActions';
+import ParagraphActions from 'actions/ParagraphActions';
 
 var FontSizeSelector = {
 
@@ -8,23 +8,23 @@ var FontSizeSelector = {
     defaultSize: React.PropTypes.number
   },
 
-  getInitialState: function () {
+  getInitialState () {
     return {
       value: this.props.defaultSize || 24
     };
   },
 
-  componentDidMount: function () {
+  componentDidMount () {
     var font = {
       size: this.state.value
     };
 
     ParagraphActions.setFont(font);
 
-    EditorActions.populateStories();
+    StoryActions.populateStories();
   },
 
-  handleChange: function (event) {
+  handleChange (event) {
     var font = {
       size: event.target.value
     };
@@ -36,7 +36,7 @@ var FontSizeSelector = {
     });
   },
 
-  render: function () {
+  render () {
 
     return (
       <input type="number" value={this.state.value} onChange={this.handleChange} ></input>

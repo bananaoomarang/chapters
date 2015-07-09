@@ -13,7 +13,7 @@ module.exports = {
   },
   resolve: {
     modulesDirectories: ['node_modules', 'shared'],
-    extensions:        ['', '.js', '.jsx', '.css', '.scss']
+    extensions:         ['', '.js', '.jsx', '.css', '.scss']
   },
   module: {
     loaders: [

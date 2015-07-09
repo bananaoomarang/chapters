@@ -1,6 +1,6 @@
-import runInBrowser from './runInBrowser';
+import ifdefBrowser from './ifdefBrowser.js';
 
-var rangy = runInBrowser( () => {
+var rangy = ifdefBrowser( () => {
   return require('rangy');
 });
 
@@ -17,7 +17,7 @@ export default function (element) {
     position:  elementSelection.anchorOffset,
     selection: elementSelection.focusOffset,
 
-    setPosition: function (newPosition) {
+    setPosition (newPosition) {
 
       setTimeout( function delayCaretMove () {
 

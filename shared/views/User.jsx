@@ -2,19 +2,19 @@ import React    from 'react';
 import { Link } from 'react-router';
 
 var User = {
-  getInitialState: function () {
+  getInitialState () {
     return {};
   },
 
-  onSessionChange: function () {
+  onSessionChange () {
     this.setState({});
   },
 
-  componentDidMount: function () {
+  componentDidMount () {
     return;
   },
 
-  render: function () {
+  render () {
     return (
       <div id="user">
         <h1>{this.props.params.user}</h1>

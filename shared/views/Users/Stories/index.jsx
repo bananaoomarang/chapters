@@ -2,27 +2,22 @@
 
 import React        from 'react';
 import { Link }     from 'react-router';
-import MagicState   from 'alt/mixins/ReactStateMagicMixin';
-import StoryStore   from '../../../stores/StoryStore';
-import StoryActions from '../../../actions/StoryActions';
+import StoryReducer from 'reducers/StoryReducer';
+import StoryActions from 'actions/StoryActions';
 
 var Stories = {
-  displayName: 'Stories',
-
-  mixins: [MagicState],
-
   statics: {
-    registerStore: StoryStore
+    registerReducer: StoryReducer
   },
 
-  componentDidMount: function () {
+  componentDidMount () {
     StoryActions.loadUserStories(this.props.params.user);
   },
 
-  render: function () {
+  render () {
     return (
       <div id="users">
-        {
+      ()s{
           this.state.stories.map(function (story) {
             return (
               <div>

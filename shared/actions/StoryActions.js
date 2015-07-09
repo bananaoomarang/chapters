@@ -1,10 +1,13 @@
-import request from 'axios';
-import {
-  LOAD_STORY,
-  LOAD_USER_STORIES
-} from 'conts/Actions';
+import request          from 'axios';
+import ParagraphActions from 'actions/ParagraphActions.js';
+import { GET_STORY,
+         GET_EDITABLE_STORIES,
+         POST_STORY,
+         SET_LOADING,
+         SET_EDITING } from 'consts/Actions';
 
-export function loadStory(id) {
+export function getStory(id) {
+
   const sessionToken = window.sessionStorage.getItem('token');
 
   const opts = {
@@ -14,15 +17,23 @@ export function loadStory(id) {
   };
 
   return dispatch => {
-
     request
       .get('/stories/' + id, opts)
-      .then( ({ data }) => dispatch({ type: LOAD_STORY, data }))
+      .then( ({ data }) => {
+        // TODO Come on GTFO, refactor
+        dispatch(ParagraphActions.setParagraphs(data.html));
+
+        dispatch({
+          type:  GET_STORY,
+          story: data
+        });
+      })
       .catch(err => console.error(err));
   };
 }
 
-export function loadUserStories(username) {
+// Load a list of possibly editable stories for user
+export function getStories() {
   const sessionToken = window.sessionStorage.getItem('token');
 
   const opts = {
@@ -33,8 +44,53 @@ export function loadUserStories(username) {
 
   return dispatch => {
     request
-      .get('/users/' + username + '/stories', opts)
-      .then( ({ data }) => dispatch({ type: LOAD_USER_STORIES, data }))
+      .get('/users/current/stories', opts)
+      .then( ({ data }) => dispatch({
+        type: GET_EDITABLE_STORIES,
+        list: data
+      }))
       .catch(err => console.error(err));
   };
+}
+
+// Upload the story
+export function postStory(payload) {
+  const sessionToken = window.sessionStorage.getItem('token');
+
+  let opts = {
+    method:  'post',
+    url:     '',
+    data:    payload,
+    headers: {
+      Authorization: 'Bearer ' + sessionToken
+    }
+  };
+
+  if(payload.id) {
+    opts.url = '/stories/' + payload.id;
+  } else {
+    opts.url = '/stories/import';
+  }
+
+  return dispatch => {
+    request(opts)
+      .then( (story) => {
+
+        dispatch({
+          type:  POST_STORY,
+          story
+        });
+
+        console.log('Successfully saved %s', story.title);
+      })
+      .catch(err => console.error(err));
+  };
+}
+
+export function setLoading(loading) {
+  return { type: SET_LOADING, loading};
+}
+
+export function setEditing(editing) {
+  return { type: SET_EDITING, editing};
 }

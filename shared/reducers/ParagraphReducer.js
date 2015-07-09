@@ -5,7 +5,7 @@ import { SET_FONT,
          SET_PARAGRAPHS } from 'consts/Actions';
 
 const defaultState = new Map({
-  paragraphs: new List(''),
+  paragraphs: new List(['']),
 
   // Styling
   font: new Map({

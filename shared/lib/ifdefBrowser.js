@@ -1,6 +1,6 @@
 // #ifdev...
 
-export default function runInBrowser (f) {
+export default function ifdefBrowser (f) {
   if(typeof window !== 'undefined') {
     return f();
   } else {

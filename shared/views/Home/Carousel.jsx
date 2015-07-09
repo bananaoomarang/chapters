@@ -2,10 +2,8 @@ import React    from 'react';
 import Slider   from 'react-slick';
 import { Link } from 'react-router';
 
-var Carousel = {
-  displayName: 'Carousel',
-
-  render: function () {
+export default class Carousel extends React.Component {
+  render() {
 
     var cfg = {
       dots:           false,
@@ -34,7 +32,4 @@ var Carousel = {
       </Slider>
     );
   }
-
-};
-
-module.exports = React.createClass(Carousel);
+}

@@ -1,19 +1,19 @@
 import React            from 'react';
 import FontSizeSelector from './FontSizeSelector';
-import EditorActions    from '../../actions/EditorActions';
-import ParagraphActions from '../../actions/ParagraphActions';
+import StoryActions    from 'actions/StoryActions';
+import ParagraphActions from 'actions/ParagraphActions';
 
 var Toolbar = {
-  handleAlignment: function (event) {
+  handleAlignment (event) {
     ParagraphActions.setAlignment(event.target.name);
   },
 
-  handleLoad: function () {
-    EditorActions.populateStories();
-    EditorActions.setLoading(true);
+  handleLoad () {
+    StoryActions.populateStories();
+    StoryActions.setLoading(true);
   },
 
-  render: function () {
+  render () {
     return (
       <div className="toolbar">
         <FontSizeSelector defaultSize={this.props.defaultFont.size} />

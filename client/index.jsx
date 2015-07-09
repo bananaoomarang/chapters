@@ -1,9 +1,10 @@
-import React        from 'react';
-import Router       from 'react-router';
-import routes       from 'routes';
-import axios        from 'axios';
-import AltContainer from 'alt/AltContainer';
-import Flux         from 'myAlt';
+import React           from 'react';
+import Router          from 'react-router';
+import axios           from 'axios';
+import { createRedux } from 'redux';
+import { Provider }    from 'redux/react';
+import routes          from 'routes';
+import * as reducers   from 'reducers';
 
 // Load styles
 require('normalize.css/normalize');
@@ -16,16 +17,17 @@ axios.interceptors.request.use( (cfg) => {
   return cfg;
 });
 
-const flux = new Flux();
+// TODO Rehydration
+const redux = createRedux(reducers);
 
 Router.run(routes, Router.HistoryLocation, function (Handler, state) {
 
   React.render(
-    <div id="react-view">
-      <AltContainer flux={flux}>
+    <Provider redux={redux}>
+      {() =>
         <Handler {...state} />
-      </AltContainer>
-    </div>,
+      }
+    </Provider>,
     document.body);
 });
 

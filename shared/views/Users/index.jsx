@@ -1,26 +1,21 @@
 import React        from 'react';
 import { Link }     from 'react-router';
-import MagicState   from 'alt/mixins/ReactStateMagicMixin';
-import UsersActions from '../../actions/UsersActions';
-import UsersStore   from '../../stores/UsersStore';
+import UsersActions from 'actions/UsersActions';
+import UsersReducer   from 'reducers/UsersReducer';
 
 var Users = {
-  displayName: 'Users',
-
-  mixins: [MagicState],
-
   statics: {
-    registerStore: UsersStore
+    registerReducer: UsersReducer
   },
 
-  componentDidMount: function () {
+  componentDidMount () {
     UsersActions.getUsers();
   },
 
-  render: function () {
+  render () {
     return (
       <div id="users">
-        {
+      ()s{
           this.state.users.map(function (user) {
             return (
               <div>

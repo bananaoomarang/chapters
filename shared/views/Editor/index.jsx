@@ -1,24 +1,21 @@
 import React         from 'react';
-import MagicState    from 'alt/mixins/ReactStateMagicMixin';
 import EditorToolbar from './Toolbar';
 import EditorTitle   from './Title';
 import ParagraphView from './ParagraphView';
 import StorySelector from './StorySelector';
-import EditorStore   from '../../stores/EditorStore';
-import EditorActions from '../../actions/EditorActions';
-import runInBrowser  from '../../lib/runInBrowser';
+import EditorReducer   from 'reducers/StoryReducer';
+import EditorActions from 'actions/StoryActions';
+import ifdefBrowser  from 'lib/ifdefBrowser';
 
-var Dropzone = runInBrowser( () => {
+var Dropzone = ifdefBrowser( () => {
   return require('dropzone');
 });
 
 var Editor = {
   displayName: 'Editor',
 
-  mixins: [MagicState],
-
   statics: {
-    registerStore: EditorStore
+    registerReducer: EditorReducer
   },
 
   cfg: {
@@ -28,7 +25,7 @@ var Editor = {
     defaultAlignment: 'center'
   },
 
-  handleSave: function () {
+  handleSave () {
 
     console.log(this.state.story.id);
 
@@ -43,7 +40,7 @@ var Editor = {
   },
 
   // Concatanate html tags into one string for exporting
-  exportText: function () {
+  exportText () {
     var div    = document.getElementById('paragraph-container');
     var string = '';
 
@@ -62,7 +59,7 @@ var Editor = {
     return string;
   },
 
-  componentDidMount: function () {
+  componentDidMount () {
     const sessionToken = window.sessionStorage.getItem('token');
 
     const dropzoneOpts = {
@@ -82,7 +79,7 @@ var Editor = {
 
   },
 
-  render: function () {
+  render () {
 
     var storySelectorStyle = {
       visibility: this.state.isLoading ? 'visible' : 'hidden',

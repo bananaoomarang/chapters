@@ -1,23 +1,23 @@
-import React         from 'react';
-import classSet      from 'classnames';
-import EditorActions from '../../actions/EditorActions';
+import React        from 'react';
+import classSet     from 'classnames';
+import StoryActions from 'actions/StoryActions';
 
-var EditorTitle = {
-  getInitialState: function () {
+var StoryTitle = {
+  getInitialState () {
     return {
       clicked: false
     };
   },
 
-  handleInput: function (e) {
+  handleInput (e) {
 
-    EditorActions.setStory({
+    StoryActions.setStory({
       title: e.target.innerText
     });
 
   },
 
-  handleBlur: function () {
+  handleBlur () {
 
     this.setState({
       clicked: false
@@ -25,7 +25,7 @@ var EditorTitle = {
 
   },
 
-  handleClick: function () {
+  handleClick () {
     this.setState({ clicked: true }, function () {
       var titleDOM = this.refs.title.getDOMNode();
 
@@ -33,7 +33,7 @@ var EditorTitle = {
     });
   },
 
-  render: function () {
+  render () {
 
     var classes = classSet({
       placeholder: this.props.title ? false : true
@@ -62,4 +62,4 @@ var EditorTitle = {
   }
 };
 
-module.exports = React.createClass(EditorTitle);
+module.exports = React.createClass(StoryTitle);
