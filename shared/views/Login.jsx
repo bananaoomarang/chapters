@@ -1,46 +1,64 @@
 'use strict';
 
-import React          from 'react';
-import classSet       from 'classnames';
-import { Link }       from 'react-router';
-import SessionActions from 'actions/SessionActions';
+import React               from 'react';
+import { PropTypes }       from 'react';
+import classSet            from 'classnames';
+import { Link }            from 'react-router';
+import { connect }         from 'redux/react';
+import * as SessionActions from 'actions/SessionActions';
+
+@connect(state => ({
+  error: state.session.get('error'),
+  legit: state.session.get('legit')
+}))
 
 export default class Login extends React.Component {
-  contextTypes: {
-    flux: React.PropTypes.object.isRequired
+  static contextTypes = {
+    router: React.PropTypes.func.isRequired
   }
 
-  handleFormChange = (e) => {
-    console.log('form');
-    console.log(e.target.value);
+  static propTypes = {
+    error: PropTypes.string,
+    legit: PropTypes.bool.isRequired
   }
 
-  handleSubmit = (e) => {
+  onFormChange = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  }
+
+  onSubmit = (e) => {
     e.preventDefault();
 
-    if (this.state.form.username && this.state.form.password) {
-      SessionActions.open(this.state.form);
+    if (this.state.username && this.state.password) {
+      SessionActions.open(this.state)(this.props.dispatch);
     } else {
       this.setState({ error: 'Please fill in form' });
     }
   }
 
+  componentDidUpdate = () => {
+    if(this.props.legit)
+      this.context.router.transitionTo('/home');
+  }
+
   render() {
-    var errClasses = classSet({
+    const errClasses = classSet({
       'error-msg': true,
-      'invisible': !this.state.error
+      'invisible': !this.props.error
     });
 
     return (
       <div className="login">
-        <form onChange={this.handleFormChange} onSubmit={this.handleSubmit}>
-          <input type="text"     name="username" id="form-username-field" value={form.username} placeholder="Bill"     />
-          <input type="password" name="password" id="form-password-field" value={form.password} placeholder="password" />
+        <form onChange={this.onFormChange} onSubmit={this.onSubmit}>
+          <input type="text"     name="username" id="form-username-field" placeholder="Bill"     />
+          <input type="password" name="password" id="form-password-field" placeholder="password" />
 
           <input type="submit" name="user-login" id="submit-user-form" value="Go" />
         </form>
 
-        <a className={errClasses}>{error}</a>
+        <a className={errClasses}>{this.props.error}</a>
 
         <br />
 

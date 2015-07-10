@@ -1,41 +1,39 @@
-import React        from 'react';
-import classSet     from 'classnames';
-import StoryActions from 'actions/StoryActions';
+import React             from 'react';
+import classSet          from 'classnames';
+import * as StoryActions from 'actions/StoryActions';
 
-var StoryTitle = {
-  getInitialState () {
-    return {
-      clicked: false
-    };
-  },
+export default class StoryTitle extends React.Component {
+  state = {
+    clicked: false
+  }
 
-  handleInput (e) {
+  handleInput = (e) => {
 
-    StoryActions.setStory({
-      title: e.target.innerText
-    });
+    this.props.dispatch(
+      StoryActions.setStory({
+        title: e.target.innerText
+      })
+    );
 
-  },
+  }
 
-  handleBlur () {
-
+  handleBlur = () => {
     this.setState({
       clicked: false
     });
+  }
 
-  },
-
-  handleClick () {
+  handleClick = () => {
     this.setState({ clicked: true }, function () {
       var titleDOM = this.refs.title.getDOMNode();
 
       titleDOM.focus();
     });
-  },
+  }
 
   render () {
 
-    var classes = classSet({
+    const classes = classSet({
       placeholder: this.props.title ? false : true
     });
 
@@ -60,6 +58,4 @@ var StoryTitle = {
     }
 
   }
-};
-
-module.exports = React.createClass(StoryTitle);
+}

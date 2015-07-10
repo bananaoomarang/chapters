@@ -1,18 +1,22 @@
-import { Map, List }      from 'immutable';
-import $                  from 'jquery';
+import { Map }            from 'immutable';
+import ifdefBrowser       from 'lib/ifdefBrowser';
 import { SET_FONT,
          SET_ALIGNMENT,
          SET_PARAGRAPHS } from 'consts/Actions';
 
+const $ = ifdefBrowser( () => {
+  return require('jquery');
+});
+
 const defaultState = new Map({
-  paragraphs: new List(['']),
+  paragraphs: [''],
 
   // Styling
-  font: new Map({
-    size: null
-  }),
+  font: {
+    size: 24
+  },
 
-  alignment: null
+  alignment: 'center'
 });
 
  export default function paragraphReducer(state = defaultState, action) {
@@ -20,13 +24,16 @@ const defaultState = new Map({
      case SET_PARAGRAPHS:
       // No I don't want to pull in Jquery for this either.
       // Could possibly render to hidden DOM element?
+      let paragraphs = [''];
 
-      const paragraphs = $(action.html)
-        .toArray()
-        .filter(p => p.nodeName !== '#text')
-        .map(p => p.textContent);
+       if($) {
+         paragraphs = $(action.html)
+           .toArray()
+           .filter(p => p.nodeName !== '#text')
+           .map(p => p.textContent);
+       }
 
-       return state.set('paragraphs', new List(paragraphs));
+       return state.set('paragraphs', paragraphs);
 
      case SET_FONT:
        return state.set('font', action.font);

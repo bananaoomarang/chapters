@@ -1,62 +1,63 @@
-import React         from 'react';
-import classSet      from 'classnames';
-import request       from 'axios';
+import React             from 'react';
+import classSet          from 'classnames';
+import * as UsersActions from 'actions/UsersActions';
+import { connect }       from 'redux/react';
 
-function ajaxRegister (data, cb) {
-  const opts = {
-    data
-  };
+@connect(state => ({
+  error:   state.users.get('regError'),
+  success: !!state.users.get('regSuccess')
+}))
 
-  request
-    .post('/users/create', opts)
-    .then( (res) => {
-      cb(null, res.text);
-    })
-    .catch( (res) => {
-      cb(res.body.message);
+export default class Register extends React.Component {
+  static contextTypes = {
+    router: React.PropTypes.func.isRequired
+  }
+
+  static propTypes = {
+    error:   React.PropTypes.string,
+    success: React.PropTypes.bool.isRequired
+  }
+
+  state = {
+    error: ''
+  }
+
+  onChange = (e) => {
+    this.setState({
+      form: {
+        ...this.state.form,
+        [e.target.name]: e.target.value
+      }
     });
-}
+  }
 
-var Register = {
-  contextTypes: {
-    router: React.PropTypes.func
-  },
-
-  getInitialState () {
-    return {
-      error: ''
-    };
-  },
-
-  handleSubmit (e) {
+  onSubmit = (e) => {
     e.preventDefault();
 
-    if(this.formData.username &&
-       this.formData.email    &&
-       this.formData.password) {
+    if(this.state.form.username &&
+       this.state.form.email    &&
+         this.state.form.password) {
 
-      ajaxRegister(this.formData, function (err) {
-        if (err)
-          this.setState({ error: err });
-        else
-          this.context.router.transitionTo('login');
-      }.bind(this));
+      UsersActions.registerUser(this.state.form)(this.props.dispatch);
 
     } else {
       this.setState({ error: 'Please fill in form' });
     }
-  },
+  }
 
-  render () {
+  render() {
     var errClasses = classSet({
       'error-msg': true,
-      'invisible': !this.state.error
+      'invisible': !(this.props.error || this.state.error)
     });
+
+    if(this.props.success)
+      this.context.router.transitionTo('login');
 
     return (
       <div className="register">
 
-        <form onChange={this.updateFormData} onSubmit={this.handleSubmit}>
+        <form onChange={this.onChange} onSubmit={this.onSubmit}>
           <input type="text"     name="username" id="form-username-field" placeholder="Bill"                />
           <input type="email"    name="email"    id="form-email-field"    placeholder="eljames@hotmail.com" />
           <input type="password" name="password" id="form-password-field" placeholder="password"            />
@@ -64,12 +65,11 @@ var Register = {
           <input type="submit" name="submit-user" id="submit-user-form" value="Register" />
         </form>
 
-        <a className={errClasses}>{this.state.error}</a>
+        <a className={errClasses}>{this.props.error}</a>
 
       </div>
     );
 
   }
-};
+}
 
-module.exports = React.createClass(Register);

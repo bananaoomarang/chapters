@@ -1,12 +1,25 @@
-import { List }  from 'immutable';
-import GET_USERS from 'consts/Actions';
+import { Map }                from 'immutable';
+import { GET_USERS,
+         REGISTRATION_SUCCESS,
+         REGISTRATION_ERROR } from 'consts/Actions';
 
-const defaultState = new List();
+const defaultState = new Map({
+  users:      [],
+  regError:   null,
+  regSuccess: null
+});
 
 export default function usersReducer(state = defaultState, action) {
   switch(action.type) {
     case GET_USERS:
-      return new List(action.list);
+      return state.set('users', action.list);
+
+    case REGISTRATION_SUCCESS:
+      return state.set('regSuccess', action.msg);
+
+    case REGISTRATION_ERROR:
+      return state.set('regError', action.error);
+
     default:
       return state;
   }

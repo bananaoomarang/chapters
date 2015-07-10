@@ -1,45 +1,53 @@
-import React            from 'react';
-import Paragraph        from './Paragraph';
-import ParagraphReducer from 'reducers/ParagraphReducer';
-import ParagraphActions from 'actions/ParagraphActions';
-import getCaret         from 'lib/getCaret';
-import ifdefBrowser     from 'lib/ifdefBrowser';
+import React                 from 'react';
+import { connect }           from 'redux/react';
+import * as ParagraphActions from 'actions/ParagraphActions';
+import * as StoryActions     from 'actions/StoryActions';
+import getCaret              from 'lib/getCaret';
+import ifdefBrowser          from 'lib/ifdefBrowser';
+import Paragraph             from './Paragraph';
 
 var kbjs = ifdefBrowser( () => {
   return require('keyboardjs');
 });
 
-var ParagraphView = {
-  getInitialState () {
-    let state = ParagraphReducer.getState();
+@connect(state => ({
+  html:       state.story.get('story').html,
+  paragraphs: state.story.get('story').paragraphs
+}))
 
-    state.focusedParagraph = null;
+export default class ParagraphView extends React.Component {
+  state = {
+    focusedParagraph: null
+  }
 
-    return state;
-  },
+  constructor (props) {
+    super(props);
 
-  _onChange () {
-    this.setState(ParagraphReducer.getState());
-  },
+    ifdefBrowser( () => {
+      props.dispatch(ParagraphActions.setFont(props.defaultFont));
+      props.dispatch(ParagraphActions.setAlignment(props.defaultAlignment));
+    });
+  }
 
-  handleFocus (event) {
-    if(event.target.tagName === 'P') {
 
-      this.setState({ focusedParagraph: event.target });
+  handleFocus = (e) => {
+    if(e.target.tagName === 'P') {
+
+      this.setState({ focusedParagraph: e.target });
 
     } else {
 
       this.setState({ focusedParagraph: null });
 
     }
-  },
+  }
 
-  handleBlur () {
+  handleBlur = () => {
     this.setState({ focusedParagraph: null });
-  },
+  }
 
-  bindKeys () {
-    kbjs.on('enter', function onEnter (e) {
+  bindKeys = () => {
+    kbjs.on('enter', (e) => {
 
       // Stop event bubbling
       e.preventDefault();
@@ -73,10 +81,9 @@ var ParagraphView = {
 
       });
 
+    });
 
-    }.bind(this));
-
-    kbjs.on('backspace', function onBackspace (e) {
+    kbjs.on('backspace', (e) => {
 
       var currentParagraph   = this.state.focusedParagraph;
 
@@ -120,9 +127,9 @@ var ParagraphView = {
 
       }
 
-    }.bind(this));
+    });
 
-    kbjs.on('up', function onUp () {
+    kbjs.on('up', () => {
 
       var currentParagraph   = this.state.focusedParagraph;
 
@@ -134,9 +141,9 @@ var ParagraphView = {
 
       if (previousParagraph) previousParagraph.focus();
 
-    }.bind(this));
+    });
 
-    kbjs.on('down', function onDown () {
+    kbjs.on('down', () => {
 
       var currentParagraph   = this.state.focusedParagraph;
 
@@ -148,34 +155,63 @@ var ParagraphView = {
 
       if (nextParagraph) nextParagraph.focus();
 
-    }.bind(this));
-  },
+    });
+  }
+  
 
-  componentDidMount () {
+  componentDidMount = () => {
     if(kbjs) this.bindKeys();
+  }
 
-    ParagraphActions.setFont(this.props.defaultFont);
-    ParagraphActions.setAlignment(this.props.defaultAlignment);
-    ParagraphActions.setParagraphs('<p id="0"></p>');
-  },
+  componentDidUpdate = (nextProps) => {
+    function toArray(nl) {
+          for(var a=[], l=nl.length; l--; a[l]=nl[l]);
+              return a;
 
-  render () {
+    }
 
-    var style = {
-      fontSize:  this.state.font.size,
-      textAlign: this.state.alignment
-    };
+    if(nextProps.html !== this.props.html) {
+      const paragraphs =
+        toArray(
+        this.refs.paragraphRenderer
+          .getDOMNode()
+          .children
+          )
+          .filter( ({ nodeName }) => nodeName !== '#text')
+          .map(p => ({
+            text:      p.textContent,
+            alignment: 'center',
+            font:      {
+              size: 24
+            }
+          }));
+
+      this.props.dispatch(
+        StoryActions.setStory({ paragraphs })
+      );
+    }
+
+  }
+
+  render() {
+
+    console.log(this.props);
 
     return (
-      <div className="paragraphs" id="paragraph-container" style={style}>
-      ()s{
-          this.state.paragraphs.map(function(p, index) {
-            return <Paragraph key={index} ref={index} index={index} onFocus={this.handleFocus} onBlur={this.handleBlur} text={p} />;
-          }.bind(this))
+      <div className="paragraphs" id="paragraph-container">
+        {() =>
+          this.props.paragraphs.map( (p, index) => {
+            const style = {
+              fontSize:  this.props.font.size,
+              textAlign: this.props.alignment
+            };
+
+            return <Paragraph key={index} ref={index} index={index} style={style} onFocus={this.handleFocus} onBlur={this.handleBlur} text={p.text}></Paragraph>;
+          })
         }
+
+        <div ref="paragraphRenderer" className="hidden" dangerouslySetInnerHTML={ { __html: this.props.html } }/>
       </div>
     );
   }
-};
-
-module.exports = React.createClass(ParagraphView);
+}

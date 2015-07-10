@@ -14,11 +14,12 @@ import { OPEN_SESSION,
    switch(action.type) {
      case OPEN_SESSION:
        // Update window.sessionStorage
-       window.sessionStorage.setItem('token', this.token);
+       window.sessionStorage.setItem('token', action.token);
 
        return state.merge({
          name:  action.name,
-         token: action.token
+         token: action.token,
+         legit: true
        });
 
      case CLOSE_SESSION:

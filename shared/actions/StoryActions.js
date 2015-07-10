@@ -1,18 +1,22 @@
-import request          from 'axios';
-import ParagraphActions from 'actions/ParagraphActions.js';
-import { GET_STORY,
-         GET_EDITABLE_STORIES,
+import request               from 'axios';
+import { SET_STORY,
+         SET_EDITABLE_STORIES,
          POST_STORY,
          SET_LOADING,
-         SET_EDITING } from 'consts/Actions';
+         SET_EDITING }       from 'consts/Actions';
 
-export function getStory(id) {
+export function setStory(story) {
+ return {
+   type: SET_STORY,
+   story
+ };
+}
 
-  const sessionToken = window.sessionStorage.getItem('token');
+export function getStory(id, token = '') {
 
   const opts = {
     headers: {
-      Authorization: 'Bearer ' + sessionToken
+      Authorization: 'Bearer ' + token
     }
   };
 
@@ -20,15 +24,12 @@ export function getStory(id) {
     request
       .get('/stories/' + id, opts)
       .then( ({ data }) => {
-        // TODO Come on GTFO, refactor
-        dispatch(ParagraphActions.setParagraphs(data.html));
+        console.log(data);
 
-        dispatch({
-          type:  GET_STORY,
-          story: data
-        });
+        dispatch(setStory(data));
+
       })
-      .catch(err => console.error(err));
+      .catch(err => console.log(err));
   };
 }
 
@@ -46,7 +47,7 @@ export function getStories() {
     request
       .get('/users/current/stories', opts)
       .then( ({ data }) => dispatch({
-        type: GET_EDITABLE_STORIES,
+        type: SET_EDITABLE_STORIES,
         list: data
       }))
       .catch(err => console.error(err));
@@ -92,5 +93,5 @@ export function setLoading(loading) {
 }
 
 export function setEditing(editing) {
-  return { type: SET_EDITING, editing};
+  return { type: SET_EDITING, editing };
 }

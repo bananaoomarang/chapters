@@ -1,10 +1,10 @@
 'use strict';
 
-import React       from 'react';
-import { Link }    from 'react-router';
-import { connect } from 'redux/react';
+import React            from 'react';
+import { Link }         from 'react-router';
+import { connect }      from 'redux/react';
 import * as HomeActions from 'actions/HomeActions';
-import Carousel    from './Carousel';
+import Carousel         from './Carousel';
 
 @connect(state => ({
   home: state.home
@@ -18,7 +18,7 @@ export default class Home extends React.Component {
   constructor(props) {
     super(props);
 
-    HomeActions.getStories()(this.props.dispatch);
+    HomeActions.getStories()(props.dispatch);
   }
 
   render() {

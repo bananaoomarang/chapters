@@ -5,12 +5,17 @@ import { RouteHandler, Link } from 'react-router';
 import * as SessionActions    from 'actions/SessionActions';
 
 @connect(state => ({
-  session: state.session
+  legit: state.session.get('legit')
 }))
-export default class MainView extends React.Component {
 
+export default class MainView extends React.Component {
   static contextTypes = {
-    router: React.PropTypes.func.isRequired
+    router: React.PropTypes.func.isRequired,
+    redux:  React.PropTypes.object.isRequired
+  }
+
+  static propTypes = {
+    legit: React.PropTypes.bool.isRequired
   }
 
   constructor(props) {
@@ -19,14 +24,11 @@ export default class MainView extends React.Component {
     ifdefBrowser(() => {
       const storedToken = window.sessionStorage.getItem('token');
 
-      if(storedToken) SessionActions.validate(storedToken);
+      if(storedToken) SessionActions.validate(storedToken)(props.dispatch);
     });
   }
 
   render() {
-
-    if(this.props.legit)
-      this.context.router.transitionTo('/editor');
 
     return (
       <div id="main-view">

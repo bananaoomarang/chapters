@@ -1,6 +1,6 @@
 // StoryActions
-export const GET_STORY            = 'GET_STORY';
-export const GET_EDITABLE_STORIES = 'GET_EDITABLE_STORIES';
+export const SET_STORY            = 'SET_STORY';
+export const SET_EDITABLE_STORIES = 'SET_EDITABLE_STORIES';
 export const POST_STORY           = 'POST_STORY';
 export const SET_LOADING          = 'SET_LOADING';
 export const SET_EDITING          = 'SET_EDITING';
@@ -20,3 +20,5 @@ export const VALIDATE_SESSION     = 'VALIDATE_SESSION';
 
 // UserActions
 export const GET_USERS            = 'GET_USERS';
+export const REGISTRATION_ERROR   = 'REGISTRATION_ERROR';
+export const REGISTRATION_SUCCESS = 'REGISTRATION_SUCCESS';

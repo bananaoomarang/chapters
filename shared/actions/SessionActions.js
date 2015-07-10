@@ -23,7 +23,11 @@ export function open(credentials) {
           token: data
         });
       })
-      .catch(err => close(err));
+      .catch(err => {
+        dispatch(
+          close(err.data.message)
+        );
+      });
   };
 }
 
@@ -38,6 +42,10 @@ export function validate(token) {
     request
       .get('/users/validate', opts)
       .then( ( { data } ) => dispatch({ type: VALIDATE_SESSION, data }))
-      .catch(this.actions.close);
+      .catch(err => {
+        dispatch(
+          close(err.data.message)
+        );
+      });
   };
 }
