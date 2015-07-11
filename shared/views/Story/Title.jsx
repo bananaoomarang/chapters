@@ -1,6 +1,11 @@
 import React             from 'react';
 import classSet          from 'classnames';
+import { connect }       from 'redux/react';
 import * as StoryActions from 'actions/StoryActions';
+
+@connect(state => ({
+  editing: state.story.get('editing')
+}))
 
 export default class StoryTitle extends React.Component {
   state = {
@@ -44,7 +49,7 @@ export default class StoryTitle extends React.Component {
       display = this.props.title ? this.props.title : '';
 
       return (
-        <h1 id="title" ref="title" contentEditable="true" onInput={this.handleInput} onBlur={this.handleBlur}>{display}</h1>
+        <h1 id="title" ref="title" contentEditable={this.props.editing} onInput={this.handleInput} onBlur={this.handleBlur}>{display}</h1>
       );
 
     } else {
