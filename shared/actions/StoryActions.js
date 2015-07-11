@@ -13,7 +13,6 @@ export function setStory(story) {
 }
 
 export function getStory(id, token = '') {
-
   const opts = {
     headers: {
       Authorization: 'Bearer ' + token

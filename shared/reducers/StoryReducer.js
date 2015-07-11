@@ -17,7 +17,7 @@ const defaultState = new Map({
     html:       '',
     author:     '',
     wordCount:  '',
-    paragraphs: []
+    paragraphs: new List()
   }),
 
   // Stories it is possible to edit with current permissions
@@ -32,9 +32,10 @@ const defaultState = new Map({
 export default function storyReducer(state = defaultState, action) {
   switch(action.type) {
     case SET_STORY:
+      let paragraphs;
       // TODO Just spent about three hours trying to do something cleverer. No dice.
       if($) {
-        action.story.paragraphs =
+        paragraphs =
           $(action.story.html)
              .toArray()
              .filter(p => p.nodeName !== '#text')
@@ -44,10 +45,12 @@ export default function storyReducer(state = defaultState, action) {
                  size: 24
                },
                alignment: 'left'
-             }));
+             }))
       }
 
-      return state.mergeDeep({ story: action.story });
+      return state
+        .mergeDeep({ story: action.story })
+        .setIn(['story', 'paragraphs'], paragraphs);
 
     case SET_EDITABLE_STORIES:
       return state.set('editableStories', new List(action.list));
@@ -56,7 +59,6 @@ export default function storyReducer(state = defaultState, action) {
       return state.set('loading', action.loading);
 
     case SET_EDITING:
-      console.log(state.set('editing', action.editing).get('editing'));
       return state.set('editing', action.editing);
 
     default:
