@@ -5,7 +5,6 @@ import StoryTitle        from './Title';
 import StoryToolbar      from './Toolbar';
 import ParagraphView     from './ParagraphView';
 import * as StoryActions from 'actions/StoryActions';
-import EditorActions     from 'actions/StoryActions';
 import ifdefBrowser      from 'lib/ifdefBrowser';
 
 var Dropzone = ifdefBrowser( () => {
@@ -13,7 +12,6 @@ var Dropzone = ifdefBrowser( () => {
 });
 
 @connect(state => {
-  console.log(state.story.toJS());
   return state.story.toJS();
 })
 
@@ -27,11 +25,13 @@ export default class Story extends React.Component {
         size: 24
       },
       defaultAlignment: 'center'
-    }
+    };
 
-    const sessionToken = ifdefBrowser( () => {
-      return window.sessionStorage.getItem('token');
-    }) || '';
+    StoryActions.getStory(props.params.id)(props.dispatch);
+  }
+
+  componentDidMount() {
+    const sessionToken = window.sessionStorage.getItem('token');
 
     const dropzoneOpts = {
       url:     '/stories/upload',
@@ -40,15 +40,11 @@ export default class Story extends React.Component {
       }
     };
 
-    StoryActions.getStory(props.params.id)(props.dispatch);
+    const dropzone  = new Dropzone('#story', dropzoneOpts);
 
-    if(Dropzone) {
-      let dropzone  = new Dropzone('body', dropzoneOpts);
-
-      dropzone.on('sending', function(file, xhr, formData) {
-        formData.append('filename', file.name);
-      });
-    }
+    dropzone.on('sending', function(file, xhr, formData) {
+      formData.append('filename', file.name);
+    });
   }
 
   handleSave = () => {
@@ -57,8 +53,6 @@ export default class Story extends React.Component {
       title: this.props.story.title,
       text:  this.exportText()
     };
-
-    console.log(payload);
 
     StoryActions.postStory(payload)( (action) => {
       this.props.dispatch(action);
