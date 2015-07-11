@@ -24,10 +24,12 @@ export function getStory(id, token = '') {
     request
       .get('/stories/' + id, opts)
       .then( ({ data }) => {
-        console.log(data);
+        const story = {
+          id: data._id,
+          ...data
+        };
 
-        dispatch(setStory(data));
-
+        dispatch(setStory(story));
       })
       .catch(err => console.log(err));
   };

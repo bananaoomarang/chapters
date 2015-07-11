@@ -6,10 +6,6 @@ import { connect } from 'redux/react'
 }))
 
 export default class Paragraph extends React.Component {
-  state = {
-    focused: false
-  }
-
   render () {
     return (
       <p type="number" data-index={this.props.index} onBlur={this.props.onBlur} onFocus={this.props.onFocus} contentEditable={this.props.editing}>{this.props.text}</p>

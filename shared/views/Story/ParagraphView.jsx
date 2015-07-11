@@ -10,25 +10,18 @@ var kbjs = ifdefBrowser( () => {
   return require('keyboardjs');
 });
 
+var $ = ifdefBrowser( () => {
+  return require('jquery');
+});
+
 @connect(state => ({
-  html:       state.story.get('story').html,
-  paragraphs: state.story.get('story').paragraphs
+  editing:    state.story.get('editing')
 }))
 
 export default class ParagraphView extends React.Component {
   state = {
     focusedParagraph: null
   }
-
-  constructor (props) {
-    super(props);
-
-    ifdefBrowser( () => {
-      props.dispatch(ParagraphActions.setFont(props.defaultFont));
-      props.dispatch(ParagraphActions.setAlignment(props.defaultAlignment));
-    });
-  }
-
 
   handleFocus = (e) => {
     if(e.target.tagName === 'P') {
@@ -163,54 +156,23 @@ export default class ParagraphView extends React.Component {
     if(kbjs) this.bindKeys();
   }
 
-  componentDidUpdate = (nextProps) => {
-    function toArray(nl) {
-          for(var a=[], l=nl.length; l--; a[l]=nl[l]);
-              return a;
-
-    }
-
-    if(nextProps.html !== this.props.html) {
-      const paragraphs =
-        toArray(
-        this.refs.paragraphRenderer
-          .getDOMNode()
-          .children
-          )
-          .filter( ({ nodeName }) => nodeName !== '#text')
-          .map(p => ({
-            text:      p.textContent,
-            alignment: 'center',
-            font:      {
-              size: 24
-            }
-          }));
-
-      this.props.dispatch(
-        StoryActions.setStory({ paragraphs })
-      );
-    }
+  componentWillUpdate = (nextProps) => {
 
   }
 
   render() {
-
-    console.log(this.props);
-
     return (
       <div className="paragraphs" id="paragraph-container">
-        {() =>
+        {
           this.props.paragraphs.map( (p, index) => {
             const style = {
-              fontSize:  this.props.font.size,
-              textAlign: this.props.alignment
+              fontSize:  p.font.size,
+              textAlign: p.alignment
             };
 
-            return <Paragraph key={index} ref={index} index={index} style={style} onFocus={this.handleFocus} onBlur={this.handleBlur} text={p.text}></Paragraph>;
+            return <p key={index} ref={index} index={index} style={style} onFocus={this.handleFocus} onBlur={this.handleBlur} contentEditable={this.props.editing}>{p.text}</p>;
           })
         }
-
-        <div ref="paragraphRenderer" className="hidden" dangerouslySetInnerHTML={ { __html: this.props.html } }/>
       </div>
     );
   }

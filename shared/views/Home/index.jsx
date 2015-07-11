@@ -24,7 +24,7 @@ export default class Home extends React.Component {
   render() {
     return (
       <div id="home">
-        <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/jquery.slick/1.3.15/slick.css" />
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.3.15/slick.css" />
 
         <Carousel stories={this.props.home.get('stories')} />
 

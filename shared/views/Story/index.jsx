@@ -12,7 +12,10 @@ var Dropzone = ifdefBrowser( () => {
   return require('dropzone');
 });
 
-@connect(state => state.story.toJS())
+@connect(state => {
+  console.log(state.story.toJS());
+  return state.story.toJS();
+})
 
 export default class Story extends React.Component {
 
@@ -54,6 +57,8 @@ export default class Story extends React.Component {
       title: this.props.story.title,
       text:  this.exportText()
     };
+
+    console.log(payload);
 
     StoryActions.postStory(payload)( (action) => {
       this.props.dispatch(action);
@@ -112,7 +117,7 @@ export default class Story extends React.Component {
 
         <br/>
 
-        <ParagraphView defaultFont={this.cfg.defaultFont} alignment={this.cfg.defaultAlignment} />
+        <ParagraphView defaultFont={this.cfg.defaultFont} alignment={this.cfg.defaultAlignment} paragraphs={this.props.story.paragraphs} />
       </div>
     );
   }

@@ -8,6 +8,7 @@ import * as reducers   from 'reducers';
 
 // Load styles
 require('normalize.css/normalize');
+
 require('./sass/app');
 
 // Prepend all axios requests with API address
