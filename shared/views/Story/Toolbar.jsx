@@ -3,7 +3,6 @@ import { connect }            from 'redux/react';
 import { bindActionCreators } from 'redux';
 import FontSizeSelector       from './FontSizeSelector';
 import * as StoryActions      from 'actions/StoryActions';
-import * as ParagraphActions  from 'actions/ParagraphActions';
 
 @connect(state => ({
   editing: state.story.get('editing')

@@ -1,8 +1,7 @@
-import fs              from 'fs';
-import path            from 'path';
 import express         from 'express';
 import React           from 'react';
-import Router          from 'react-router';
+import { Router }      from 'react-router';
+import Location        from 'react-router/lib/Location';
 import axios           from 'axios';
 import routes          from './shared/routes';
 import proxy           from 'express-http-proxy';
@@ -10,7 +9,6 @@ import { createRedux } from 'redux';
 import { Provider }    from 'redux/react';
 import * as reducers   from 'reducers';
 
-const BUNDLE_PATH = path.join(__dirname, 'dist', 'bundle.js');
 const API_URL     = 'http://localhost:8888';
 
 // Prepend all axios requests with API address
@@ -22,31 +20,56 @@ axios.interceptors.request.use( (cfg) => {
 
 const app = express();
 
-app.get('/bundle.js', (req, res) => {
-  fs.createReadStream(BUNDLE_PATH).pipe(res);
-});
-
+// Proxy to API
 app.use('/api', proxy(API_URL));
 
+// Serve static assets
+app.use('/assets', express.static('assets'));
+
+app.use('/favicon.ico', function (req, res, next) {
+  res.status(404).end('No.');
+});
+
+// Pass everything else through react-router
 app.use(function (req, res, next) {
-  const routePath = req.path;
-  const redux     = createRedux(reducers);
+  const location = new Location(req.path, req.query);
+  const redux    = createRedux(reducers);
 
-  Router.run(routes, routePath, function (Handler, state) {
+  Router.run(routes, location, function (err, initialState, transition) {
+    if(err) return console.error(err);
 
-    const View = (
+    const InitialView = (
       <Provider redux={redux}>
         {() =>
-          <Handler {...state} />
+          <Router {...initialState} />
         }
       </Provider>
     );
 
-    res.end(
-      React.renderToString(
-        View
-      )
-    );
+    const routerHTML = React.renderToString(InitialView);
+
+    const initialData = redux.getState();
+
+    console.log(initialData);
+
+    const HTML = `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <meta charset="utf-8">
+        <title>Chapters</title>
+
+        <script>
+          window.__INITIAL_DATA__ = ${JSON.stringify(initialData)};
+        </script>
+      </head>
+      <body>
+        <div id="react-view">${routerHTML}</div>
+      </body>
+    </html>
+    `;
+
+    res.end(HTML);
 
     next();
 

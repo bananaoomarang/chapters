@@ -1,9 +1,9 @@
-import { Map } from 'immutable';
+import { immutify } from 'lib/immutify';
 import { OPEN_SESSION,
          CLOSE_SESSION,
          VALIDATE_SESSION } from 'consts/Actions';
 
- const defaultState = new Map({
+ const defaultState = immutify({
     name:  null,
     token: null,
     error: null,

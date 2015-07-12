@@ -1,5 +1,6 @@
-import { Map, List }   from 'immutable';
-import ifdefBrowser          from 'lib/ifdefBrowser';
+import { immutify }    from 'lib/immutify';
+import { List }        from 'immutable';
+import ifdefBrowser    from 'lib/ifdefBrowser';
 import { SET_STORY,
          SET_EDITABLE_STORIES,
          SET_LOADING,
@@ -9,19 +10,19 @@ const $ = ifdefBrowser( () => {
   return require('jquery');
 });
 
-const defaultState = new Map({
-  story: new Map({
+const defaultState = immutify({
+  story: {
     id:         '',
     title:      '',
     text:       '',
     html:       '',
     author:     '',
     wordCount:  '',
-    paragraphs: new List()
-  }),
+    paragraphs: []
+  },
 
   // Stories it is possible to edit with current permissions
-  userStories: new List(),
+  userStories: [],
 
   // Interface state
   loading: false,
@@ -45,15 +46,15 @@ export default function storyReducer(state = defaultState, action) {
                  size: 24
                },
                alignment: 'left'
-             }))
+             }));
       }
 
       return state
         .mergeDeep({ story: action.story })
-        .setIn(['story', 'paragraphs'], paragraphs);
+        .setIn(['story', 'paragraphs'], List(paragraphs));
 
     case SET_EDITABLE_STORIES:
-      return state.set('editableStories', new List(action.list));
+      return state.set('editableStories', List(action.list));
 
     case SET_LOADING:
       return state.set('loading', action.loading);

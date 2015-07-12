@@ -1,6 +1,5 @@
-import React            from 'react';
-import { Route }        from 'react-router';
-import { DefaultRoute } from 'react-router';
+import React     from 'react';
+import { Route } from 'react-router';
 
 import Root        from 'views';
 import Home        from 'views/Home';
@@ -12,15 +11,13 @@ import Story       from 'views/Story';
 import UserStories from 'views/Users/Stories';
 
 export default (
-  <Route handler={Root}>
-    <DefaultRoute handler={Home} />
-
-    <Route name="home"         handler={Home}                                    />
-    <Route name="login"        handler={Login}                                   />
-    <Route name="register"     handler={Register}                                />
-    <Route name="story"        handler={Story}       path="/stories/:id"         />
-    <Route name="users"        handler={Users}                                   />
-    <Route name="user"         handler={User}        path="/users/:user"         />
-    <Route name="user-stories" handler={UserStories} path="/users/:user/stories" />
+  <Route component={Root} path="/">
+    <Route name="home"         component={Home}        path="home"                 />
+    <Route name="login"        component={Login}       path="login"                />
+    <Route name="register"     component={Register}    path="register"             />
+    <Route name="story"        component={Story}       path="/stories/:id"         />
+    <Route name="users"        component={Users}       path="users"                />
+    <Route name="user"         component={User}        path="/users/:user"         />
+    <Route name="user-stories" component={UserStories} path="/users/:user/stories" />
   </Route>
 );

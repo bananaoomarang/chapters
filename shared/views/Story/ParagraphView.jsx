@@ -1,21 +1,14 @@
-import React                 from 'react';
-import { connect }           from 'redux/react';
-import * as ParagraphActions from 'actions/ParagraphActions';
-import * as StoryActions     from 'actions/StoryActions';
-import getCaret              from 'lib/getCaret';
-import ifdefBrowser          from 'lib/ifdefBrowser';
-import Paragraph             from './Paragraph';
+import React        from 'react';
+import { connect }  from 'redux/react';
+import getCaret     from 'lib/getCaret';
+import ifdefBrowser from 'lib/ifdefBrowser';
 
 var kbjs = ifdefBrowser( () => {
   return require('keyboardjs');
 });
 
-var $ = ifdefBrowser( () => {
-  return require('jquery');
-});
-
 @connect(state => ({
-  editing:    state.story.get('editing')
+  editing: state.story.get('editing')
 }))
 
 export default class ParagraphView extends React.Component {

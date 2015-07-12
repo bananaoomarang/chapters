@@ -1,9 +1,9 @@
-import { Map }                from 'immutable';
+import { immutify } from 'lib/immutify';
 import { GET_USERS,
          REGISTRATION_SUCCESS,
          REGISTRATION_ERROR } from 'consts/Actions';
 
-const defaultState = new Map({
+const defaultState = immutify({
   users:      [],
   regError:   null,
   regSuccess: null

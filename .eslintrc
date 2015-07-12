@@ -22,6 +22,7 @@
     "no-warning-comments": 0,
     "curly": 0,
     "no-multi-spaces": 0,
+    "new-cap": 0,
 
     // Warnings
     "no-debugger": 1,
@@ -46,7 +47,6 @@
     "no-mixed-spaces-and-tabs": 2,
 
     // stylistic errors
-    "new-cap": 2,
     "no-spaced-func": 2,
     "no-space-before-semi": 2,
     "quotes": [2, "single"],

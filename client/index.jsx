@@ -1,10 +1,12 @@
-import React           from 'react';
-import Router          from 'react-router';
-import axios           from 'axios';
-import { createRedux } from 'redux';
-import { Provider }    from 'redux/react';
-import routes          from 'routes';
-import * as reducers   from 'reducers';
+import React                     from 'react';
+import { Router }                from 'react-router';
+import { history }               from 'react-router/lib/BrowserHistory';
+import axios                     from 'axios';
+import { createRedux }           from 'redux';
+import { Provider }              from 'redux/react';
+import routes                    from 'routes';
+import * as reducers             from 'reducers';
+import { immutifyComposedState } from 'lib/immutify';
 
 // Load styles
 require('normalize.css/normalize');
@@ -18,17 +20,17 @@ axios.interceptors.request.use( (cfg) => {
   return cfg;
 });
 
-// TODO Rehydration
-const redux = createRedux(reducers);
+// Re-immutify the data. Seems a little dirty, but how else?
 
-Router.run(routes, Router.HistoryLocation, function (Handler, state) {
+const initialState = immutifyComposedState(window.__INITIAL_DATA__);
 
-  React.render(
-    <Provider redux={redux}>
-      {() =>
-        <Handler {...state} />
-      }
-    </Provider>,
-    document.body);
-});
+const redux = createRedux(reducers, initialState);
 
+React.render(
+  <Provider redux={redux}>
+    {() =>
+      <Router children={routes} history={history} />
+    }
+  </Provider>,
+  document.getElementById('react-view')
+);
