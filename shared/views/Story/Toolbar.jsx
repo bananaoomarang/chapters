@@ -10,9 +10,6 @@ import * as StoryActions      from 'actions/StoryActions';
 
 export default class Toolbar extends React.Component {
   handleAlignment = (e) => {
-    this.props.dispatch(
-      ParagraphActions.setAlignment(e.target.name)
-    );
   }
 
   handleLoad = () => {
@@ -27,7 +24,7 @@ export default class Toolbar extends React.Component {
 
     return (
       <div className='toolbar' style={style}>
-        <FontSizeSelector defaultSize={this.props.defaultFont.size} {...bindActionCreators(ParagraphActions, this.props.dispatch)}/>
+        <FontSizeSelector defaultSize={this.props.defaultFont.size} {...bindActionCreators(StoryActions, this.props.dispatch)}/>
 
         <br />
 
