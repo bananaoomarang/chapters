@@ -37,6 +37,8 @@ export default class Toolbar extends React.Component {
         <button className="btn" name="load"   onClick={this.handleLoad}      >Load</button>
         <button className="btn" name="save"   onClick={this.props.handleSave}>Save</button>
 
+        <hr />
+
       </div>
     );
   }

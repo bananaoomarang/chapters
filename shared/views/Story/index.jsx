@@ -96,8 +96,6 @@ export default class Story extends React.Component {
       <div id="story">
         <StoryToolbar handleSave={this.handleSave} defaultFont={this.cfg.defaultFont} />
 
-        <hr />
-
         <StoryTitle title={this.props.story.title} placeholder="Untitled" />
 
         <button className='btn' style={editButtonStyle} onClick={this.setEditing}>Edit</button>
