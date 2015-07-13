@@ -1,7 +1,7 @@
-import React             from 'react';
-import classSet          from 'classnames';
-import * as UsersActions from 'actions/UsersActions';
-import { connect }       from 'redux/react';
+import React, { PropTypes} from 'react';
+import classSet            from 'classnames';
+import * as UsersActions   from 'actions/UsersActions';
+import { connect }         from 'redux/react';
 
 @connect(state => ({
   error:   state.users.get('regError'),
@@ -14,8 +14,9 @@ export default class Register extends React.Component {
   }
 
   static propTypes = {
-    error:   React.PropTypes.string,
-    success: React.PropTypes.bool.isRequired
+    dispatch: PropTypes.func.isRequired,
+    error:    PropTypes.string,
+    success:  PropTypes.bool.isRequired
   }
 
   state = {

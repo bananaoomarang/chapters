@@ -1,20 +1,25 @@
-import React                  from 'react';
+import React, { PropTypes }   from 'react';
 import { connect }            from 'redux/react';
 import { bindActionCreators } from 'redux';
 import FontSizeSelector       from './FontSizeSelector';
 import * as StoryActions      from 'actions/StoryActions';
 
 @connect(state => ({
-  editing: state.story.get('editing')
+  editing:          state.story.get('editing'),
+  focusedParagraph: state.story.getIn(['story', 'focusedParagraph'])
 }))
 
 export default class Toolbar extends React.Component {
-  handleAlignment = (e) => {
+  static propTypes = {
+    dispatch:         PropTypes.func.isRequired,
+    defaultFont:      PropTypes.object.isRequired,
+    handleSave:       PropTypes.func.isRequired,
+    editing:          PropTypes.bool.isRequired,
+    focusedParagraph: PropTypes.number
   }
 
-  handleLoad = () => {
-    StoryActions.populateStories()(this.props.dispatch);
-    this.props.dispatch(this.props.setLoading(true));
+  handleAlignment = (e) => {
+    this.props.dispatch(StoryActions.setAlignment(e.target.name, this.props.focusedParagraph));
   }
 
   render() {
@@ -24,7 +29,7 @@ export default class Toolbar extends React.Component {
 
     return (
       <div className='toolbar' style={style}>
-        <FontSizeSelector defaultSize={this.props.defaultFont.size} {...bindActionCreators(StoryActions, this.props.dispatch)}/>
+        <FontSizeSelector defaultSize={this.props.defaultFont.size} focusedParagraph={this.props.focusedParagraph} {...bindActionCreators(StoryActions, this.props.dispatch)}/>
 
         <br />
 
@@ -34,7 +39,6 @@ export default class Toolbar extends React.Component {
 
         <br />
 
-        <button className="btn" name="load"   onClick={this.handleLoad}      >Load</button>
         <button className="btn" name="save"   onClick={this.props.handleSave}>Save</button>
 
         <hr />

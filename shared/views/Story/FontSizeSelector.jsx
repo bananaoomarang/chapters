@@ -2,7 +2,9 @@ import React                 from 'react';
 
 export default class FontSizeSelector extends React.Component {
   static propTypes = {
-    defaultSize: React.PropTypes.number
+    setFont:          React.PropTypes.func.isRequired,
+    defaultSize:      React.PropTypes.number.isRequired,
+    focusedParagraph: React.PropTypes.number
   }
 
   state = {
@@ -14,7 +16,7 @@ export default class FontSizeSelector extends React.Component {
       size: this.state.value
     };
 
-    this.props.setFont(font);
+    this.props.setFont(font, this.props.focusedParagraph);
   }
 
   onChange = (e) => {
@@ -22,7 +24,7 @@ export default class FontSizeSelector extends React.Component {
       size: e.target.value
     };
 
-    this.props.setFont(font);
+    this.props.setFont(font, this.props.focusedParagraph);
 
     this.setState({
       value: event.target.value

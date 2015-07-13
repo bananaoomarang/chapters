@@ -18,8 +18,9 @@ export default class Login extends React.Component {
   }
 
   static propTypes = {
-    error: PropTypes.string,
-    legit: PropTypes.bool.isRequired
+    dispatch: PropTypes.func.isRequired,
+    error:    PropTypes.string,
+    legit:    PropTypes.bool.isRequired
   }
 
   onFormChange = (e) => {

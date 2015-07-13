@@ -1,35 +1,38 @@
-import React        from 'react';
-import { connect }  from 'redux/react';
-import getCaret     from 'lib/getCaret';
-import ifdefBrowser from 'lib/ifdefBrowser';
+// TODO Just realised we're still doing a bunch of state setting logic that should be store-ified...
+import React, { PropTypes } from 'react';
+import { connect }          from 'redux/react';
+import getCaret             from 'lib/getCaret';
+import ifdefBrowser         from 'lib/ifdefBrowser';
+import * as StoryActions    from 'actions/StoryActions';
 
 var kbjs = ifdefBrowser( () => {
   return require('keyboardjs');
 });
 
-@connect(state => ({
-  editing: state.story.get('editing')
-}))
+@connect(state => {
+  return {
+    editing:          state.story.get('editing'),
+    focusedParagraph: state.story.getIn(['story', 'focusedParagraph'])
+  };
+})
 
 export default class ParagraphView extends React.Component {
-  state = {
-    focusedParagraph: null
+  static propTypes = {
+    dispatch:         PropTypes.func.isRequired,
+    editing:          PropTypes.bool.isRequired,
+    focusedParagraph: PropTypes.number
   }
 
   handleFocus = (e) => {
     if(e.target.tagName === 'P') {
 
-      this.setState({ focusedParagraph: e.target });
+      this.props.dispatch(StoryActions.setFocusedParagraph(e.target.dataset.index));
 
     } else {
 
-      this.setState({ focusedParagraph: null });
+      this.props.dispatch(StoryActions.setFocusedParagraph(-1));
 
     }
-  }
-
-  handleBlur = () => {
-    this.setState({ focusedParagraph: null });
   }
 
   bindKeys = () => {
@@ -39,7 +42,7 @@ export default class ParagraphView extends React.Component {
       e.preventDefault();
       e.stopPropagation();
 
-      var currentParagraph   = this.state.focusedParagraph;
+      var currentParagraph   = this.refs[this.props.focusedParagraph];
 
       if(!currentParagraph) return;
 
@@ -71,7 +74,7 @@ export default class ParagraphView extends React.Component {
 
     kbjs.on('backspace', (e) => {
 
-      var currentParagraph   = this.state.focusedParagraph;
+      var currentParagraph   = this.refs[this.props.focusedParagraph];
 
       if(!currentParagraph) return;
 
@@ -117,7 +120,7 @@ export default class ParagraphView extends React.Component {
 
     kbjs.on('up', () => {
 
-      var currentParagraph   = this.state.focusedParagraph;
+      var currentParagraph   = this.refs[this.props.focusedParagraph];
 
       if(!currentParagraph) return;
 
@@ -131,7 +134,7 @@ export default class ParagraphView extends React.Component {
 
     kbjs.on('down', () => {
 
-      var currentParagraph   = this.state.focusedParagraph;
+      var currentParagraph   = this.refs[this.props.focusedParagraph];
 
       if(!currentParagraph) return;
 
@@ -143,14 +146,9 @@ export default class ParagraphView extends React.Component {
 
     });
   }
-  
 
   componentDidMount = () => {
     if(kbjs) this.bindKeys();
-  }
-
-  componentWillUpdate = (nextProps) => {
-
   }
 
   render() {
@@ -163,7 +161,7 @@ export default class ParagraphView extends React.Component {
               textAlign: p.alignment
             };
 
-            return <p key={index} ref={index} index={index} style={style} onFocus={this.handleFocus} onBlur={this.handleBlur} contentEditable={this.props.editing}>{p.text}</p>;
+            return <p key={index} ref={index} data-index={index} style={style} onFocus={this.handleFocus} onBlur={this.handleBlur} contentEditable={this.props.editing}>{p.text}</p>;
           })
         }
       </div>

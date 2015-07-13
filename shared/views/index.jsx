@@ -4,19 +4,14 @@ import { connect }         from 'redux/react';
 import { Link }            from 'react-router';
 import * as SessionActions from 'actions/SessionActions';
 
-@connect(state => {
-  return {
-    legit: state.session.get('legit')
-  }
-})
+@connect(state => ({
+  legit: state.session.get('legit')
+}))
 
 export default class MainView extends React.Component {
-  static contextTypes = {
-    redux:  React.PropTypes.object.isRequired
-  }
-
   static propTypes = {
-    legit: React.PropTypes.bool.isRequired
+    children: React.PropTypes.object.isRequired,
+    legit:    React.PropTypes.bool.isRequired
   }
 
   constructor(props) {

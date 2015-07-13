@@ -1,10 +1,13 @@
 import { immutify }    from 'lib/immutify';
-import { List }        from 'immutable';
+import { Map, List }   from 'immutable';
 import ifdefBrowser    from 'lib/ifdefBrowser';
 import { SET_STORY,
          SET_EDITABLE_STORIES,
          SET_LOADING,
-         SET_EDITING } from 'consts/Actions';
+         SET_EDITING,
+         SET_ALIGNMENT,
+         SET_FONT,
+         SET_FOCUSED_PARAGRAPH } from 'consts/Actions';
 
 const $ = ifdefBrowser( () => {
   return require('jquery');
@@ -12,13 +15,14 @@ const $ = ifdefBrowser( () => {
 
 const defaultState = immutify({
   story: {
-    id:         '',
-    title:      '',
-    text:       '',
-    html:       '',
-    author:     '',
-    wordCount:  '',
-    paragraphs: []
+    id:               '',  // Database ID
+    title:            '',
+    text:             '',  // Markdown
+    html:             '',  // HTML from ^
+    author:           '',
+    wordCount:        0,   // Not currently implemented
+    paragraphs:       [],  // Array of objects holding textContent, alignment, font size etc etc
+    focusedParagraph: -1   // Index of focused paragraph, -1 for 'nothing focused'
   },
 
   // Stories it is possible to edit with current permissions
@@ -35,12 +39,12 @@ export default function storyReducer(state = defaultState, action) {
     case SET_STORY:
       let paragraphs;
       // TODO Just spent about three hours trying to do something cleverer. No dice.
-      if($) {
+      if($ && state.getIn(['story', 'html']) !== action.story.html) {
         paragraphs =
           $(action.story.html)
              .toArray()
              .filter(p => p.nodeName !== '#text')
-             .map(p => ({
+             .map(p => Map({
                text: p.textContent,
                font: {
                  size: 24
@@ -61,6 +65,15 @@ export default function storyReducer(state = defaultState, action) {
 
     case SET_EDITING:
       return state.set('editing', action.editing);
+
+    case SET_FOCUSED_PARAGRAPH:
+      return state.setIn(['story', 'focusedParagraph'], Number(action.index));
+
+    case SET_FONT:
+      return state.mergeIn(['story', 'paragraphs', action.index], { font: action.font });
+
+    case SET_ALIGNMENT:
+      return state.setIn(['story', 'paragraphs', action.index, 'alignment'], action.alignment);
 
     default:
       return state;

@@ -1,9 +1,12 @@
-import request               from 'axios';
+import request                   from 'axios';
 import { SET_STORY,
          SET_EDITABLE_STORIES,
          POST_STORY,
          SET_LOADING,
-         SET_EDITING }       from 'consts/Actions';
+         SET_EDITING,
+         SET_ALIGNMENT,
+         SET_FONT,
+         SET_FOCUSED_PARAGRAPH } from 'consts/Actions';
 
 export function setStory(story) {
  return {
@@ -95,4 +98,28 @@ export function setLoading(loading) {
 
 export function setEditing(editing) {
   return { type: SET_EDITING, editing };
+}
+
+export function setAlignment(alignment, index) {
+  console.log(index);
+  return {
+    type: SET_ALIGNMENT,
+    index,
+    alignment
+  };
+}
+
+export function setFont(font, index) {
+  return {
+    type: SET_FONT,
+    font,
+    index
+  };
+}
+
+export function setFocusedParagraph(index) {
+  return {
+    type: SET_FOCUSED_PARAGRAPH,
+    index
+  };
 }
