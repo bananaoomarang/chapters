@@ -18,13 +18,13 @@ button {
   white-space: nowrap;
 
   &:hover {
-    background-color: #000;
-    border: $white-border;
+    background-color: darken(#fff, 60%);
     color: #fff;
   }
 
   &:active {
-    background-color: darken(#fff, 20%);
+    background-color: #000;
+    border: $white-border;
   }
 
   &:disabled {
@@ -32,5 +32,5 @@ button {
     opacity: 0.5;
   }
 
-  @include transition (all 0.2s ease-in-out);
+  @include transition(all 0.15s ease-in-out);
 }

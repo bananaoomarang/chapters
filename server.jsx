@@ -50,8 +50,6 @@ app.use(function (req, res, next) {
 
     const initialData = redux.getState();
 
-    console.log(initialData);
-
     const HTML = `
     <!DOCTYPE html>
     <html>
