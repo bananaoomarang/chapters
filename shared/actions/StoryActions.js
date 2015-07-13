@@ -101,7 +101,6 @@ export function setEditing(editing) {
 }
 
 export function setAlignment(alignment, index) {
-  console.log(index);
   return {
     type: SET_ALIGNMENT,
     index,

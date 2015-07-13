@@ -12,19 +12,25 @@ var kbjs = ifdefBrowser( () => {
 @connect(state => {
   return {
     editing:          state.story.get('editing'),
-    focusedParagraph: state.story.getIn(['story', 'focusedParagraph'])
+    focusedParagraph: state.story.getIn(['story', 'focusedParagraph']),
+    globalAlignment:  state.story.get('alignment'),
+    globalFont:       state.story.get('font')
   };
 })
 
 export default class ParagraphView extends React.Component {
   static propTypes = {
+    paragraphs:       PropTypes.array.isRequired,
     dispatch:         PropTypes.func.isRequired,
     editing:          PropTypes.bool.isRequired,
-    focusedParagraph: PropTypes.number
+    focusedParagraph: PropTypes.number,
+    globalAlignment:  PropTypes.string.isRequired,
+    globalFont:       PropTypes.object.isRequired
   }
 
   handleFocus = (e) => {
     if(e.target.tagName === 'P') {
+      console.log('huh.');
 
       this.props.dispatch(StoryActions.setFocusedParagraph(e.target.dataset.index));
 
@@ -152,8 +158,13 @@ export default class ParagraphView extends React.Component {
   }
 
   render() {
+    const globalStyle = {
+      fontSize:  this.props.globalFont.get('size'),
+      textAlign: this.props.globalAlignment
+    };
+
     return (
-      <div className="paragraphs" id="paragraph-container">
+      <div className="paragraphs" id="paragraph-container" style={globalStyle}>
         {
           this.props.paragraphs.map( (p, index) => {
             const style = {

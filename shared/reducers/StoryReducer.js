@@ -25,6 +25,12 @@ const defaultState = immutify({
     focusedParagraph: -1   // Index of focused paragraph, -1 for 'nothing focused'
   },
 
+  // Global styles
+  alignment: 'left',
+  font:      {
+    size: 24
+  },
+
   // Stories it is possible to edit with current permissions
   userStories: [],
 
@@ -47,9 +53,9 @@ export default function storyReducer(state = defaultState, action) {
              .map(p => Map({
                text: p.textContent,
                font: {
-                 size: 24
+                 size: 'inherit'
                },
-               alignment: 'left'
+               alignment: 'inherit'
              }));
       }
 
@@ -70,9 +76,13 @@ export default function storyReducer(state = defaultState, action) {
       return state.setIn(['story', 'focusedParagraph'], Number(action.index));
 
     case SET_FONT:
+      if(action.index === -1) return state.merge({ font: action.font });
+
       return state.mergeIn(['story', 'paragraphs', action.index], { font: action.font });
 
     case SET_ALIGNMENT:
+      if(action.index === -1) return state.set('alignment', action.alignment);
+
       return state.setIn(['story', 'paragraphs', action.index, 'alignment'], action.alignment);
 
     default:

@@ -1,21 +1,24 @@
-import React             from 'react';
-import { Link }          from 'react-router';
-import { connect }       from 'redux/react';
-import StoryTitle        from './Title';
-import StoryToolbar      from './Toolbar';
-import ParagraphView     from './ParagraphView';
-import * as StoryActions from 'actions/StoryActions';
-import ifdefBrowser      from 'lib/ifdefBrowser';
+import React, { PropTypes } from 'react';
+import { Link }             from 'react-router';
+import { connect }          from 'redux/react';
+import StoryTitle           from './Title';
+import StoryToolbar         from './Toolbar';
+import ParagraphView        from './ParagraphView';
+import * as StoryActions    from 'actions/StoryActions';
+import ifdefBrowser         from 'lib/ifdefBrowser';
 
 var Dropzone = ifdefBrowser( () => {
   return require('dropzone');
 });
 
-@connect(state => {
-  return state.story.toJS();
-})
+@connect(state => state.story.toJS())
 
 export default class Story extends React.Component {
+  static propTypes = {
+    dispatch: PropTypes.func.isRequired,
+    story:    PropTypes.object.isRequired,
+    editing:  PropTypes.bool.isRequired
+  }
 
   constructor(props) {
     super(props);
