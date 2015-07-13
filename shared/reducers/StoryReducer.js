@@ -1,6 +1,7 @@
-import { immutify }    from 'lib/immutify';
-import { Map, List }   from 'immutable';
-import ifdefBrowser    from 'lib/ifdefBrowser';
+import { immutify }             from 'lib/immutify';
+import { Map, List }            from 'immutable';
+import ifdefBrowser             from 'lib/ifdefBrowser';
+import { Paragraph, Story }     from 'records/Records'
 import { SET_STORY,
          SET_EDITABLE_STORIES,
          SET_LOADING,
@@ -14,16 +15,7 @@ const $ = ifdefBrowser( () => {
 });
 
 const defaultState = immutify({
-  story: {
-    id:               '',  // Database ID
-    title:            '',
-    text:             '',  // Markdown
-    html:             '',  // HTML from ^
-    author:           '',
-    wordCount:        0,   // Not currently implemented
-    paragraphs:       [],  // Array of objects holding textContent, alignment, font size etc etc
-    focusedParagraph: -1   // Index of focused paragraph, -1 for 'nothing focused'
-  },
+  story: new Story(), 
 
   // Global styles
   alignment: 'left',
@@ -43,25 +35,21 @@ const defaultState = immutify({
 export default function storyReducer(state = defaultState, action) {
   switch(action.type) {
     case SET_STORY:
-      let paragraphs;
+      let paragraphs = [];
       // TODO Just spent about three hours trying to do something cleverer. No dice.
       if($ && state.getIn(['story', 'html']) !== action.story.html) {
         paragraphs =
           $(action.story.html)
              .toArray()
              .filter(p => p.nodeName !== '#text')
-             .map(p => Map({
-               text: p.textContent,
-               font: {
-                 size: 'inherit'
-               },
-               alignment: 'inherit'
+             .map(p => new Paragraph({
+               text: p.textContent
              }));
       }
 
       return state
-        .mergeDeep({ story: action.story })
-        .setIn(['story', 'paragraphs'], List(paragraphs));
+        .setIn(['story', 'paragraphs'], List(paragraphs))
+        .mergeDeep({ story: action.story });
 
     case SET_EDITABLE_STORIES:
       return state.set('editableStories', List(action.list));

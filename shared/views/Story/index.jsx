@@ -11,7 +11,7 @@ var Dropzone = ifdefBrowser( () => {
   return require('dropzone');
 });
 
-@connect(state => state.story.toJS())
+@connect(state => state.story.toObject())
 
 export default class Story extends React.Component {
   static propTypes = {
@@ -52,8 +52,8 @@ export default class Story extends React.Component {
 
   handleSave = () => {
     const payload = {
-      id:    this.props.story.id,
-      title: this.props.story.title,
+      id:    this.props.story.get('id'),
+      title: this.props.story.get('title'),
       text:  this.exportText()
     };
 
@@ -99,7 +99,7 @@ export default class Story extends React.Component {
       <div id="story">
         <StoryToolbar handleSave={this.handleSave} defaultFont={this.cfg.defaultFont} />
 
-        <StoryTitle title={this.props.story.title} placeholder="Untitled" />
+        <StoryTitle title={this.props.story.get('title')} placeholder="Untitled" />
 
         <button className='btn' style={editButtonStyle} onClick={this.setEditing}>Edit</button>
 
@@ -107,12 +107,12 @@ export default class Story extends React.Component {
 
         <h2>
           By&nbsp;
-          <Link to="user" params={ { user: this.props.story.author } }>{this.props.story.author}</Link>
+          <Link to="user" params={ { user: this.props.story.get('author') } }>{this.props.story.get('author')}</Link>
         </h2>
 
         <br/>
 
-        <ParagraphView defaultFont={this.cfg.defaultFont} alignment={this.cfg.defaultAlignment} paragraphs={this.props.story.paragraphs} />
+        <ParagraphView defaultFont={this.cfg.defaultFont} alignment={this.cfg.defaultAlignment} paragraphs={this.props.story.get('paragraphs')} />
       </div>
     );
   }

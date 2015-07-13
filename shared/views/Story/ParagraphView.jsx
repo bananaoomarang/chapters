@@ -1,6 +1,7 @@
 // TODO Just realised we're still doing a bunch of state setting logic that should be store-ified...
 import React, { PropTypes } from 'react';
 import { connect }          from 'redux/react';
+import { Paragraph }        from 'records/Records'
 import getCaret             from 'lib/getCaret';
 import ifdefBrowser         from 'lib/ifdefBrowser';
 import * as StoryActions    from 'actions/StoryActions';
@@ -28,9 +29,12 @@ export default class ParagraphView extends React.Component {
     globalFont:       PropTypes.object.isRequired
   }
 
+  state = {
+    paragraphs: []
+  }
+
   handleFocus = (e) => {
     if(e.target.tagName === 'P') {
-      console.log('huh.');
 
       this.props.dispatch(StoryActions.setFocusedParagraph(e.target.dataset.index));
 
@@ -48,49 +52,40 @@ export default class ParagraphView extends React.Component {
       e.preventDefault();
       e.stopPropagation();
 
-      var currentParagraph   = this.refs[this.props.focusedParagraph];
+      var currentParagraph   = this.refs[this.props.focusedParagraph].getDOMNode();
 
       if(!currentParagraph) return;
 
-      var caret              = getCaret(currentParagraph);
-      var currentIndex       = Number(currentParagraph.dataset.index);
-      var currentHTML        = currentParagraph.innerHTML;
-      var newParagraph       = '';
-      var newParagraphDOM    = null;
-      var newParagraphsArray = this.state.paragraphs.slice();
+      const caret              = getCaret(currentParagraph);
+      const currentIndex       = Number(currentParagraph.dataset.index);
+      const nextIndex          = currentIndex + 1;
+      const currentHTML        = currentParagraph.innerHTML;
+      const newParagraph       = new Paragraph();
 
-      // Splice new paragraph
-      newParagraphsArray.splice(currentIndex + 1, 0, newParagraph);
+      const newParagraphsArray = this.props.paragraphs
+        // Add new paragraphs
+        .splice(nextIndex, 0, newParagraph)
 
-      newParagraphsArray[currentIndex + 1]  = currentHTML.slice(caret.position, currentHTML.length);
-      newParagraphsArray[currentIndex]      = currentHTML.slice(0, caret.position);
+        // Slice and dice that sweet sweet text
+        .setIn([nextIndex, 'text'], currentHTML.slice(caret.position, currentHTML.length))
+        .setIn([currentIndex, 'text'], currentHTML.slice(0, caret.position));
 
-      this.setState({
-        paragraphs: newParagraphsArray
-      }, function () {
+      this.props.dispatch(StoryActions.setStory({ paragraphs: newParagraphsArray }));
 
-        newParagraphDOM = this.refs[currentIndex + 1].getDOMNode();
-
-        newParagraphDOM.focus();
-
-
-      });
-
+      this.refs[nextIndex].getDOMNode().focus();
     });
 
     kbjs.on('backspace', (e) => {
 
-      var currentParagraph   = this.refs[this.props.focusedParagraph];
+      const currentParagraph   = this.refs[this.props.focusedParagraph].getDOMNode();
 
       if(!currentParagraph) return;
 
-      var currentHTML        = currentParagraph.innerHTML;
-      var currentIndex       = Number(currentParagraph.dataset.index);
-      var previousParagraph  = currentParagraph.previousSibling;
-      var caret              = getCaret(currentParagraph);
-      var newParagraphsArray = this.state.paragraphs.slice();
-
-      if(!currentParagraph) return;
+      const currentText        = currentParagraph.textContent;
+      const currentIndex       = Number(currentParagraph.dataset.index);
+      const beforeIndex        = currentIndex - 1;
+      const previousParagraph  = currentParagraph.previousSibling;
+      const caret              = getCaret(currentParagraph);
 
       if (caret.position === 0 && previousParagraph.tagName !== 'DIV') {
 
@@ -98,18 +93,21 @@ export default class ParagraphView extends React.Component {
         e.preventDefault();
         e.stopPropagation();
 
-        // Remove paragraph
-        newParagraphsArray.splice(currentIndex, 1);
+        const beforeText = previousParagraph.textContent;
+        const caretPosition = beforeText.length;
 
-        var caretPosition = newParagraphsArray[currentIndex - 1].length;
+        const newParagraphsArray = this.props.paragraphs
+          .splice(currentIndex, 1)
+          .setIn([beforeIndex, 'text'], beforeText + currentText);
 
-        newParagraphsArray[currentIndex - 1] += currentHTML;
 
-        this.setState({
-          paragraphs: newParagraphsArray
-        });
+        this.props.dispatch(
+          StoryActions.setStory({
+            paragraphs: newParagraphsArray
+          })
+        );
 
-        if(previousParagraph.innerHTML.length) {
+        if(previousParagraph.textContent.length) {
 
           getCaret(previousParagraph)
             .setPosition(caretPosition);
@@ -126,13 +124,11 @@ export default class ParagraphView extends React.Component {
 
     kbjs.on('up', () => {
 
-      var currentParagraph   = this.refs[this.props.focusedParagraph];
+      var currentParagraph   = this.refs[this.props.focusedParagraph].getDOMNode();
 
       if(!currentParagraph) return;
 
       var previousParagraph  = currentParagraph.previousSibling;
-
-      if(!currentParagraph) return;
 
       if (previousParagraph) previousParagraph.focus();
 
@@ -140,13 +136,11 @@ export default class ParagraphView extends React.Component {
 
     kbjs.on('down', () => {
 
-      var currentParagraph   = this.refs[this.props.focusedParagraph];
+      var currentParagraph   = this.refs[this.props.focusedParagraph].getDOMNode();
 
       if(!currentParagraph) return;
 
       var nextParagraph  = currentParagraph.nextSibling;
-
-      if(!currentParagraph) return;
 
       if (nextParagraph) nextParagraph.focus();
 
@@ -168,11 +162,11 @@ export default class ParagraphView extends React.Component {
         {
           this.props.paragraphs.map( (p, index) => {
             const style = {
-              fontSize:  p.font.size,
-              textAlign: p.alignment
+              fontSize:  p.getIn(['font', 'size']),
+              textAlign: p.get('alignment')
             };
 
-            return <p key={index} ref={index} data-index={index} style={style} onFocus={this.handleFocus} onBlur={this.handleBlur} contentEditable={this.props.editing}>{p.text}</p>;
+            return <p key={index} ref={index} data-index={index} style={style} onFocus={this.handleFocus} onBlur={this.handleBlur} contentEditable={this.props.editing}>{p.get('text')}</p>;
           })
         }
       </div>
