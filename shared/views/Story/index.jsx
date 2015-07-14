@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { Link }             from 'react-router';
-import { connect }          from 'redux/react';
+import { connect }          from 'react-redux';
 import StoryTitle           from './Title';
 import StoryToolbar         from './Toolbar';
 import ParagraphView        from './ParagraphView';

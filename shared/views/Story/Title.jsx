@@ -1,6 +1,6 @@
 import React             from 'react';
 import classSet          from 'classnames';
-import { connect }       from 'redux/react';
+import { connect }       from 'react-redux';
 import * as StoryActions from 'actions/StoryActions';
 
 @connect(state => ({

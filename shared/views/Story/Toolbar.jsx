@@ -1,5 +1,5 @@
 import React, { PropTypes }   from 'react';
-import { connect }            from 'redux/react';
+import { connect }            from 'react-redux';
 import { bindActionCreators } from 'redux';
 import FontSizeSelector       from './FontSizeSelector';
 import * as StoryActions      from 'actions/StoryActions';

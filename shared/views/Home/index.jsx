@@ -2,7 +2,7 @@
 
 import React            from 'react';
 import { Link }         from 'react-router';
-import { connect }      from 'redux/react';
+import { connect }      from 'react-redux';
 import * as HomeActions from 'actions/HomeActions';
 import Carousel         from './Carousel';
 
@@ -11,10 +11,6 @@ import Carousel         from './Carousel';
 }))
 
 export default class Home extends React.Component {
-  static contextTypes = {
-    redux: React.PropTypes.object.isRequired
-  }
-
   constructor(props) {
     super(props);
 

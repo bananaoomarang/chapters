@@ -1,6 +1,6 @@
 // TODO Just realised we're still doing a bunch of state setting logic that should be store-ified...
 import React, { PropTypes } from 'react';
-import { connect }          from 'redux/react';
+import { connect }          from 'react-redux';
 import { Paragraph }        from 'records/Records'
 import getCaret             from 'lib/getCaret';
 import ifdefBrowser         from 'lib/ifdefBrowser';
@@ -62,6 +62,7 @@ export default class ParagraphView extends React.Component {
       const currentHTML        = currentParagraph.innerHTML;
       const newParagraph       = new Paragraph();
 
+      console.log(this.props.paragraphs);
       const newParagraphsArray = this.props.paragraphs
         // Add new paragraphs
         .splice(nextIndex, 0, newParagraph)

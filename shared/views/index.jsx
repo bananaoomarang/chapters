@@ -1,6 +1,6 @@
 import React               from 'react';
 import ifdefBrowser        from 'lib/ifdefBrowser';
-import { connect }         from 'redux/react';
+import { connect }         from 'react-redux';
 import { Link }            from 'react-router';
 import * as SessionActions from 'actions/SessionActions';
 

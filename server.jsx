@@ -1,13 +1,13 @@
-import express         from 'express';
-import React           from 'react';
-import { Router }      from 'react-router';
-import Location        from 'react-router/lib/Location';
-import axios           from 'axios';
-import routes          from './shared/routes';
-import proxy           from 'express-http-proxy';
-import { createRedux } from 'redux';
-import { Provider }    from 'redux/react';
-import * as reducers   from 'reducers';
+import express                          from 'express';
+import React                            from 'react';
+import { Router }                       from 'react-router';
+import Location                         from 'react-router/lib/Location';
+import axios                            from 'axios';
+import routes                           from './shared/routes';
+import proxy                            from 'express-http-proxy';
+import { createStore, combineReducers } from 'redux';
+import { Provider }                     from 'react-redux';
+import * as reducers                    from 'reducers';
 
 const API_URL     = 'http://localhost:8888';
 
@@ -26,20 +26,21 @@ app.use('/api', proxy(API_URL));
 // Serve static assets
 app.use('/assets', express.static('assets'));
 
-app.use('/favicon.ico', function (req, res, next) {
+app.use('/favicon.ico', function (req, res) {
   res.status(404).end('No.');
 });
 
 // Pass everything else through react-router
 app.use(function (req, res, next) {
   const location = new Location(req.path, req.query);
-  const redux    = createRedux(reducers);
+  const reducer  = combineReducers(reducers);
+  const store    = createStore(reducer);
 
-  Router.run(routes, location, function (err, initialState, transition) {
+  Router.run(routes, location, function (err, initialState) {
     if(err) return console.error(err);
 
     const InitialView = (
-      <Provider redux={redux}>
+      <Provider store={store}>
         {() =>
           <Router {...initialState} />
         }
@@ -48,7 +49,7 @@ app.use(function (req, res, next) {
 
     const routerHTML = React.renderToString(InitialView);
 
-    const initialData = redux.getState();
+    const initialData = store.getState();
 
     const HTML = `
     <!DOCTYPE html>

@@ -1,7 +1,6 @@
-import { immutify }             from 'lib/immutify';
-import { Map, List }            from 'immutable';
+import { fromJS }               from 'immutable';
 import ifdefBrowser             from 'lib/ifdefBrowser';
-import { Paragraph, Story }     from 'records/Records'
+import { Paragraph, Story }     from 'records/Records';
 import { SET_STORY,
          SET_EDITABLE_STORIES,
          SET_LOADING,
@@ -14,8 +13,8 @@ const $ = ifdefBrowser( () => {
   return require('jquery');
 });
 
-const defaultState = immutify({
-  story: new Story(), 
+const defaultState = fromJS({
+  story: new Story(),
 
   // Global styles
   alignment: 'left',
@@ -36,6 +35,7 @@ export default function storyReducer(state = defaultState, action) {
   switch(action.type) {
     case SET_STORY:
       let paragraphs = [];
+
       // TODO Just spent about three hours trying to do something cleverer. No dice.
       if($ && state.getIn(['story', 'html']) !== action.story.html) {
         paragraphs =
@@ -48,11 +48,11 @@ export default function storyReducer(state = defaultState, action) {
       }
 
       return state
-        .setIn(['story', 'paragraphs'], List(paragraphs))
+        .setIn(['story', 'paragraphs'], fromJS(paragraphs))
         .mergeDeep({ story: action.story });
 
     case SET_EDITABLE_STORIES:
-      return state.set('editableStories', List(action.list));
+      return state.set('editableStories', fromJS(action.list));
 
     case SET_LOADING:
       return state.set('loading', action.loading);

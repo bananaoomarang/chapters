@@ -1,9 +1,9 @@
-import { immutify } from 'lib/immutify';
+import { fromJS }             from 'immutable';
 import { GET_USERS,
          REGISTRATION_SUCCESS,
          REGISTRATION_ERROR } from 'consts/Actions';
 
-const defaultState = immutify({
+const defaultState = fromJS({
   users:      [],
   regError:   null,
   regSuccess: null

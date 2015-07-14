@@ -1,9 +1,9 @@
-import { immutify } from 'lib/immutify';
+import { fromJS }           from 'immutable';
 import { OPEN_SESSION,
          CLOSE_SESSION,
          VALIDATE_SESSION } from 'consts/Actions';
 
- const defaultState = immutify({
+ const defaultState = fromJS({
     name:  null,
     token: null,
     error: null,

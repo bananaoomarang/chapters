@@ -4,7 +4,7 @@ import React               from 'react';
 import { PropTypes }       from 'react';
 import classSet            from 'classnames';
 import { Link }            from 'react-router';
-import { connect }         from 'redux/react';
+import { connect }         from 'react-redux';
 import * as SessionActions from 'actions/SessionActions';
 
 @connect(state => ({

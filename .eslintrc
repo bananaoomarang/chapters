@@ -11,7 +11,10 @@
   "ecmaFeatures": {
     "jsx": true,
     "modules": true,
-    "decorators": true
+    "decorators": true,
+    "object-shorthand": true,
+    "prefer-const": true,
+    "spread": true
   },
   "rules": {
     // Ignore Rules

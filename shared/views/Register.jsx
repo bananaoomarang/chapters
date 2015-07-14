@@ -1,7 +1,7 @@
 import React, { PropTypes} from 'react';
 import classSet            from 'classnames';
 import * as UsersActions   from 'actions/UsersActions';
-import { connect }         from 'redux/react';
+import { connect }         from 'react-redux';
 
 @connect(state => ({
   error:   state.users.get('regError'),
