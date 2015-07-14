@@ -1,6 +1,6 @@
 {
   "name": "chapters",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Consume and create worlds",
   "repository": {
     "type": "git",
@@ -9,6 +9,7 @@
   "main": "server",
   "scripts": {
     "start": "NODE_PATH=$NODE_PATH:./shared node .",
+    "build": "webpack --progress --color",
     "dev": "npm run start & webpack-dev-server --progress --color",
     "validate": "eslint shared shared/views/*.jsx shared/routes.jsx",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -17,7 +18,7 @@
     "validate"
   ],
   "author": "Milo Mordaunt <milomord@gmail.com>",
-  "license": "Apache",
+  "license": "Apache 2.0",
   "devDependencies": {
     "babel": "^5.6.14",
     "babel-core": "^5.6.16",
