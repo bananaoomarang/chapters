@@ -10,7 +10,7 @@ import { connect }         from 'react-redux';
 
 export default class Register extends React.Component {
   static contextTypes = {
-    router: React.PropTypes.func.isRequired
+    router: React.PropTypes.object.isRequired
   }
 
   static propTypes = {

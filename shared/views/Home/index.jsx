@@ -18,6 +18,7 @@ export default class Home extends React.Component {
   }
 
   render() {
+    console.log(this.props.home.toJS());
     return (
       <div id="home">
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.3.15/slick.css" />

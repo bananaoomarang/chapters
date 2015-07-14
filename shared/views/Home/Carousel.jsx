@@ -14,7 +14,7 @@ export default class Carousel extends React.Component {
     return (
       <Slider {...cfg} >
         {
-          this.props.stories.map( (story, index) => {
+          this.props.stories.toJS().map( (story, index) => {
             return (
               <div key={index}>
                 <h3>
