@@ -7,7 +7,7 @@ import routes              from './shared/routes';
 import proxy               from 'express-http-proxy';
 import { Provider }        from 'react-redux';
 import * as reducers       from 'reducers';
-import promiseMiddleware   from 'lib/promiseMiddleware';
+import promiseMiddleware   from 'lib/promiseMiddleware'
 import { createStore,
          combineReducers,
          applyMiddleware } from 'redux';
@@ -33,48 +33,65 @@ app.use('/favicon.ico', function (req, res) {
   res.status(404).end('No.');
 });
 
+function fetchComponentData(dispatch, components, params) {
+  const needs = components.reduce( (prev, current) => {
+
+    return (current.needs || [])
+      .concat(current.DecoratedComponent.needs || [])
+      .concat(prev);
+  }, []);
+
+  const promises = needs.map(need => dispatch(need(params)));
+
+  return Promise.all(promises);
+}
+
 // Pass everything else through react-router
-app.use(function (req, res, next) {
+app.use(function (req, res) {
   const location = new Location(req.path, req.query);
   const reducer  = combineReducers(reducers);
   const store    = applyMiddleware(promiseMiddleware)(createStore)(reducer);
 
-  Router.run(routes, location, function (err, initialState) {
-    if(err) return console.error(err);
 
-    const InitialView = (
-      <Provider store={store}>
-        {() =>
-          <Router {...initialState} />
-        }
-      </Provider>
-    );
+  Router.run(routes, location, function (routeErr, initialState) {
+    if(routeErr) return console.error(routeErr);
 
-    const routerHTML = React.renderToString(InitialView);
+    function renderView() {
+      const InitialView = (
+        <Provider store={store}>
+          {() =>
+            <Router {...initialState} />
+          }
+        </Provider>
+      );
 
-    const initialData = store.getState();
+      const routerHTML = React.renderToString(InitialView);
 
-    const HTML = `
-    <!DOCTYPE html>
-    <html>
-      <head>
-        <meta charset="utf-8">
-        <title>Chapters</title>
+      const initialData = store.getState();
 
-        <script>
-          window.__INITIAL_DATA__ = ${JSON.stringify(initialData)};
-        </script>
-      </head>
-      <body>
-        <div id="react-view">${routerHTML}</div>
-      </body>
-    </html>
-    `;
+      return `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <meta charset="utf-8">
+          <title>Chapters</title>
 
-    res.end(HTML);
+          <script>
+            window.__INITIAL_DATA__ = ${JSON.stringify(initialData)};
+          </script>
+        </head>
+        <body>
+          <div id="react-view">${routerHTML}</div>
+        </body>
+      </html>
+      `;
+    }
 
-    next();
-
+    if(initialState)
+      fetchComponentData(store.dispatch, initialState.components, initialState.params)
+        .then(renderView)
+        .then(html => res.end(html))
+        .catch(err => res.end(err.message));
   });
 });
 

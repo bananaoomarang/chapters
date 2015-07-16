@@ -31,28 +31,35 @@ export default function storyReducer(state = defaultState, action) {
         ...action.res.data
       };
 
+      delete story._rev;
+      delete story._id;
+      delete story.path;
+
       return storyReducer(state, {
         type: 'SET_STORY',
         story
       });
 
     case 'SET_STORY':
+      return state
+        .mergeDeep({ story: action.story });
+
+    case 'RENDER_PARAGRAPHS':
       let paragraphs = [];
 
       // TODO Just spent about three hours trying to do something cleverer. No dice.
-      if($ && state.getIn(['story', 'html']) !== action.story.html) {
+      if($) {
         paragraphs =
-          $(action.story.html)
+          $(state.getIn(['story', 'html']))
              .toArray()
              .filter(p => p.nodeName !== '#text')
              .map(p => new Paragraph({
                text: p.textContent
-             }));
+         }));
       }
 
       return state
-        .setIn(['story', 'paragraphs'], fromJS(paragraphs))
-        .mergeDeep({ story: action.story });
+        .setIn(['story', 'paragraphs'], fromJS(paragraphs));
 
     case 'SET_EDITABLE_STORIES':
       return state.set('editableStories', fromJS(action.list));

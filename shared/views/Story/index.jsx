@@ -20,6 +20,10 @@ export default class Story extends React.Component {
     editing:  PropTypes.bool.isRequired
   }
 
+  static needs = [
+    params => StoryActions.getStory(params.id)
+  ]
+
   constructor(props) {
     super(props);
 
@@ -29,11 +33,9 @@ export default class Story extends React.Component {
       },
       defaultAlignment: 'center'
     };
-
-    props.dispatch(StoryActions.getStory(props.params.id));
   }
 
-  componentDidMount() {
+  componentDidMount = () => {
     const sessionToken = window.sessionStorage.getItem('token');
 
     const dropzoneOpts = {
@@ -48,6 +50,8 @@ export default class Story extends React.Component {
     dropzone.on('sending', function(file, xhr, formData) {
       formData.append('filename', file.name);
     });
+
+    this.props.dispatch(StoryActions.renderParagraphs());
   }
 
   handleSave = () => {

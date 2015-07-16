@@ -57,7 +57,6 @@ export function postStory(payload) {
     opts.url = '/stories/import';
   }
 
-  console.log(opts);
   return {
     type:    'POST_STORY',
     promise: request(opts)
@@ -98,5 +97,11 @@ export function setFocusedParagraph(index) {
   return {
     type: 'SET_FOCUSED_PARAGRAPH',
     index
+  };
+}
+
+export function renderParagraphs() {
+  return {
+    type: 'RENDER_PARAGRAPHS'
   };
 }

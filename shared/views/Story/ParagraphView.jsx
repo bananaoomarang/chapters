@@ -1,5 +1,6 @@
 // TODO Just realised we're still doing a bunch of state setting logic that should be store-ified...
 import React, { PropTypes } from 'react';
+import { List }             from 'immutable';
 import { connect }          from 'react-redux';
 import { Paragraph }        from 'records/Records'
 import getCaret             from 'lib/getCaret';
@@ -21,7 +22,7 @@ var kbjs = ifdefBrowser( () => {
 
 export default class ParagraphView extends React.Component {
   static propTypes = {
-    paragraphs:       PropTypes.array.isRequired,
+    paragraphs:       PropTypes.instanceOf(List).isRequired,
     dispatch:         PropTypes.func.isRequired,
     editing:          PropTypes.bool.isRequired,
     focusedParagraph: PropTypes.number,
