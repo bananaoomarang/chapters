@@ -33,7 +33,7 @@ export default class Login extends React.Component {
     e.preventDefault();
 
     if (this.state.username && this.state.password) {
-      SessionActions.open(this.state)(this.props.dispatch);
+      this.props.dispatch(SessionActions.open(this.state));
     } else {
       this.setState({ error: 'Please fill in form' });
     }

@@ -1,13 +1,16 @@
-import express                          from 'express';
-import React                            from 'react';
-import { Router }                       from 'react-router';
-import Location                         from 'react-router/lib/Location';
-import axios                            from 'axios';
-import routes                           from './shared/routes';
-import proxy                            from 'express-http-proxy';
-import { createStore, combineReducers } from 'redux';
-import { Provider }                     from 'react-redux';
-import * as reducers                    from 'reducers';
+import express             from 'express';
+import React               from 'react';
+import { Router }          from 'react-router';
+import Location            from 'react-router/lib/Location';
+import axios               from 'axios';
+import routes              from './shared/routes';
+import proxy               from 'express-http-proxy';
+import { Provider }        from 'react-redux';
+import * as reducers       from 'reducers';
+import promiseMiddleware   from 'lib/promiseMiddleware';
+import { createStore,
+         combineReducers,
+         applyMiddleware } from 'redux';
 
 const API_URL     = 'http://localhost:8888';
 
@@ -34,7 +37,7 @@ app.use('/favicon.ico', function (req, res) {
 app.use(function (req, res, next) {
   const location = new Location(req.path, req.query);
   const reducer  = combineReducers(reducers);
-  const store    = createStore(reducer);
+  const store    = applyMiddleware(promiseMiddleware)(createStore)(reducer);
 
   Router.run(routes, location, function (err, initialState) {
     if(err) return console.error(err);

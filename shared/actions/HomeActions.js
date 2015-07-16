@@ -1,12 +1,9 @@
-import request              from 'axios';
-import { GET_HOME_STORIES } from 'consts/Actions';
+import request from 'axios';
 
 // Load stories
 export function getStories() {
-  return dispatch => {
-    request
-      .get('/stories')
-      .then( ({ data }) => dispatch({ type: GET_HOME_STORIES, list: data }))
-      .catch(err => console.error(err));
+  return {
+    type:    'GET_HOME_STORIES',
+    promise: request.get('/stories')
   };
 }

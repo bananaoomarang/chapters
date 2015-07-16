@@ -1,7 +1,4 @@
 import { fromJS }           from 'immutable';
-import { OPEN_SESSION,
-         CLOSE_SESSION,
-         VALIDATE_SESSION } from 'consts/Actions';
 
  const defaultState = fromJS({
     name:  null,
@@ -12,26 +9,29 @@ import { OPEN_SESSION,
 
  export default function sessionReducer(state = defaultState, action) {
    switch(action.type) {
-     case OPEN_SESSION:
+     case 'OPEN_SESSION':
        // Update window.sessionStorage
-       window.sessionStorage.setItem('token', action.token);
+       window.sessionStorage.setItem('token', action.res.data);
 
        return state.merge({
          name:  action.name,
-         token: action.token,
+         token: action.res.data,
          legit: true
        });
 
-     case CLOSE_SESSION:
+     case 'OPEN_SESSION_FAILURE':
+       return state.set('error', action.error.data.message);
+
+     case 'CLOSE_SESSION':
        return state.merge({
          legit: false,
          error: action.error
        });
 
-     case VALIDATE_SESSION:
+     case 'VALIDATE_SESSION':
        return state.merge({
          legit: true,
-         name:  action.name
+         name:  action.res.data.name
        });
 
      default:

@@ -1,12 +1,15 @@
-import React                            from 'react';
-import { Router }                       from 'react-router';
-import { history }                      from 'react-router/lib/BrowserHistory';
-import axios                            from 'axios';
-import { createStore, combineReducers } from 'redux';
-import { Provider }                     from 'react-redux';
-import routes                           from 'routes';
-import * as reducers                    from 'reducers';
-import  immutifyState                   from 'lib/immutifyState';
+import React               from 'react';
+import { Router }          from 'react-router';
+import { history }         from 'react-router/lib/BrowserHistory';
+import axios               from 'axios';
+import { Provider }        from 'react-redux';
+import routes              from 'routes';
+import * as reducers       from 'reducers';
+import  immutifyState      from 'lib/immutifyState';
+import promiseMiddleware   from 'lib/promiseMiddleware';
+import { createStore,
+         combineReducers,
+         applyMiddleware } from 'redux';
 
 // Load styles
 require('normalize.css/normalize');
@@ -21,11 +24,10 @@ axios.interceptors.request.use( (cfg) => {
 });
 
 // Re-immutify the data. Seems a little dirty, but how else?
-
 const initialState = immutifyState(window.__INITIAL_DATA__);
 
 const reducer = combineReducers(reducers);
-const store   = createStore(reducer, initialState);
+const store   = applyMiddleware(promiseMiddleware)(createStore)(reducer, initialState);
 
 React.render(
   <Provider store={store}>

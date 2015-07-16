@@ -20,7 +20,7 @@ export default class MainView extends React.Component {
     ifdefBrowser(() => {
       const storedToken = window.sessionStorage.getItem('token');
 
-      if(storedToken) SessionActions.validate(storedToken)(props.dispatch);
+      if(storedToken) props.dispatch(SessionActions.validate(storedToken));
     });
   }
 

@@ -39,7 +39,7 @@ export default class Register extends React.Component {
        this.state.form.email    &&
          this.state.form.password) {
 
-      UsersActions.registerUser(this.state.form)(this.props.dispatch);
+      this.props.dispatch(UsersActions.registerUser(this.state.form));
 
     } else {
       this.setState({ error: 'Please fill in form' });

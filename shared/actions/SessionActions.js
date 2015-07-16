@@ -1,33 +1,17 @@
 import request from 'axios';
-import { OPEN_SESSION,
-         CLOSE_SESSION,
-         VALIDATE_SESSION } from 'consts/Actions';
-
 
 export function close(error) {
   return {
-    type: CLOSE_SESSION,
+    type: 'CLOSE_SESSION',
     error
   };
 }
 
 export function open(credentials) {
-  return dispatch => {
-
-    request
-      .post('/users/login', credentials)
-      .then( ({ data }) => {
-        dispatch({
-          type:  OPEN_SESSION,
-          name:  credentials.username,
-          token: data
-        });
-      })
-      .catch(err => {
-        dispatch(
-          close(err.data.message)
-        );
-      });
+  return {
+    type:    'OPEN_SESSION',
+    promise: request.post('/users/login', credentials),
+    name:    credentials.username
   };
 }
 
@@ -38,14 +22,8 @@ export function validate(token) {
     }
   };
 
-  return dispatch => {
-    request
-      .get('/users/validate', opts)
-      .then( ( { data } ) => dispatch({ type: VALIDATE_SESSION, data }))
-      .catch(err => {
-        dispatch(
-          close(err.data.message)
-        );
-      });
+  return {
+    type:    'VALIDATE_SESSION',
+    promise: request.get('/users/validate', opts)
   };
 }

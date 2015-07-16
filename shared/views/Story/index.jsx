@@ -30,7 +30,7 @@ export default class Story extends React.Component {
       defaultAlignment: 'center'
     };
 
-    StoryActions.getStory(props.params.id)(props.dispatch);
+    props.dispatch(StoryActions.getStory(props.params.id));
   }
 
   componentDidMount() {
@@ -57,13 +57,10 @@ export default class Story extends React.Component {
       text:  this.exportText()
     };
 
-    StoryActions.postStory(payload)( (action) => {
-      this.props.dispatch(action);
-
-      this.props.dispatch(
-        StoryActions.setEditing(false)
-      );
-    });
+    this.props.dispatch(StoryActions.postStory(payload))
+      .then(success => {
+          if(success) this.props.dispatch(StoryActions.setEditing(false));
+      });
   }
 
   // Concatanate html tags into one string for exporting
