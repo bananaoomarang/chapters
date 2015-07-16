@@ -28,7 +28,7 @@ export default class MainView extends React.Component {
     return (
       <div id="main-view">
         <h1>
-          <Link to="home">Chapters</Link>
+          <Link to="/home">Chapters</Link>
         </h1>
 
         <hr/>

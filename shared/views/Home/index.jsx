@@ -24,11 +24,11 @@ export default class Home extends React.Component {
 
         <hr />
 
-        <Link to="login">Login</Link>
+        <Link to="/login">Login</Link>
 
         <br />
 
-        <Link to="register">Register</Link>
+        <Link to="/register">Register</Link>
       </div>
     );
   }
