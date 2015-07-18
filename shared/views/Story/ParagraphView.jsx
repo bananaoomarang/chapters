@@ -30,7 +30,8 @@ export default class ParagraphView extends React.Component {
     editing:          PropTypes.bool.isRequired,
     focusedParagraph: PropTypes.number,
     globalAlignment:  PropTypes.string.isRequired,
-    globalFont:       PropTypes.object.isRequired
+    globalFont:       PropTypes.object.isRequired,
+    html:             PropTypes.string
   }
 
   state = {
@@ -162,17 +163,19 @@ export default class ParagraphView extends React.Component {
     };
 
     return (
-      <div className="paragraphs" id="paragraph-container" style={globalStyle}>
-        {
-          this.props.paragraphs.map( (p, index) => {
-            const style = {
-              fontSize:  p.getIn(['font', 'size']),
-              textAlign: p.get('alignment')
-            };
+      <div>
+        <div className="paragraphs" id="paragraph-container" style={globalStyle}>
+          {
+            this.props.paragraphs.map( (p, index) => {
+              const style = {
+                fontSize:  p.getIn(['font', 'size']),
+                textAlign: p.get('alignment')
+              };
 
-            return <p key={index} ref={index} data-index={index} style={style} onFocus={this.handleFocus} onBlur={this.handleBlur} contentEditable={this.props.editing}>{p.get('text')}</p>;
-          })
-        }
+              return <p key={index} ref={index} data-index={index} style={style} onFocus={this.handleFocus} onBlur={this.handleBlur} contentEditable={this.props.editing}>{p.get('text')}</p>;
+            })
+          }
+        </div>
 
         <ParagraphRenderer html={this.props.html} {...bindActionCreators(StoryActions, this.props.dispatch)}/>
       </div>
