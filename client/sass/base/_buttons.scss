@@ -16,6 +16,7 @@ button {
   user-select: none;
   vertical-align: middle;
   white-space: nowrap;
+  margin-left: 0.75em;
 
   &:hover {
     background-color: darken(#fff, 60%);
@@ -33,4 +34,24 @@ button {
   }
 
   @include transition(all 0.15s ease-in-out);
+}
+
+
+.btn {
+  padding: 0.2em;
+  outline: none;
+}
+
+.btn--large {
+  @extend .btn;
+
+  width: 6em;
+  height: 3em;
+}
+
+.btn--small {
+  @extend .btn;
+
+  width: 4em;
+  height: 2em;
 }

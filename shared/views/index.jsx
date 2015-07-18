@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import ifdefBrowser         from 'lib/ifdefBrowser';
 import { connect }          from 'react-redux';
-import { Link }             from 'react-router';
+import Navbar               from 'views/Navbar';
 import * as SessionActions  from 'actions/SessionActions';
 
 @connect(state => ({
@@ -31,9 +31,8 @@ export default class MainView extends React.Component {
 
     return (
       <div id="main-view">
-        <h1>
-          <Link to="/home">Chapters</Link>
-        </h1>
+
+        <Navbar />
 
         <hr/>
 
