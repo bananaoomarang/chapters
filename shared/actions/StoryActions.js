@@ -42,19 +42,17 @@ export function postStory(payload) {
   const sessionToken = window.sessionStorage.getItem('token');
 
   let opts = {
-    method:  'post',
-    url:     '',
+    method:  'POST',
+    url:     '/stories',
     data:    payload,
     headers: {
       Authorization: 'Bearer ' + sessionToken
     }
   };
 
-  // TODO Dodgy API. Should be PATCH/POST
   if(payload.id) {
-    opts.url = '/stories/' + payload.id;
-  } else {
-    opts.url = '/stories/import';
+    opts.url += '/' + payload.id;
+    opts.method = 'PATCH';
   }
 
   return {
