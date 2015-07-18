@@ -61,6 +61,23 @@ export function postStory(payload) {
   };
 }
 
+export function deleteStory(id) {
+  const sessionToken = window.sessionStorage.getItem('token');
+
+  const opts = {
+    method: 'DELETE',
+    url: '/stories/' + id,
+    headers: {
+      Authorization: 'Bearer ' + sessionToken
+    }
+  };
+
+  return {
+    type:    'DELETE_STORY',
+    promise: request(opts)
+  };
+}
+
 export function setLoading(loading) {
   return {
     type: 'SET_LOADING',
