@@ -38,8 +38,8 @@ export default function storyReducer(state = defaultState, action) {
 
     case 'SET_STORY':
       return state
-        .mergeDeep({ story: action.story })
-        .setIn(['story', 'paragraphs'], List(action.story.paragraphs || []));
+        .mergeDeepIn(['story'], action.story)
+        .setIn(['story', 'paragraphs'], List(action.story.paragraphs || state.getIn(['story', 'paragraphs'])));
 
     case 'SET_EDITABLE_STORIES':
       return state.set('editableStories', fromJS(action.list));

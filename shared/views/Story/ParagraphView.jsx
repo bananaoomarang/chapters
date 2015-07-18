@@ -56,9 +56,9 @@ export default class ParagraphView extends React.Component {
       e.preventDefault();
       e.stopPropagation();
 
-      var currentParagraph   = this.refs[this.props.focusedParagraph].getDOMNode();
+      if(this.props.focusedParagraph === -1) return;
 
-      if(!currentParagraph) return;
+      const currentParagraph   = this.refs[this.props.focusedParagraph].getDOMNode();
 
       const caret              = getCaret(currentParagraph);
       const currentIndex       = Number(currentParagraph.dataset.index);
@@ -81,9 +81,9 @@ export default class ParagraphView extends React.Component {
 
     kbjs.on('backspace', (e) => {
 
-      const currentParagraph   = this.refs[this.props.focusedParagraph].getDOMNode();
+      if(this.props.focusedParagraph === -1) return;
 
-      if(!currentParagraph) return;
+      const currentParagraph   = this.refs[this.props.focusedParagraph].getDOMNode();
 
       const currentText        = currentParagraph.textContent;
       const currentIndex       = Number(currentParagraph.dataset.index);
@@ -128,11 +128,11 @@ export default class ParagraphView extends React.Component {
 
     kbjs.on('up', () => {
 
-      var currentParagraph   = this.refs[this.props.focusedParagraph].getDOMNode();
+      if(this.props.focusedParagraph === -1) return;
 
-      if(!currentParagraph) return;
+      const currentParagraph   = this.refs[this.props.focusedParagraph].getDOMNode();
 
-      var previousParagraph  = currentParagraph.previousSibling;
+      const previousParagraph  = currentParagraph.previousSibling;
 
       if (previousParagraph) previousParagraph.focus();
 
@@ -140,11 +140,11 @@ export default class ParagraphView extends React.Component {
 
     kbjs.on('down', () => {
 
-      var currentParagraph   = this.refs[this.props.focusedParagraph].getDOMNode();
+      if(this.props.focusedParagraph === -1) return;
 
-      if(!currentParagraph) return;
+      const currentParagraph   = this.refs[this.props.focusedParagraph].getDOMNode();
 
-      var nextParagraph  = currentParagraph.nextSibling;
+      const nextParagraph  = currentParagraph.nextSibling;
 
       if (nextParagraph) nextParagraph.focus();
 
