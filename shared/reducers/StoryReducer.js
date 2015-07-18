@@ -1,4 +1,4 @@
-import { fromJS } from 'immutable';
+import { List, fromJS } from 'immutable';
 import { Story }  from 'records/Records';
 
 const defaultState = fromJS({
@@ -38,7 +38,8 @@ export default function storyReducer(state = defaultState, action) {
 
     case 'SET_STORY':
       return state
-        .mergeDeep({ story: action.story });
+        .mergeDeep({ story: action.story })
+        .setIn(['story', 'paragraphs'], action.story.paragraphs || List());
 
     case 'SET_EDITABLE_STORIES':
       return state.set('editableStories', fromJS(action.list));
