@@ -8,7 +8,10 @@ export default class Carousel extends React.Component {
     var cfg = {
       slidesToShow:   3,
       slidesToScroll: 1,
-      dragging:       true
+      dragging:       true,
+      speed:          800,
+      autoplay:       true,
+      infinite:       true
     };
 
     return (
