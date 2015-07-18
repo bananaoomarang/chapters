@@ -27,3 +27,10 @@ export function validate(token) {
     promise: request.get('/users/validate', opts)
   };
 }
+
+export function loadResource(promise) {
+  return {
+    type: 'LOAD_RESOURCE',
+    promise
+  }
+}

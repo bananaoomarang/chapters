@@ -18,7 +18,7 @@
   },
   "rules": {
     // Ignore Rules
-    "strict": 1,
+    "strict": 0,
     "no-underscore-dangle": 0,
     "no-mixed-requires": 0,
     "no-process-exit": 0,
@@ -41,7 +41,7 @@
     // Errors
     "no-undef": 2,
     "no-dupe-keys": 2,
-    "no-empty-class": 2,
+    "no-empty-character-class": 2,
     "no-self-compare": 2,
     "valid-typeof": 2,
     "no-unused-vars": 2,
@@ -52,7 +52,7 @@
 
     // Stylistic errors
     "no-spaced-func": 2,
-    "no-space-before-semi": 2,
+    "semi-spacing": 2,
     "quotes": [2, "single"],
 
     // Plugin rules

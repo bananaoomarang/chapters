@@ -8,6 +8,7 @@ import * as reducers       from 'reducers';
 import  immutifyState      from 'lib/immutifyState';
 import promiseMiddleware   from 'lib/promiseMiddleware';
 import fetchComponentData  from 'lib/fetchComponentData';
+import * as SessionActions from 'actions/SessionActions';
 import { createStore,
          combineReducers,
          applyMiddleware } from 'redux';
@@ -33,9 +34,13 @@ const store   = applyMiddleware(promiseMiddleware)(createStore)(reducer, initial
 // Note how we fill the next route on route leave.
 // We don't waste time re-fetching when we're hydrated from server.
 function onRouteLeave(nextState, transition, done) {
-  fetchComponentData(store.dispatch, nextState.branch.map(b => b.component), nextState.params)
-    .then(()   => done())
-    .catch(err => console.log(err));
+  store.dispatch(
+    SessionActions.loadResource(
+      fetchComponentData(store.dispatch, nextState.branch.map(b => b.component), nextState.params)
+        .then(()   => done())
+        .catch(err => console.log(err))
+    )
+  );
 }
 
 const routes = createRoutes(onRouteLeave);

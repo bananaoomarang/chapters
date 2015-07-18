@@ -1,10 +1,18 @@
-import { fromJS }           from 'immutable';
+import { fromJS } from 'immutable';
 
  const defaultState = fromJS({
-    name:  null,
-    token: null,
-    error: null,
-    legit: false
+   //
+   // Session details
+   //
+   name:  null,
+   token: null,
+   error: null,
+   legit: false,
+
+   //
+   // API Interaction
+   //
+   loading: false
  });
 
  export default function sessionReducer(state = defaultState, action) {
@@ -33,6 +41,12 @@ import { fromJS }           from 'immutable';
          legit: true,
          name:  action.res.data.name
        });
+
+    case 'LOAD_RESOURCE_REQUEST':
+      return state.set('loading', true);
+
+    case 'LOAD_RESOURCE':
+      return state.set('loading', false);
 
      default:
        return state;
