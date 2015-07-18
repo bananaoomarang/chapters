@@ -1,10 +1,5 @@
-import { fromJS }               from 'immutable';
-import ifdefBrowser             from 'lib/ifdefBrowser';
-import { Paragraph, Story }     from 'records/Records';
-
-const $ = ifdefBrowser( () => {
-  return require('jquery');
-});
+import { fromJS } from 'immutable';
+import { Story }  from 'records/Records';
 
 const defaultState = fromJS({
   story: new Story(),
@@ -44,23 +39,6 @@ export default function storyReducer(state = defaultState, action) {
     case 'SET_STORY':
       return state
         .mergeDeep({ story: action.story });
-
-    case 'RENDER_PARAGRAPHS':
-      let paragraphs = [];
-
-      // TODO Just spent about three hours trying to do something cleverer. No dice.
-      if($) {
-        paragraphs =
-          $(state.getIn(['story', 'html']))
-             .toArray()
-             .filter(p => p.nodeName !== '#text')
-             .map(p => new Paragraph({
-               text: p.textContent
-         }));
-      }
-
-      return state
-        .setIn(['story', 'paragraphs'], fromJS(paragraphs));
 
     case 'SET_EDITABLE_STORIES':
       return state.set('editableStories', fromJS(action.list));

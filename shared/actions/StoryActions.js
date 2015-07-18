@@ -99,9 +99,3 @@ export function setFocusedParagraph(index) {
     index
   };
 }
-
-export function renderParagraphs() {
-  return {
-    type: 'RENDER_PARAGRAPHS'
-  };
-}

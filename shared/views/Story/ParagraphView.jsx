@@ -1,18 +1,21 @@
 // TODO Just realised we're still doing a bunch of state setting logic that should be store-ified...
-import React, { PropTypes } from 'react';
-import { List }             from 'immutable';
-import { connect }          from 'react-redux';
-import { Paragraph }        from 'records/Records'
-import getCaret             from 'lib/getCaret';
-import ifdefBrowser         from 'lib/ifdefBrowser';
-import * as StoryActions    from 'actions/StoryActions';
+import React, { PropTypes }   from 'react';
+import { List }               from 'immutable';
+import { connect }            from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { Paragraph }          from 'records/Records';
+import getCaret               from 'lib/getCaret';
+import ifdefBrowser           from 'lib/ifdefBrowser';
+import * as StoryActions      from 'actions/StoryActions';
+import ParagraphRenderer      from './ParagraphRenderer';
 
-var kbjs = ifdefBrowser( () => {
+const kbjs = ifdefBrowser( () => {
   return require('keyboardjs');
 });
 
 @connect(state => {
   return {
+    html:             state.story.getIn(['story', 'html']),
     editing:          state.story.get('editing'),
     focusedParagraph: state.story.getIn(['story', 'focusedParagraph']),
     globalAlignment:  state.story.get('alignment'),
@@ -63,7 +66,6 @@ export default class ParagraphView extends React.Component {
       const currentHTML        = currentParagraph.innerHTML;
       const newParagraph       = new Paragraph();
 
-      console.log(this.props.paragraphs);
       const newParagraphsArray = this.props.paragraphs
         // Add new paragraphs
         .splice(nextIndex, 0, newParagraph)
@@ -171,6 +173,8 @@ export default class ParagraphView extends React.Component {
             return <p key={index} ref={index} data-index={index} style={style} onFocus={this.handleFocus} onBlur={this.handleBlur} contentEditable={this.props.editing}>{p.get('text')}</p>;
           })
         }
+
+        <ParagraphRenderer html={this.props.html} {...bindActionCreators(StoryActions, this.props.dispatch)}/>
       </div>
     );
   }
