@@ -3,16 +3,17 @@ import React               from 'react';
 import { Router }          from 'react-router';
 import Location            from 'react-router/lib/Location';
 import axios               from 'axios';
-import routes              from './shared/routes';
+import createRoutes        from './shared/routes';
 import proxy               from 'express-http-proxy';
 import { Provider }        from 'react-redux';
 import * as reducers       from 'reducers';
-import promiseMiddleware   from 'lib/promiseMiddleware'
+import promiseMiddleware   from 'lib/promiseMiddleware';
+import fetchComponentData  from 'lib/fetchComponentData';
 import { createStore,
          combineReducers,
          applyMiddleware } from 'redux';
 
-const API_URL     = 'http://localhost:8888';
+const API_URL = 'http://localhost:8888';
 
 // Prepend all axios requests with API address
 axios.interceptors.request.use( (cfg) => {
@@ -33,25 +34,13 @@ app.use('/favicon.ico', function (req, res) {
   res.status(404).end('No.');
 });
 
-function fetchComponentData(dispatch, components, params) {
-  const needs = components.reduce( (prev, current) => {
-
-    return (current.needs || [])
-      .concat(current.DecoratedComponent.needs || [])
-      .concat(prev);
-  }, []);
-
-  const promises = needs.map(need => dispatch(need(params)));
-
-  return Promise.all(promises);
-}
-
 // Pass everything else through react-router
 app.use(function (req, res) {
   const location = new Location(req.path, req.query);
   const reducer  = combineReducers(reducers);
   const store    = applyMiddleware(promiseMiddleware)(createStore)(reducer);
 
+  const routes = createRoutes();
 
   Router.run(routes, location, function (routeErr, initialState) {
     if(routeErr) return console.error(routeErr);

@@ -33,6 +33,7 @@ export default class Story extends React.Component {
       },
       defaultAlignment: 'center'
     };
+
   }
 
   componentDidMount = () => {
@@ -50,6 +51,7 @@ export default class Story extends React.Component {
     dropzone.on('sending', function(file, xhr, formData) {
       formData.append('filename', file.name);
     });
+
 
     this.props.dispatch(StoryActions.renderParagraphs());
   }

@@ -1,5 +1,5 @@
-import React     from 'react';
-import { Route } from 'react-router';
+import React              from 'react';
+import { Route }          from 'react-router';
 
 import Root        from 'views';
 import Home        from 'views/Home';
@@ -10,14 +10,17 @@ import User        from 'views/User';
 import Story       from 'views/Story';
 import UserStories from 'views/Users/Stories';
 
-export default (
-  <Route component={Root} path="/">
-    <Route name="home"         component={Home}        path="home"                 />
-    <Route name="login"        component={Login}       path="login"                />
-    <Route name="register"     component={Register}    path="register"             />
-    <Route name="story"        component={Story}       path="/stories/:id"         />
-    <Route name="users"        component={Users}       path="users"                />
-    <Route name="user"         component={User}        path="/users/:user"         />
-    <Route name="user-stories" component={UserStories} path="/users/:user/stories" />
-  </Route>
-);
+export default function getRoutes(onLeave) {
+
+  return (
+    <Route component={Root} path="/">
+      <Route name="home"         component={Home}        path="home"                 onLeave={onLeave} />
+      <Route name="login"        component={Login}       path="login"                                  />
+      <Route name="register"     component={Register}    path="register"                               />
+      <Route name="story"        component={Story}       path="/stories/:id"         onLeave={onLeave} />
+      <Route name="users"        component={Users}       path="users"                                  />
+      <Route name="user"         component={User}        path="/users/:user"                           />
+      <Route name="user-stories" component={UserStories} path="/users/:user/stories"                   />
+    </Route>
+  );
+}

@@ -3,10 +3,11 @@ import { Router }          from 'react-router';
 import { history }         from 'react-router/lib/BrowserHistory';
 import axios               from 'axios';
 import { Provider }        from 'react-redux';
-import routes              from 'routes';
+import createRoutes        from 'routes';
 import * as reducers       from 'reducers';
 import  immutifyState      from 'lib/immutifyState';
 import promiseMiddleware   from 'lib/promiseMiddleware';
+import fetchComponentData  from 'lib/fetchComponentData';
 import { createStore,
          combineReducers,
          applyMiddleware } from 'redux';
@@ -28,6 +29,16 @@ const initialState = immutifyState(window.__INITIAL_DATA__);
 
 const reducer = combineReducers(reducers);
 const store   = applyMiddleware(promiseMiddleware)(createStore)(reducer, initialState);
+
+// Note how we fill the next route on route leave.
+// We don't waste time re-fetching when we're hydrated from server.
+function onRouteLeave(nextState, transition, done) {
+  fetchComponentData(store.dispatch, nextState.branch.map(b => b.component), nextState.params)
+    .then(()   => done())
+    .catch(err => console.log(err));
+}
+
+const routes = createRoutes(onRouteLeave);
 
 React.render(
   <Provider store={store}>
