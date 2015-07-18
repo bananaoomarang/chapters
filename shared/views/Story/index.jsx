@@ -11,7 +11,10 @@ var Dropzone = ifdefBrowser( () => {
   return require('dropzone');
 });
 
-@connect(state => state.story.toObject())
+@connect(state => ({
+  story:   state.story.get('story'),
+  editing: state.story.get('editing')
+}))
 
 export default class Story extends React.Component {
   static propTypes = {
