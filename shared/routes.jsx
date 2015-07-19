@@ -12,15 +12,16 @@ import UserStories from 'views/Users/Stories';
 
 export default function getRoutes(onLeave) {
 
+  // TODO Figure out a sane way of making onLeave handler a default....
   return (
     <Route component={Root} path="/">
       <Route name="home"         component={Home}        path="home"                 onLeave={onLeave} />
-      <Route name="login"        component={Login}       path="login"                                  />
-      <Route name="register"     component={Register}    path="register"                               />
+      <Route name="login"        component={Login}       path="login"                onLeave={onLeave} />
+      <Route name="register"     component={Register}    path="register"             onLeave={onLeave} />
       <Route name="story"        component={Story}       path="/stories/:id"         onLeave={onLeave} />
-      <Route name="users"        component={Users}       path="users"                                  />
-      <Route name="user"         component={User}        path="/users/:user"                           />
-      <Route name="user-stories" component={UserStories} path="/users/:user/stories"                   />
+      <Route name="users"        component={Users}       path="users"                onLeave={onLeave} />
+      <Route name="user"         component={User}        path="/users/:user"         onLeave={onLeave} />
+      <Route name="user-stories" component={UserStories} path="/users/:user/stories" onLeave={onLeave} />
     </Route>
   );
 }

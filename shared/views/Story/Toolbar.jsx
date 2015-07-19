@@ -21,7 +21,7 @@ export default class Toolbar extends React.Component {
     handleSave:       PropTypes.func.isRequired,
     editing:          PropTypes.bool.isRequired,
     focusedParagraph: PropTypes.number,
-    id:               PropTypes.number
+    id:               PropTypes.string
   }
 
   handleAlignment = (e) => {
