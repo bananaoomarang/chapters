@@ -43,11 +43,13 @@ export default class Story extends React.Component {
     const sessionToken = window.sessionStorage.getItem('token');
 
     const dropzoneOpts = {
-      url:     '/stories/upload',
+      url:     '/api/stories/upload',
       headers: {
         Authorization: 'Bearer ' + sessionToken
       }
     };
+
+    console.log(dropzoneOpts);
 
     const dropzone  = new Dropzone('#story', dropzoneOpts);
 

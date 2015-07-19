@@ -16,10 +16,10 @@ export default class ParagraphRenderer extends React.Component {
   loadAndSetParagraphs = () => {
     const paragraphs =
       toArray(this.refs['paragraph-renderer'].getDOMNode().childNodes)
-         .filter(p => p.nodeName !== '#text')
-         .map(p => new Paragraph({
-           text: p.textContent
-      }));
+        .filter(p => p.nodeName !== '#text')
+        .map(p => new Paragraph({
+          text: p.innerHTML
+        }));
 
     this.props.setStory({ paragraphs });
   }

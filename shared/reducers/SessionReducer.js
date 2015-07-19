@@ -45,7 +45,7 @@ import { fromJS } from 'immutable';
      case 'VALIDATE_SESSION_FAILURE':
        return state.merge({
          legit: false,
-         error: action.error
+         error: action.error.data.message
        });
 
     case 'LOAD_RESOURCE_REQUEST':

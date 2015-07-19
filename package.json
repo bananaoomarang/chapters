@@ -11,7 +11,7 @@
     "start": "NODE_PATH=$NODE_PATH:./shared node .",
     "build": "webpack --progress --color",
     "dev": "npm run start & webpack-dev-server --progress --color",
-    "validate": "eslint shared shared/views/*.jsx shared/routes.jsx",
+    "validate": "eslint shared shared/views/*.jsx shared/routes.jsx client/*.jsx *.jsx *.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "pre-commit": [

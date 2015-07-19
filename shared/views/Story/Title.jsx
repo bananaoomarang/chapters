@@ -39,7 +39,7 @@ export default class StoryTitle extends React.Component {
   render () {
 
     const classes = classSet({
-      placeholder: this.props.title ? false : true
+      greyed: this.props.title ? false : true
     });
 
     var display;

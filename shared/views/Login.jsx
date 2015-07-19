@@ -3,7 +3,6 @@
 import React               from 'react';
 import { PropTypes }       from 'react';
 import classSet            from 'classnames';
-import { Link }            from 'react-router';
 import { connect }         from 'react-redux';
 import * as SessionActions from 'actions/SessionActions';
 
@@ -60,10 +59,6 @@ export default class Login extends React.Component {
         </form>
 
         <a className={errClasses}>{this.props.error}</a>
-
-        <br />
-
-        <Link to="register">Register</Link>
       </div>
     );
   }

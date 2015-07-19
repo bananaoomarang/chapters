@@ -1,7 +1,5 @@
+//  Modified from Bourbon refills
 header.navigation {
-  $base-border-color: gainsboro !default;
-  $base-border-radius: 3px !default;
-  $large-screen: em(860) !default;
   $navigation-padding: 0em;
   $navigation-background: white;
   $navigation-color: black;
@@ -23,7 +21,7 @@ header.navigation {
   .navigation-wrapper {
     @include clearfix;
     @include outer-container;
-    max-width: 75%;
+    max-width: 100%;
     position: relative;
     z-index: 9999;
   }
@@ -32,6 +30,9 @@ header.navigation {
     float: left;
     max-height: $navigation-height;
     padding-left: $navigation-padding;
+    @include span-columns(6);
+    @include shift(3);
+    margin-right: 0;
 
     a {
       max-height: $navigation-height;
@@ -122,7 +123,7 @@ header.navigation {
 
   // Elements on the far right
 
-  .navigation-tools {
+  .right {
     clear: both;
     display: block;
 
@@ -132,28 +133,23 @@ header.navigation {
     }
   }
 
-  .right {
+  .nav-item {
     float: left;
-    padding: 0;
-    margin: 0;
-    width: 60%;
 
     ul {
       position: relative;
 
-      font-size: 1em;
+      font-size: $base-font-size;
       width: 100%;
     }
 
     @include media($horizontal-bar-mode) {
       display: inline-block;
-      position: relative;
-      width: 16em;
       padding: 0;
+      width: 100%;
 
-      input {
-        @include box-sizing(border-box);
-        display: block;
+      span {
+        vertical-align: middle;
       }
     }
   }

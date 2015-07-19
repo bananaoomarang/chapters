@@ -10,13 +10,16 @@ button {
   font-family: $base-font-family;
   font-size: $base-font-size;
   font-weight: 600;
-  line-height: 1;
+  line-height: 1em;
   padding: 0.75em 1em;
   text-decoration: none;
   user-select: none;
   vertical-align: middle;
   white-space: nowrap;
-  margin-left: 0.75em;
+  margin-left: $base-spacing;
+  padding: 0.3em;
+  outline: none;
+  width: 6em;
 
   &:hover {
     background-color: darken(#fff, 60%);
@@ -38,8 +41,6 @@ button {
 
 
 .btn {
-  padding: 0.2em;
-  outline: none;
 }
 
 .btn--large {
@@ -55,3 +56,4 @@ button {
   width: 4em;
   height: 2em;
 }
+
