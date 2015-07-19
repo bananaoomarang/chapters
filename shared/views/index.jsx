@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react';
-import ifdefBrowser         from 'lib/ifdefBrowser';
 import { connect }          from 'react-redux';
 import Navbar               from 'views/Navbar';
 import * as SessionActions  from 'actions/SessionActions';
@@ -11,19 +10,16 @@ import * as SessionActions  from 'actions/SessionActions';
 
 export default class MainView extends React.Component {
   static propTypes = {
+    dispatch: PropTypes.func.isRequired,
     children: PropTypes.object.isRequired,
     legit:    PropTypes.bool.isRequired,
     loading:  PropTypes.bool.isRequired
   }
 
-  constructor(props) {
-    super(props);
+  componentDidMount() {
+    const storedToken = window.sessionStorage.getItem('token');
 
-    ifdefBrowser(() => {
-      const storedToken = window.sessionStorage.getItem('token');
-
-      if(storedToken) props.dispatch(SessionActions.validate(storedToken));
-    });
+    if(storedToken) this.props.dispatch(SessionActions.validate(storedToken));
   }
 
   render() {
