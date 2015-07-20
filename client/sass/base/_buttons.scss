@@ -19,6 +19,7 @@ button {
   padding: 0.3em;
   outline: none;
   width: 6em;
+  margin-bottom: $small-spacing;
 
   &:hover {
     background-color: darken(#fff, 60%);
@@ -36,11 +37,6 @@ button {
   }
 
   @include transition(all 0.15s ease-in-out);
-}
-
-
-.btn {
-  
 }
 
 .btn--large {

@@ -11,16 +11,19 @@ import * as SessionActions  from 'actions/SessionActions';
 
 export default class MainView extends React.Component {
   static propTypes = {
-    dispatch: PropTypes.func.isRequired,
-    children: PropTypes.object.isRequired,
-    legit:    PropTypes.bool.isRequired,
-    loading:  PropTypes.bool.isRequired
+    dispatch:  PropTypes.func.isRequired,
+    children:  PropTypes.object.isRequired,
+    legit:     PropTypes.bool.isRequired,
+    loading:   PropTypes.bool.isRequired,
+    nightMode: PropTypes.bool.isRequired
   }
 
   setNightMode = (bool) => {
-    console.log(bool);
-    if(bool) document.body.className += 'night-mode';
-    else     document.body.className = document.body.className.replace('night-mode', '');
+    if(bool)
+      document.body.className += 'night-mode';
+    else
+      document.body.className = document.body.className.replace('night-mode', '');
+    
   }
 
   componentDidMount() {
