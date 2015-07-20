@@ -1,6 +1,7 @@
 import React, { PropTypes }   from 'react';
 import { connect }            from 'react-redux';
 import { bindActionCreators } from 'redux';
+import classSet               from 'classnames';
 import FontSizeSelector       from './FontSizeSelector';
 import * as StoryActions      from 'actions/StoryActions';
 
@@ -34,12 +35,13 @@ export default class Toolbar extends React.Component {
   }
 
   render() {
-    const style = {
-      display: this.props.editing ? 'block' : 'none'
-    };
+    const classes = classSet({
+      toolbar:   true,
+      hidden:    !this.props.editing
+    });
 
     return (
-      <div className='toolbar' style={style}>
+      <div className={classes}>
         <FontSizeSelector defaultSize={this.props.defaultFont.size} focusedParagraph={this.props.focusedParagraph} {...bindActionCreators(StoryActions, this.props.dispatch)}/>
 
         <br />

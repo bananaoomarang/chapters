@@ -1,4 +1,3 @@
-// TODO Just realised we're still doing a bunch of state setting logic that should be store-ified...
 import React, { PropTypes }   from 'react';
 import { List }               from 'immutable';
 import { connect }            from 'react-redux';
@@ -163,7 +162,7 @@ export default class ParagraphView extends React.Component {
     };
 
     return (
-      <div>
+      <div id="paragraph-view">
         <div className="paragraphs" id="paragraph-container" style={globalStyle}>
           {
             this.props.paragraphs.map( (p, index) => {

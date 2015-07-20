@@ -14,8 +14,8 @@ const defaultState = fromJS({
   userStories: [],
 
   // Interface state
-  loading: false,
-  editing: false
+  loading:   false,
+  editing:   false
 });
 
 export default function storyReducer(state = defaultState, action) {

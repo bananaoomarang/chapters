@@ -19,6 +19,7 @@ export default function getRoutes(onLeave) {
       <Route name="login"        component={Login}       path="login"                onLeave={onLeave} />
       <Route name="register"     component={Register}    path="register"             onLeave={onLeave} />
       <Route name="story"        component={Story}       path="/stories/:id"         onLeave={onLeave} />
+      <Route name="new-story"    component={Story}       path="/stories/new"         onLeave={onLeave} />
       <Route name="users"        component={Users}       path="users"                onLeave={onLeave} />
       <Route name="user"         component={User}        path="/users/:user"         onLeave={onLeave} />
       <Route name="user-stories" component={UserStories} path="/users/:user/stories" onLeave={onLeave} />

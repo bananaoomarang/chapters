@@ -12,8 +12,8 @@ var Dropzone = ifdefBrowser( () => {
 });
 
 @connect(state => ({
-  story:   state.story.get('story'),
-  editing: state.story.get('editing')
+  story:     state.story.get('story'),
+  editing:   state.story.get('editing')
 }))
 
 export default class Story extends React.Component {

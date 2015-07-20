@@ -1,6 +1,6 @@
 //  Modified from Bourbon refills
 header.navigation {
-  $navigation-padding: 0em;
+  $navigation-padding: $small-spacing;
   $navigation-background: white;
   $navigation-color: black;
   $navigation-color-hover: grey;
@@ -24,12 +24,12 @@ header.navigation {
     max-width: 100%;
     position: relative;
     z-index: 9999;
+    padding: $navigation-padding;
   }
 
   .logo {
     float: left;
     max-height: $navigation-height;
-    padding-left: $navigation-padding;
     @include span-columns(6);
     @include shift(3);
     margin-right: 0;

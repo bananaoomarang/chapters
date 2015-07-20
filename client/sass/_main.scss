@@ -1,5 +1,5 @@
-body {
-  padding: 20px;
+html, body {
+  margin: 0;
   text-align: center;
   min-height: 100%;
 }
@@ -20,7 +20,7 @@ h1, h2, h3, h4, h5 {
 
   h1,h2,h3,h4,h5 {
     a {
-      color: #000;
+      color: inherit;
 
       &:hover {
         color: lighten(#000, 40%);
@@ -38,6 +38,7 @@ h1, h2, h3, h4, h5 {
     button, input {
       text-align: center;
       margin: 1em 0.2em;
+      color: #fff;
     }
 
     button {
@@ -96,7 +97,8 @@ h1, h2, h3, h4, h5 {
   }
 
   .paragraphs {
-    font-size: 24px;
+    font-size: $base-font-size;
+    padding: $small-spacing;
   }
 }
 
@@ -139,7 +141,6 @@ h1, h2, h3, h4, h5 {
 .loader {
   $size: 8em;
   $border: 0.6em;
-  border: $border solid #000;
   border-radius: $size;
   height: $size;
   width: $size;
@@ -148,6 +149,7 @@ h1, h2, h3, h4, h5 {
   position: absolute;
   top: 50%;
   opacity: 0;
+  background-color: #000;
 
   animation: pulsate 1.2s ease-out;
   animation-iteration-count: infinite;
@@ -167,5 +169,39 @@ h1, h2, h3, h4, h5 {
       opacity: 0;
     }
 
+  }
+}
+
+.night-mode {
+  * {
+    background-color: #000;
+    color: #fff;
+    border-color: #fff;
+  }
+
+  .loader {
+    background-color: #fff;
+  }
+
+  input {
+    background-color: #000;
+    border-color: #fff;
+    color: #fff;
+  }
+
+  button, input[type=submit] {
+    background-color: #000;
+    border-color: #fff;
+    color: #fff;
+
+    &:hover {
+      background-color: lighten(#000, 60%);
+      color: #000;
+    }
+
+    &:active {
+      background-color: #fff;
+      border: $black-border;
+    }
   }
 }

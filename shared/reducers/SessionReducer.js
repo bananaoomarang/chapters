@@ -9,6 +9,11 @@ import { fromJS } from 'immutable';
    error: null,
    legit: false,
 
+   // 
+   // Interface
+   //
+   nightMode: ( (new Date()).getHours() >= 21) || ( (new Date().getHours()) <= 6),
+
    //
    // API Interaction
    //
@@ -53,6 +58,9 @@ import { fromJS } from 'immutable';
 
     case 'LOAD_RESOURCE':
       return state.set('loading', false);
+
+    case 'SET_NIGHT_MODE':
+      return state.set('nightMode', action.bool);
 
      default:
        return state;

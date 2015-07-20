@@ -28,12 +28,6 @@ export default class Home extends React.Component {
         <Carousel stories={this.props.stories} />
 
         <hr />
-
-        <Link to="/login">Login</Link>
-
-        <br />
-
-        <Link to="/register">Register</Link>
       </div>
     );
   }

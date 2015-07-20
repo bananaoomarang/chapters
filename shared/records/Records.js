@@ -16,7 +16,8 @@ export const Story = Record({
 });
 
 export const Paragraph = Record({
-  text: '',
+  text:     '',
+  markdown: '',
   font: {
     size: 'inherit'
   },
