@@ -26,19 +26,21 @@ export default class Navbar extends React.Component {
 
             <nav className="nav-item" role="navigation" style={ { display: this.props.legit ? 'none' : 'inline-block' } }>
 
-              <ul>
-                <li className="nav-link">
-                  <Link to="/login">
-                    <button>Login</button>
-                  </Link>
-                </li>
+              <div className="btn-group">
+                <ul>
+                  <li className="nav-link">
+                    <Link to="/login">
+                      <button>Login</button>
+                    </Link>
+                  </li>
 
-                <li className="nav-link">
-                  <Link to="/register">
-                    <button>Sign up</button>
-                  </Link>
-                </li>
-              </ul>
+                  <li className="nav-link">
+                    <Link to="/register">
+                      <button>Sign up</button>
+                    </Link>
+                  </li>
+                </ul>
+              </div>
 
             </nav>
 

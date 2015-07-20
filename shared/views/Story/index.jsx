@@ -97,7 +97,7 @@ export default class Story extends React.Component {
 
   render () {
     const editButtonStyle = {
-      display: this.props.editing ? 'none' : 'inline'
+      display: this.props.editing ? 'none' : 'inline-block'
     };
 
     return (
@@ -106,7 +106,7 @@ export default class Story extends React.Component {
 
         <StoryTitle title={this.props.story.get('title')} placeholder="Untitled" />
 
-        <button className='btn' style={editButtonStyle} onClick={this.setEditing}>Edit</button>
+        <button style={editButtonStyle} onClick={this.setEditing}>Edit</button>
 
         <hr />
 

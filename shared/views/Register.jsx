@@ -63,7 +63,7 @@ export default class Register extends React.Component {
           <input type="email"    name="email"    id="form-email-field"    placeholder="eljames@hotmail.com" />
           <input type="password" name="password" id="form-password-field" placeholder="password"            />
 
-          <input type="submit" name="submit-user" id="submit-user-form" value="Register" />
+          <input type="submit" name="submit-user" id="submit-user-form" value="Sign up" />
         </form>
 
         <a className={errClasses}>{this.props.error}</a>

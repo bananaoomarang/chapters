@@ -55,7 +55,7 @@ export default class Login extends React.Component {
           <input type="text"     name="username" id="form-username-field" placeholder="Bill"     />
           <input type="password" name="password" id="form-password-field" placeholder="password" />
 
-          <input type="submit" name="user-login" id="submit-user-form" value="Go" />
+          <input type="submit" name="user-login" id="submit-user-form" value="Login" />
         </form>
 
         <a className={errClasses}>{this.props.error}</a>
