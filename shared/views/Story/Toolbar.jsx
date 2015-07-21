@@ -46,14 +46,18 @@ export default class Toolbar extends React.Component {
 
         <br />
 
-        <button className="btn" name="left"   onClick={this.handleAlignment}>Left</button>
-        <button className="btn" name="center" onClick={this.handleAlignment}>Center</button>
-        <button className="btn" name="right"  onClick={this.handleAlignment}>Right</button>
+        <div className="btn-group">
+            <button className="btn-group-member" name="left"   onClick={this.handleAlignment}>Left</button>
+            <button className="btn-group-member" name="center" onClick={this.handleAlignment}>Center</button>
+            <button className="btn-group-member" name="right"  onClick={this.handleAlignment}>Right</button>
+        </div>
 
         <br />
 
-        <button className="btn" name="save"   onClick={this.props.handleSave}>Save</button>
-        <button className="btn" name="delete" onClick={this.handleDelete}>Delete</button>
+        <div className="btn-group">
+            <button className="btn-group-member" name="save"   onClick={this.props.handleSave}>Save</button>
+            <button className="btn-group-member" name="delete" onClick={this.handleDelete}>Delete</button>
+        </div>
 
         <hr />
 

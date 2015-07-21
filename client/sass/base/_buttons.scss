@@ -54,11 +54,12 @@ button {
 }
 
 .btn-group {
-  button {
-    margin-left: $small-spacing;
+  button, .btn-group-member {
+    border-right: 0px;
+
+    &:last-child {
+      border-right: 1px solid;
+    }
   }
 
-  &:first-child {
-    margin-left: 0;
-  }
 }
