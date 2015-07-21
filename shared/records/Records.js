@@ -5,8 +5,10 @@ import { Record } from 'immutable';
 //
 export const Story = Record({
     id:               '',  // Database ID
+    read:             false,
+    write:            false,
     title:            '',
-    text:             '',  // Markdown
+    markdown:         '',  // Markdown
     html:             '',  // HTML from ^
     author:           '',
     depends:          [],  // Other stories this one depends on having read
@@ -17,7 +19,6 @@ export const Story = Record({
 
 export const Paragraph = Record({
   text:     '',
-  markdown: '',
   font: {
     size: 'inherit'
   },

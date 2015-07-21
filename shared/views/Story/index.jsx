@@ -49,8 +49,6 @@ export default class Story extends React.Component {
       }
     };
 
-    console.log(dropzoneOpts);
-
     const dropzone  = new Dropzone('#story', dropzoneOpts);
 
     dropzone.on('sending', function(file, xhr, formData) {
@@ -60,9 +58,9 @@ export default class Story extends React.Component {
 
   handleSave = () => {
     const payload = {
-      id:    this.props.story.get('id'),
-      title: this.props.story.get('title'),
-      text:  this.exportText()
+      id:       this.props.story.get('id'),
+      title:    this.props.story.get('title'),
+      markdown: this.exportText()
     };
 
     this.props.dispatch(StoryActions.postStory(payload))
@@ -96,8 +94,9 @@ export default class Story extends React.Component {
   }
 
   render () {
+    console.log(this.props.story.toJS());
     const editButtonStyle = {
-      display: this.props.editing ? 'none' : 'inline-block'
+      display: (this.props.editing || !this.props.story.get('write')) ? 'none' : 'inline-block'
     };
 
     return (

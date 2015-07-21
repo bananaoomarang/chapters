@@ -27,9 +27,7 @@ export default function storyReducer(state = defaultState, action) {
       };
 
       // TODO Dude. You control the API.
-      delete story._rev;
       delete story._id;
-      delete story.path;
 
       return storyReducer(state, {
         type: 'SET_STORY',

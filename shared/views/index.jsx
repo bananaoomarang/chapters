@@ -31,7 +31,6 @@ export default class MainView extends React.Component {
 
     if(storedToken) this.props.dispatch(SessionActions.validate(storedToken));
 
-    console.log(this.props);
     this.setNightMode(this.props.nightMode);
   }
 

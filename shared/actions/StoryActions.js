@@ -1,4 +1,5 @@
-import request                   from 'axios';
+import request      from 'axios';
+import ifdefBrowser from 'lib/ifdefBrowser';
 
 export function setStory(story) {
  return {
@@ -8,12 +9,18 @@ export function setStory(story) {
 }
 
 // Load story by ID
-export function getStory(id, token = '') {
-  const opts = {
+export function getStory(id) {
+  const token = ifdefBrowser(() => {
+    return window.sessionStorage.getItem('token');
+  }) || '';
+
+  let opts = {
     headers: {
       Authorization: 'Bearer ' + token
     }
   };
+
+  if(!token) delete opts.headers;
 
   return {
     type: 'GET_STORY',
