@@ -12,7 +12,21 @@ export default class Carousel extends React.Component {
       speed:          2000,
       autoplaySpeed:  5000,
       autoplay:       true,
-      infinite:       true
+      infinite:       true,
+      responsive: [
+          {
+            breakpoint: 860,
+            settings: {
+              slidesToShow: 2
+            }
+          },
+          {
+            breakpoint: 480,
+            settings: {
+              slidesToShow: 1
+            }
+          }
+      ]
     };
 
     return (
