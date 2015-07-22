@@ -12,17 +12,13 @@ export default class StoryTitle extends React.Component {
     clicked: false
   }
 
-  handleInput = (e) => {
-
+  handleBlur = (e) => {
     this.props.dispatch(
       StoryActions.setStory({
-        title: e.target.innerText
+        title: e.target.textContent
       })
     );
 
-  }
-
-  handleBlur = () => {
     this.setState({
       clicked: false
     });
@@ -49,7 +45,7 @@ export default class StoryTitle extends React.Component {
       display = this.props.title ? this.props.title : '';
 
       return (
-        <h1 id="title" ref="title" contentEditable={this.props.editing} onInput={this.handleInput} onBlur={this.handleBlur}>{display}</h1>
+        <h1 id="title" ref="title" contentEditable={this.props.editing} onBlur={this.handleBlur}>{display}</h1>
       );
 
     } else {

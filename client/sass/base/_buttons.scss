@@ -55,6 +55,7 @@ button {
 
 .btn-group {
   button, .btn-group-member {
+    margin-right: 0;
     border-right: none;
 
     &:last-child {

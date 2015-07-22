@@ -9,7 +9,8 @@ export default class Carousel extends React.Component {
       slidesToShow:   3,
       slidesToScroll: 1,
       dragging:       true,
-      speed:          900,
+      speed:          2000,
+      autoplaySpeed:  5000,
       autoplay:       true,
       infinite:       true
     };
@@ -23,6 +24,7 @@ export default class Carousel extends React.Component {
                 <h3>
                   <Link to={`/stories/${story.id}`} >{story.title}</Link>
                 </h3>
+                <span>By {story.author}</span>
               </div>
             );
           })

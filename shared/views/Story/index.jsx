@@ -78,7 +78,9 @@ export default class Story extends React.Component {
 
       for (var child in div.childNodes) {
         var p    = div.childNodes[child];
-        var text = p.innerText;
+        var text = p.textContent;
+
+        console.log(p);
 
         if(text) string += text + '\n\n';
         else     string += '\n\n';
