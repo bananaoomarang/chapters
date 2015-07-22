@@ -174,7 +174,6 @@ h1, h2, h3, h4, h5 {
   * {
     background-color: #000;
     color: #fff;
-    border-color: #fff;
   }
 
   .loader {
@@ -194,12 +193,19 @@ h1, h2, h3, h4, h5 {
 
     &:hover {
       background-color: lighten(#000, 60%);
+      border-color: #fff;
       color: #000;
     }
 
     &:active {
       background-color: #fff;
-      border: $black-border;
+      border: none;
     }
+  }
+
+  .btn-group-member {
+      &:last-child {
+          border: $white-border;
+      }
   }
 }

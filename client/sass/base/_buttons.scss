@@ -19,7 +19,7 @@ button {
   padding: 0.3em;
   outline: none;
   width: 6em;
-  margin-bottom: $small-spacing;
+  margin-right: $small-spacing;
 
   &:hover {
     background-color: darken(#fff, 60%);
@@ -28,7 +28,7 @@ button {
 
   &:active {
     background-color: #000;
-    border: $white-border;
+    border: none;
   }
 
   &:disabled {
@@ -55,11 +55,12 @@ button {
 
 .btn-group {
   button, .btn-group-member {
-    border-right: 0px;
+    border-right: none;
 
     &:last-child {
       border-right: 1px solid;
     }
+
   }
 
 }

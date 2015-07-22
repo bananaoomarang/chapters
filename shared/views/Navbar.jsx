@@ -28,7 +28,6 @@ export default class Navbar extends React.Component {
           <h2 className="logo">
             <Link to="/home">Chapters</Link>
           </h2>
-          <a href="javascript:void(0)" className="navigation-menu-button">Mobile Placeholder</a>
 
           <div className="right">
 
@@ -49,17 +48,17 @@ export default class Navbar extends React.Component {
 
               </ul>
 
-              <ul className="btn-group" style={appearLoggedIn}>
+              <ul style={appearLoggedIn}>
 
-                <li className="nav-link">
-                  <span className="greyed" style={ { display: this.props.legit ? 'inline-block' : 'none' }  }>
-                    Signed in as {this.props.username}
-                  </span>
-                </li>
                 <li className="nav-link">
                   <Link to="/signout">
                     <button className="btn-group-member">Sign out</button>
                   </Link>
+                </li>
+                <li className="nav-link">
+                  <span className="greyed" style={ { display: this.props.legit ? 'inline-block' : 'none' }  }>
+                    Signed in as {this.props.username}
+                  </span>
                 </li>
 
               </ul>
