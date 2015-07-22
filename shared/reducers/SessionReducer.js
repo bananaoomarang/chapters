@@ -36,10 +36,10 @@ import { fromJS } from 'immutable';
        return state.set('error', action.error.data.message);
 
      case 'CLOSE_SESSION':
-       return state.merge({
-         legit: false,
-         error: action.error
-       });
+         return state.merge({
+           legit: false,
+           error: action.error
+         });
 
      case 'VALIDATE_SESSION':
        return state.merge({

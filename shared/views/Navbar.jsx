@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Link }             from 'react-router';
 import { connect }          from 'react-redux';
+import * as SessionActions  from 'actions/SessionActions';
 
 @connect(state => ({
   legit:    state.session.get('legit'),
@@ -9,8 +10,14 @@ import { connect }          from 'react-redux';
 
 export default class Navbar extends React.Component {
   static propTypes = {
+    dispatch: PropTypes.func.isRequired,
     legit:    PropTypes.bool.isRequired,
     username: PropTypes.string
+  }
+
+  handleSignOut = () => {
+    window.sessionStorage.removeItem('token');
+    this.props.dispatch(SessionActions.close());
   }
 
   render() {
@@ -51,9 +58,7 @@ export default class Navbar extends React.Component {
               <ul style={appearLoggedIn}>
 
                 <li className="nav-link">
-                  <Link to="/signout">
-                    <button className="btn-group-member">Sign out</button>
-                  </Link>
+                  <button className="btn-group-member" onClick={this.handleSignOut}>Sign out</button>
                 </li>
                 <li className="nav-link">
                   <span className="greyed" style={ { display: this.props.legit ? 'inline-block' : 'none' }  }>
