@@ -4,12 +4,15 @@ header.navigation {
   $navigation-background: white;
   $navigation-color: black;
   $navigation-height: 1em;
-  $horizontal-bar-mode: $large-screen;
 
   background-color: $navigation-background;
   min-height: $navigation-height;
   width: 100%;
   z-index: 999;
+
+  @include media (max-width $small-screen) {
+    text-align: center;
+  }
 
   .navigation-wrapper {
     @include clearfix;
@@ -30,7 +33,11 @@ header.navigation {
       padding: -$navigation-height  0;
     }
 
-    @include media ($horizontal-bar-mode) {
+    @include media (max-width $small-screen) {
+        float: none;
+    }
+
+    @include media ($large-screen) {
       @include span-columns(2);
       @include shift(5);
     }
@@ -43,7 +50,7 @@ header.navigation {
     min-height: $navigation-height;
     z-index: 9999999;
 
-    @include media ($horizontal-bar-mode) {
+    @include media ($large-screen) {
       float: left;
     }
   }
@@ -60,7 +67,7 @@ header.navigation {
       display: block;
     }
 
-    @include media ($horizontal-bar-mode) {
+    @include media ($large-screen) {
       display: inline;
     }
   }
@@ -93,11 +100,13 @@ header.navigation {
     display: block;
     clear: none;
     float: right;
+
+    @include media (max-width $small-screen) {
+      float: none;
+    }
   }
 
   .nav-item {
-    float: left;
-
     ul {
       position: relative;
 
@@ -105,7 +114,7 @@ header.navigation {
       width: 100%;
     }
 
-    @include media($horizontal-bar-mode) {
+    @include media($large-screen) {
       display: inline-block;
       width: 100%;
     }
