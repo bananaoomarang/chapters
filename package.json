@@ -11,11 +11,12 @@
     "start": "NODE_PATH=$NODE_PATH:./shared node .",
     "build": "webpack --progress --color",
     "dev": "npm run start & webpack-dev-server --progress --color",
-    "validate": "eslint shared shared/views/*.jsx shared/routes.jsx client/*.jsx *.jsx *.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "validate": "eslint shared client shared/**/*.jsx *.js *.jsx",
+    "test": "karma start"
   },
   "pre-commit": [
-    "validate"
+    "validate",
+    "test"
   ],
   "author": "Milo Mordaunt <milomord@gmail.com>",
   "license": "Apache-2.0",
@@ -27,17 +28,28 @@
     "css-loader": "^0.15.4",
     "eslint": "^1.0.0-rc-1",
     "eslint-plugin-react": "^2.7.1",
+    "jasmine-core": "^2.3.4",
+    "jasmine-pit": "^2.0.2",
+    "karma": "^0.12.37",
+    "karma-cli": "^0.1.0",
+    "karma-es5-shim": "0.0.4",
+    "karma-jasmine": "^0.3.6",
+    "karma-phantomjs-launcher": "^0.2.0",
+    "karma-sourcemap-loader": "^0.3.5",
+    "karma-webpack": "^1.6.0",
     "node-libs-browser": "^0.5.2",
+    "node-sass": "^3.1.0",
+    "phantomjs": "^1.9.17",
     "pre-commit": "^1.0.10",
     "react-hot-loader": "^1.2.8",
     "sass-loader": "^1.0.2",
-    "node-sass": "^3.1.0",
     "style-loader": "^0.12.3",
     "webpack": "^1.10.1",
     "webpack-dev-server": "^1.10.1"
   },
   "dependencies": {
     "axios": "^0.5.4",
+    "babel-runtime": "^5.8.5",
     "classnames": "^2.1.3",
     "dropzone": "^4.0.1",
     "express": "^4.13.1",

@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect }          from 'react-redux';
-import Navbar               from 'views/Navbar';
+import Navbar               from 'components/Navbar';
 import * as SessionActions  from 'actions/SessionActions';
 
 @connect(state => ({

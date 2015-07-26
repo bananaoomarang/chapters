@@ -1,14 +1,14 @@
 import React              from 'react';
 import { Route }          from 'react-router';
 
-import Root        from 'views';
-import Home        from 'views/Home';
-import Login       from 'views/Login';
-import Register    from 'views/Register';
-import Users       from 'views/Users';
-import User        from 'views/User';
-import Story       from 'views/Story';
-import UserStories from 'views/Users/Stories';
+import Root        from 'components';
+import Home        from 'components/Home';
+import Login       from 'components/Login';
+import Register    from 'components/Register';
+import Users       from 'components/Users';
+import User        from 'components/User';
+import Story       from 'components/Story';
+import UserStories from 'components/Users/Stories';
 
 export default function getRoutes(onLeave) {
 

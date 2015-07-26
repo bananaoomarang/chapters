@@ -19,8 +19,10 @@ export default class Login extends React.Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
     error:    PropTypes.string,
-    legit:    PropTypes.bool.isRequired
+    legit:    PropTypes.bool
   }
+
+  state = {}
 
   onFormChange = (e) => {
     this.setState({
