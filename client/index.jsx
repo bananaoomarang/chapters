@@ -10,6 +10,7 @@ import promiseMiddleware   from 'lib/promiseMiddleware';
 import fetchComponentData  from 'lib/fetchComponentData';
 import * as SessionActions from 'actions/SessionActions';
 import { createStore,
+         compose,
          combineReducers,
          applyMiddleware } from 'redux';
 
@@ -27,9 +28,19 @@ axios.interceptors.request.use( (cfg) => {
 
 // Re-immutify the data. Seems a little dirty, but how else?
 const initialState = immutifyState(window.__INITIAL_DATA__);
+const reducer      = combineReducers(reducers);
 
-const reducer = combineReducers(reducers);
-const store   = applyMiddleware(promiseMiddleware)(createStore)(reducer, initialState);
+let stores = [createStore];
+
+if (__DEV__ && __DEVTOOLS__) {
+  const { devTools, persistState } = require('redux-devtools');
+
+  stores.unshift(devTools(), persistState(window.location.href.match(/[?&]debug_session=([^&]+)\b/)));
+}
+
+const finalCreateStore = compose.apply(null, stores);
+
+const store  = applyMiddleware(promiseMiddleware)(finalCreateStore)(reducer, initialState);
 
 // Note how we fill the next route on route leave.
 // We don't waste time re-fetching when we're hydrated from server.
@@ -45,11 +56,25 @@ function onRouteLeave(nextState, transition, done) {
 
 const routes = createRoutes(onRouteLeave);
 
-React.render(
-  <Provider store={store}>
+let elements = [
+  <Provider store={store} key="provider">
     {() =>
       <Router children={routes} history={history} />
     }
-  </Provider>,
+  </Provider>
+]
+
+if (__DEV__ && __DEVTOOLS__) {
+  const { DevTools, DebugPanel, LogMonitor } = require('../node_modules/redux-devtools/lib/react');
+
+  elements.push(
+    <DebugPanel top right bottom key="malone">
+      <DevTools store={store} monitor={LogMonitor} />
+    </DebugPanel>
+  );
+}
+
+React.render(
+  <div>{elements}</div>,
   document.getElementById('react-view')
 );

@@ -1,20 +1,14 @@
 var webpack = require('webpack');
+var prodCfg = require('./webpack.prod.config.js');
 
-module.exports = {
+Object.assign = require('object-assign');
+
+module.exports = Object.assign(prodCfg, {
   entry:  [
     'webpack-dev-server/client?http://localhost:8080/',
     'webpack/hot/only-dev-server',
     './client'
   ],
-  output: {
-    path:       './dist',
-    publicPath: '/assets/',
-    filename: 'bundle.js'
-  },
-  resolve: {
-    modulesDirectories: ['node_modules', 'shared'],
-    extensions:         ['', '.js', '.jsx', '.css', '.scss']
-  },
   module: {
     loaders: [
       {
@@ -34,7 +28,11 @@ module.exports = {
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin()
+    new webpack.NoErrorsPlugin(),
+    new webpack.DefinePlugin({
+      __DEV__:      process.env.NODE_ENV !== 'production',
+      __DEVTOOLS__: false
+    })
   ],
   devtool: 'inline-source-map',
   devServer: {
@@ -45,4 +43,4 @@ module.exports = {
       '*': 'http://localhost:3000'
     }
   }
-};
+});
