@@ -3,7 +3,7 @@ import { Router }          from 'react-router';
 import { history }         from 'react-router/lib/BrowserHistory';
 import axios               from 'axios';
 import { Provider }        from 'react-redux';
-import createRoutes        from 'routes';
+import createRoutes        from 'routes/index';
 import * as reducers       from 'reducers';
 import  immutifyState      from 'lib/immutifyState';
 import promiseMiddleware   from 'lib/promiseMiddleware';

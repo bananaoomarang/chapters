@@ -10,6 +10,7 @@ import User        from 'components/User';
 import Story       from 'components/Story';
 import NewStory    from 'components/Story/New';
 import Section     from 'components/Section';
+import NewSection  from 'components/Section/New';
 import Chapter     from 'components/Chapter';
 import UserStories from 'components/Users/Stories';
 
@@ -25,7 +26,7 @@ export default function getRoutes(onLeave) {
       <Route name="new-story"     component={NewStory}    path="/stories/new"                   onLeave={onLeave} />
       <Route name="story"         component={Story}       path="/stories/:id"                   onLeave={onLeave} />
 
-      <Route name="new-section"   component={Section}     path="/stories/:id/new"               onLeave={onLeave} />
+      <Route name="new-section"   component={NewSection}  path="/stories/:id/new"               onLeave={onLeave} />
       <Route name="section"       component={Section}     path="/stories/:id/:section"          onLeave={onLeave} />
 
       <Route name="new-chapter"   component={Chapter}     path="/stories/:id/:section/new"      onLeave={onLeave} />

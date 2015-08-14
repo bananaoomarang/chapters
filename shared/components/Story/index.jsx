@@ -1,13 +1,17 @@
-import React             from 'react';
-import { connect }       from 'react-redux';
-import { Link }          from 'react-router';
-import * as StoryActions from 'actions/StoryActions';
+import React, { PropTypes } from 'react';
+import { connect }          from 'react-redux';
+import * as StoryActions    from 'actions/StoryActions';
+import CardsView            from 'components/CardsView';
 
 @connect(state => ({
   story: state.story.get('story')
 }))
 
 export default class Story extends React.Component {
+  static propTypes = {
+    routeParams: PropTypes.object.isRequired
+  }
+
   static needs = [
     StoryActions.getStory
   ]
@@ -16,23 +20,32 @@ export default class Story extends React.Component {
     const sections = [
       {
         title: 'Lorem',
-        description: 'Crazy good read'
+        body: 'Crazy good read',
+        href: '/home'
       },
       {
         title: 'Lorem',
-        description: 'Crazy good read'
+        body: 'Crazy good read',
+        href: '/home'
       },
       {
         title: 'Lorem',
-        description: 'Crazy good read'
+        body: 'Crazy good read',
+        href: '/home'
       },
       {
         title: 'Lorem',
-        description: 'Crazy good read'
+        body: 'Crazy good read',
+        href: '/home'
       },
       {
         title: 'Lorem',
-        description: 'Crazy good read'
+        body: 'Crazy good read',
+        href: '/home'
+      },
+      {
+        body: '+',
+        href: '/stories/' + this.props.routeParams.id + '/new'
       }
     ];
 
@@ -42,18 +55,7 @@ export default class Story extends React.Component {
 
         <h3>By: {this.props.story.get('author')}</h3>
 
-        <div id="story-sections" className="cards">
-          {
-            sections.map(section => (
-              <Link to="/home">
-                <div className="card">
-                  <div className="card-header">{section.title}</div>
-                  <div className="card-body">{section.description}</div>
-                </div>
-              </Link>
-            ))
-          }
-        </div>
+        <CardsView items={sections} emptyMsg="No sections"/>
       </div>
     );
   }

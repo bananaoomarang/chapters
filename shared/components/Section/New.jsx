@@ -1,11 +1,11 @@
 import React, { PropTypes } from 'react';
 import { connect }          from 'react-redux';
 import classSet             from 'classnames';
-import * as StoryActions    from 'actions/StoryActions';
+import * as SectionActions  from 'actions/SectionActions';
 
 @connect(state => ({
   username: state.session.get('name'),
-  story:    state.story.get('story'),
+  section:  state.story.get('story'),
   error:    state.story.get('error')
 }))
 
@@ -27,9 +27,9 @@ export default class NewStory extends React.Component {
       author: this.refs.author.getDOMNode().value,
       owner:  this.props.username
     }
-    this.props.dispatch(StoryActions.postStory(payload))
+    this.props.dispatch(SectionActions.postSection(this.props.routeParams.id, payload))
       .then(function () {
-        this.context.router.transitionTo('/stories/' + this.props.story.get('id'));
+        this.context.router.transitionTo('/stories/' + this.props.routeParams.id + '/' + this.props.section.id);
       });
   }
 
@@ -40,11 +40,11 @@ export default class NewStory extends React.Component {
     });
 
     return (
-      <div id="new-story" className="form">
-        <input type="text" name="title"  ref="title"  placeholder="The Iliad" />
-        <input type="text" name="author" ref="author" placeholder="Homer"     />
+      <div id="new-section" className="form">
+        <input type="text" name="title"  ref="title"  placeholder="Hector's Demise" />
+        <input type="text" name="author" ref="author" placeholder="Homer"           />
 
-        <button className="btn" name="story-submit" onClick={this.handleFormSubmit}>Next</button>
+        <button className="btn" name="section-submit" onClick={this.handleFormSubmit}>Next</button>
 
         <a className={errClasses}>{this.state.error}</a>
       </div>
