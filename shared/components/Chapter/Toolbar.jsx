@@ -3,12 +3,12 @@ import { connect }            from 'react-redux';
 import { bindActionCreators } from 'redux';
 import classSet               from 'classnames';
 import FontSizeSelector       from './FontSizeSelector';
-import * as StoryActions      from 'actions/StoryActions';
+import * as ChapterActions      from 'actions/ChapterActions';
 
 @connect(state => ({
-  editing:          state.story.get('editing'),
-  focusedParagraph: state.story.getIn(['story', 'focusedParagraph']),
-  id:               state.story.getIn(['story', 'id'])
+  editing:          state.chapter.get('editing'),
+  focusedParagraph: state.chapter.getIn(['chapter', 'focusedParagraph']),
+  id:               state.chapter.getIn(['chapter', 'id'])
 }))
 
 export default class Toolbar extends React.Component {
@@ -26,11 +26,11 @@ export default class Toolbar extends React.Component {
   }
 
   handleAlignment = (e) => {
-    this.props.dispatch(StoryActions.setAlignment(e.target.name, this.props.focusedParagraph));
+    this.props.dispatch(ChapterActions.setAlignment(e.target.name, this.props.focusedParagraph));
   }
 
   handleDelete = () => {
-    this.props.dispatch(StoryActions.deleteStory(this.props.id))
+    this.props.dispatch(ChapterActions.deleteChapter(this.props.id))
       .then(() => this.context.router.transitionTo('/home'));
   }
 
@@ -42,7 +42,7 @@ export default class Toolbar extends React.Component {
 
     return (
       <div className={classes}>
-        <FontSizeSelector defaultSize={this.props.defaultFont.size} focusedParagraph={this.props.focusedParagraph} {...bindActionCreators(StoryActions, this.props.dispatch)}/>
+        <FontSizeSelector defaultSize={this.props.defaultFont.size} focusedParagraph={this.props.focusedParagraph} {...bindActionCreators(ChapterActions, this.props.dispatch)}/>
 
         <br />
 

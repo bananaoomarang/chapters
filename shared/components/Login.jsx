@@ -13,7 +13,7 @@ import * as SessionActions from 'actions/SessionActions';
 
 export default class Login extends React.Component {
   static contextTypes = {
-    router: React.PropTypes.object.isRequired
+    router: PropTypes.object.isRequired
   }
 
   static propTypes = {
@@ -52,7 +52,7 @@ export default class Login extends React.Component {
     });
 
     return (
-      <div className="login">
+      <div id="login" className="form">
         <form onChange={this.onFormChange} onSubmit={this.onSubmit}>
           <input type="text"     name="username" id="form-username-field" placeholder="Bill"     />
           <input type="password" name="password" id="form-password-field" placeholder="password" />

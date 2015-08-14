@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import { Paragraph }          from 'records/Records';
 import getCaret               from 'lib/getCaret';
 import ifdefBrowser           from 'lib/ifdefBrowser';
-import * as StoryActions      from 'actions/StoryActions';
+import * as ChapterActions      from 'actions/ChapterActions';
 import ParagraphRenderer      from './ParagraphRenderer';
 
 const kbjs = ifdefBrowser( () => {
@@ -14,11 +14,11 @@ const kbjs = ifdefBrowser( () => {
 
 @connect(state => {
   return {
-    html:             state.story.getIn(['story', 'html']),
-    editing:          state.story.get('editing'),
-    focusedParagraph: state.story.getIn(['story', 'focusedParagraph']),
-    globalAlignment:  state.story.get('alignment'),
-    globalFont:       state.story.get('font')
+    html:             state.chapter.getIn(['chapter', 'html']),
+    editing:          state.chapter.get('editing'),
+    focusedParagraph: state.chapter.getIn(['chapter', 'focusedParagraph']),
+    globalAlignment:  state.chapter.get('alignment'),
+    globalFont:       state.chapter.get('font')
   };
 })
 
@@ -40,11 +40,11 @@ export default class ParagraphView extends React.Component {
   handleFocus = (e) => {
     if(e.target.tagName === 'P') {
 
-      this.props.dispatch(StoryActions.setFocusedParagraph(e.target.dataset.index));
+      this.props.dispatch(ChapterActions.setFocusedParagraph(e.target.dataset.index));
 
     } else {
 
-      this.props.dispatch(StoryActions.setFocusedParagraph(-1));
+      this.props.dispatch(ChapterActions.setFocusedParagraph(-1));
 
     }
   }
@@ -74,7 +74,7 @@ export default class ParagraphView extends React.Component {
         .setIn([nextIndex, 'text'], currentHTML.slice(caret.position, currentHTML.length))
         .setIn([currentIndex, 'text'], currentHTML.slice(0, caret.position));
 
-      this.props.dispatch(StoryActions.setStory({ paragraphs: newParagraphsArray }));
+      this.props.dispatch(ChapterActions.setChapter({ paragraphs: newParagraphsArray }));
 
       this.refs[nextIndex].getDOMNode().focus();
     });
@@ -106,7 +106,7 @@ export default class ParagraphView extends React.Component {
 
 
         this.props.dispatch(
-          StoryActions.setStory({
+          ChapterActions.setChapter({
             paragraphs: newParagraphsArray
           })
         );
@@ -176,7 +176,7 @@ export default class ParagraphView extends React.Component {
           }
         </div>
 
-        <ParagraphRenderer html={this.props.html} {...bindActionCreators(StoryActions, this.props.dispatch)}/>
+        <ParagraphRenderer html={this.props.html} {...bindActionCreators(ChapterActions, this.props.dispatch)}/>
       </div>
     );
   }

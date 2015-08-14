@@ -1,9 +1,15 @@
 import { Record } from 'immutable';
 
-//
-// Story view related
-//
 export const Story = Record({
+  id:     '',
+  read:   false,
+  write:  false,
+  title:  '',
+  author: '',
+  owner:  ''
+});
+
+export const Chapter = Record({
     id:               '',  // Database ID
     read:             false,
     write:            false,
@@ -11,7 +17,7 @@ export const Story = Record({
     markdown:         '',  // Markdown
     html:             '',  // HTML from ^
     author:           '',
-    depends:          [],  // Other stories this one depends on having read
+    depends:          [],  // Other chapters this one depends on having read
     wordCount:        0,   // Not currently implemented
     paragraphs:       [],  // Array of objects holding textContent, alignment, font size etc etc
     focusedParagraph: -1   // Index of focused paragraph, -1 for 'nothing focused'

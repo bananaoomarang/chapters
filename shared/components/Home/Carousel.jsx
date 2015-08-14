@@ -4,8 +4,7 @@ import { Link } from 'react-router';
 
 export default class Carousel extends React.Component {
   render() {
-
-    var cfg = {
+    const cfg = {
       slidesToShow:   3,
       slidesToScroll: 1,
       dragging:       true,

@@ -1,10 +1,10 @@
 import React, { PropTypes } from 'react';
 import { Link }             from 'react-router';
 import { connect }          from 'react-redux';
-import StoryTitle           from './Title';
-import StoryToolbar         from './Toolbar';
+import ChapterTitle         from './Title';
+import ChapterToolbar       from './Toolbar';
 import ParagraphView        from './ParagraphView';
-import * as StoryActions    from 'actions/StoryActions';
+import * as ChapterActions  from 'actions/ChapterActions';
 import ifdefBrowser         from 'lib/ifdefBrowser';
 
 var Dropzone = ifdefBrowser( () => {
@@ -12,19 +12,19 @@ var Dropzone = ifdefBrowser( () => {
 });
 
 @connect(state => ({
-  story:     state.story.get('story'),
-  editing:   state.story.get('editing')
+  chapter: state.chapter.get('chapter'),
+  editing: state.chapter.get('editing')
 }))
 
-export default class Story extends React.Component {
+export default class Chapter extends React.Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
-    story:    PropTypes.object.isRequired,
+    chapter:  PropTypes.object.isRequired,
     editing:  PropTypes.bool.isRequired
   }
 
   static needs = [
-    params => StoryActions.getStory(params.id)
+    params => ChapterActions.getChapter(params.id)
   ]
 
   constructor(props) {
@@ -43,13 +43,13 @@ export default class Story extends React.Component {
     const sessionToken = window.sessionStorage.getItem('token');
 
     const dropzoneOpts = {
-      url:     '/api/stories/upload',
+      url:     '/api/chapters/upload',
       headers: {
         Authorization: 'Bearer ' + sessionToken
       }
     };
 
-    const dropzone  = new Dropzone('#story', dropzoneOpts);
+    const dropzone  = new Dropzone('#chapter', dropzoneOpts);
 
     dropzone.on('sending', function(file, xhr, formData) {
       formData.append('filename', file.name);
@@ -58,14 +58,14 @@ export default class Story extends React.Component {
 
   handleSave = () => {
     const payload = {
-      id:       this.props.story.get('id'),
-      title:    this.props.story.get('title'),
+      id:       this.props.chapter.get('id'),
+      title:    this.props.chapter.get('title'),
       markdown: this.exportText()
     };
 
-    this.props.dispatch(StoryActions.postStory(payload))
+    this.props.dispatch(ChapterActions.postChapter(payload))
       .then(success => {
-          if(success) this.props.dispatch(StoryActions.setEditing(false));
+          if(success) this.props.dispatch(ChapterActions.setEditing(false));
       });
   }
 
@@ -92,20 +92,20 @@ export default class Story extends React.Component {
   }
 
   setEditing = () => {
-    this.props.dispatch(StoryActions.setEditing(true));
+    this.props.dispatch(ChapterActions.setEditing(true));
   }
 
   render () {
-    console.log(this.props.story.toJS());
+    console.log(this.props.chapter.toJS());
     const editButtonStyle = {
-      display: (this.props.editing || !this.props.story.get('write')) ? 'none' : 'inline-block'
+      display: (this.props.editing || !this.props.chapter.get('write')) ? 'none' : 'inline-block'
     };
 
     return (
-      <div id="story">
-        <StoryToolbar handleSave={this.handleSave} defaultFont={this.cfg.defaultFont} />
+      <div id="chapter">
+        <ChapterToolbar handleSave={this.handleSave} defaultFont={this.cfg.defaultFont} />
 
-        <StoryTitle title={this.props.story.get('title')} placeholder="Untitled" />
+        <ChapterTitle title={this.props.chapter.get('title')} placeholder="Untitled" />
 
         <button style={editButtonStyle} onClick={this.setEditing}>Edit</button>
 
@@ -113,12 +113,12 @@ export default class Story extends React.Component {
 
         <h2>
           By&nbsp;
-          <Link to="user" params={ { user: this.props.story.get('author') } }>{this.props.story.get('author')}</Link>
+          <Link to="user" params={ { user: this.props.chapter.get('author') } }>{this.props.chapter.get('author')}</Link>
         </h2>
 
         <br/>
 
-        <ParagraphView defaultFont={this.cfg.defaultFont} alignment={this.cfg.defaultAlignment} paragraphs={this.props.story.get('paragraphs')} />
+        <ParagraphView defaultFont={this.cfg.defaultFont} alignment={this.cfg.defaultAlignment} paragraphs={this.props.chapter.get('paragraphs')} />
       </div>
     );
   }

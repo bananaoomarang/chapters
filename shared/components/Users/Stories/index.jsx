@@ -2,26 +2,26 @@
 
 import React        from 'react';
 import { Link }     from 'react-router';
-import StoryReducer from 'reducers/StoryReducer';
-import StoryActions from 'actions/StoryActions';
+import ChapterReducer from 'reducers/ChapterReducer';
+import ChapterActions from 'actions/ChapterActions';
 
 var Stories = {
   statics: {
-    registerReducer: StoryReducer
+    registerReducer: ChapterReducer
   },
 
   componentDidMount () {
-    StoryActions.loadUserStories(this.props.params.user);
+    ChapterActions.loadUserStories(this.props.params.user);
   },
 
   render () {
     return (
       <div id="users">
       ()s{
-          this.state.stories.map(function (story) {
+          this.state.chapters.map(function (chapter) {
             return (
               <div>
-                <Link to="story" params={ { id: story.id } }>{story.title}</Link>
+                <Link to="chapter" params={ { id: chapter.id } }>{chapter.title}</Link>
                 <br/>
               </div>
             );

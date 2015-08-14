@@ -9,7 +9,7 @@ export default class User extends React.Component {
 
         <br />
 
-        <Link to="user-stories" params={this.props.params}>Stories</Link>
+        <Link to="user-chapters" params={this.props.params}>Stories</Link>
       </div>
     );
   }

@@ -56,7 +56,7 @@ export default class Register extends React.Component {
       this.context.router.transitionTo('login');
 
     return (
-      <div className="register">
+      <div id="register" className="form">
 
         <form onChange={this.onChange} onSubmit={this.onSubmit}>
           <input type="text"     name="username" id="form-username-field" placeholder="Bill"                />

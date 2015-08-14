@@ -9,7 +9,7 @@ function toArray(obj) {
 
 export default class ParagraphRenderer extends React.Component {
   static propTypes = {
-    setStory: PropTypes.func.isRequired,
+    setChapter: PropTypes.func.isRequired,
     html:     PropTypes.string.isRequired
   }
 
@@ -21,7 +21,7 @@ export default class ParagraphRenderer extends React.Component {
           text: p.innerHTML
         }));
 
-    this.props.setStory({ paragraphs });
+    this.props.setChapter({ paragraphs });
   }
 
   componentDidMount = () => {

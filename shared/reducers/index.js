@@ -1,4 +1,5 @@
-export { default as session }   from './SessionReducer';
-export { default as story }     from './StoryReducer.js';
-export { default as home }      from './HomeReducer.js';
-export { default as users }     from './UsersReducer.js';
+export { default as session } from './SessionReducer';
+export { default as story }   from './StoryReducer';
+export { default as chapter } from './ChapterReducer';
+export { default as home }    from './HomeReducer';
+export { default as users }   from './UsersReducer';

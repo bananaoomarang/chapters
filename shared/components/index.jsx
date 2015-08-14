@@ -12,10 +12,10 @@ import * as SessionActions  from 'actions/SessionActions';
 export default class MainView extends React.Component {
   static propTypes = {
     dispatch:  PropTypes.func.isRequired,
-    children:  PropTypes.object.isRequired,
     legit:     PropTypes.bool.isRequired,
     loading:   PropTypes.bool.isRequired,
-    nightMode: PropTypes.bool.isRequired
+    nightMode: PropTypes.bool.isRequired,
+    children:  PropTypes.object
   }
 
   setNightMode = (bool) => {

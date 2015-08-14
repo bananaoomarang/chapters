@@ -1,20 +1,20 @@
 import React             from 'react';
 import classSet          from 'classnames';
 import { connect }       from 'react-redux';
-import * as StoryActions from 'actions/StoryActions';
+import * as ChapterActions from 'actions/ChapterActions';
 
 @connect(state => ({
-  editing: state.story.get('editing')
+  editing: state.chapter.get('editing')
 }))
 
-export default class StoryTitle extends React.Component {
+export default class ChapterTitle extends React.Component {
   state = {
     clicked: false
   }
 
   handleBlur = (e) => {
     this.props.dispatch(
-      StoryActions.setStory({
+      ChapterActions.setChapter({
         title: e.target.textContent
       })
     );

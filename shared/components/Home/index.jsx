@@ -13,7 +13,7 @@ import Carousel             from './Carousel';
 
 export default class Home extends React.Component {
   static propTypes = {
-    stories: PropTypes.instanceOf(List)
+    chapters: PropTypes.instanceOf(List)
   }
 
   static needs = [

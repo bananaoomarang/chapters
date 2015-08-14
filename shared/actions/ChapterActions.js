@@ -1,15 +1,15 @@
 import request      from 'axios';
 import ifdefBrowser from 'lib/ifdefBrowser';
 
-export function setStory(story) {
+export function setChapter(chapter) {
  return {
-   type: 'SET_STORY',
-   story
+   type: 'SET_CHAPTER',
+   chapter
  };
 }
 
-// Load story by ID
-export function getStory(id) {
+// Load chapter by ID
+export function getChapter(id) {
   const token = ifdefBrowser(() => {
     return window.sessionStorage.getItem('token');
   }) || '';
@@ -23,12 +23,12 @@ export function getStory(id) {
   if(!token) delete opts.headers;
 
   return {
-    type: 'GET_STORY',
-    promise: request.get('/stories/' + id, opts)
+    type: 'GET_CHAPTER',
+    promise: request.get('/chapters/' + id, opts)
   };
 }
 
-// Load a list of possibly editable stories for user
+// Load a list of possibly editable chapters for user
 export function getStories() {
   const sessionToken = window.sessionStorage.getItem('token');
 
@@ -39,18 +39,18 @@ export function getStories() {
   };
 
   return {
-    type: 'SET_EDITABLE_STORIES',
-    promise: request.get('/users/current/stories', opts)
+    type: 'SET_EDITABLE_CHAPTERS',
+    promise: request.get('/users/current/chapters', opts)
   };
 }
 
-// Upload the story
-export function postStory(payload) {
+// Upload the chapter
+export function postChapter(payload) {
   const sessionToken = window.sessionStorage.getItem('token');
 
   let opts = {
     method:  'POST',
-    url:     '/stories',
+    url:     '/chapters',
     data:    payload,
     headers: {
       Authorization: 'Bearer ' + sessionToken
@@ -63,24 +63,24 @@ export function postStory(payload) {
   }
 
   return {
-    type:    'POST_STORY',
+    type:    'POST_CHAPTER',
     promise: request(opts)
   };
 }
 
-export function deleteStory(id) {
+export function deleteChapter(id) {
   const sessionToken = window.sessionStorage.getItem('token');
 
   const opts = {
     method: 'DELETE',
-    url: '/stories/' + id,
+    url: '/chapters/' + id,
     headers: {
       Authorization: 'Bearer ' + sessionToken
     }
   };
 
   return {
-    type:    'DELETE_STORY',
+    type:    'DELETE_CHAPTER',
     promise: request(opts)
   };
 }

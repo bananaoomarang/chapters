@@ -19,7 +19,7 @@ var Users = {
           this.state.users.map(function (user) {
             return (
               <div>
-                <Link to="user-stories" params={ { user: user.id } }>{user.id}</Link>
+                <Link to="user-chapters" params={ { user: user.id } }>{user.id}</Link>
                 <br/>
               </div>
             );

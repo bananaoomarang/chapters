@@ -1,8 +1,8 @@
 import { List, fromJS } from 'immutable';
-import { Story }  from 'records/Records';
+import { Chapter }      from 'records/Records';
 
 const defaultState = fromJS({
-  story: new Story(),
+  chapter: new Chapter(),
 
   // Global styles
   alignment: 'left',
@@ -18,28 +18,28 @@ const defaultState = fromJS({
   editing:   false
 });
 
-export default function storyReducer(state = defaultState, action) {
+export default function chapterReducer(state = defaultState, action) {
   switch(action.type) {
-    case 'GET_STORY':
-      const story = {
+    case 'GET_CHAPTER':
+      const chapter = {
         id: action.res.data._id,
         ...action.res.data
       };
 
       // TODO Dude. You control the API.
-      delete story._id;
+      delete chapter._id;
 
-      return storyReducer(state, {
-        type: 'SET_STORY',
-        story
+      return chapterReducer(state, {
+        type: 'SET_CHAPTER',
+        chapter
       });
 
-    case 'SET_STORY':
+    case 'SET_CHAPTER':
       return state
-        .mergeDeepIn(['story'], action.story)
-        .setIn(['story', 'paragraphs'], List(action.story.paragraphs || state.getIn(['story', 'paragraphs'])));
+        .mergeDeepIn(['chapter'], action.chapter)
+        .setIn(['chapter', 'paragraphs'], List(action.chapter.paragraphs || state.getIn(['chapter', 'paragraphs'])));
 
-    case 'SET_EDITABLE_STORIES':
+    case 'SET_EDITABLE_CHAPTERS':
       return state.set('editableStories', fromJS(action.list));
 
     case 'SET_LOADING':
@@ -49,17 +49,17 @@ export default function storyReducer(state = defaultState, action) {
       return state.set('editing', action.editing);
 
     case 'SET_FOCUSED_PARAGRAPH':
-      return state.setIn(['story', 'focusedParagraph'], Number(action.index));
+      return state.setIn(['chapter', 'focusedParagraph'], Number(action.index));
 
     case 'SET_FONT':
       if(action.index === -1) return state.merge({ font: action.font });
 
-      return state.mergeIn(['story', 'paragraphs', action.index], { font: action.font });
+      return state.mergeIn(['chapter', 'paragraphs', action.index], { font: action.font });
 
     case 'SET_ALIGNMENT':
       if(action.index === -1) return state.set('alignment', action.alignment);
 
-      return state.setIn(['story', 'paragraphs', action.index, 'alignment'], action.alignment);
+      return state.setIn(['chapter', 'paragraphs', action.index, 'alignment'], action.alignment);
 
     default:
       return state;
