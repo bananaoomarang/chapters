@@ -1,7 +1,8 @@
-import request from 'axios';
+import request  from 'axios';
+import getToken from 'lib/getToken'
 
 export function postStory (story) {
-  const token = window.sessionStorage.getItem('token');
+  const token = getToken(); 
 
   const opts = {
     headers: {
@@ -13,4 +14,19 @@ export function postStory (story) {
     type: 'POST_STORY',
     promise: request.post('/stories', story, opts)
   };
+}
+
+export function getStory (params) {
+  const token = getToken(); 
+
+  const opts = {
+    headers: {
+      Authorization: 'Bearer ' + token
+    }
+  };
+
+  return {
+    type: 'GET_STORY',
+    promise: request.get('/stories/' + params.id)
+  }
 }

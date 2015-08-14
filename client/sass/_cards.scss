@@ -1,0 +1,32 @@
+.cards {
+  @include outer-container;
+
+  .card {
+    @include span-columns(4);
+
+    @include media (max-width $medium-screen) {
+      @include span-columns(6);
+    }
+
+    @include media (max-width $small-screen) {
+      @include span-columns(12);
+    }
+
+    padding: $base-spacing*1.8;
+
+    .card-header {
+      border: $base-border;
+    }
+
+    .card-body {
+      height: 8em;
+      border: $base-border;
+      border-top: none;
+    }
+
+    .card-footer {
+      border: $base-border;
+      border-top: none;
+    }
+  }
+}

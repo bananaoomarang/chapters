@@ -1,5 +1,5 @@
-import request      from 'axios';
-import ifdefBrowser from 'lib/ifdefBrowser';
+import request  from 'axios';
+import getToken from 'lib/getToken';
 
 export function setChapter(chapter) {
  return {
@@ -10,9 +10,7 @@ export function setChapter(chapter) {
 
 // Load chapter by ID
 export function getChapter(id) {
-  const token = ifdefBrowser(() => {
-    return window.sessionStorage.getItem('token');
-  }) || '';
+  const token = getToken();
 
   let opts = {
     headers: {
@@ -30,7 +28,7 @@ export function getChapter(id) {
 
 // Load a list of possibly editable chapters for user
 export function getStories() {
-  const sessionToken = window.sessionStorage.getItem('token');
+  const token = getToken();
 
   const opts = {
     headers: {
@@ -46,7 +44,7 @@ export function getStories() {
 
 // Upload the chapter
 export function postChapter(payload) {
-  const sessionToken = window.sessionStorage.getItem('token');
+  const token = getToken();
 
   let opts = {
     method:  'POST',
@@ -69,7 +67,7 @@ export function postChapter(payload) {
 }
 
 export function deleteChapter(id) {
-  const sessionToken = window.sessionStorage.getItem('token');
+  const token = getToken();
 
   const opts = {
     method: 'DELETE',

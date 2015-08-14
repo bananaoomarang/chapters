@@ -14,6 +14,10 @@ export default function storyReducer(state = defaultState, action) {
     case 'POST_STORY_FAILURE':
       return state.set('error', action.res.data);
 
+    case 'GET_STORY':
+      console.log(action.res.data);
+      return state.set('story', new Story(action.res.data));
+
     default:
       return state;
   }

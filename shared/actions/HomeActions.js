@@ -1,15 +1,13 @@
-import request      from 'axios';
-import ifdefBrowser from 'lib/ifdefBrowser';
+import request  from 'axios';
+import getToken from 'lib/getToken'
 
 // Load chapters
 export function getStories() {
-  const sessionToken = ifdefBrowser(() => {
-    return window.sessionStorage.getItem('token');
-  }) || '';
+  const token = getToken();
 
   const opts = {
     headers: {
-      Authorization: 'Bearer ' + sessionToken
+      Authorization: 'Bearer ' + token
     }
   };
 
