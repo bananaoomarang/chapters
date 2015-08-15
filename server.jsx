@@ -9,6 +9,7 @@ import { Provider }        from 'react-redux';
 import * as reducers       from 'reducers';
 import promiseMiddleware   from 'lib/promiseMiddleware';
 import fetchComponentData  from 'lib/fetchComponentData';
+import FourOhFour          from 'components/404';
 import { createStore,
          combineReducers,
          applyMiddleware } from 'redux';
@@ -44,6 +45,8 @@ app.use(function (req, res) {
 
   Router.run(routes, location, function (routeErr, initialState) {
     if(routeErr) return console.error(routeErr);
+
+    if(!initialState) res.end(React.renderToString(<FourOhFour />));
 
     function renderView() {
       const InitialView = (
