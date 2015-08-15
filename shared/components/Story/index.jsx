@@ -44,6 +44,7 @@ export default class Story extends React.Component {
         href: '/home'
       },
       {
+        title: 'New Section',
         body: '+',
         href: '/stories/' + this.props.routeParams.id + '/new'
       }

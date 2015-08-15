@@ -1,12 +1,13 @@
-import request  from 'axios';
-import getToken from 'lib/getToken';
+import request      from 'axios';
+import getToken     from 'lib/getToken';
+import createSetter from 'lib/createSetter'
 
-export function setChapter(chapter) {
- return {
-   type: 'SET_CHAPTER',
-   chapter
- };
-}
+export const setChapter          = createSetter('SET_CHAPTER', 'chapter');
+export const setFocusedParagraph = createSetter('SET_FOCUSED_PARAGRAPH', 'index');
+export const setLoading          = createSetter('SET_LOADING', 'loading');
+export const setEditing          = createSetter('SET_EDITING', 'editing');
+export const setAlignment        = createSetter('SET_ALIGNMENT', 'alignment', 'index');
+export const setFont             = createSetter('SET_FONT', 'font', 'index');
 
 // Load chapter by ID
 export function getChapter(id) {
@@ -17,8 +18,6 @@ export function getChapter(id) {
       Authorization: 'Bearer ' + token
     }
   };
-
-  if(!token) delete opts.headers;
 
   return {
     type: 'GET_CHAPTER',
@@ -80,42 +79,5 @@ export function deleteChapter(id) {
   return {
     type:    'DELETE_CHAPTER',
     promise: request(opts)
-  };
-}
-
-export function setLoading(loading) {
-  return {
-    type: 'SET_LOADING',
-    loading
-  };
-}
-
-export function setEditing(editing) {
-  return {
-    type: 'SET_EDITING',
-    editing
-  };
-}
-
-export function setAlignment(alignment, index) {
-  return {
-    type: 'SET_ALIGNMENT',
-    index,
-    alignment
-  };
-}
-
-export function setFont(font, index) {
-  return {
-    type: 'SET_FONT',
-    font,
-    index
-  };
-}
-
-export function setFocusedParagraph(index) {
-  return {
-    type: 'SET_FOCUSED_PARAGRAPH',
-    index
   };
 }

@@ -79,11 +79,10 @@ app.use(function (req, res) {
       `;
     }
 
-    if(initialState)
-      fetchComponentData(store.dispatch, initialState.components, initialState.params)
-        .then(renderView)
-        .then(html => res.end(html))
-        .catch(err => res.end(err.message));
+    fetchComponentData(store.dispatch, initialState.components, initialState.params)
+      .then(renderView)
+      .then(html => res.end(html))
+      .catch(err => res.end(err.message));
   });
 });
 
