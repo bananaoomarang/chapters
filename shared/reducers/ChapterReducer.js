@@ -46,13 +46,15 @@ export default function chapterReducer(state = defaultState, action) {
       return state.set('loading', action.loading);
 
     case 'SET_EDITING':
+      console.log(action);
       return state.set('editing', action.editing);
 
     case 'SET_FOCUSED_PARAGRAPH':
       return state.setIn(['chapter', 'focusedParagraph'], Number(action.index));
 
     case 'SET_FONT':
-      if(action.index === -1) return state.merge({ font: action.font });
+      if(action.index === -1)
+        return state.merge({ font: action.font });
 
       return state.mergeIn(['chapter', 'paragraphs', action.index], { font: action.font });
 

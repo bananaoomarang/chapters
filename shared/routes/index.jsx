@@ -1,5 +1,5 @@
-import React                    from 'react';
-import { Route, NotFoundRoute } from 'react-router';
+import React     from 'react';
+import { Route } from 'react-router';
 
 import Root        from 'components';
 import Home        from 'components/Home';

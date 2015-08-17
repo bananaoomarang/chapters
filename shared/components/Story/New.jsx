@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect }          from 'react-redux';
-import classSet             from 'classnames';
 import * as StoryActions    from 'actions/StoryActions';
+import Form                 from 'components/Form';
 
 @connect(state => ({
   username: state.session.get('name'),
@@ -16,38 +16,42 @@ export default class NewStory extends React.Component {
 
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
-    username: PropTypes.string.isRequired
-  }
-
-  state = {}
-
-  handleFormSubmit = () => {
-    const payload = {
-      title:  this.refs.title.getDOMNode().value,
-      author: this.refs.author.getDOMNode().value,
-      owner:  this.props.username
-    }
-    this.props.dispatch(StoryActions.postStory(payload))
-      .then(function () {
-        this.context.router.transitionTo('/stories/' + this.props.story.get('id'));
-      });
+    story:    PropTypes.object.isRequired,
+    username: PropTypes.string.isRequired,
+    error:    PropTypes.string
   }
 
   render() {
-    const errClasses = classSet({
-      'error-msg': true,
-      'invisible': !this.state.error
-    });
+    const cfg = {
+      id:            'story-form',
+      submitText:    'Next',
+      actionCreator: StoryActions.postStory,
+      error: this.props.error,
+
+      fields: [
+        {
+          name:        'title',
+          placeholder: 'The Iliad'
+        },
+        {
+          name:        'author',
+          placeholder: 'Homer'
+        }
+      ],
+
+      alsoDispatch: {
+        owner:    this.props.username,
+        sections: []
+      },
+
+      didDispatch: success => {
+        if(success)
+          this.context.router.transitionTo('/stories/' + this.props.story.get('id'));
+      }
+    };
 
     return (
-      <div id="new-story" className="form">
-        <input type="text" name="title"  ref="title"  placeholder="The Iliad" />
-        <input type="text" name="author" ref="author" placeholder="Homer"     />
-
-        <button className="btn" name="story-submit" onClick={this.handleFormSubmit}>Next</button>
-
-        <a className={errClasses}>{this.state.error}</a>
-      </div>
+      <Form {...cfg} />
     );
   }
 }

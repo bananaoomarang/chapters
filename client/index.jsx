@@ -5,14 +5,17 @@ import axios               from 'axios';
 import { Provider }        from 'react-redux';
 import createRoutes        from 'routes/index';
 import * as reducers       from 'reducers';
-import  immutifyState      from 'lib/immutifyState';
+import * as SessionActions from 'actions/SessionActions';
+import immutifyState       from 'lib/immutifyState';
 import promiseMiddleware   from 'lib/promiseMiddleware';
 import fetchComponentData  from 'lib/fetchComponentData';
-import * as SessionActions from 'actions/SessionActions';
+import getToken            from 'lib/getToken';
 import { createStore,
          compose,
          combineReducers,
          applyMiddleware } from 'redux';
+
+Object.assign = require('object-assign');
 
 // Load styles
 require('normalize.css/normalize');
@@ -20,8 +23,14 @@ require('normalize.css/normalize');
 require('./sass/app');
 
 // Prepend all axios requests with API address
-axios.interceptors.request.use( (cfg) => {
+// Add Authentication
+axios.interceptors.request.use(cfg => {
+  const sessionToken = getToken();
+
   cfg.url = '/api' + cfg.url;
+
+  if(sessionToken)
+    cfg.headers.Authorization = 'Bearer ' + sessionToken;
 
   return cfg;
 });
@@ -62,19 +71,33 @@ let elements = [
       <Router children={routes} history={history} />
     }
   </Provider>
-]
+];
 
 if (__DEV__ && __DEVTOOLS__) {
   const { DevTools, DebugPanel, LogMonitor } = require('../node_modules/redux-devtools/lib/react');
 
-  elements.push(
-    <DebugPanel top right bottom key="malone">
-      <DevTools store={store} monitor={LogMonitor} />
-    </DebugPanel>
+  React.render(
+    <div>
+      <Provider store={store} key="provider">
+        {() =>
+          <Router children={routes} history={history} />
+        }
+      </Provider>
+
+      <DebugPanel top right bottom key="malone">
+        <DevTools store={store} monitor={LogMonitor} />
+      </DebugPanel>
+    </div>,
+    document.getElementById('react-view')
+  );
+} else {
+  React.render(
+    <Provider store={store} key="provider">
+      {() =>
+        <Router children={routes} history={history} />
+      }
+    </Provider>,
+    document.getElementById('react-view')
   );
 }
 
-React.render(
-  <div>{elements}</div>,
-  document.getElementById('react-view')
-);

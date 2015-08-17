@@ -1,34 +1,19 @@
-import request  from 'axios';
-import getToken from 'lib/getToken'
+import request from 'axios';
 
-export function postSection (storyId, section) {
-  const token = getToken(); 
-
-  const opts = {
-    headers: {
-      Authorization: 'Bearer ' + token
-    }
-  };
-
-  const URL = '/stories/' + storyId + '/';
+export function postSection (section, routeParams) {
+  const url = '/stories/' + routeParams.id;
 
   return {
-    type: 'POST_SECTION',
-    promise: request.post(URL, section, opts)
+    type:    'POST_SECTION',
+    promise: request.post(url, section)
   };
 }
 
-export function getSection (params) {
-  const token = getToken(); 
-
-  const opts = {
-    headers: {
-      Authorization: 'Bearer ' + token
-    }
-  };
+export function getSection (routeParams) {
+  const url = '/stories/' + routeParams.id + '/' + routeParams.section;
 
   return {
-    type: 'GET_SECTION',
-    promise: request.get('/stories/' + params.id)
-  }
+    type:    'GET_SECTION',
+    promise: request.get(url)
+  };
 }

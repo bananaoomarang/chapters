@@ -46,7 +46,7 @@ app.use(function (req, res) {
   Router.run(routes, location, function (routeErr, initialState) {
     if(routeErr) return console.error(routeErr);
 
-    if(!initialState) res.end(React.renderToString(<FourOhFour />));
+    if(!initialState) return res.end(React.renderToString(<FourOhFour />));
 
     function renderView() {
       const InitialView = (

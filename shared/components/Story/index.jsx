@@ -4,12 +4,13 @@ import * as StoryActions    from 'actions/StoryActions';
 import CardsView            from 'components/CardsView';
 
 @connect(state => ({
-  story: state.story.get('story')
+  story:   state.story.get('story')
 }))
 
 export default class Story extends React.Component {
   static propTypes = {
-    routeParams: PropTypes.object.isRequired
+    routeParams: PropTypes.object.isRequired,
+    story:       PropTypes.object.isRequired
   }
 
   static needs = [
@@ -17,38 +18,21 @@ export default class Story extends React.Component {
   ]
 
   render() {
-    const sections = [
-      {
-        title: 'Lorem',
-        body: 'Crazy good read',
-        href: '/home'
-      },
-      {
-        title: 'Lorem',
-        body: 'Crazy good read',
-        href: '/home'
-      },
-      {
-        title: 'Lorem',
-        body: 'Crazy good read',
-        href: '/home'
-      },
-      {
-        title: 'Lorem',
-        body: 'Crazy good read',
-        href: '/home'
-      },
-      {
-        title: 'Lorem',
-        body: 'Crazy good read',
-        href: '/home'
-      },
+    const sections = this.props.story.get('sections').toJS()
+    .map(section => {
+      return {
+        title: section.title,
+        body:  section.body,
+        href:  '/stories/' + this.props.routeParams.id + '/' + section.id
+      };
+    })
+    .concat([
       {
         title: 'New Section',
         body: '+',
         href: '/stories/' + this.props.routeParams.id + '/new'
       }
-    ];
+    ]);
 
     return (
       <div id="story">

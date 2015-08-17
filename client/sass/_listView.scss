@@ -1,0 +1,33 @@
+.list {
+  text-align: center;
+
+  .header {
+    border: $base-border;
+  }
+
+  .list-item {
+    @include outer-container;
+
+    height: 100%;
+    border: $base-border;
+    border-bottom: none;
+    padding: $base-spacing;
+
+    &:last-child {
+      border-bottom: $base-border;
+    }
+
+    .title {
+      @include span-columns(3);
+
+      height: 100%;
+      border-right: 3px solid black;
+    }
+
+    .description {
+      @include span-columns(6);
+
+      font-size: $base-font-size;
+    }
+  }
+}

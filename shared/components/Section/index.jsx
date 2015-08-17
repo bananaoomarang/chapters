@@ -1,12 +1,38 @@
-import React    from 'react';
-import ListView from 'components/ListView';
+import React, { PropTypes } from 'react';
+import { connect }          from 'react-redux';
+import ListView             from 'components/ListView';
+import * as SectionActions  from 'actions/SectionActions';
+
+@connect(state => ({
+  section: state.section.get('section')
+}))
 
 export default class Section extends React.Component {
-  static elementFixture = [
-    { title: 'Title', description: 'Super snappy description' }
+  static propTypes = {
+    routeParams: PropTypes.object.isRequired,
+    section: PropTypes.object.isRequired
+  }
+
+  static needs = [
+    SectionActions.getSection
   ]
 
   render() {
-    return <ListView elements={this.elementFixture} />
+    const chapters = this.props.section.get('chapters').toJS()
+      .map(chapter => {
+          return {
+            title:  chapter.title,
+            author: chapter.author,
+            href:   '/stories/' + [this.props.routeParams.id, this.props.routeParams.section, chapter.id].join('/')
+          };
+      })
+      .concat([
+        {
+          title: 'New Chapter',
+          href:  '/stories/' + [this.props.routeParams.id, this.props.routeParams.section, 'new'].join('/')
+        }
+      ]);
+
+    return <ListView elements={chapters} header={this.props.section.id}/>;
   }
 }

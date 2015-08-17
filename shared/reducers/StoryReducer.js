@@ -9,14 +9,13 @@ const defaultState = fromJS({
 export default function storyReducer(state = defaultState, action) {
   switch(action.type) {
     case 'POST_STORY':
-      return state.set('story', action.res.data);
+      return state.setIn(['story', 'id'], action.res.data.id);
 
     case 'POST_STORY_FAILURE':
       return state.set('error', action.res.data);
 
     case 'GET_STORY':
-      console.log(action.res.data);
-      return state.set('story', new Story(action.res.data));
+      return state.set('story', Story(fromJS(action.res.data)));
 
     default:
       return state;

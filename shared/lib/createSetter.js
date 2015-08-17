@@ -6,8 +6,8 @@ export default function createSetter(type) {
   };
 
   return function () {
-    for(let i = 1; i < arguments.length; i++)
-      action[toSet[i]] = arguments[i];
+    for(let i = 0; i < arguments.length; i++)
+      action[toSet[i + 1]] = arguments[i];
 
     return action;
   };

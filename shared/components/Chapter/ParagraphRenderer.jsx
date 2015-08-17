@@ -21,7 +21,8 @@ export default class ParagraphRenderer extends React.Component {
           text: p.innerHTML
         }));
 
-    this.props.setChapter({ paragraphs });
+    if(paragraphs.length)
+      this.props.setChapter({ paragraphs });
   }
 
   componentDidMount = () => {

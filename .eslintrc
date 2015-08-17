@@ -1,7 +1,7 @@
 {
   "globals": {
-    "pit": true,
-    "jest": true
+    "__DEV__",
+    "__DEVTOOLS__"
   },
   "plugins": [
     "react"

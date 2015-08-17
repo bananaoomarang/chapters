@@ -6,6 +6,7 @@ import ChapterToolbar       from './Toolbar';
 import ParagraphView        from './ParagraphView';
 import * as ChapterActions  from 'actions/ChapterActions';
 import ifdefBrowser         from 'lib/ifdefBrowser';
+import getToken             from 'lib/getToken'
 
 var Dropzone = ifdefBrowser( () => {
   return require('dropzone');
@@ -24,7 +25,7 @@ export default class Chapter extends React.Component {
   }
 
   static needs = [
-    params => ChapterActions.getChapter(params.id)
+    ChapterActions.getChapter
   ]
 
   constructor(props) {
@@ -40,7 +41,7 @@ export default class Chapter extends React.Component {
   }
 
   componentDidMount = () => {
-    const sessionToken = window.sessionStorage.getItem('token');
+    const sessionToken = getToken();
 
     const dropzoneOpts = {
       url:     '/api/chapters/upload',
@@ -63,7 +64,9 @@ export default class Chapter extends React.Component {
       markdown: this.exportText()
     };
 
-    this.props.dispatch(ChapterActions.postChapter(payload))
+    console.log('payload', payload);
+
+    this.props.dispatch(ChapterActions.postChapter(this.props.routeParams, payload))
       .then(success => {
           if(success) this.props.dispatch(ChapterActions.setEditing(false));
       });
@@ -80,8 +83,6 @@ export default class Chapter extends React.Component {
         var p    = div.childNodes[child];
         var text = p.textContent;
 
-        console.log(p);
-
         if(text) string += text + '\n\n';
         else     string += '\n\n';
       }
@@ -96,9 +97,8 @@ export default class Chapter extends React.Component {
   }
 
   render () {
-    console.log(this.props.chapter.toJS());
     const editButtonStyle = {
-      display: (this.props.editing || !this.props.chapter.get('write')) ? 'none' : 'inline-block'
+      display: (!this.props.editing && this.props.chapter.get('write')) ? 'inline-block' : 'none'
     };
 
     return (
