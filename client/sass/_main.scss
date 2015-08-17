@@ -136,18 +136,27 @@ h1, h2, h3, h4, h5 {
 .loader {
   $size: 8em;
   $border: 0.6em;
-  border-radius: $size;
+  $time: 1.4s;
+
   height: $size;
   width: $size;
+
   left: 50%;
+  top: 50%;
+  border-radius: $size;
   margin: $size / -2 0 0 ($size / -2) - $border;
   position: absolute;
-  top: 50%;
   opacity: 0;
-  background-color: #000;
-
-  animation: pulsate 1.2s ease-out;
+  animation: pulsate $time;
   animation-iteration-count: infinite;
+
+  .blot {
+    border-radius: inherit;
+    opacity: inherit;
+    background-color: inherit;
+    animation: pulsate $time;
+    animation-iteration-count: infinite;
+  }
 
   @keyframes pulsate {
     0% {
@@ -155,15 +164,30 @@ h1, h2, h3, h4, h5 {
       opacity: 0;
     }
 
-    50% {
-      opacity: 0.75
+    75% {
+      opacity: 1
     }
 
     100% {
       transform: scale(1);
-      opacity: 0;
     }
+  }
 
+  #blot1 {
+    width: $size / 3;
+    height: $size / 3;
+    float: right;
+  }
+
+  #blot2 {
+    width: $size / 2;
+    height: $size / 2;
+  }
+
+  #blot3 {
+    width: $size / 1.25;
+    height: $size / 1.25;
+    float: right;
   }
 }
 

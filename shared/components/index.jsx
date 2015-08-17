@@ -41,7 +41,15 @@ export default class MainView extends React.Component {
   }
 
   render() {
-    const children = this.props.loading ? <div className="loader" /> : this.props.children;
+    const Loader = (
+      <div className="loader">
+        <div id="blot1" className="blot" />
+        <div id="blot2" className="blot" />
+        <div id="blot3" className="blot" />
+      </div>
+    );
+
+    const children = this.props.loading ? Loader : this.props.children;
 
     return (
       <div id="main-view">
