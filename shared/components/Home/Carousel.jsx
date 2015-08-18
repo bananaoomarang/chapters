@@ -1,8 +1,13 @@
-import React    from 'react';
-import Slider   from 'react-slick';
-import { Link } from 'react-router';
+import React, { PropTypes } from 'react';
+import Slider               from 'react-slick';
+import { Link }             from 'react-router';
+import { List }             from 'immutable';
 
 export default class Carousel extends React.Component {
+  static propTypes = {
+    stories: PropTypes.instanceOf(List).isRequired
+  }
+
   render() {
     const cfg = {
       slidesToShow:   3,

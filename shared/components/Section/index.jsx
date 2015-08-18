@@ -21,8 +21,10 @@ export default class Section extends React.Component {
     const chapters = this.props.section.get('chapters').toJS()
       .map(chapter => {
           return {
-            title:  chapter.title,
-            author: chapter.author,
+            title:       chapter.title,
+            separator:   'Or',
+            description: chapter.description,
+            adendum:     'By ' + chapter.author,
             href:   '/stories/' + [this.props.routeParams.id, this.props.routeParams.section, chapter.id].join('/')
           };
       })

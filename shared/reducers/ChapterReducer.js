@@ -46,7 +46,6 @@ export default function chapterReducer(state = defaultState, action) {
       return state.set('loading', action.loading);
 
     case 'SET_EDITING':
-      console.log(action);
       return state.set('editing', action.editing);
 
     case 'SET_FOCUSED_PARAGRAPH':

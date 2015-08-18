@@ -19,22 +19,22 @@ export default function getRoutes(onLeave) {
   // TODO Figure out a sane way of making onLeave handler a default....
   return (
     <Route component={Root} path="/">
-      <Route name="home"          component={Home}        path="home"                           onLeave={onLeave} />
-      <Route name="login"         component={Login}       path="login"                          onLeave={onLeave} />
-      <Route name="register"      component={Register}    path="register"                       onLeave={onLeave} />
+      <Route name="home"         component={Home}        path="home"                           onLeave={onLeave} />
+      <Route name="login"        component={Login}       path="login"                          onLeave={onLeave} />
+      <Route name="register"     component={Register}    path="register"                       onLeave={onLeave} />
 
-      <Route name="new-story"     component={NewStory}    path="/stories/new"                   onLeave={onLeave} />
-      <Route name="story"         component={Story}       path="/stories/:id"                   onLeave={onLeave} />
+      <Route name="new-story"    component={NewStory}    path="/stories/new"                   onLeave={onLeave} />
+      <Route name="story"        component={Story}       path="/stories/:id"                   onLeave={onLeave} />
 
-      <Route name="new-section"   component={NewSection}  path="/stories/:id/new"               onLeave={onLeave} />
-      <Route name="section"       component={Section}     path="/stories/:id/:section"          onLeave={onLeave} />
+      <Route name="new-section"  component={NewSection}  path="/stories/:id/new"               onLeave={onLeave} />
+      <Route name="section"      component={Section}     path="/stories/:id/:section"          onLeave={onLeave} />
 
-      <Route name="new-chapter"   component={Chapter}     path="/stories/:id/:section/new"      onLeave={onLeave} />
-      <Route name="chapter"       component={Chapter}     path="/stories/:id/:section/:chapter" onLeave={onLeave} />
+      <Route name="new-chapter"  component={Chapter}     path="/stories/:id/:section/new"      onLeave={onLeave} />
+      <Route name="chapter"      component={Chapter}     path="/stories/:id/:section/:chapter" onLeave={onLeave} />
 
-      <Route name="users"         component={Users}       path="users"                          onLeave={onLeave} />
-      <Route name="user"          component={User}        path="/users/:user"                   onLeave={onLeave} />
-      <Route name="user-chapters" component={UserStories} path="/users/:user/chapters"          onLeave={onLeave} />
+      <Route name="users"        component={Users}       path="users"                          onLeave={onLeave} />
+      <Route name="user"         component={User}        path="/users/:user"                   onLeave={onLeave} />
+      <Route name="user-stories" component={UserStories} path="/users/:user/stories"           onLeave={onLeave} />
     </Route>
   );
 }

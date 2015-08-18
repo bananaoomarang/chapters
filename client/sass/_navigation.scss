@@ -10,7 +10,7 @@ header.navigation {
   width: 100%;
   z-index: 999;
 
-  @include media (max-width $medium-screen) {
+  @include media (max-width $small-screen) {
     text-align: center;
   }
 
@@ -33,7 +33,7 @@ header.navigation {
       padding: -$navigation-height  0;
     }
 
-    @include media (max-width $medium-screen) {
+    @include media (max-width $small-screen) {
         float: none;
     }
 
@@ -101,7 +101,7 @@ header.navigation {
     clear: none;
     float: right;
 
-    @include media (max-width $medium-screen) {
+    @include media (max-width $small-screen) {
       float: none;
     }
   }

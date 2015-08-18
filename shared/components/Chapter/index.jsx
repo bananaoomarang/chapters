@@ -6,7 +6,7 @@ import ChapterToolbar       from './Toolbar';
 import ParagraphView        from './ParagraphView';
 import * as ChapterActions  from 'actions/ChapterActions';
 import ifdefBrowser         from 'lib/ifdefBrowser';
-import getToken             from 'lib/getToken'
+import getToken             from 'lib/getToken';
 
 var Dropzone = ifdefBrowser( () => {
   return require('dropzone');
@@ -19,9 +19,10 @@ var Dropzone = ifdefBrowser( () => {
 
 export default class Chapter extends React.Component {
   static propTypes = {
-    dispatch: PropTypes.func.isRequired,
-    chapter:  PropTypes.object.isRequired,
-    editing:  PropTypes.bool.isRequired
+    dispatch:    PropTypes.func.isRequired,
+    routeParams: PropTypes.object.isRequired,
+    chapter:     PropTypes.object.isRequired,
+    editing:     PropTypes.bool.isRequired
   }
 
   static needs = [

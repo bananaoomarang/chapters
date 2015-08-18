@@ -1,4 +1,4 @@
-import { fromJS }             from 'immutable';
+import { fromJS, List } from 'immutable';
 
 const defaultState = fromJS({
   users:      [],
@@ -9,12 +9,12 @@ const defaultState = fromJS({
 export default function usersReducer(state = defaultState, action) {
   switch(action.type) {
     case 'GET_USERS':
-      return state.set('users', action.res.data);
+      return state.set('users', List(action.res.data));
 
-    case 'REGISTRATION_SUCCESS':
+    case 'REGISTER':
       return state.set('regSuccess', action.res.text);
 
-    case 'REGISTRATION_ERROR':
+    case 'REGISTER_FAILURE':
       return state.set('regError', action.error.data.message);
 
     default:

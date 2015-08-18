@@ -1,13 +1,20 @@
-import React             from 'react';
-import classSet          from 'classnames';
-import { connect }       from 'react-redux';
-import * as ChapterActions from 'actions/ChapterActions';
+import React, { PropTypes } from 'react';
+import classSet             from 'classnames';
+import { connect }          from 'react-redux';
+import * as ChapterActions  from 'actions/ChapterActions';
 
 @connect(state => ({
   editing: state.chapter.get('editing')
 }))
 
 export default class ChapterTitle extends React.Component {
+  static propTypes = {
+    dispatch:    PropTypes.func.isRequired,
+    title:       PropTypes.string.isRequired,
+    editing:     PropTypes.bool.isRequired,
+    placeholder: PropTypes.bool.isRequired
+  }
+
   state = {
     clicked: false
   }

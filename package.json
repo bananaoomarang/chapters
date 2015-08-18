@@ -11,7 +11,7 @@
     "start": "NODE_PATH=$NODE_PATH:./shared node .",
     "build": "NODE_ENV=production webpack --progress --color -p --config webpack.prod.config.js",
     "dev": "npm run start & webpack-dev-server --progress --color",
-    "validate": "eslint shared client shared/**/*.jsx *.js *.jsx",
+    "validate": "eslint . --ext .js,.jsx",
     "test": "karma start"
   },
   "pre-commit": [

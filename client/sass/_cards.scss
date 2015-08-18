@@ -16,15 +16,19 @@
 
     .card-header {
       border: $base-border;
+      font-size: $header-font-size;
     }
 
     .card-body {
-      height: 8em;
+      height: 4em;
       border: $base-border;
       border-top: none;
+      font-size: $subheader-font-size;
+      padding-top: $subheader-font-size - ($subheader-font-size / 4);
     }
 
     .card-footer {
+      height: 2em;
       border: $base-border;
       border-top: none;
     }

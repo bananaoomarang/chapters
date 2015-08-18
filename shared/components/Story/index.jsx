@@ -19,20 +19,20 @@ export default class Story extends React.Component {
 
   render() {
     const sections = this.props.story.get('sections').toJS()
-    .map(section => {
-      return {
-        title: section.title,
-        body:  section.body,
-        href:  '/stories/' + this.props.routeParams.id + '/' + section.id
-      };
-    })
-    .concat([
-      {
-        title: 'New Section',
-        body: '+',
-        href: '/stories/' + this.props.routeParams.id + '/new'
-      }
-    ]);
+      .map(section => {
+        return {
+          title: section.title,
+          body:  section.description,
+          href:  '/stories/' + this.props.routeParams.id + '/' + section.id
+        };
+      })
+      .concat([
+        {
+          title: 'New Section',
+          body: '+',
+          href: '/stories/' + this.props.routeParams.id + '/new'
+        }
+      ]);
 
     return (
       <div id="story">

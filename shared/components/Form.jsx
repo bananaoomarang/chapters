@@ -16,34 +16,60 @@ export default class Form extends React.Component {
     fields:        PropTypes.array.isRequired,
     id:            PropTypes.string.isRequired,
     actionCreator: PropTypes.func,
+    checks:        PropTypes.object,
     error:         PropTypes.string,
     submitText:    PropTypes.string,
     alsoDispatch:  PropTypes.object,
     didDispatch:   PropTypes.func
   }
 
-  handleFormSubmit = () => {
+  state = {}
+
+  handleFormSubmit = (e) => {
+    e.preventDefault();
+
+    const { fields, checks } = this.props;
+
     let payload = {};
 
-    this.props.fields
-      .forEach(field => 
-        payload[field.name] = this.refs[field.name].getDOMNode().value);
+    for(let field of fields) {
+      const value = this.refs[field.name].getDOMNode().value;
+
+      if(!value)
+        return this.setState({ error: 'Required fields missing' });
+
+      payload[field.name] = value;
+    }
+
 
     if(this.props.alsoDispatch)
       Object.assign(payload, this.props.alsoDispatch)
 
-    Bluebird.resolve(this.props.dispatch(this.props.actionCreator(payload, this.context.router.state.params)))
-      .then(this.props.didDispatch || ()=>{});
+    if(checks)
+      for(let c in checks) {
+        const check = checks[c];
+
+
+        if(!check.check(payload))
+          return this.setState({ error: check.error });
+      }
+
+      for(let field of fields)
+        if(field.dispatch !== undefined && !field.dispatch)
+          delete payload[field.name]
+
+      Bluebird.resolve(this.props.dispatch(this.props.actionCreator(payload, this.context.router.state.params)))
+        .then(this.props.didDispatch || ()=>{});
   }
 
   render() {
     const errorClasses = classSet({
       'error-msg': true,
-      'invisible': !this.props.error
+      'invisible': (!this.props.error && !this.state.error)
     });
 
     return (
-      <div id={this.props.id} className="form">
+      <form id={this.props.id} className="form" onSubmit={this.handleFormSubmit}>
 
         {
           this.props.fields.map(field =>
@@ -56,12 +82,10 @@ export default class Form extends React.Component {
           )
         }
 
-        <button className="btn" name={this.props.id + '-submit'} onClick={this.handleFormSubmit}>
-          {this.props.submitText || 'submit'}
-        </button>
+        <input type="submit" name={this.props.id + '-submit'} value={this.props.submitText || 'submit'} />
 
-        <a className={errorClasses}>{this.props.error}</a>
-      </div>
+        <a className={errorClasses}>{this.props.error || this.state.error}</a>
+      </form>
     );
   }
 }

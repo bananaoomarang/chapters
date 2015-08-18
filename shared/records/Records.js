@@ -33,6 +33,7 @@ export const Chapter = Record({
     read:             true,
     write:            true,
     title:            '',
+    description:      '',
     markdown:         '',  // Markdown
     html:             '',  // HTML from ^
     author:           '',

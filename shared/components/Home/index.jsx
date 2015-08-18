@@ -1,7 +1,4 @@
-'use strict';
-
 import React, { PropTypes } from 'react';
-import { Link }             from 'react-router';
 import { connect }          from 'react-redux';
 import { List }             from 'immutable';
 import * as HomeActions     from 'actions/HomeActions';
@@ -13,7 +10,7 @@ import Carousel             from './Carousel';
 
 export default class Home extends React.Component {
   static propTypes = {
-    chapters: PropTypes.instanceOf(List)
+    stories: PropTypes.instanceOf(List)
   }
 
   static needs = [

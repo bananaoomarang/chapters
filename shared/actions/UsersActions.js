@@ -7,16 +7,9 @@ export function getUsers() {
   };
 }
 
-export function registrationError(err) {
-  return {
-    type:  'REGISTRATION_ERROR',
-    error: err
-  };
-}
-
 export function registerUser(user) {
   return {
-    type:    'REGISTRATION_SUCCESS',
+    type:    'REGISTER',
     promise: request.post('/users/create', user)
   };
 }

@@ -13,3 +13,13 @@ export function getStory (params) {
     promise: request.get('/stories/' + params.id)
   }
 }
+
+export function getUserStories() {
+  const url = '/users/current/stories';
+
+  return {
+    type:    'GET_USER_STORIES',
+    promise: request.get(url)
+  };
+}
+

@@ -1,36 +1,31 @@
-'use strict';
+import React, { PropTypes } from 'react';
+import { connect }          from 'react-redux';
+import * as StoryActions    from 'actions/StoryActions';
+import CardsView            from 'components/CardsView';
+import { List }             from 'immutable';
 
-import React        from 'react';
-import { Link }     from 'react-router';
-import ChapterReducer from 'reducers/ChapterReducer';
-import ChapterActions from 'actions/ChapterActions';
+@connect(state => ({
+  stories: state.story.get('userStories')
+}))
 
-var Stories = {
-  statics: {
-    registerReducer: ChapterReducer
-  },
-
-  componentDidMount () {
-    ChapterActions.loadUserStories(this.props.params.user);
-  },
-
-  render () {
-    return (
-      <div id="users">
-      ()s{
-          this.state.chapters.map(function (chapter) {
-            return (
-              <div>
-                <Link to="chapter" params={ { id: chapter.id } }>{chapter.title}</Link>
-                <br/>
-              </div>
-            );
-          })
-        }
-      </div>
-    );
+export default class Stories {
+  static propTypes = {
+    stories: PropTypes.instanceOf(List).isRequired
   }
 
-};
+  static needs = [
+    StoryActions.getUserStories
+  ]
 
-module.exports = React.createClass(Stories);
+  render () {
+    const stories = this.props.stories.toJS()
+      .map(story => ({
+        title: story.title,
+        href:  '/stories/' + story.id
+      }));
+
+    return (
+      <CardsView items={stories} emptyMsg='User has no stories!' />
+    );
+  }
+}

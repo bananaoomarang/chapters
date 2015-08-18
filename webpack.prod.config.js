@@ -39,6 +39,6 @@ module.exports = {
     new webpack.DefinePlugin({
       __DEV__:      process.env.NODE_ENV !== 'production',
       __DEVTOOLS__: false
-    }),
+    })
   ],
 };

@@ -1,34 +1,30 @@
-import React        from 'react';
-import { Link }     from 'react-router';
-import UsersActions from 'actions/UsersActions';
-import UsersReducer   from 'reducers/UsersReducer';
+import React, { PropTypes } from 'react';
+import { connect }          from 'react-redux';
+import * as UsersActions    from 'actions/UsersActions';
+import CardsView            from 'components/CardsView';
 
-var Users = {
-  statics: {
-    registerReducer: UsersReducer
-  },
+@connect(state => ({
+  users: state.users.get('users')
+}))
 
-  componentDidMount () {
-    UsersActions.getUsers();
-  },
-
-  render () {
-    return (
-      <div id="users">
-      ()s{
-          this.state.users.map(function (user) {
-            return (
-              <div>
-                <Link to="user-chapters" params={ { user: user.id } }>{user.id}</Link>
-                <br/>
-              </div>
-            );
-          })
-        }
-      </div>
-    );
+export default class UsersList {
+  static propTypes = {
+    users: PropTypes.object.isRequired
   }
 
-};
+  static needs = [
+    UsersActions.getUsers
+  ]
 
-module.exports = React.createClass(Users);
+  render() {
+    const users = this.props.users
+      .toJS()
+      .map(user => ({
+        title: user.id,
+        body:  'Lorem ipsum',
+        href:  '/users/' + user.id
+      }));
+
+    return <CardsView items={users} emptyMsg="No users :'(" />;
+  }
+}

@@ -1,11 +1,10 @@
 import React, { PropTypes} from 'react';
-import classSet            from 'classnames';
 import * as UsersActions   from 'actions/UsersActions';
 import { connect }         from 'react-redux';
+import Form                from 'components/Form';
 
 @connect(state => ({
-  error:   state.users.get('regError'),
-  success: !!state.users.get('regSuccess')
+  error: state.users.get('regError')
 }))
 
 export default class Register extends React.Component {
@@ -15,62 +14,55 @@ export default class Register extends React.Component {
 
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
-    error:    PropTypes.string,
-    success:  PropTypes.bool.isRequired
-  }
-
-  state = {
-    error: ''
-  }
-
-  onChange = (e) => {
-    this.setState({
-      form: {
-        ...this.state.form,
-        [e.target.name]: e.target.value
-      }
-    });
-  }
-
-  onSubmit = (e) => {
-    e.preventDefault();
-
-    if(this.state.form.username &&
-       this.state.form.email    &&
-         this.state.form.password) {
-
-      this.props.dispatch(UsersActions.registerUser(this.state.form));
-
-    } else {
-      this.setState({ error: 'Please fill in form' });
-    }
+    error:    PropTypes.string
   }
 
   render() {
-    var errClasses = classSet({
-      'error-msg': true,
-      'invisible': !(this.props.error || this.state.error)
-    });
+    const cfg = {
+      id:            'register-form',
+      submitText:    'Register',
+      actionCreator: UsersActions.registerUser,
+      error:         this.props.error,
 
-    if(this.props.success)
-      this.context.router.transitionTo('login');
+      fields: [
+        {
+          name:        'username',
+          placeholder: 'eezy'
+        },
+        {
+          name:        'email',
+          type:        'email',
+          placeholder: 'eljames@hotmail.com'
+        },
+        {
+          name:        'password',
+          type:        'password',
+          placeholder: 'Password'
+        },
+        {
+          name:        'password2',
+          type:        'password',
+          placeholder: 'Confirm password',
+          dispatch:     false
+        }
+      ],
+
+      checks: {
+        password2: {
+          check: fields => ((fields.password) && (fields.password === fields.password2)),
+          error: 'Password fields do not match'
+        }
+      },
+
+      didDispatch: success => {
+        if(success)
+          this.context.router.transitionTo('/home');
+      }
+    };
 
     return (
-      <div id="register" className="form">
-
-        <form onChange={this.onChange} onSubmit={this.onSubmit}>
-          <input type="text"     name="username" id="form-username-field" placeholder="Bill"                />
-          <input type="email"    name="email"    id="form-email-field"    placeholder="eljames@hotmail.com" />
-          <input type="password" name="password" id="form-password-field" placeholder="password"            />
-
-          <input type="submit" name="submit-user" id="submit-user-form" value="Sign up" />
-        </form>
-
-        <a className={errClasses}>{this.props.error}</a>
-
-      </div>
+      <Form {...cfg} />
     );
-
   }
 }
 

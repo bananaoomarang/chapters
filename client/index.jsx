@@ -65,14 +65,6 @@ function onRouteLeave(nextState, transition, done) {
 
 const routes = createRoutes(onRouteLeave);
 
-let elements = [
-  <Provider store={store} key="provider">
-    {() =>
-      <Router children={routes} history={history} />
-    }
-  </Provider>
-];
-
 if (__DEV__ && __DEVTOOLS__) {
   const { DevTools, DebugPanel, LogMonitor } = require('../node_modules/redux-devtools/lib/react');
 

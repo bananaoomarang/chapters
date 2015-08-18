@@ -19,16 +19,6 @@ export function getChapter(routeParams) {
   };
 }
 
-// XXX this doesn't make any sense anymore -> stories
-export function getUserChapters() {
-  const url = '/users/current/chapters';
-
-  return {
-    type:    'GET_USER_CHAPTERS',
-    promise: request.get(url)
-  };
-}
-
 export function postChapter(routeParams, chapter) {
   const url = '/stories/' + [routeParams.id, routeParams.section].join('/');
 

@@ -12,6 +12,7 @@
     border: $base-border;
     border-bottom: none;
     padding: $base-spacing;
+    font-size: $base-font-size;
 
     &:last-child {
       border-bottom: $base-border;
@@ -20,14 +21,28 @@
     .title {
       @include span-columns(3);
 
-      height: 100%;
-      border-right: 3px solid black;
+      font-size: $subheader-font-size;
+      margin-top: -$subheader-font-size / 6;
+    }
+
+    .separator {
+      @include span-columns(1);
+
+      border-left: 3px solid;
+      border-right: 3px solid;
     }
 
     .description {
-      @include span-columns(6);
+      @include span-columns(7);
 
-      font-size: $base-font-size;
+      text-align: left;
+      border-right: 3px solid;
+    }
+
+    .adendum {
+      @include span-columns(1);
+
+      text-align: left;
     }
   }
 }

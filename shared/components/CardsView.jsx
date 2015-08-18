@@ -8,15 +8,21 @@ export default class CardsView extends React.Component {
   }
 
   render() {
-    const cards = this.props.items.map((item, index) => (
-      <Link to={item.href} key={index}>
-        <div className="card">
-          <div className="card-header">{item.title}</div>
-          <div className="card-body">{item.body}</div>
-          <div className="card-footer">{item.footer}</div>
-        </div>
-      </Link>
-    ));
+    const cards = this.props.items.map((item, index) => {
+      const footerStyle = {
+        display: item.footer ? 'inherit' : 'none'
+      };
+
+      return (
+        <Link to={item.href} key={index}>
+          <div className="card">
+            <div className="card-header">{item.title}</div>
+            <div className="card-body">{item.body}</div>
+            <div style={footerStyle} className="card-footer">{item.footer}</div>
+          </div>
+        </Link>
+      );
+    });
 
     return (
       <div className="cards">
