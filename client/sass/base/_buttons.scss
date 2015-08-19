@@ -1,25 +1,11 @@
-#{$all-button-inputs},
-.btn, button {
+.clickable {
   @include appearance(none);
   -webkit-font-smoothing: antialiased;
   background-color: #fff;
   border: $black-border;
   color: #000;
   cursor: pointer;
-  display: inline-block;
-  font-family: $base-font-family;
-  font-size: $base-font-size;
-  font-weight: 600;
-  line-height: 1em;
-  padding: 0.75em 1em;
-  text-decoration: none;
   user-select: none;
-  vertical-align: middle;
-  white-space: nowrap;
-  padding: 0.3em;
-  outline: none;
-  width: 6em;
-  margin-right: $small-spacing;
 
   &:hover {
     background-color: darken(#fff, 60%);
@@ -37,6 +23,25 @@
   }
 
   @include transition(all 0.15s ease-in-out);
+}
+
+#{$all-button-inputs},
+.btn, button {
+  @extend .clickable;
+
+  display: inline-block;
+  font-family: $base-font-family;
+  font-size: $base-font-size;
+  font-weight: 600;
+  line-height: 1em;
+  padding: 0.75em 1em;
+  text-decoration: none;
+  vertical-align: middle;
+  white-space: nowrap;
+  padding: 0.3em;
+  outline: none;
+  width: 6em;
+  margin-right: $small-spacing;
 }
 
 .btn--large {

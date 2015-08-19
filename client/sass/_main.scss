@@ -210,7 +210,7 @@ h1, h2, h3, h4, h5 {
     color: #fff;
   }
 
-  button, input[type=submit] {
+  .clickable {
     background-color: #000;
     border-color: #fff;
     color: #fff;
@@ -224,6 +224,7 @@ h1, h2, h3, h4, h5 {
     &:active {
       background-color: #fff;
       border: none;
+      color: #000;
     }
   }
 

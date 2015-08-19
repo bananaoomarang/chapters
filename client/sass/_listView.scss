@@ -1,12 +1,17 @@
 .list {
   text-align: center;
 
+  @include transition (all 0.2s ease-in-out);
+
   .header {
     border: $base-border;
   }
 
   .list-item {
     @include outer-container;
+    @include transition (all 0.2s ease-in-out);
+
+    @extend .clickable;
 
     height: 100%;
     border: $base-border;
@@ -21,6 +26,8 @@
     .title {
       @include span-columns(3);
 
+      color: inherit;
+      background: none;
       font-size: $subheader-font-size;
       margin-top: -$subheader-font-size / 6;
     }
@@ -28,6 +35,8 @@
     .separator {
       @include span-columns(1);
 
+      color: inherit;
+      background: none;
       border-left: 3px solid;
       border-right: 3px solid;
     }
@@ -35,6 +44,8 @@
     .description {
       @include span-columns(7);
 
+      color: inherit;
+      background: none;
       text-align: left;
       border-right: 3px solid;
     }
@@ -42,6 +53,8 @@
     .adendum {
       @include span-columns(1);
 
+      color: inherit;
+      background: none;
       text-align: left;
     }
   }

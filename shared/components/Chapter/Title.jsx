@@ -12,7 +12,7 @@ export default class ChapterTitle extends React.Component {
     dispatch:    PropTypes.func.isRequired,
     title:       PropTypes.string.isRequired,
     editing:     PropTypes.bool.isRequired,
-    placeholder: PropTypes.bool.isRequired
+    placeholder: PropTypes.string.isRequired
   }
 
   state = {

@@ -18,22 +18,22 @@ export default class ListView extends React.Component {
         <ul>
           {
             this.props.elements.map(element => (
-              <li key={element.id} className="list-item">
                 <Link to={element.href}>
-                  <span className="title">
-                    {element.title}
-                  </span>
-                  <span className="separator">
-                    {element.separator}
-                  </span>
-                  <span className="description">
-                    {element.description}
-                  </span>
-                  <span className="adendum">
-                    {element.adendum}
-                  </span>
+                    <li key={element.id} className="list-item">
+                        <span className="title">
+                            {element.title}
+                        </span>
+                        <span className="separator">
+                            {element.separator}
+                        </span>
+                        <span className="description">
+                            {element.description}
+                        </span>
+                        <span className="adendum">
+                            {element.adendum}
+                        </span>
+                    </li>
                 </Link>
-              </li>
             ))
           }
         </ul>

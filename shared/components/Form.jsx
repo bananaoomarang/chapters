@@ -84,6 +84,8 @@ export default class Form extends React.Component {
 
         <input type="submit" name={this.props.id + '-submit'} value={this.props.submitText || 'submit'} />
 
+        <br />
+
         <a className={errorClasses}>{this.props.error || this.state.error}</a>
       </form>
     );
