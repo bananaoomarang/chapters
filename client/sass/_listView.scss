@@ -1,15 +1,14 @@
 .list {
   text-align: center;
-
-  @include transition (all 0.2s ease-in-out);
+  padding: $base-spacing;
 
   .header {
     border: $base-border;
+    font-size: $header-font-size
   }
 
   .list-item {
     @include outer-container;
-    @include transition (all 0.2s ease-in-out);
 
     @extend .clickable;
 
@@ -19,6 +18,11 @@
     padding: $base-spacing;
     font-size: $base-font-size;
 
+    * {
+      color: inherit;
+      background: none;
+    }
+
     &:last-child {
       border-bottom: $base-border;
     }
@@ -26,35 +30,29 @@
     .title {
       @include span-columns(3);
 
-      color: inherit;
-      background: none;
       font-size: $subheader-font-size;
       margin-top: -$subheader-font-size / 6;
     }
 
     .separator {
       @include span-columns(1);
+      @include transition(border 0.2s ease-in-out);
 
-      color: inherit;
-      background: none;
-      border-left: 3px solid;
-      border-right: 3px solid;
+      border-left: 4px solid;
+      border-right: 4px solid;
     }
 
     .description {
       @include span-columns(7);
+      @include transition(border 0.2s ease-in-out);
 
-      color: inherit;
-      background: none;
       text-align: left;
-      border-right: 3px solid;
+      border-right: 4px solid;
     }
 
     .adendum {
       @include span-columns(1);
 
-      color: inherit;
-      background: none;
       text-align: left;
     }
   }

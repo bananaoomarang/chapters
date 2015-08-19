@@ -1,35 +1,46 @@
 .cards {
   @include outer-container;
 
-  .card {
-    @include span-columns(4);
+  .card-wrapper {
+    @include span-columns(12);
 
-    @include media (max-width $medium-screen) {
+    @include media (min-width $medium-screen) {
       @include span-columns(6);
     }
 
-    @include media (max-width $small-screen) {
-      @include span-columns(12);
+    @include media (min-width $large-screen) {
+      @include span-columns(4);
     }
 
-    padding: $base-spacing*1.8;
+    padding: $base-spacing;
+  }
+
+  .card {
+    @extend .clickable;
+
+    * {
+      color: inherit;
+      background: none;
+    }
 
     .card-header {
-      border: $base-border;
+      @include transition(border 0.2s ease-in-out);
+
+      font-weight: bold;
+      border-bottom: 4px solid;
+      padding: $small-spacing / 2;
       font-size: $header-font-size;
+
     }
 
     .card-body {
-      height: 4em;
-      border: $base-border;
+      padding: $base-spacing*2 $base-spacing;
       border-top: none;
       font-size: $subheader-font-size;
-      padding-top: $subheader-font-size - ($subheader-font-size / 4);
     }
 
     .card-footer {
-      height: 2em;
-      border: $base-border;
+      padding: $small-spacing / 2;
       border-top: none;
     }
   }

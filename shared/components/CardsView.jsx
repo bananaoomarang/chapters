@@ -15,11 +15,13 @@ export default class CardsView extends React.Component {
 
       return (
         <Link to={item.href} key={index}>
-          <div className="card">
-            <div className="card-header">{item.title}</div>
-            <div className="card-body">{item.body}</div>
-            <div style={footerStyle} className="card-footer">{item.footer}</div>
-          </div>
+          <div className="card-wrapper">
+            <div className="card">
+              <div className="card-header">{item.title}</div>
+              <div className="card-body"><em>{item.body}</em></div>
+              <div style={footerStyle} className="card-footer">{item.footer}</div>
+            </div>
+            </div>
         </Link>
       );
     });
@@ -29,7 +31,7 @@ export default class CardsView extends React.Component {
         {
           (() => {
             if(cards.length)
-              return cards;
+              return <div className="cards">{cards}</div>;
             else
               return <h2>{this.props.emptyMsg}</h2>;
           })()

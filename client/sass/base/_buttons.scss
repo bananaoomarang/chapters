@@ -1,20 +1,31 @@
 .clickable {
   @include appearance(none);
+  @include transition(all 0.2s ease-in-out);
+
   -webkit-font-smoothing: antialiased;
   background-color: #fff;
   border: $black-border;
   color: #000;
   cursor: pointer;
   user-select: none;
-
+  
   &:hover {
     background-color: darken(#fff, 60%);
     color: #fff;
+
+    * {
+      border-color: #fff;
+    }
   }
 
   &:active {
     background-color: #000;
     border: none;
+    color: #fff;
+
+    * {
+      border-color: #fff;
+    }
   }
 
   &:disabled {
@@ -22,7 +33,6 @@
     opacity: 0.5;
   }
 
-  @include transition(all 0.15s ease-in-out);
 }
 
 #{$all-button-inputs},

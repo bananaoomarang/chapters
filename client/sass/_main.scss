@@ -51,36 +51,6 @@ h1, h2, h3, h4, h5 {
     }
   }
 
-  #story-selector {
-    background-color: $light-gray;
-    opacity: 0;
-    border: $black-border;
-    text-align: left;
-    width: 20%;
-    left: 0;
-    right: 0;
-    padding: 1em;
-    @include position(absolute, 50% 0 null 0);
-    @include margin(null auto null auto);
-
-    li {
-      cursor: pointer;
-      text-align: center;
-
-      &:hover {
-        background-color: darken($light-gray, 10%);
-      }
-
-      &:active {
-        background-color: darken($light-gray, 20%);
-      }
-
-      @include transition (all 0.2s ease-in-out);
-    }
-
-    @include transition (all 0.2s ease-in-out);
-  }
-
   /* Editor defaults */
   text-align: center;
   font-family: 'Crimson Text';
@@ -98,14 +68,10 @@ h1, h2, h3, h4, h5 {
 }
 
 .form {
-
   a, input[type=text], input[type=email], input[type=password] {
     width: 25%;
-
     min-width: 16em;
-
     margin: auto;
-
     margin-bottom: $base-spacing;
   }
 
@@ -215,16 +181,28 @@ h1, h2, h3, h4, h5 {
     border-color: #fff;
     color: #fff;
 
+    * {
+      border-color: #fff;
+    }
+
     &:hover {
       background-color: lighten(#000, 60%);
       border-color: #fff;
       color: #000;
+
+      * {
+        border-color: #000;
+      }
     }
 
     &:active {
       background-color: #fff;
       border: none;
       color: #000;
+
+      * {
+        border-color: #000;
+      }
     }
   }
 
