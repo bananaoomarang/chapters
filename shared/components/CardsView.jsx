@@ -4,6 +4,8 @@ import { Link }             from 'react-router';
 export default class CardsView extends React.Component {
   static propTypes = {
     items:    PropTypes.array.isRequired,
+    id:       PropTypes.string,
+    header:   PropTypes.string,
     emptyMsg: PropTypes.string
   }
 
@@ -17,9 +19,26 @@ export default class CardsView extends React.Component {
         <Link to={item.href} key={index}>
           <div className="card-wrapper">
             <div className="card">
-              <div className="card-header">{item.title}</div>
-              <div className="card-body"><em>{item.body}</em></div>
-              <div style={footerStyle} className="card-footer">{item.footer}</div>
+              {
+                (() => {
+                  if(item.title)
+                    return <div className="card-header">{item.title}</div>
+                })()
+              }
+
+              {
+                (() => {
+                  if(item.body)
+                    return <div className="card-body">{item.body}</div>
+                })()
+              }
+
+              {
+                (() => {
+                  if(item.footer)
+                    <div style={footerStyle} className="card-footer">{item.footer}</div>
+                })()
+              }
             </div>
             </div>
         </Link>
@@ -27,15 +46,23 @@ export default class CardsView extends React.Component {
     });
 
     return (
-      <div className="cards">
+      <div id={this.props.id || 'CardsView'}>
         {
           (() => {
-            if(cards.length)
-              return <div className="cards">{cards}</div>;
-            else
-              return <h2>{this.props.emptyMsg}</h2>;
+            if(this.props.header)
+              return <h2>{this.props.header}</h2>;
           })()
         }
+        <div className="cards">
+          {
+            (() => {
+              if(cards.length)
+                return <div className="cards">{cards}</div>;
+              else
+                return <h2>{this.props.emptyMsg}</h2>;
+            })()
+          }
+        </div>
       </div>
     );
   }

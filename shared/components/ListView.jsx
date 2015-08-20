@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { Link }             from 'react-router';
+import capitalize            from 'lib/capitalize';
 
 export default class ListView extends React.Component {
   static propTypes = {
@@ -21,14 +22,17 @@ export default class ListView extends React.Component {
               <Link to={element.href}>
                 <li key={element.id} className="list-item">
                   <span className="title">
-                    {element.title}
+                    {capitalize(element.title)}
                   </span>
+
                   <span className="separator">
-                    {element.separator}
+                    &nbsp;
                   </span>
+
                   <span className="description">
                     <em>{element.description}</em>
                   </span>
+
                   <span className="adendum">
                     {element.adendum}
                   </span>

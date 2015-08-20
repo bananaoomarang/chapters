@@ -30,11 +30,10 @@
       border-bottom: 4px solid;
       padding: $small-spacing / 2;
       font-size: $header-font-size;
-
     }
 
     .card-body {
-      padding: $base-spacing*2 $base-spacing;
+      padding: 30% $base-spacing;
       border-top: none;
       font-size: $subheader-font-size;
     }

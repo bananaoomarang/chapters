@@ -28,32 +28,32 @@
     }
 
     .title {
-      @include span-columns(3);
+      @include span-columns(4);
 
+      text-align: left;
       font-size: $subheader-font-size;
       margin-top: -$subheader-font-size / 6;
     }
 
     .separator {
-      @include span-columns(1);
       @include transition(border 0.2s ease-in-out);
 
+      float: left;
       border-left: 4px solid;
-      border-right: 4px solid;
+      padding: 0 $small-spacing;
     }
 
     .description {
-      @include span-columns(7);
       @include transition(border 0.2s ease-in-out);
 
+      float: left;
       text-align: left;
-      border-right: 4px solid;
     }
 
     .adendum {
-      @include span-columns(1);
-
-      text-align: left;
+      float: right;
+      border-left: 4px solid;
+      padding: 0 $base-spacing;
     }
   }
 }

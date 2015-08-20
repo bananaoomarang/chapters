@@ -23,7 +23,7 @@ export default class Section extends React.Component {
       .map(chapter => {
           return {
             title:       chapter.title,
-            separator:   'Or',
+            separator:   '&nbsp;',
             description: chapter.description,
             adendum:     'By ' + capitalize(chapter.author),
             href:   '/stories/' + [this.props.routeParams.id, this.props.routeParams.section, chapter.id].join('/')

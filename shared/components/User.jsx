@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
-import { Link }             from 'react-router';
+import CardsView            from 'components/CardsView';
+import capitalize           from 'lib/capitalize';
 
 export default class User extends React.Component {
   static propTypes = {
@@ -7,14 +8,14 @@ export default class User extends React.Component {
   }
 
   render() {
+    const cards = [
+      {
+        body: 'Stories'
+      }
+    ];
+
     return (
-      <div id="user">
-        <h1>{this.props.routeParams.user}</h1>
-
-        <br />
-
-        <Link to={'/users/' + this.props.routeParams.user + '/stories'}>Stories</Link>
-      </div>
+      <CardsView items={cards} header={capitalize(this.props.routeParams.user)} />
     );
   }
 }

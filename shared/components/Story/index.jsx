@@ -22,7 +22,7 @@ export default class Story extends React.Component {
       .map(section => {
         return {
           title: section.title,
-          body:  section.description,
+          body:  <em>{section.description}</em>,
           href:  '/stories/' + this.props.routeParams.id + '/' + section.id
         };
       })
