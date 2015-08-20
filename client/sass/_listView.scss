@@ -1,5 +1,4 @@
 .list {
-  text-align: center;
   padding: $base-spacing;
 
   .header {
@@ -8,7 +7,7 @@
   }
 
   .list-item {
-    @include outer-container;
+    @include outer-container(90%);
 
     @extend .clickable;
 

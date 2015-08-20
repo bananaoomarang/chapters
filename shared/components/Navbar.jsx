@@ -32,9 +32,9 @@ export default class Navbar extends React.Component {
     return (
       <header className="navigation" role="banner">
         <div className="navigation-wrapper">
-          <h2 className="logo">
+          <h1 className="logo">
             <Link to="/home">Chapters</Link>
-          </h2>
+          </h1>
 
           <div className="right">
 

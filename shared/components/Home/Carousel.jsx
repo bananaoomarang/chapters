@@ -39,9 +39,9 @@ export default class Carousel extends React.Component {
           this.props.stories.toJS().map( (story, index) => {
             return (
               <div key={index}>
-                <h3>
+                <h1>
                   <Link to={`/stories/${story.id}`} >{story.title}</Link>
-                </h3>
+                </h1>
                 <span>By {story.author}</span>
               </div>
             );

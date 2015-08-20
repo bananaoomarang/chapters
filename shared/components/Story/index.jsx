@@ -38,7 +38,7 @@ export default class Story extends React.Component {
       <div id="story">
         <h1>{this.props.story.get('title')}</h1>
 
-        <h3>By: {this.props.story.get('author')}</h3>
+        <h3>By {this.props.story.get('author')}</h3>
 
         <CardsView items={sections} emptyMsg="No sections"/>
       </div>

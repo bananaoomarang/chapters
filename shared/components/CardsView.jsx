@@ -16,32 +16,32 @@ export default class CardsView extends React.Component {
       };
 
       return (
-        <Link to={item.href} key={index}>
-          <div className="card-wrapper">
-            <div className="card">
-              {
-                (() => {
-                  if(item.title)
-                    return <div className="card-header">{item.title}</div>
-                })()
-              }
+          <div className="card-wrapper" key={index}>
+            <Link to={item.href}>
+              <div className="card">
+                {
+                  (() => {
+                    if(item.title)
+                      return <div className="card-header">{item.title}</div>;
+                  })()
+                  }
 
-              {
-                (() => {
-                  if(item.body)
-                    return <div className="card-body">{item.body}</div>
-                })()
-              }
+                  {
+                    (() => {
+                      if(item.body)
+                        return <div className="card-body">{item.body}</div>;
+                    })()
+                    }
 
-              {
-                (() => {
-                  if(item.footer)
-                    <div style={footerStyle} className="card-footer">{item.footer}</div>
-                })()
-              }
-            </div>
-            </div>
-        </Link>
+                    {
+                      (() => {
+                        if(item.footer)
+                          return <div style={footerStyle} className="card-footer">{item.footer}</div>;
+                      })()
+                      }
+                </div>
+              </Link>
+          </div>
       );
     });
 
@@ -53,16 +53,15 @@ export default class CardsView extends React.Component {
               return <h2>{this.props.header}</h2>;
           })()
         }
-        <div className="cards">
-          {
-            (() => {
-              if(cards.length)
-                return <div className="cards">{cards}</div>;
-              else
-                return <h2>{this.props.emptyMsg}</h2>;
-            })()
-          }
-        </div>
+
+        {
+          (() => {
+            if(cards.length)
+              return <div className="cards">{cards}</div>;
+            else
+              return <h2>{this.props.emptyMsg}</h2>;
+          })()
+        }
       </div>
     );
   }

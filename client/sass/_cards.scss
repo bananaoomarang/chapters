@@ -1,22 +1,25 @@
 .cards {
-  @include outer-container;
+  @include outer-container(90%);
 
   .card-wrapper {
     @include span-columns(12);
 
-    @include media (min-width $medium-screen) {
+    @include media (min-width $medium-screen max-width $large-screen) {
       @include span-columns(6);
+      @include omega(2n);
     }
 
     @include media (min-width $large-screen) {
       @include span-columns(4);
+      @include omega(3n);
     }
 
-    padding: $base-spacing;
+    @include pad($base-spacing);
   }
 
   .card {
     @extend .clickable;
+    @include pad(0 $small-spacing);
 
     * {
       color: inherit;
@@ -33,7 +36,7 @@
     }
 
     .card-body {
-      padding: 30% $base-spacing;
+      padding: 15% $base-spacing;
       border-top: none;
       font-size: $subheader-font-size;
     }

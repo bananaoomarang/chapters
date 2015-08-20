@@ -4,8 +4,9 @@ $heading-font-family: $base-font-family;
 
 // Font Sizes
 $base-font-size: 1.1em;
-$subheader-font-size: $base-font-size*1.3;
 $header-font-size: $base-font-size*1.6;
+$subheader-font-size: $header-font-size*0.8;
+$subsubheader-font-size: $subheader-font-size*0.8;
 
 // Line height
 $base-line-height: 1.5;
