@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect }          from 'react-redux';
 import * as UsersActions    from 'actions/UsersActions';
+import capitalize           from 'lib/capitalize';
 import CardsView            from 'components/CardsView';
 
 @connect(state => ({
@@ -20,7 +21,7 @@ export default class UsersList {
     const users = this.props.users
       .toJS()
       .map(user => ({
-        title: user.id,
+        title: capitalize(user.id),
         body:  'Lorem ipsum',
         href:  '/users/' + user.id
       }));

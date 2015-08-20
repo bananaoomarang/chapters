@@ -4,7 +4,7 @@ import * as StoryActions    from 'actions/StoryActions';
 import CardsView            from 'components/CardsView';
 
 @connect(state => ({
-  story:   state.story.get('story')
+  story: state.story.get('story')
 }))
 
 export default class Story extends React.Component {

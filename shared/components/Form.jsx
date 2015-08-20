@@ -54,12 +54,12 @@ export default class Form extends React.Component {
           return this.setState({ error: check.error });
       }
 
-      for(let field of fields)
-        if(field.dispatch !== undefined && !field.dispatch)
-          delete payload[field.name]
+    for(let field of fields)
+      if(field.dispatch !== undefined && !field.dispatch)
+        delete payload[field.name];
 
-      Bluebird.resolve(this.props.dispatch(this.props.actionCreator(payload, this.context.router.state.params)))
-        .then(this.props.didDispatch || ()=>{});
+    Bluebird.resolve(this.props.dispatch(this.props.actionCreator(payload, this.context.router.state.params)))
+      .then(this.props.didDispatch || function(){});
   }
 
   render() {

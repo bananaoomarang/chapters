@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect }          from 'react-redux';
 import ListView             from 'components/ListView';
+import capitalize           from 'lib/capitalize';
 import * as SectionActions  from 'actions/SectionActions';
 
 @connect(state => ({
@@ -24,7 +25,7 @@ export default class Section extends React.Component {
             title:       chapter.title,
             separator:   'Or',
             description: chapter.description,
-            adendum:     'By ' + chapter.author,
+            adendum:     'By ' + capitalize(chapter.author),
             href:   '/stories/' + [this.props.routeParams.id, this.props.routeParams.section, chapter.id].join('/')
           };
       })

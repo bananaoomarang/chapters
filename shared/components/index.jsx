@@ -23,13 +23,13 @@ export default class MainView extends React.Component {
       document.body.className += 'night-mode';
     else
       document.body.className = document.body.className.replace('night-mode', '');
-    
   }
 
   componentDidMount() {
     const storedToken = window.sessionStorage.getItem('token');
 
-    if(storedToken) this.props.dispatch(SessionActions.validate(storedToken));
+    if(storedToken)
+        this.props.dispatch(SessionActions.validate(storedToken));
 
     this.setNightMode(this.props.nightMode);
   }
@@ -64,7 +64,5 @@ export default class MainView extends React.Component {
         <script type="application/javascript" src="/assets/bundle.js" />
       </div>
     );
-
   }
-
 }
