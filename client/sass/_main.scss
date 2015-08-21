@@ -121,7 +121,7 @@ h3 {
   background-color: #000;
   left: 50%;
   top: 50%;
-  padding-top: 1em;
+  margin-top: 1em;
   border-radius: $size;
   margin: $size / -2 0 0 ($size / -2) - $border;
   position: absolute;
@@ -167,65 +167,5 @@ h3 {
     width: $size / 1.25;
     height: $size / 1.25;
     float: right;
-  }
-}
-
-.night-mode {
-  background-color: #000;
-  color: #fff;
-
-  * {
-    background-color: #000;
-    color: #fff;
-  }
-
-  .loader {
-    background-color: #fff;
-  }
-
-  input {
-    background-color: #000;
-    border-color: #fff;
-    color: #fff;
-  }
-
-  .clickable {
-    background-color: #000;
-    border-color: #fff;
-    color: #fff;
-
-    * {
-      border-color: #fff;
-    }
-
-    &:hover {
-      background-color: lighten(#000, 60%);
-      border-color: #fff;
-      color: #000;
-
-      * {
-        border-color: #000;
-      }
-    }
-
-    &:active {
-      background-color: #fff;
-      border-color: #fff;
-      color: #000;
-
-      * {
-        border-color: #000;
-      }
-    }
-  }
-
-  .error-msg {
-    color: red;
-  }
-
-  .btn-group-member {
-      &:last-child {
-          border: $white-border;
-      }
   }
 }

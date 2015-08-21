@@ -1,0 +1,59 @@
+.night-mode {
+  background-color: #000;
+  color: #fff;
+
+  * {
+    background-color: #000;
+    color: #fff;
+  }
+
+  .loader {
+    background-color: #fff;
+  }
+
+  input {
+    background-color: #000;
+    border-color: #fff;
+    color: #fff;
+  }
+
+  .clickable {
+    background-color: #000;
+    border-color: #fff;
+    color: #fff;
+
+    * {
+      border-color: #fff;
+    }
+
+    &:hover {
+      background-color: lighten(#000, 60%);
+      border-color: #fff;
+      color: #000;
+
+      * {
+        border-color: #000;
+      }
+    }
+
+    &:active {
+      background-color: #fff;
+      border-color: #fff;
+      color: #000;
+
+      * {
+        border-color: #000;
+      }
+    }
+  }
+
+  .error-msg {
+    color: red;
+  }
+
+  .btn-group-member {
+      &:last-child {
+          border: $white-border;
+      }
+  }
+}

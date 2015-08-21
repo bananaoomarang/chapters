@@ -71,12 +71,7 @@
 .btn-group {
   button, .btn-group-member {
     margin-right: 0;
-    border-right: none;
-
-    &:last-child {
-      border-right: 1px solid;
-    }
-
+    border-color: #000;
   }
 
 }
