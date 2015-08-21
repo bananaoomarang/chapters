@@ -7,6 +7,7 @@ import ParagraphView        from './ParagraphView';
 import * as ChapterActions  from 'actions/ChapterActions';
 import ifdefBrowser         from 'lib/ifdefBrowser';
 import getToken             from 'lib/getToken';
+import capitalize           from 'lib/capitalize';
 
 var Dropzone = ifdefBrowser( () => {
   return require('dropzone');
@@ -47,7 +48,7 @@ export default class Chapter extends React.Component {
     const sessionToken = getToken();
 
     const dropzoneOpts = {
-      url:     '/api/chapters/upload',
+      url:     '/api/' + ['stories', this.props.routeParams.section, 'upload'].join('/'),
       headers: {
         Authorization: 'Bearer ' + sessionToken
       }
@@ -114,7 +115,7 @@ export default class Chapter extends React.Component {
 
         <h2>
           By&nbsp;
-          <Link to="user" params={ { user: this.props.chapter.get('author') } }>{this.props.chapter.get('author')}</Link>
+          <Link to={'/user/' + this.props.chapter.get('owner')}>{capitalize(this.props.chapter.get('author'))}</Link>
         </h2>
 
         <br/>

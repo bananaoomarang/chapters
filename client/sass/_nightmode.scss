@@ -52,8 +52,6 @@
   }
 
   .btn-group-member {
-      &:last-child {
-          border: $white-border;
-      }
+    border-color: #fff;
   }
 }

@@ -2,7 +2,6 @@
   padding: $base-spacing;
 
   .header {
-    border: $base-border;
     font-size: $header-font-size
   }
 
@@ -27,32 +26,69 @@
     }
 
     .title {
-      @include span-columns(4);
-
-      text-align: left;
       font-size: $subheader-font-size;
       margin-top: -$subheader-font-size / 6;
+
+      @include media(max-width $large-screen) {
+        @include span-columns(12);
+      }
+
+      @include media($large-screen) {
+        @include span-columns(5);
+
+        text-align: left;
+      }
     }
 
     .separator {
       @include transition(border 0.2s ease-in-out);
 
-      float: left;
-      border-left: 4px solid;
-      padding: 0 $small-spacing;
+      @include media(max-width $large-screen) {
+        @include span-columns(12);
+        height: 4px;
+
+        border-top: 4px solid;
+      }
+
+      @include media($large-screen) {
+        float: left;
+        text-align: left;
+        border-left: 4px solid;
+        padding-right: $base-spacing;
+      }
+
     }
 
     .description {
-      @include transition(border 0.2s ease-in-out);
+      text-align: center;
 
-      float: left;
-      text-align: left;
+      @include media(max-width $large-screen) {
+        @include span-columns(12);
+      }
+
+      @include media($large-screen) {
+        float: left;
+        text-align: left;
+      }
     }
 
     .adendum {
-      float: right;
-      border-left: 4px solid;
-      padding: 0 $base-spacing;
+      @include transition(border 0.2s ease-in-out);
+
+      @include media(max-width $large-screen) {
+        @include span-columns(12);
+
+        padding-top: $base-spacing;
+        border-top: 4px solid;
+      }
+
+      @include media($large-screen) {
+        display: inline-block;
+        float: right;
+        text-align: right;
+        border-left: 4px solid;
+        padding-left: $base-spacing;
+      }
     }
   }
 }

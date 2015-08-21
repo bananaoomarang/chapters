@@ -10,10 +10,26 @@ export function postSection (section, routeParams) {
 }
 
 export function getSection (routeParams) {
-  const url = '/stories/' + routeParams.id + '/' + routeParams.section;
+  const url = '/stories/' + [routeParams.id, routeParams.section].join('/');
 
   return {
     type:    'GET_SECTION',
     promise: request.get(url)
+  };
+}
+
+export function patchSection (section, routeParams) {
+  const url = '/stories/' + [routeParams.id, routeParams.section].join('/');
+
+  return {
+    type: 'PATCH_SECTION',
+    promise: request.patch(url, section)
+  }
+}
+
+export function setSection (section) {
+  return {
+    type: 'SET_SECTION',
+    section
   };
 }

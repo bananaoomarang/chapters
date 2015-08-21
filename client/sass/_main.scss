@@ -104,6 +104,15 @@ body {
   color: red
 }
 
+.no-user-select {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
 .loader {
   $size: 8em;
   $border: 0.6em;

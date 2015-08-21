@@ -24,21 +24,21 @@ export default class CardsView extends React.Component {
                     if(item.title)
                       return <div className="card-header">{item.title}</div>;
                   })()
-                  }
+                }
 
-                  {
-                    (() => {
-                      if(item.body)
-                        return <div className="card-body">{item.body}</div>;
-                    })()
-                    }
+                {
+                  (() => {
+                    if(item.body)
+                      return <div className="card-body">{item.body}</div>;
+                  })()
+                }
 
-                    {
-                      (() => {
-                        if(item.footer)
-                          return <div style={footerStyle} className="card-footer">{item.footer}</div>;
-                      })()
-                      }
+                {
+                  (() => {
+                    if(item.footer)
+                      return <div style={footerStyle} className="card-footer">{item.footer}</div>;
+                  })()
+                }
                 </div>
               </Link>
           </div>

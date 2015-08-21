@@ -11,8 +11,17 @@ export default function sectionReducer (state = defaultState, action) {
     case 'POST_SECTION':
       return state.setIn(['section', 'id'], action.res.data.id);
 
+    case 'PATCH_SECTION':
+      return state.mergeDeepIn(['section'], fromJS(action.res.data));
+
     case 'GET_SECTION':
-      return state.set('section', fromJS(action.res.data));
+      return sectionReducer(state, {
+        type: 'SET_SECTION',
+        section: fromJS(action.res.data)
+      });
+
+    case 'SET_SECTION':
+      return state.set('section', Section(action.section));
 
     default:
       return state;

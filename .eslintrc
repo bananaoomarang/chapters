@@ -31,7 +31,8 @@
     "curly": 0,
     "no-multi-spaces": 0,
     "new-cap": 0,
-    "key-spacing": 0, // I don't want to ignore this, but es6 killed it
+    "key-spacing": 0, // I don't want to ignore this, but es6 killed it,
+    "no-loop-func": 0,
 
     // Warnings
     "no-debugger": 1,

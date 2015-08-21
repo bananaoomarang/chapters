@@ -33,13 +33,13 @@ export const Chapter = Record({
     read:             true,
     write:            true,
     title:            '',
-    description:      '',
+    description:      '???',
     markdown:         '',  // Markdown
     html:             '',  // HTML from ^
     author:           '',
     depends:          List(), // Other chapters this one depends on having read
     wordCount:        0,      // Not currently implemented
-    paragraphs:       List([Paragraph({ text: 'hello' })]),  // Array of objects holding textContent, alignment, font size etc etc
+    paragraphs:       List(),  // Array of objects holding textContent, alignment, font size etc etc
     focusedParagraph: -1      // Index of focused paragraph, -1 for 'nothing focused'
 });
 

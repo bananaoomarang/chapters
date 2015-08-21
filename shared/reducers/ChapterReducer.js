@@ -36,7 +36,7 @@ export default function chapterReducer(state = defaultState, action) {
 
     case 'SET_CHAPTER':
       return state
-        .mergeDeepIn(['chapter'], action.chapter)
+        .mergeDeepIn(['chapter'], fromJS(action.chapter))
         .setIn(['chapter', 'paragraphs'], List(action.chapter.paragraphs || state.getIn(['chapter', 'paragraphs'])));
 
     case 'SET_EDITABLE_CHAPTERS':

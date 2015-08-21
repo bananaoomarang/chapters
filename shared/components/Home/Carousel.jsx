@@ -42,7 +42,7 @@ export default class Carousel extends React.Component {
                 <h1>
                   <Link to={`/stories/${story.id}`} >{story.title}</Link>
                 </h1>
-                <span>By {story.author}</span>
+                <span><b>By {story.author}</b></span>
               </div>
             );
           })
