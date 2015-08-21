@@ -39,6 +39,8 @@ export default class Chapter extends React.Component {
       defaultAlignment: 'center'
     };
 
+    if(!props.title)
+      props.dispatch(ChapterActions.setEditing(true));
   }
 
   componentDidMount = () => {
@@ -64,8 +66,6 @@ export default class Chapter extends React.Component {
       title:    this.props.chapter.get('title'),
       markdown: this.exportText()
     };
-
-    console.log('payload', payload);
 
     this.props.dispatch(ChapterActions.postChapter(this.props.routeParams, payload))
       .then(success => {

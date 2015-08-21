@@ -9,7 +9,7 @@ import { fromJS } from 'immutable';
    error: null,
    legit: false,
 
-   // 
+   //
    // Interface
    //
    nightMode: ( (new Date()).getHours() >= 21) || ( (new Date().getHours()) <= 6),

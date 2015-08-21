@@ -14,10 +14,23 @@ h4,
 h5,
 h6 {
   font-family: $heading-font-family;
-  font-size: $header-font-size;
   line-height: $heading-line-height;
   margin: 0 0 $small-spacing;
+  outline: none;
 }
+
+h1 {
+  font-size: $header-font-size;
+}
+
+h2 {
+  font-size: $subheader-font-size;
+}
+
+h3 {
+  font-size: $subsubheader-font-size;
+}
+
 
 p {
   margin: 0 0 $small-spacing;

@@ -35,7 +35,6 @@ export default class ChapterTitle extends React.Component {
     this.setState({ clicked: true }, function () {
       var titleDOM = this.refs.title.getDOMNode();
 
-      titleDOM.textContent = 'acd';
       titleDOM.focus();
     });
   }

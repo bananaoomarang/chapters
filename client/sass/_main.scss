@@ -1,26 +1,19 @@
 html {
   height: 100%;
+  font-size: 12px;
+
+  @include media($medium-screen-up) {
+    font-size: 14px;
+  }
+
+  @include media($large-screen-up) {
+    font-size: 16px;
+  }
 }
 
 body {
   margin: 0;
   min-height: 100%;
-}
-
-h1, h2, h3, h4, h5 {
-  outline: none;
-}
-
-h1 {
-  font-size: $header-font-size;
-}
-
-h2 {
-  font-size: $subheader-font-size;
-}
-
-h3 {
-  font-size: $subsubheader-font-size;
 }
 
 #home {
