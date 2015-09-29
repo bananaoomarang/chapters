@@ -14,8 +14,9 @@ var Dropzone = ifdefBrowser( () => {
 });
 
 @connect(state => ({
-  chapter: state.chapter.get('chapter'),
-  editing: state.chapter.get('editing')
+  chapter:     state.chapter.get('chapter'),
+  editing:     state.chapter.get('editing'),
+  currentUser: state.session.get('name')
 }))
 
 export default class Chapter extends React.Component {
@@ -25,10 +26,6 @@ export default class Chapter extends React.Component {
     chapter:     PropTypes.object.isRequired,
     editing:     PropTypes.bool.isRequired
   }
-
-  static needs = [
-    ChapterActions.getChapter
-  ]
 
   constructor(props) {
     super(props);
@@ -40,8 +37,16 @@ export default class Chapter extends React.Component {
       defaultAlignment: 'center'
     };
 
-    if(!props.title)
+    if(props.routeParams.id) {
+      props.dispatch(ChapterActions.getChapter(this.props.routeParams.id));
+    }
+    else {
+      // This is a new chapter
       props.dispatch(ChapterActions.setEditing(true));
+
+      if(!props.chapter.get('author'))
+        props.dispatch(ChapterActions.setChapter({ author: props.currentUser }))
+    }
   }
 
   componentDidMount = () => {
@@ -59,16 +64,17 @@ export default class Chapter extends React.Component {
     dropzone.on('sending', function(file, xhr, formData) {
       formData.append('filename', file.name);
     });
+
   }
 
   handleSave = () => {
     const payload = {
-      id:       this.props.chapter.get('id'),
       title:    this.props.chapter.get('title'),
+      author:   this.props.chapter.get('author'),
       markdown: this.exportText()
     };
 
-    this.props.dispatch(ChapterActions.postChapter(this.props.routeParams, payload))
+    this.props.dispatch(ChapterActions.postChapter(payload))
       .then(success => {
           if(success) this.props.dispatch(ChapterActions.setEditing(false));
       });

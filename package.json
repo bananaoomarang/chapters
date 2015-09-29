@@ -6,7 +6,7 @@
     "type": "git",
     "url": "git://github.com/bananaoomarang/chapters.git"
   },
-  "main": "server",
+  "main": "index.js",
   "scripts": {
     "start": "NODE_PATH=$NODE_PATH:./shared node .",
     "build": "NODE_ENV=production webpack --progress --color -p --config webpack.prod.config.js",
@@ -25,7 +25,7 @@
     "babel-core": "^5.8.22",
     "babel-eslint": "^4.0.7",
     "babel-loader": "^5.3.2",
-    "css-loader": "^0.16.0",
+    "css-loader": "^0.19.0",
     "eslint": "^1.1.0",
     "eslint-plugin-react": "^3.2.3",
     "jasmine-core": "^2.3.4",
@@ -42,16 +42,15 @@
     "phantomjs": "^1.9.18",
     "pre-commit": "^1.1.1",
     "react-hot-loader": "^1.2.8",
-    "redux-devtools": "^1.0.2",
+    "redux-devtools": "^2.1.2",
     "sass-loader": "^2.0.1",
     "style-loader": "^0.12.3",
     "webpack": "^1.11.0",
     "webpack-dev-server": "^1.10.1"
   },
   "dependencies": {
-    "axios": "^0.5.4",
+    "axios": "^0.6.0",
     "babel-runtime": "^5.8.20",
-    "bluebird": "^2.9.34",
     "classnames": "^2.1.3",
     "dropzone": "^4.0.1",
     "express": "^4.13.3",
@@ -59,11 +58,13 @@
     "immutable": "^3.7.4",
     "keyboardjs": "^2.1.1",
     "normalize.css": "^3.0.3",
+    "object-assign": "^4.0.1",
+    "promise.prototype.finally": "^1.0.1",
     "rangy": "^1.3.0",
     "react": "^0.13.3",
-    "react-redux": "^0.8.2",
+    "react-redux": "^3.0.0",
     "react-router": "^1.0.0-beta3",
-    "react-slick": "^0.6.6",
-    "redux": "^1.0.1"
+    "react-slick": "^0.7.2",
+    "redux": "^3.0.0"
   }
 }

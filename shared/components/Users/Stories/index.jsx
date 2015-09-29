@@ -10,12 +10,13 @@ import { List }             from 'immutable';
 
 export default class Stories {
   static propTypes = {
-    stories: PropTypes.instanceOf(List).isRequired
+    dispatch:    PropTypes.func.isRequired,
+    stories:     PropTypes.instanceOf(List).isRequired
   }
 
-  static needs = [
-    StoryActions.getUserStories
-  ]
+  componentDidMount() {
+    this.props.dispatch(StoryActions.getUserStories())
+  }
 
   render () {
     const stories = this.props.stories.toJS()

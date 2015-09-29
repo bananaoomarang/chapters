@@ -1,18 +1,18 @@
-import express             from 'express';
-import React               from 'react';
-import { Router }          from 'react-router';
-import Location            from 'react-router/lib/Location';
-import axios               from 'axios';
-import createRoutes        from './shared/routes';
-import proxy               from 'express-http-proxy';
-import { Provider }        from 'react-redux';
-import * as reducers       from 'reducers';
-import promiseMiddleware   from 'lib/promiseMiddleware';
-import fetchComponentData  from 'lib/fetchComponentData';
-import FourOhFour          from 'components/404';
+import express                   from 'express';
+import React                     from 'react';
+import { RoutingContext, match } from 'react-router';
+import createLocation            from 'history/lib/createLocation';
+import axios                     from 'axios';
+import routes                    from './shared/routes';
+import proxy                     from 'express-http-proxy';
+import { Provider }              from 'react-redux';
+import * as reducers             from 'reducers';
+import promiseMiddleware         from 'lib/promiseMiddleware';
+import fetchComponentData        from 'lib/fetchComponentData';
+import FourOhFour                from 'components/404';
 import { createStore,
          combineReducers,
-         applyMiddleware } from 'redux';
+         applyMiddleware }       from 'redux';
 
 const API_URL = 'http://localhost:8888';
 
@@ -29,7 +29,6 @@ const app = express();
 app.use('/api', proxy(API_URL));
 
 // Serve static assets
-app.use('/assets', express.static('assets'));
 
 app.use('/favicon.ico', function (req, res) {
   res.status(404).end('No.');
@@ -37,22 +36,27 @@ app.use('/favicon.ico', function (req, res) {
 
 // Pass everything else through react-router
 app.use(function (req, res) {
-  const location = new Location(req.path, req.query);
+  const location = createLocation(req.url);
   const reducer  = combineReducers(reducers);
   const store    = applyMiddleware(promiseMiddleware)(createStore)(reducer);
 
-  const routes = createRoutes();
+  match({ routes, location }, (routeErr, redirectLocation, renderProps) => {
+    if(routeErr) {
+      console.error(routeErr);
 
-  Router.run(routes, location, function (routeErr, initialState) {
-    if(routeErr) return console.error(routeErr);
+      return res
+        .status(500)
+        .end('Internal server error.')
+    }
 
-    if(!initialState) return res.end(React.renderToString(<FourOhFour />));
+    if(!renderProps)
+      return res.end(React.renderToString(<FourOhFour />));
 
     function renderView() {
       const InitialView = (
         <Provider store={store}>
           {() =>
-            <Router {...initialState} />
+            <RoutingContext {...renderProps} />
           }
         </Provider>
       );
@@ -70,7 +74,7 @@ app.use(function (req, res) {
 
           <title>Chapters</title>
 
-          <script>
+          <script type="application/javascript">
             window.__INITIAL_DATA__ = ${JSON.stringify(initialData)};
           </script>
         </head>
@@ -81,10 +85,16 @@ app.use(function (req, res) {
       `;
     }
 
-    fetchComponentData(store.dispatch, initialState.components, initialState.params)
+    fetchComponentData(store.dispatch, renderProps.components, renderProps.params)
       .then(renderView)
       .then(html => res.end(html))
-      .catch(err => res.end(err.message));
+      .catch(e => {
+        console.error(e);
+
+        res
+          .status(500)
+          .end('Could not render route.')
+      });
   });
 });
 

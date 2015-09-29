@@ -1,6 +1,7 @@
 'use strict';
 
 require('babel/register');
+require('promise.prototype.finally');
 
 var server = require('./server');
 var api    = require('chapters-server');

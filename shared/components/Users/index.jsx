@@ -10,12 +10,13 @@ import CardsView            from 'components/CardsView';
 
 export default class UsersList {
   static propTypes = {
-    users: PropTypes.object.isRequired
+    dispatch: PropTypes.func.isRequired,
+    users:    PropTypes.object.isRequired
   }
 
-  static needs = [
-    UsersActions.getUsers
-  ]
+  componentDidMount() {
+    this.props.dispatch(UsersActions.getUsers())
+  }
 
   render() {
     const users = this.props.users

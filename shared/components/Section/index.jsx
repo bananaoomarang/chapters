@@ -47,7 +47,7 @@ export default class Section extends React.Component {
           separator:   '&nbsp;',
           description: chapter.get('description'),
           adendum:     'By ' + capitalize(chapter.get('author')),
-          href:   '/stories/' + [this.props.routeParams.id, this.props.routeParams.section, chapter.get('id')].join('/')
+          href:        '/stories/' + [this.props.routeParams.id, this.props.routeParams.section, chapter.get('id')].join('/')
         };
       });
 
@@ -57,7 +57,7 @@ export default class Section extends React.Component {
           header={this.props.section.get('title')}
           editable={this.props.section.get('write')}
           onReorder={this.onReorder}
-          handleSave={this.handleSave}/>
+          handleSave={this.handleSave} />
       );
   }
 }

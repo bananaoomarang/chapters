@@ -11,12 +11,9 @@ import Form                from 'components/Form';
 }))
 
 export default class Login extends React.Component {
-  static contextTypes = {
-    router: PropTypes.object.isRequired
-  }
-
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
+    history:  PropTypes.object.isRequired,
     error:    PropTypes.string,
     legit:    PropTypes.bool
   }
@@ -42,12 +39,12 @@ export default class Login extends React.Component {
 
       didDispatch: success => {
         if(success)
-          this.context.router.transitionTo('/home');
+          this.props.history.pushState(null, '/me');
       }
     };
 
     return (
-      <Form {...cfg} />
+      <Form {...this.props} {...cfg} />
     );
   }
 }

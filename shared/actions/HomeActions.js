@@ -1,4 +1,4 @@
-import request  from 'axios';
+import request from 'axios';
 
 // Load chapters
 export function getStories() {

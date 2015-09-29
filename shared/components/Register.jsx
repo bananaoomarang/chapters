@@ -8,12 +8,9 @@ import Form                from 'components/Form';
 }))
 
 export default class Register extends React.Component {
-  static contextTypes = {
-    router: React.PropTypes.object.isRequired
-  }
-
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
+    history:  PropTypes.object.isRequired,
     error:    PropTypes.string
   }
 
@@ -56,7 +53,7 @@ export default class Register extends React.Component {
 
       didDispatch: success => {
         if(success)
-          this.context.router.transitionTo('/home');
+          this.props.history.pushState(null, '/home');
       }
     };
 

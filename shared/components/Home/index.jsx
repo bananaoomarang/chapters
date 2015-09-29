@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import { connect }          from 'react-redux';
 import { List }             from 'immutable';
 import * as HomeActions     from 'actions/HomeActions';
+import * as SessionActions  from 'actions/SessionActions';
 import Carousel             from './Carousel';
 
 @connect(state => ({
@@ -13,9 +14,11 @@ export default class Home extends React.Component {
     stories: PropTypes.instanceOf(List)
   }
 
-  static needs = [
-    HomeActions.getStories
-  ]
+  componentDidMount() {
+    SessionActions.loadResource(
+      HomeActions.getStories()
+    );
+  }
 
   render() {
     return (

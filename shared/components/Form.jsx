@@ -1,18 +1,14 @@
 import React, { PropTypes } from 'react';
 import { connect }          from 'react-redux';
 import classSet             from 'classnames';
-import Bluebird             from 'bluebird';
 
 // Inject a cheeky dispatch prop
 @connect(() => ({}))
 
 export default class Form extends React.Component {
-  static contextTypes = {
-    router: PropTypes.object.isRequired
-  }
-
   static propTypes = {
     dispatch:      PropTypes.func.isRequired,
+    routeParams:   PropTypes.object.isRequired,
     fields:        PropTypes.array.isRequired,
     id:            PropTypes.string.isRequired,
     actionCreator: PropTypes.func,
@@ -58,7 +54,7 @@ export default class Form extends React.Component {
       if(field.dispatch !== undefined && !field.dispatch)
         delete payload[field.name];
 
-    Bluebird.resolve(this.props.dispatch(this.props.actionCreator(payload, this.context.router.state.params)))
+    Promise.resolve(this.props.dispatch(this.props.actionCreator(payload, this.props.routeParams)))
       .then(this.props.didDispatch || function(){});
   }
 

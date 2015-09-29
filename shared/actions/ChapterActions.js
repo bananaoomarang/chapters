@@ -1,4 +1,5 @@
 import request       from 'axios';
+import path          from 'path';
 import createSetter  from 'lib/createSetter';
 
 export const setChapter          = createSetter('SET_CHAPTER', 'chapter');
@@ -19,12 +20,12 @@ export function getChapter(routeParams) {
   };
 }
 
-export function postChapter(routeParams, chapter) {
-  const url = '/stories/' + [routeParams.id, routeParams.section].join('/');
+export function postChapter(child, parent) {
+  const url = parent ? path.join('/chapters', parent.id) : '/chapters';
 
   return {
     type:    'POST_CHAPTER',
-    promise: request.post(url, chapter)
+    promise: request.post(url, child)
   };
 }
 

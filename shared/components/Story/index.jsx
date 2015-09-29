@@ -37,11 +37,14 @@ export default class Story extends React.Component {
 
     return (
       <div id="story">
-        <h1>{this.props.story.get('title')}</h1>
-
-        <h3>By {capitalize(this.props.story.get('author'))}</h3>
-
-        <CardsView items={sections} emptyMsg="No sections"/>
+          <CardsView 
+            items={sections}
+            header={this.props.story.get('title')}
+            subheader={'By ' + capitalize(this.props.story.get('author'))}
+            emptyMsg="No sections"
+            editable={true}
+            onReorder={()=>{}}
+            handleSave={()=>{}} />
       </div>
     );
   }

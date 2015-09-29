@@ -13,7 +13,7 @@ module.exports = Object.assign(prodCfg, {
     loaders: [
       {
         test:    /\.jsx?$/,
-        exclude: /node_modules/,
+        exclude: /node_modules|axios/,
         loaders: ['react-hot', 'babel']
       },
       {

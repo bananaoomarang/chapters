@@ -61,7 +61,7 @@ export default class MainView extends React.Component {
         {children}
 
         <link href='http://fonts.googleapis.com/css?family=Crimson+Text:400,400italic,700,700italic' rel='stylesheet' type='text/css' />
-        <script type="application/javascript" src="/assets/bundle.js" />
+        <script src="/assets/bundle.js" />
       </div>
     );
   }

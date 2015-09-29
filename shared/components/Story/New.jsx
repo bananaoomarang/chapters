@@ -10,13 +10,10 @@ import Form                 from 'components/Form';
 }))
 
 export default class NewStory extends React.Component {
-  static contextTypes = {
-    router: PropTypes.object.isRequired
-  }
-
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
-    story:    PropTypes.object.isRequired,
+    history:  PropTypes.object.isRequired,
+    chapter:  PropTypes.object.isRequired,
     username: PropTypes.string.isRequired,
     error:    PropTypes.string
   }
@@ -46,7 +43,7 @@ export default class NewStory extends React.Component {
 
       didDispatch: success => {
         if(success)
-          this.context.router.transitionTo('/stories/' + this.props.story.get('id'));
+          this.props.history.pushState(null, '/chapters/' + this.props.chapter.get('id'));
       }
     };
 

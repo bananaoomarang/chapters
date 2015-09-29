@@ -25,6 +25,13 @@
       border-bottom: $base-border;
     }
 
+    .handle {
+      border: 1px solid;
+      width: 1em;
+      height: 1em;
+      float: left;
+    }
+
     .title {
       font-size: $subheader-font-size;
       margin-top: -$subheader-font-size / 6;

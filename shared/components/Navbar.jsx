@@ -62,7 +62,7 @@ export default class Navbar extends React.Component {
                 </li>
                 <li className="nav-link">
                   <span className="greyed" style={ { display: this.props.legit ? 'inline-block' : 'none' }  }>
-                    Signed in as {this.props.username}
+                    Signed in as <Link to={'/users/' + this.props.username}>{this.props.username}</Link>
                   </span>
                 </li>
 

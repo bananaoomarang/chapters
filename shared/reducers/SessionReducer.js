@@ -53,11 +53,8 @@ import { fromJS } from 'immutable';
          error: action.error.data.message
        });
 
-    case 'LOAD_RESOURCE_REQUEST':
-      return state.set('loading', true);
-
-    case 'LOAD_RESOURCE':
-      return state.set('loading', false);
+    case 'SET_LOADING':
+      return state.set('loading', action.loading);
 
     case 'SET_NIGHT_MODE':
       return state.set('nightMode', action.bool);

@@ -15,24 +15,34 @@ export default class ListView extends React.Component {
 
   state = {
     dragging: false,
-    editing: false
+    editing:  false
   }
 
   componentDidMount = () => {
-    if(!this.props.editable)
-      return;
+    if(this.props.editable)
+      this.bindSomeCheekyEvents();
+  }
 
-    //
-    // Otherwise bind some cheeky drag events
-    //
+  componentDidUpdate = (prevProps, prevState) => {
+    if(prevProps.editable === false && this.props.editable)
+      return this.bindSomeCheekyEvents();
+    
+    if (prevProps.editable === true && !this.props.editable)
+      return this.unbindEvents();
+  }
 
+  componentWillUnmount = () => {
+    this.unbindEvents();
+  }
+
+  bindSomeCheekyEvents = () => {
     const container = this.refs.container.getDOMNode();
 
     container.addEventListener('touchmove', this.handlePointerMove);
-    window.addEventListener('touchend',  this.handlePointerUp);
+    window.addEventListener('touchend',     this.handlePointerUp);
 
     container.addEventListener('mousemove', this.handlePointerMove);
-    window.addEventListener('mouseup',   this.handlePointerUp);
+    window.addEventListener('mouseup',      this.handlePointerUp);
 
     for (let r in this.refs) {
       if(/^listitem-/.test(r)) {
@@ -43,23 +53,29 @@ export default class ListView extends React.Component {
     }
   }
 
+  unbindEvents = () => {
+    window.removeEventListener('touchmove', this.handlePointerMove);
+    window.removeEventListener('mouseup',   this.handlePointerUp);
+  }
+
   handlePointerDown = e => {
     this.setState({ dragging: e.target });
   }
 
   handlePointerMove = e => {
-    if(this.state.dragging) {
-      // We assume they are all the same height (for now)
-      const EL_HEIGHT = this.state.dragging.clientHeight;
-      const yPosition = e.clientY - e.offsetY;
+    if(!this.state.dragging)
+      return;
 
-      const index = this.state.dragging.dataset.index;
-      const insertAt = Math.round(yPosition / EL_HEIGHT) - 2;
+    // We assume they are all the same height (for now)
+    const EL_HEIGHT = this.state.dragging.clientHeight;
+    const yPosition = e.clientY - e.offsetY;
 
-      if(index !== insertAt) {
-        this.props.onReorder(index, insertAt);
-        this.setState({ dragging: this.refs['listitem-' + insertAt].getDOMNode() });
-      }
+    const index = this.state.dragging.dataset.index;
+    const insertAt = Math.round(yPosition / EL_HEIGHT) - 2;
+
+    if(index !== insertAt) {
+      this.props.onReorder(index, insertAt);
+      this.setState({ dragging: this.refs['listitem-' + insertAt].getDOMNode() });
     }
   }
 
@@ -82,11 +98,9 @@ export default class ListView extends React.Component {
       }
     };
 
-    console.log(this.state.editing);
-
     let elements = this.props.elements;
 
-    if(this.props.editable)
+    if(this.state.editing)
       elements = elements
         .concat([
           {
@@ -135,6 +149,7 @@ export default class ListView extends React.Component {
                   </span>
                 );
 
+              console.log(element.href);
               return (
                 <li key={index} ref={'listitem-' + index} data-index={index} className="list-item">
                   <Link to={element.href}>
