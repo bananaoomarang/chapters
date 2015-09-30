@@ -1,12 +1,14 @@
 export default function promiseMiddleware() {
   return next => action => {
-    const { promise, setLoading, type, ...rest } = action;
+    const { promise, type, ...rest } = action;
+
+    const setLoading = action.setLoading || true;
 
     if (!promise)
       return next(action);
 
     if (setLoading)
-      return next({ type: 'SET_LOADING', loading: true });
+      next({ type: 'SET_LOADING', loading: true });
 
     const SUCCESS = type;
 
@@ -29,8 +31,7 @@ export default function promiseMiddleware() {
         return false;
       })
       .finally(() => {
-        if (setLoading)
-          return next({ type: 'SET_LOADING', loading: false });
+          next({ type: 'SET_LOADING', loading: false });
       })
   };
 }

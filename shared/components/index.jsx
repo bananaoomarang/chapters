@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect }          from 'react-redux';
+import classSet             from 'classnames';
 import Navbar               from 'components/Navbar';
 import * as SessionActions  from 'actions/SessionActions';
 
@@ -49,7 +50,9 @@ export default class MainView extends React.Component {
       </div>
     );
 
-    const children = this.props.loading ? Loader : this.props.children;
+    const childrenClasses = classSet({
+      invisible: this.props.loading
+    });
 
     return (
       <div id="main-view">
@@ -57,8 +60,15 @@ export default class MainView extends React.Component {
         <Navbar />
 
         <hr/>
+        {
+          (() => {
+            return this.props.loading ? {Loader} : undefined
+          })()
+        }
 
-        {children}
+        <div className={childrenClasses} >
+          {this.props.children}
+        </div>
 
         <link href='http://fonts.googleapis.com/css?family=Crimson+Text:400,400italic,700,700italic' rel='stylesheet' type='text/css' />
         <script src="/assets/bundle.js" />

@@ -3,10 +3,11 @@ import { connect }          from 'react-redux';
 import { List }             from 'immutable';
 import CardsView            from 'components/CardsView';
 import capitalize           from 'lib/capitalize';
-import * as StoryActions    from 'actions/StoryActions';
+import * as UsersActions    from 'actions/UsersActions';
 
 @connect(state => ({
-  stories:     state.story.get('userStories'),
+  stories:     state.users.get('stories'),
+  personas:    state.users.get('personas'),
   currentUser: state.session.get('name')
 }))
 
@@ -16,17 +17,30 @@ export default class User extends React.Component {
     routeParams: PropTypes.object.isRequired,
 
     currentUser: PropTypes.string,
-    stories:     PropTypes.instanceOf(List)
+    stories:     PropTypes.instanceOf(List),
+    personas:    PropTypes.instanceOf(List)
   }
 
   componentDidMount() {
-    const user = this.props.routeParams.user || this.props.currentUser;
+    const username = this.props.routeParams.user || this.props.currentUser;
 
-    this.props.dispatch(StoryActions.getUserStories(user));
+    this.props.dispatch(
+      UsersActions.getUserStories(username)
+    );
+
+    this.props.dispatch(
+      UsersActions.getUserPersonas(username)
+    );
   }
 
   render() {
-    const cards = this.props.stories.toJS().map(story => ({
+    const stories = this.props.stories.toJS().map(story => ({
+      title: story.title       || '???',
+      body:  story.description || '???',
+      href:  '/chapters/' + story.id
+    }));
+
+    const personas = this.props.personas.toJS().map(story => ({
       title: story.title       || '???',
       body:  story.description || '???',
       href:  '/chapters/' + story.id
@@ -41,7 +55,7 @@ export default class User extends React.Component {
         <hr />
 
         <CardsView
-          items={cards}
+          items={stories}
           header="Stories"
           emptyMsg={(loggedIn ? 'You have' : 'User has') + '  no stories :\'('}
           editable={loggedIn}
@@ -50,11 +64,11 @@ export default class User extends React.Component {
         <hr />
 
         <CardsView
-          items={cards}
-          header="Authors"
-          emptyMsg={(loggedIn ? 'You have' : 'User has') + '  no authors :\'('}
+          items={personas}
+          header="Personas"
+          emptyMsg={(loggedIn ? 'You have' : 'User has') + '  no personas :\'('}
           editable={loggedIn}
-          createUrl="/authors/new" />
+          createUrl="/personas/new" />
       </div>
     );
   }
