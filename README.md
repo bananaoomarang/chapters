@@ -1,10 +1,5 @@
 # Chapters
 
-Platform for self-publishing of literary worlds. 
+[Sign up](http://chapters.space)
 
-For authors and lovers of fictions.
-
-```
-npm install
-npm run dev
-```
+Platform for self-publishing of literary worlds.
