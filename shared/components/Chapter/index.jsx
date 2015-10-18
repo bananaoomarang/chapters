@@ -38,7 +38,7 @@ export default class Chapter extends React.Component {
     };
 
     if(props.routeParams.id) {
-      props.dispatch(ChapterActions.getChapter(this.props.routeParams.id));
+      props.dispatch(ChapterActions.getChapter(this.props.routeParams));
     }
     else {
       // This is a new chapter
@@ -64,7 +64,6 @@ export default class Chapter extends React.Component {
     dropzone.on('sending', function(file, xhr, formData) {
       formData.append('filename', file.name);
     });
-
   }
 
   handleSave = () => {
@@ -74,10 +73,15 @@ export default class Chapter extends React.Component {
       markdown: this.exportText()
     };
 
-    this.props.dispatch(ChapterActions.postChapter(payload))
-      .then(success => {
-          if(success) this.props.dispatch(ChapterActions.setEditing(false));
-      });
+    let promise = this.props.routeParams.id ?
+      this.props.dispatch(ChapterActions.patchChapter(this.props.routeParams, payload)) 
+        :
+      this.props.dispatch(ChapterActions.postChapter(payload));
+
+    return promise
+        .then(success => {
+            if(success) this.props.dispatch(ChapterActions.setEditing(false));
+        });
   }
 
   // Concatanate html tags into one string for exporting

@@ -8,16 +8,14 @@ import Register    from 'components/Register';
 import Users       from 'components/Users';
 import User        from 'components/User';
 import Story       from 'components/Story';
-import NewStory    from 'components/Story/New';
 import Section     from 'components/Section';
-import NewSection  from 'components/Section/New';
 import Chapter     from 'components/Chapter';
 import UserStories from 'components/Users/Stories';
 
 export default (
   <Route component={Root} path="/">
     <Route name="home"         component={Home}        path="home"                 />
-    <Route name="login"        component={Login}       path="login"                />
+    <Route name="login"        component={Login}       path="/login"                />
     <Route name="register"     component={Register}    path="register"             />
 
     <Route name="new-chapter"  component={Chapter}     path="/chapters/new"        />

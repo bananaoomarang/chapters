@@ -1,7 +1,7 @@
 import express                   from 'express';
 import React                     from 'react';
+import { renderToString }        from 'react-dom/server'
 import { RoutingContext, match } from 'react-router';
-import createLocation            from 'history/lib/createLocation';
 import axios                     from 'axios';
 import routes                    from './shared/routes';
 import proxy                     from 'express-http-proxy';
@@ -36,11 +36,10 @@ app.use('/favicon.ico', function (req, res) {
 
 // Pass everything else through react-router
 app.use(function (req, res) {
-  const location = createLocation(req.url);
   const reducer  = combineReducers(reducers);
   const store    = applyMiddleware(promiseMiddleware)(createStore)(reducer);
 
-  match({ routes, location }, (routeErr, redirectLocation, renderProps) => {
+  match({ routes, location: req.url }, (routeErr, redirectLocation, renderProps) => {
     if(routeErr) {
       console.error(routeErr);
 
@@ -50,18 +49,16 @@ app.use(function (req, res) {
     }
 
     if(!renderProps)
-      return res.end(React.renderToString(<FourOhFour />));
+      return res.end(renderToString(<FourOhFour />));
 
     function renderView() {
       const InitialView = (
         <Provider store={store}>
-          {() =>
-            <RoutingContext {...renderProps} />
-          }
+          <RoutingContext {...renderProps} />
         </Provider>
       );
 
-      const routerHTML = React.renderToString(InitialView);
+      const routerHTML = renderToString(InitialView);
 
       const initialData = store.getState();
 

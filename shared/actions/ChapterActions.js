@@ -11,12 +11,9 @@ export const setFont             = createSetter('SET_FONT', 'font', 'index');
 
 // Load chapter by ID
 export function getChapter(routeParams) {
-  console.log(routeParams);
-  const url = '/stories/' + [routeParams.id, routeParams.section, routeParams.chapter].join('/');
-
   return {
     type:    'GET_CHAPTER',
-    promise: request.get(url)
+    promise: request.get('/chapters/' + routeParams.id)
   };
 }
 
@@ -30,19 +27,15 @@ export function postChapter(child, parent) {
 }
 
 export function patchChapter(routeParams, chapter) {
-  const url = '/stories/' + [routeParams.id, routeParams.section, chapter.id].join('/');
-
   return {
     type:    'PATCH_CHAPTER',
-    promise: request.patch(url)
+    promise: request.patch(path.join('/chapters', routeParams.id), chapter)
   };
 }
 
-export function deleteChapter(routeParams, id) {
-  const url = '/stories/' + [routeParams.id, routeParams.section, id].join('/');
-
+export function deleteChapter(routeParams) {
   return {
     type:    'DELETE_CHAPTER',
-    promise: request.del(url)
+    promise: request.del(path.join('/chapters', routeParams.id))
   };
 }

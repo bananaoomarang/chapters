@@ -167,7 +167,7 @@ export default class ParagraphView extends React.Component {
         <div className="paragraphs" id="paragraph-container" style={globalStyle}>
           {
             this.props.paragraphs.map( (p, index) => {
-              console.log(p);
+              console.log(p.toJS());
               const style = {
                 fontSize:  p.getIn(['font', 'size']),
                 textAlign: p.get('alignment')

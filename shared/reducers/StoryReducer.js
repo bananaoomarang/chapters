@@ -1,5 +1,5 @@
-import { fromJS, List } from 'immutable';
-import { Story }        from 'records/Records';
+import { fromJS } from 'immutable';
+import { Story }  from 'records/Records';
 
 const defaultState = fromJS({
   story:       new Story(),

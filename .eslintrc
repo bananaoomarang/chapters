@@ -60,9 +60,9 @@
     "no-spaced-func": 2,
     "semi-spacing": 2,
     "quotes": [2, "single"],
+    "jsx-quotes": 1,
 
     // Plugin rules
-    "react/jsx-quotes": 1,
     "react/jsx-no-undef": 1,
     "react/jsx-uses-react": 1,
     "react/jsx-uses-vars": 1,

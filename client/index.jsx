@@ -1,6 +1,7 @@
 require('promise.prototype.finally');
 
 import React                from 'react';
+import { render }           from 'react-dom';
 import { Router }           from 'react-router';
 import createBrowserHistory from 'history/lib/createBrowserHistory';
 import axios                from 'axios';
@@ -61,9 +62,7 @@ if (__DEV__ && __DEVTOOLS__) {
   React.render(
     <div>
       <Provider store={store} key="provider">
-        {() =>
-          <Router children={routes} history={history} />
-        }
+        <Router children={routes} history={history} />
       </Provider>
 
       <DebugPanel top right bottom key="malone">
@@ -73,11 +72,9 @@ if (__DEV__ && __DEVTOOLS__) {
     document.getElementById('react-view')
   );
 } else {
-  React.render(
+  render(
     <Provider store={store} key="provider">
-      {() =>
-        <Router children={routes} history={history} />
-      }
+      <Router children={routes} history={history} />
     </Provider>,
     document.getElementById('react-view')
   );
