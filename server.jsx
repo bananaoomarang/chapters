@@ -3,7 +3,7 @@ import React                     from 'react';
 import { renderToString }        from 'react-dom/server'
 import { RoutingContext, match } from 'react-router';
 import axios                     from 'axios';
-import routes                    from './shared/routes';
+import createRoutes              from './shared/routes';
 import proxy                     from 'express-http-proxy';
 import { Provider }              from 'react-redux';
 import * as reducers             from 'reducers';
@@ -32,6 +32,9 @@ app.use('/api', proxy(API_URL));
 
 app.use('/favicon.ico', function (req, res) {
   res.status(404).end('No.');
+});
+
+const routes = createRoutes(function (nextState, transition, done) {
 });
 
 // Pass everything else through react-router

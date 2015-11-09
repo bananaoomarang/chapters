@@ -6,7 +6,7 @@ import { Router }           from 'react-router';
 import createBrowserHistory from 'history/lib/createBrowserHistory';
 import axios                from 'axios';
 import { Provider }         from 'react-redux';
-import routes               from 'routes';
+import createRoutes         from 'routes';
 import * as reducers        from 'reducers';
 import * as SessionActions  from 'actions/SessionActions';
 import immutifyState        from 'lib/immutifyState';
@@ -55,6 +55,17 @@ const finalCreateStore = compose.apply(null, stores);
 const store = applyMiddleware(promiseMiddleware)(finalCreateStore)(reducer, initialState);
 
 const history = createBrowserHistory();
+
+const routes = createRoutes(function (nextState, transition, done) {
+  if(nextState.location.action === 'POP')
+      return done();
+
+  const components = nextState.routes.map(route => route.component);
+
+  fetchComponentData(store.dispatch, components, nextState.params)
+
+  return done();
+});
 
 if (__DEV__ && __DEVTOOLS__) {
   const { DevTools, DebugPanel, LogMonitor } = require('../node_modules/redux-devtools/lib/react');

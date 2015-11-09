@@ -1,5 +1,6 @@
 html {
   height: 100%;
+  font-family: 'Alegreya';
   font-size: 12px;
 
   @include media($medium-screen-up) {
@@ -58,7 +59,6 @@ body {
 
   /* Editor defaults */
   text-align: center;
-  font-family: 'Crimson Text';
 
   p {
     outline: none;
