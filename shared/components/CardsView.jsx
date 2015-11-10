@@ -36,7 +36,7 @@ export default class CardsView extends React.Component {
   }
 
   bindSomeCheekyEvents = () => {
-    const container = this.refs.container.getDOMNode();
+    const container = this.refs.container;
 
     container.addEventListener('touchmove', this.handlePointerMove);
     window.addEventListener('touchend',     this.handlePointerUp);
@@ -48,7 +48,7 @@ export default class CardsView extends React.Component {
       if(/^card-/.test(r)) {
         this
           .refs[r]
-          .getDOMNode().onmousedown = this.handlePointerDown;
+          .onmousedown = this.handlePointerDown;
       }
     }
   }
@@ -68,7 +68,7 @@ export default class CardsView extends React.Component {
 
     const EL_HEIGHT = this.state.dragging.clientHeight;
     const EL_WIDTH  = this.state.dragging.clientWidth;
-    const cards     = this.refs.cards.getDOMNode();
+    const cards     = this.refs.cards;
 
     const yPosition   = e.clientY - e.offsetY;
     const xPosition   = e.clientX - e.offsetX;
@@ -81,7 +81,7 @@ export default class CardsView extends React.Component {
 
     if(index !== insertAt) {
       this.props.onReorder(index, insertAt);
-      this.setState({ dragging: this.refs['card-' + insertAt].getDOMNode() });
+      this.setState({ dragging: this.refs['card-' + insertAt] });
     }
   }
 

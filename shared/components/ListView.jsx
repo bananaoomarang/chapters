@@ -36,7 +36,7 @@ export default class ListView extends React.Component {
   }
 
   bindSomeCheekyEvents = () => {
-    const container = this.refs.container.getDOMNode();
+    const container = this.refs.container;
 
     container.addEventListener('touchmove', this.handlePointerMove);
     window.addEventListener('touchend',     this.handlePointerUp);
@@ -48,7 +48,7 @@ export default class ListView extends React.Component {
       if(/^listitem-/.test(r)) {
         this
           .refs[r]
-          .getDOMNode().onmousedown = this.handlePointerDown;
+          .onmousedown = this.handlePointerDown;
       }
     }
   }
@@ -75,7 +75,7 @@ export default class ListView extends React.Component {
 
     if(index !== insertAt) {
       this.props.onReorder(index, insertAt);
-      this.setState({ dragging: this.refs['listitem-' + insertAt].getDOMNode() });
+      this.setState({ dragging: this.refs['listitem-' + insertAt] });
     }
   }
 

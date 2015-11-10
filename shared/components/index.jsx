@@ -62,7 +62,7 @@ export default class MainView extends React.Component {
         <hr/>
         {
           (() => {
-            return this.props.loading ? {Loader} : undefined
+            return this.props.loading ? Loader : undefined
           })()
         }
 

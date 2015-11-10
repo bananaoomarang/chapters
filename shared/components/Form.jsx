@@ -29,7 +29,7 @@ export default class Form extends React.Component {
     let payload = {};
 
     for(let field of fields) {
-      const value = this.refs[field.name].getDOMNode().value;
+      const value = this.refs[field.name].value;
 
       if(!value)
         return this.setState({ error: 'Required fields missing' });
