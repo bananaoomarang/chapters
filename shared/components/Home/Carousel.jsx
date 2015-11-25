@@ -40,7 +40,7 @@ export default class Carousel extends React.Component {
             return (
               <div key={index}>
                 <h1>
-                  <Link to={`/stories/${story.id}`} >{story.title}</Link>
+                  <Link to={`/chapters/${story.id}`} >{story.title}</Link>
                 </h1>
                 <span><b>By {story.author}</b></span>
               </div>

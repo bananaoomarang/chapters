@@ -58,7 +58,7 @@ export default class ParagraphView extends React.Component {
 
       if(this.props.focusedParagraph === -1) return;
 
-      const currentParagraph   = this.refs[this.props.focusedParagraph];
+      const currentParagraph   = this.refs[this.props.focusedParagraph].getDOMNode();
 
       const caret              = getCaret(currentParagraph);
       const currentIndex       = Number(currentParagraph.dataset.index);
@@ -76,14 +76,14 @@ export default class ParagraphView extends React.Component {
 
       this.props.dispatch(ChapterActions.setChapter({ paragraphs: newParagraphsArray }));
 
-      this.refs[nextIndex].focus();
+      this.refs[nextIndex].getDOMNode().focus();
     });
 
     kbjs.on('backspace', (e) => {
 
       if(this.props.focusedParagraph === -1) return;
 
-      const currentParagraph   = this.refs[this.props.focusedParagraph];
+      const currentParagraph   = this.refs[this.props.focusedParagraph].getDOMNode();
 
       const currentText        = currentParagraph.textContent;
       const currentIndex       = Number(currentParagraph.dataset.index);
@@ -130,7 +130,7 @@ export default class ParagraphView extends React.Component {
 
       if(this.props.focusedParagraph === -1) return;
 
-      const currentParagraph   = this.refs[this.props.focusedParagraph];
+      const currentParagraph   = this.refs[this.props.focusedParagraph].getDOMNode();
 
       const previousParagraph  = currentParagraph.previousSibling;
 
@@ -142,7 +142,7 @@ export default class ParagraphView extends React.Component {
 
       if(this.props.focusedParagraph === -1) return;
 
-      const currentParagraph   = this.refs[this.props.focusedParagraph];
+      const currentParagraph   = this.refs[this.props.focusedParagraph].getDOMNode();
 
       const nextParagraph  = currentParagraph.nextSibling;
 

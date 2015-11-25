@@ -29,12 +29,15 @@ export default function chapterReducer(state = defaultState, action) {
       // TODO Dude. You control the API.
       delete chapter._id;
 
+      console.log('gggget chaps');
+
       return chapterReducer(state, {
         type: 'SET_CHAPTER',
         chapter
       });
 
     case 'SET_CHAPTER':
+      console.log('ssset chaps', action);
       const newState = state
         .mergeDeepIn(['chapter'], fromJS(action.chapter));
 

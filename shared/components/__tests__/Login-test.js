@@ -71,7 +71,7 @@ describe('Login', function () {
       expect(login.state.error).toEqual('Please fill in form');
       expect(props.dispatch.calls.count()).toEqual(0);
 
-      expect(error.getDOMNode().textContent).toEqual('Please fill in form');
+      expect(error.textContent).toEqual('Please fill in form');
       expect(error.props.className.match('error-msg')).toBeTruthy();
       expect(error.props.className.match('invisible')).toBeFalsy();
   });

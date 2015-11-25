@@ -48,6 +48,7 @@
   },
   "dependencies": {
     "axios": "^0.7.0",
+    "babel-loader": "^5.4.0",
     "babel-runtime": "^5.8.29",
     "classnames": "^2.2.0",
     "dropzone": "^4.2.0",

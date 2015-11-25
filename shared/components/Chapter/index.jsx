@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Link }             from 'react-router';
 import { connect }          from 'react-redux';
+import { List }             from 'immutable';
 import ChapterTitle         from './Title';
 import ChapterToolbar       from './Toolbar';
 import ParagraphView        from './ParagraphView';
@@ -130,7 +131,7 @@ export default class Chapter extends React.Component {
 
         <br/>
 
-        <ParagraphView defaultFont={this.cfg.defaultFont} alignment={this.cfg.defaultAlignment} paragraphs={this.props.chapter.get('paragraphs')} />
+        <ParagraphView defaultFont={this.cfg.defaultFont} alignment={this.cfg.defaultAlignment} paragraphs={this.props.chapter.get('paragraphs') || List()} html={this.props.chapter.get('html')}/>
       </div>
     );
   }

@@ -15,7 +15,7 @@ export default class ParagraphRenderer extends React.Component {
 
   loadAndSetParagraphs = () => {
     const paragraphs =
-      toArray(this.refs['paragraph-renderer'].getDOMNode().childNodes)
+      toArray(this.refs['paragraph-renderer'].childNodes)
         .filter(p => p.nodeName !== '#text')
         .map(p => new Paragraph({
           text: p.innerHTML

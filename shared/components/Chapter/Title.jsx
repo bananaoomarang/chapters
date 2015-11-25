@@ -33,7 +33,7 @@ export default class ChapterTitle extends React.Component {
 
   handleClick = () => {
     this.setState({ clicked: true }, function () {
-      var titleDOM = this.refs.title.getDOMNode();
+      var titleDOM = this.refs.title;
 
       titleDOM.focus();
     });
