@@ -14,7 +14,7 @@ export default class Carousel extends React.Component {
       slidesToScroll: 1,
       dragging:       true,
       speed:          2000,
-      autoplaySpeed:  5000,
+      autoplaySpeed:  10000,
       autoplay:       true,
       infinite:       true,
       responsive: [

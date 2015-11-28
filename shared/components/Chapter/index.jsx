@@ -10,9 +10,15 @@ import ifdefBrowser         from 'lib/ifdefBrowser';
 import getToken             from 'lib/getToken';
 import capitalize           from 'lib/capitalize';
 
+
 var Dropzone = ifdefBrowser( () => {
   return require('dropzone');
 });
+var MediumEditor = ifdefBrowser( () => {
+    require('medium-editor/dist/css/medium-editor.min.css');
+
+    return require('medium-editor');
+})
 
 @connect(state => ({
   chapter:     state.chapter.get('chapter'),
@@ -38,16 +44,7 @@ export default class Chapter extends React.Component {
       defaultAlignment: 'center'
     };
 
-    if(props.routeParams.id) {
-      props.dispatch(ChapterActions.getChapter(this.props.routeParams));
-    }
-    else {
-      // This is a new chapter
-      props.dispatch(ChapterActions.setEditing(true));
-
-      if(!props.chapter.get('author'))
-        props.dispatch(ChapterActions.setChapter({ author: props.currentUser }))
-    }
+    this.state = {};
   }
 
   componentDidMount = () => {
@@ -65,6 +62,28 @@ export default class Chapter extends React.Component {
     dropzone.on('sending', function(file, xhr, formData) {
       formData.append('filename', file.name);
     });
+
+    if(this.props.routeParams.id) {
+      this.props.dispatch(ChapterActions.getChapter(this.props.routeParams));
+    }
+    else {
+      // This is a new chapter
+      this.props.dispatch(ChapterActions.setEditing(true));
+
+      if(!this.props.chapter.get('author'))
+        this.props.dispatch(ChapterActions.setChapter({ author: this.props.currentUser }))
+    }
+
+       var e = new MediumEditor('#chapter-body');
+  }
+
+  componentWillUpdate = (nextProps, nextState) => {
+      if (nextState.editing && !this.state.editing) {
+        this.editor ? this.editor.setup() : (this.editor = new MediumEditor('#chapter-body'));
+      }
+      else if (!nextState.editing && this.state.editing) {
+        this.editor.destroy();
+      }
   }
 
   handleSave = () => {
@@ -129,9 +148,11 @@ export default class Chapter extends React.Component {
           <Link to={'/user/' + this.props.chapter.get('owner')}>{capitalize(this.props.chapter.get('author'))}</Link>
         </h2>
 
-        <br/>
+        <div id="chapter-body">
+            <p>&nbsp;</p>
+        </div>
 
-        <ParagraphView defaultFont={this.cfg.defaultFont} alignment={this.cfg.defaultAlignment} paragraphs={this.props.chapter.get('paragraphs') || List()} html={this.props.chapter.get('html')}/>
+        <br/>
       </div>
     );
   }

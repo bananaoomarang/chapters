@@ -1,3 +1,4 @@
+import path                      from 'path';
 import express                   from 'express';
 import React                     from 'react';
 import { renderToString }        from 'react-dom/server'
@@ -29,13 +30,13 @@ const app = express();
 app.use('/api', proxy(API_URL));
 
 // Serve static assets
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/favicon.ico', function (req, res) {
   res.status(404).end('No.');
 });
 
-const routes = createRoutes(function (nextState, transition, done) {
-});
+const routes = createRoutes(function (nextState, transition, done) { done(); });
 
 // Pass everything else through react-router
 app.use(function (req, res) {
@@ -52,7 +53,9 @@ app.use(function (req, res) {
     }
 
     if(!renderProps)
-      return res.end(renderToString(<FourOhFour />));
+      return res
+        .status(404)
+        .end(renderToString(<FourOhFour />));
 
     function renderView() {
       const InitialView = (
@@ -76,7 +79,7 @@ app.use(function (req, res) {
 
           <script type="application/javascript">
             window.__INITIAL_DATA__ = ${JSON.stringify(initialData)};
-          </script>
+        </script>
         </head>
         <body>
           <div id="react-view">${routerHTML}</div>
