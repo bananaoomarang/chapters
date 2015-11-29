@@ -1,13 +1,12 @@
 import React, { PropTypes } from 'react';
-import { Link }             from 'react-router';
 import { connect }          from 'react-redux';
 import { List }             from 'immutable';
 import ChapterTitle         from './Title';
+import ChapterAuthor        from './Author';
 import ChapterToolbar       from './Toolbar';
 import * as ChapterActions  from 'actions/ChapterActions';
 import ifdefBrowser         from 'lib/ifdefBrowser';
 import getToken             from 'lib/getToken';
-import capitalize           from 'lib/capitalize';
 
 var Dropzone = ifdefBrowser( () => {
   return require('dropzone');
@@ -138,16 +137,21 @@ export default class Chapter extends React.Component {
       <div id="chapter">
         <ChapterToolbar handleSave={this.handleSave} defaultFont={this.cfg.defaultFont} />
 
-        <ChapterTitle title={this.props.chapter.get('title')} placeholder="Untitled" />
-
         <button style={editButtonStyle} onClick={this.setEditing}>Edit</button>
 
         <hr />
 
-        <h2>
-          By&nbsp;
-          <Link to={`/users/${this.props.chapter.get('author')}`}>{capitalize(this.props.chapter.get('author'))}</Link>
-        </h2>
+        <div id="chapter-title">
+          <ChapterTitle title={this.props.chapter.get('title')} placeholder="Untitled" editing={this.props.editing} dispatch={this.props.dispatch} />
+          <hr />
+        </div>
+
+
+        <div id="chapter-author">
+          <ChapterAuthor author={this.props.chapter.get('author')} placeholder="Homer" editing={this.props.editing} dispatch={this.props.dispatch} />
+          <hr />
+        </div>
+
 
         <div id="chapter-body" dangerouslySetInnerHTML={{__html: this.props.chapter.get('html')}}>
         </div>

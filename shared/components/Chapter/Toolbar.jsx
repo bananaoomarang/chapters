@@ -58,9 +58,6 @@ export default class Toolbar extends React.Component {
             <button className="btn-group-member" name="save"   onClick={this.props.handleSave}>Save</button>
             <button className="btn-group-member" name="delete" onClick={this.handleDelete}>Delete</button>
         </div>
-
-        <hr />
-
       </div>
     );
   }

@@ -1,12 +1,14 @@
 import React, { PropTypes } from 'react';
 import classSet             from 'classnames';
 import { connect }          from 'react-redux';
+import { Link }             from 'react-router';
 import * as ChapterActions  from 'actions/ChapterActions';
+import capitalize           from 'lib/capitalize';
 
 export default class ChapterTitle extends React.Component {
   static propTypes = {
     dispatch:    PropTypes.func.isRequired,
-    title:       PropTypes.string.isRequired,
+    author:      PropTypes.string.isRequired,
     editing:     PropTypes.bool.isRequired,
     placeholder: PropTypes.string.isRequired
   }
@@ -18,7 +20,7 @@ export default class ChapterTitle extends React.Component {
   handleBlur = (e) => {
     this.props.dispatch(
       ChapterActions.setChapter({
-        title: e.target.textContent
+        author: e.target.textContent
       })
     );
 
@@ -29,28 +31,34 @@ export default class ChapterTitle extends React.Component {
 
   handleClick = () => {
     this.setState({ clicked: true }, function () {
-      var titleDOM = this.refs.title;
+      var authorDOM = this.refs.author;
 
-      titleDOM.focus();
+      authorDOM.focus();
     });
   }
 
   render () {
     const classes = classSet({
-      greyed: this.props.title ? false : true
+      greyed: this.props.author ? false : true
     });
 
     if(!this.props.editing)
       return (
-        <h1 id="title" className={classes} onClick={this.handleClick}>
-          {this.props.title || this.props.placeholder}
-        </h1>
+        <h2>
+          By&nbsp;
+          <span id="author" ref="author" onClick={this.handleClick}>
+            <Link to={`/users/${this.props.author}`}>{capitalize(this.props.author || this.props.placeholder)}</Link>
+          </span>
+        </h2>
       );
 
     return (
-      <h1 id="title" ref="title" contentEditable={this.props.editing} onBlur={this.handleBlur}>
-        {this.props.title || ''}
-      </h1>
+      <h2>
+        By&nbsp;
+        <span id="author" ref="author" contentEditable={this.props.editing} onBlur={this.handleBlur}>
+          {this.props.author ? capitalize(this.props.author) : ''}
+        </span>
+      </h2>
     );
   }
 }

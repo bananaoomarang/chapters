@@ -57,13 +57,20 @@ body {
   /* Editor defaults */
   text-align: center;
 
-  #chapter-body {
+  #chapter {
+
+    &-body, &-author, &-title {
       text-align: left;
-      outline: none;
       width: 50em;
       padding: 0 5em 0 5em;
       margin: auto;
       font-size: $base-font-size*1.2;
+      outline: none;
+    }
+
+    #title, #author {
+      outline: none;
+    }
   }
 
   p {
