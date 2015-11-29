@@ -4,7 +4,6 @@
  * Legit Smallcaps */
 
 import MediumEditor from 'medium-editor';
-import rangy        from 'rangy';
 import getCaret     from 'lib/getCaret';
 
 function insertString(string, index, to) {
@@ -15,9 +14,8 @@ function removeChar(string, index) {
   return string.slice(0, index - 1) + string.slice(index);
 }
 
-// XXX This ignores fffking tags
 function getHtmlPosition(html, offset) {
-  const reg      = /(&[a-z]+;)/;
+  const reg      = new RegExp('(&[a-z]+;)|(<[^>]*>)');
 	const relevent = html.split(offset)[0];
   const noTML    = relevent.replace(reg, '');
 
@@ -32,8 +30,21 @@ function getHtmlPosition(html, offset) {
   return offset;
 };
 
+function getOuter(node) {
+  const isOuter = (
+    (node.tagName === 'P')  ||
+    (node.tagName === 'H1') ||
+    (node.tagName === 'H2') ||
+    (node.tagName === 'DIV')
+  );
+
+  return isOuter ? node : getOuter(node.parentNode);
+}
+
 function handleDoubleQuote (node, position) {
   const htmlPosition = getHtmlPosition(node.innerHTML, position);
+
+  console.log(node.innerHTML);
   
   if(position === 1 || /\s/.test(node.textContent.charAt(position - 2)))
     node.innerHTML = insertString(node.innerHTML, htmlPosition, '&ldquo;');
@@ -43,7 +54,8 @@ function handleDoubleQuote (node, position) {
   node.textContent = removeChar(node.textContent, position);
 
   const caret = getCaret(node);
-  caret.setPosition(position);
+  caret.setPosition(position)
+  //MediumEditor.selection.moveCursor(document, node, position)
 }
 
 function handleSingleQuote (node, position) {
@@ -57,7 +69,8 @@ function handleSingleQuote (node, position) {
   node.textContent = removeChar(node.textContent, position);
 
   const caret = getCaret(node);
-  caret.setPosition(position);
+  caret.setPosition(position)
+  //MediumEditor.selection.moveCursor(document, node, position)
 }
 
 function handleElipsis (node, position) {
@@ -88,7 +101,8 @@ function handleElipsis (node, position) {
      node.textContent = removeChar(node.textContent, position);
 
      const caret = getCaret(node);
-     caret.setPosition(position);
+     caret.setPosition(position)
+     //MediumEditor.selection.moveCursor(document, node, position)
    }
 
 
@@ -129,14 +143,15 @@ export default MediumEditor.Extension.extend({
 
   handleInput: function (e) {
     const sel      = MediumEditor.selection.getSelectionRange(this.document);
-    const node     = (sel.startContainer.innerHTML === '<br>') ?
-      sel.startContainer :
-      sel.startContainer.parentNode;
-    const lastChar = node.textContent.charAt(sel.startOffset - 1);
+    const start    = sel.startContainer;
+    const node     = getOuter(start);
+    const offset   = MediumEditor.selection.exportSelection(node, document).start;
+    const lastChar = node.textContent.charAt(offset - 1);
+
 
     for(let t of this.triggers) {
       if(t.key === lastChar) {
-        t.handler(node, sel.startOffset);
+        t.handler(node, offset);
 
         break;
       }

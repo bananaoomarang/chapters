@@ -12,7 +12,7 @@ import { fromJS } from 'immutable';
    //
    // Interface
    //
-   nightMode: ( (new Date()).getHours() >= 21) || ( (new Date().getHours()) <= 6),
+   nightMode: !( (new Date()).getHours() >= 21) || ( (new Date().getHours()) <= 6),
 
    //
    // API Interaction

@@ -7,11 +7,11 @@ var rangy = ifdefBrowser( () => {
 // Uses rangy to get a manipulatable caret object
 export default function (element) {
 
-  var currentHTML      = element.innerHTML;
-  var range            = rangy.createRange();
-  var elementSelection = rangy.getSelection(element);
-  var windowSelection  = rangy.getSelection();
-  var node             = element.childNodes[0];
+  const currentHTML      = element.innerHTML;
+  const range            = rangy.createRange();
+  const elementSelection = rangy.getSelection(element);
+  const windowSelection  = rangy.getSelection();
+  const node             = element.childNodes[0];
 
   return {
     position:  elementSelection.anchorOffset,

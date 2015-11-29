@@ -4,7 +4,6 @@ import { connect }          from 'react-redux';
 import { List }             from 'immutable';
 import ChapterTitle         from './Title';
 import ChapterToolbar       from './Toolbar';
-import ParagraphView        from './ParagraphView';
 import * as ChapterActions  from 'actions/ChapterActions';
 import ifdefBrowser         from 'lib/ifdefBrowser';
 import getToken             from 'lib/getToken';
@@ -113,24 +112,16 @@ export default class Chapter extends React.Component {
         });
   }
 
-  // Concatanate html tags into one string for exporting
   exportText = () => {
-    var div    = document.getElementById('paragraph-container');
-    var string = '';
+    // Might be easier just to traverse the tree?
+    const html      = this.editor.serialize()['chapter-body'].value;
+    const splitPeas = html.split('</p>');
 
-    if(div.hasChildNodes()) {
+    // Yeah I'm going all the way with this. This is what wine does.
+    const peas = splitPeas
+      .map(p => p.replace('<p>', ''));
 
-      for (var child in div.childNodes) {
-        var p    = div.childNodes[child];
-        var text = p.textContent;
-
-        if(text) string += text + '\n\n';
-        else     string += '\n\n';
-      }
-
-    }
-
-    return string;
+    return peas.join('\n\n');
   }
 
   setEditing = () => {
@@ -157,7 +148,7 @@ export default class Chapter extends React.Component {
           <Link to={`/users/${this.props.chapter.get('author')}`}>{capitalize(this.props.chapter.get('author'))}</Link>
         </h2>
 
-        <div id="chapter-body">
+        <div id="chapter-body" dangerouslySetInnerHTML={{__html: this.props.chapter.get('html')}}>
         </div>
 
         <br/>

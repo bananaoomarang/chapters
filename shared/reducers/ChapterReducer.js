@@ -22,12 +22,9 @@ export default function chapterReducer(state = defaultState, action) {
   switch(action.type) {
     case 'GET_CHAPTER':
       const chapter = {
-        id: action.res.data._id,
+        id: action.res.data.id,
         ...action.res.data
       };
-
-      // TODO Dude. You control the API.
-      delete chapter._id;
 
       return chapterReducer(state, {
         type: 'SET_CHAPTER',
