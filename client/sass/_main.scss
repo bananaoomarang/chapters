@@ -27,16 +27,13 @@ body {
   width: 100%;
   height: 100%;
 
-  h1,h2,h3,h4,h5 {
-    a {
+  a {
       color: inherit;
 
       &:hover {
-        color: lighten(#000, 40%);
+          color: lighten(#000, 40%);
       }
       @include transition (all 0.2s ease-in-out);
-    }
-
   }
 
   hr {
@@ -59,6 +56,14 @@ body {
 
   /* Editor defaults */
   text-align: center;
+
+  #chapter-body {
+      text-align: left;
+      outline: none;
+      width: 50em;
+      margin: auto;
+      font-size: $base-font-size*1.2;
+  }
 
   p {
     outline: none;

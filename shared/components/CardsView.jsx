@@ -35,6 +35,10 @@ export default class CardsView extends React.Component {
       this.unbindEvents();
   }
 
+  componentWillUnmount = () => {
+      this.unbindEvents();
+  }
+
   bindSomeCheekyEvents = () => {
     const container = this.refs.container;
 

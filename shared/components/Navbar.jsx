@@ -5,14 +5,16 @@ import * as SessionActions  from 'actions/SessionActions';
 
 @connect(state => ({
   legit:    state.session.get('legit'),
-  username: state.session.get('name')
+  username: state.session.get('name'),
+  nightMode: state.session.get('nightMode')
 }))
 
 export default class Navbar extends React.Component {
   static propTypes = {
-    dispatch: PropTypes.func.isRequired,
-    legit:    PropTypes.bool.isRequired,
-    username: PropTypes.string
+    dispatch:  PropTypes.func.isRequired,
+    legit:     PropTypes.bool.isRequired,
+    nightMode: PropTypes.bool.isRequired,
+    username:  PropTypes.string
   }
 
   handleSignOut = () => {
@@ -29,12 +31,14 @@ export default class Navbar extends React.Component {
       display: !this.props.legit ? 'inline-block' : 'none'
     };
 
+    const logoSrc = this.props.nightMode ? 'chapters-logo-night' : 'chapters-logo';
+
     return (
       <header className="navigation" role="banner">
         <div className="navigation-wrapper">
-          <h1 className="logo">
-            <Link to="/home">Chapters</Link>
-          </h1>
+            <div className="logo">
+              <Link to="/home"><img src={`/assets/${logoSrc}.svg`} width="175em"/></Link>
+            </div>
 
           <div className="right">
 

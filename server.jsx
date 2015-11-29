@@ -32,10 +32,6 @@ app.use('/api', proxy(API_URL));
 // Serve static assets
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/favicon.ico', function (req, res) {
-  res.status(404).end('No.');
-});
-
 const routes = createRoutes(function (nextState, transition, done) { done(); });
 
 // Pass everything else through react-router

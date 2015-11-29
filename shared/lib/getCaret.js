@@ -18,9 +18,6 @@ export default function (element) {
     selection: elementSelection.focusOffset,
 
     setPosition (newPosition) {
-
-      setTimeout( function delayCaretMove () {
-
         switch(newPosition) {
           case 'start':
             range.setStart(node, 0);
@@ -41,9 +38,6 @@ export default function (element) {
         range.collapse(true);
 
         windowSelection.setSingleRange(range);
-
-      });
-
     }
 
   };

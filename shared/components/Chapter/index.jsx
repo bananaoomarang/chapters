@@ -10,15 +10,17 @@ import ifdefBrowser         from 'lib/ifdefBrowser';
 import getToken             from 'lib/getToken';
 import capitalize           from 'lib/capitalize';
 
-
 var Dropzone = ifdefBrowser( () => {
   return require('dropzone');
 });
+
 var MediumEditor = ifdefBrowser( () => {
     require('medium-editor/dist/css/medium-editor.min.css');
 
     return require('medium-editor');
-})
+});
+
+var CheekyKeys = ifdefBrowser( () => require('lib/cheeky-keys'));
 
 @connect(state => ({
   chapter:     state.chapter.get('chapter'),
@@ -43,8 +45,6 @@ export default class Chapter extends React.Component {
       },
       defaultAlignment: 'center'
     };
-
-    this.state = {};
   }
 
   componentDidMount = () => {
@@ -73,17 +73,26 @@ export default class Chapter extends React.Component {
       if(!this.props.chapter.get('author'))
         this.props.dispatch(ChapterActions.setChapter({ author: this.props.currentUser }))
     }
-
-       var e = new MediumEditor('#chapter-body');
   }
 
-  componentWillUpdate = (nextProps, nextState) => {
-      if (nextState.editing && !this.state.editing) {
-        this.editor ? this.editor.setup() : (this.editor = new MediumEditor('#chapter-body'));
+  componentWillUpdate = (nextProps) => {
+    // Editor options
+    const opts = {
+      extensions: {
+        'cheeky-keys': new CheekyKeys()
       }
-      else if (!nextState.editing && this.state.editing) {
-        this.editor.destroy();
-      }
+    };
+
+    if (nextProps.editing && !this.props.editing) {
+      this.editor ? this.editor.setup() : (this.editor = new MediumEditor('#chapter-body', opts));
+    }
+    else if (!nextProps.editing && this.props.editing) {
+      this.editor.destroy();
+    }
+  }
+
+  componentWillUnmount = () => {
+      this.props.dispatch(ChapterActions.setEditing(false));
   }
 
   handleSave = () => {
@@ -145,11 +154,10 @@ export default class Chapter extends React.Component {
 
         <h2>
           By&nbsp;
-          <Link to={'/user/' + this.props.chapter.get('owner')}>{capitalize(this.props.chapter.get('author'))}</Link>
+          <Link to={`/users/${this.props.chapter.get('author')}`}>{capitalize(this.props.chapter.get('author'))}</Link>
         </h2>
 
         <div id="chapter-body">
-            <p>&nbsp;</p>
         </div>
 
         <br/>

@@ -40,10 +40,10 @@ export default class User extends React.Component {
       href:  '/chapters/' + story.id
     }));
 
-    const personas = this.props.personas.toJS().map(story => ({
-      title: story.title       || '???',
-      body:  story.description || '???',
-      href:  '/chapters/' + story.id
+    const personas = this.props.personas.toJS().map(persona => ({
+      title: persona.title       || '???',
+      body:  persona.description || '???',
+      href:  '/users/' + persona.id
     }));
 
     const loggedIn = (this.props.routeParams.user === this.props.currentUser) || !this.props.routeParams.user;

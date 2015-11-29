@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import Slider               from 'react-slick';
 import { Link }             from 'react-router';
 import { List }             from 'immutable';
+import capitalize           from 'lib/capitalize'
 
 export default class Carousel extends React.Component {
   static propTypes = {
@@ -42,7 +43,9 @@ export default class Carousel extends React.Component {
                 <h1>
                   <Link to={`/chapters/${story.id}`} >{story.title}</Link>
                 </h1>
-                <span><b>By {story.author}</b></span>
+                <span>
+                    <b><span>By&nbsp;</span><Link to={`/users/${story.author}`}>{capitalize(story.author)}</Link></b>
+                </span>
               </div>
             );
           })

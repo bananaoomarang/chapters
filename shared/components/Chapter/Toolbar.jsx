@@ -14,12 +14,15 @@ import * as ChapterActions      from 'actions/ChapterActions';
 export default class Toolbar extends React.Component {
   static propTypes = {
     dispatch:         PropTypes.func.isRequired,
-    history:          PropTypes.object.isRequired,
     defaultFont:      PropTypes.object.isRequired,
     handleSave:       PropTypes.func.isRequired,
     editing:          PropTypes.bool.isRequired,
     focusedParagraph: PropTypes.number,
     id:               PropTypes.string
+  }
+
+  static contextTypes = {
+    history:          PropTypes.object.isRequired,
   }
 
   handleAlignment = (e) => {
@@ -28,7 +31,7 @@ export default class Toolbar extends React.Component {
 
   handleDelete = () => {
     this.props.dispatch(ChapterActions.deleteChapter(this.props.id))
-      .then(() => this.history.pushState(null, '/home'));
+      .then(() => this.context.history.pushState(null, '/home'));
   }
 
   render() {
