@@ -50,7 +50,8 @@ export default class Chapter extends React.Component {
     const sessionToken = getToken();
 
     const dropzoneOpts = {
-      url:     '/api/' + ['stories', this.props.routeParams.section, 'upload'].join('/'),
+      url:     '/api/' + ['chapters', this.props.routeParams.id].join('/'),
+      method:  'put',
       headers: {
         Authorization: 'Bearer ' + sessionToken
       }
