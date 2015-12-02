@@ -58,13 +58,12 @@ body {
   text-align: center;
 
   #chapter {
-
     &-body, &-author, &-title {
       text-align: left;
-      width: 50em;
-      padding: 0 5em 0 5em;
-      margin: auto;
+      max-width: 50em;
+      padding: 0 1em 0 1em;
       font-size: $base-font-size*1.2;
+      margin: auto;
       outline: none;
     }
 
