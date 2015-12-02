@@ -70,6 +70,10 @@ body {
     #title, #author {
       outline: none;
     }
+
+    .medium-editor-placeholder:after {
+      padding: inherit;
+    }
   }
 
   p {

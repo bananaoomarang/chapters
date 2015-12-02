@@ -2,7 +2,6 @@ import React, { PropTypes } from 'react';
 import { connect }          from 'react-redux';
 import { List }             from 'immutable';
 import EditableHeader       from './EditableHeader';
-import ChapterAuthor        from './Author';
 import ChapterToolbar       from './Toolbar';
 import * as ChapterActions  from 'actions/ChapterActions';
 import ifdefBrowser         from 'lib/ifdefBrowser';
@@ -77,6 +76,9 @@ export default class Chapter extends React.Component {
   componentWillUpdate = (nextProps) => {
     // Editor options
     const opts = {
+      placeholder: {
+        text: 'Type something, please'
+      },
       extensions: {
         'cheeky-keys': new CheekyKeys()
       }
