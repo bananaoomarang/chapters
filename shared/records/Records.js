@@ -30,6 +30,7 @@ export const Paragraph = Record({
 
 export const Chapter = Record({
     id:               '',  // Database ID
+    public:           false,
     read:             false,
     write:            false,
     title:            '',

@@ -33,10 +33,10 @@ export function patchChapter(routeParams, chapter) {
   };
 }
 
-export function deleteChapter(routeParams) {
+export function deleteChapter(id) {
   return {
     type:    'DELETE_CHAPTER',
-    promise: request.del(path.join('/chapters', routeParams.id))
+    promise: request.delete(path.join('/chapters', id))
   };
 }
 

@@ -113,8 +113,6 @@ export default class Chapter extends React.Component {
     const html      = this.refs['chapter-body'].innerHTML;
     const splitPeas = html.split('</p>');
 
-    console.log(html);
-
     // Yeah I'm going all the way with this. This is what wine does.
     const peas = splitPeas
       .map(p => p.replace('<p>', ''));
@@ -138,16 +136,16 @@ export default class Chapter extends React.Component {
   }
 
   handleDelete = () => {
-    this.props.dispatch(ChapterActions.deleteChapter(this.props.id))
+    this.props.dispatch(ChapterActions.deleteChapter(this.props.routeParams.id))
       .then(() => this.context.history.pushState(null, '/home'));
   }
 
-  handlePublish = () => {
+  handlePublish = (bool) => {
     const payload = {
       title:    this.props.chapter.get('title'),
       author:   this.props.chapter.get('author'),
       markdown: this.exportText(),
-      public:   true
+      public:   (bool || bool === false) ? bool : true
     };
 
     const promise = this.deployChapter(payload);
@@ -186,6 +184,7 @@ export default class Chapter extends React.Component {
             id={this.props.chapter.get('id')}
             editing={this.props.editing} 
             display={this.props.chapter.get('write') || !this.props.routeParams.id}
+            public={this.props.chapter.get('public')}
             setEditing={this.setEditing} 
             save={this.handleSave} 
             del={this.handleDelete}

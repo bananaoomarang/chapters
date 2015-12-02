@@ -8,6 +8,7 @@ export default class Toolbar extends React.Component {
     del:         PropTypes.func.isRequired,
     setEditing:  PropTypes.func.isRequired,
     publish:     PropTypes.func.isRequired,
+    public:      PropTypes.bool.isRequired,
     editing:     PropTypes.bool.isRequired,
     display:     PropTypes.bool.isRequired,
 
@@ -33,12 +34,20 @@ export default class Toolbar extends React.Component {
       <div id="chapter-toolbar" className={classes}>
         <div className={editClasses}>
           <button className="btn-group-member" onClick={this.props.setEditing}>Edit</button>
-          <button className="btn-group-member" onClick={this.props.publish}>Publish</button>
+
+          {
+            (() => {
+              return this.props.public ?
+                <button className="btn-group-member" onClick={this.props.publish.bind(null, false)}>Unpublish</button> :
+                <button className="btn-group-member" onClick={this.props.publish.bind(null, true)}>Publish</button>
+            })()
+          }
+
+          <button className="btn-group-member" name="delete" onClick={this.props.del}>Delete</button>
         </div>
 
         <div className={editingClasses}>
           <button className="btn-group-member" name="save"   onClick={this.props.save}>Save</button>
-          <button className="btn-group-member" name="delete" onClick={this.props.del}>Delete</button>
         </div>
       </div>
     );
