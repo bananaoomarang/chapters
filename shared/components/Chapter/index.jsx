@@ -102,6 +102,26 @@ export default class Chapter extends React.Component {
       this.props.dispatch(ChapterActions.setEditing(false));
   }
 
+  deployChapter = (payload) => {
+    return this.props.routeParams.id ?
+      this.props.dispatch(ChapterActions.patchChapter(this.props.routeParams, payload)) 
+        :
+      this.props.dispatch(ChapterActions.postChapter(payload));
+  }
+
+  exportText = () => {
+    const html      = this.refs['chapter-body'].innerHTML;
+    const splitPeas = html.split('</p>');
+
+    console.log(html);
+
+    // Yeah I'm going all the way with this. This is what wine does.
+    const peas = splitPeas
+      .map(p => p.replace('<p>', ''));
+
+    return peas.join('\n\n');
+  }
+
   handleSave = () => {
     const payload = {
       title:    this.props.chapter.get('title'),
@@ -109,10 +129,7 @@ export default class Chapter extends React.Component {
       markdown: this.exportText()
     };
 
-    let promise = this.props.routeParams.id ?
-      this.props.dispatch(ChapterActions.patchChapter(this.props.routeParams, payload)) 
-        :
-      this.props.dispatch(ChapterActions.postChapter(payload));
+    const promise = this.deployChapter(payload);
 
     return promise
         .then(success => {
@@ -126,19 +143,19 @@ export default class Chapter extends React.Component {
   }
 
   handlePublish = () => {
-    alert('TODO');
-  }
+    const payload = {
+      title:    this.props.chapter.get('title'),
+      author:   this.props.chapter.get('author'),
+      markdown: this.exportText(),
+      public:   true
+    };
 
-  exportText = () => {
-    // Might be easier just to traverse the tree?
-    const html      = this.editor.serialize()['chapter-body'].value;
-    const splitPeas = html.split('</p>');
+    const promise = this.deployChapter(payload);
 
-    // Yeah I'm going all the way with this. This is what wine does.
-    const peas = splitPeas
-      .map(p => p.replace('<p>', ''));
-
-    return peas.join('\n\n');
+    return promise
+      .then(success => {
+        if(success) this.props.dispatch(ChapterActions.setEditing(false));
+      });
   }
 
   setEditing = () => {
@@ -154,8 +171,6 @@ export default class Chapter extends React.Component {
       display: 'inline'
     };
 
-    console.log(this.props.chapter.get('write'));
-
     return (
       <div id="chapter">
         <div id="chapter-title">
@@ -170,7 +185,7 @@ export default class Chapter extends React.Component {
             defaultFont={this.cfg.defaultFont}
             id={this.props.chapter.get('id')}
             editing={this.props.editing} 
-            display={this.props.chapter.get('write')}
+            display={this.props.chapter.get('write') || !this.props.routeParams.id}
             setEditing={this.setEditing} 
             save={this.handleSave} 
             del={this.handleDelete}
@@ -192,7 +207,7 @@ export default class Chapter extends React.Component {
         </div>
 
 
-        <div id="chapter-body" dangerouslySetInnerHTML={{__html: this.props.chapter.get('html')}}>
+        <div id="chapter-body" ref="chapter-body" dangerouslySetInnerHTML={{__html: this.props.chapter.get('html')}}>
         </div>
 
         <br/>
