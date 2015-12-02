@@ -39,3 +39,10 @@ export function deleteChapter(routeParams) {
     promise: request.del(path.join('/chapters', routeParams.id))
   };
 }
+
+// Flush whatever's in memory
+export function flushChapter() {
+  return {
+    type: 'FLUSH_CHAPTER'
+  };
+}

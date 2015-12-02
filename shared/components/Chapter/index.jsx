@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect }          from 'react-redux';
 import { List }             from 'immutable';
-import ChapterTitle         from './Title';
+import EditableHeader       from './EditableHeader';
 import ChapterAuthor        from './Author';
 import ChapterToolbar       from './Toolbar';
 import * as ChapterActions  from 'actions/ChapterActions';
@@ -91,6 +91,7 @@ export default class Chapter extends React.Component {
   }
 
   componentWillUnmount = () => {
+      this.props.dispatch(ChapterActions.flushChapter());
       this.props.dispatch(ChapterActions.setEditing(false));
   }
 
@@ -133,6 +134,10 @@ export default class Chapter extends React.Component {
       display: (!this.props.editing && this.props.chapter.get('write')) ? 'inline-block' : 'none'
     };
 
+    const authorStyle = {
+      display: 'inline'
+    };
+
     return (
       <div id="chapter">
         <ChapterToolbar handleSave={this.handleSave} defaultFont={this.cfg.defaultFont} />
@@ -142,13 +147,25 @@ export default class Chapter extends React.Component {
         <hr />
 
         <div id="chapter-title">
-          <ChapterTitle title={this.props.chapter.get('title')} placeholder="Untitled" editing={this.props.editing} dispatch={this.props.dispatch} />
+          <EditableHeader
+            header={this.props.chapter.get('title')}
+            placeholder="Untitled"
+            editing={this.props.editing}
+            update={(t) => { this.props.dispatch(ChapterActions.setChapter({ title: t })) }} />
           <hr />
         </div>
 
 
         <div id="chapter-author">
-          <ChapterAuthor author={this.props.chapter.get('author')} placeholder="Homer" editing={this.props.editing} dispatch={this.props.dispatch} />
+          <h1 style={authorStyle}>By&nbsp;</h1>
+
+          <EditableHeader
+            style={authorStyle}
+            header={this.props.chapter.get('author')}
+            prefix="By&nbsp;"
+            placeholder="Unauthored"
+            editing={this.props.editing}
+            update={(a) => { this.props.dispatch(ChapterActions.setChapter({ author: a })) }} />
           <hr />
         </div>
 

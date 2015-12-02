@@ -64,6 +64,9 @@ export default function chapterReducer(state = defaultState, action) {
 
       return state.setIn(['chapter', 'paragraphs', action.index, 'alignment'], action.alignment);
 
+    case 'FLUSH_CHAPTER':
+      return state.set('chapter', new Chapter());
+
     default:
       return state;
   }
