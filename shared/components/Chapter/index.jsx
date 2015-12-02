@@ -125,6 +125,9 @@ export default class Chapter extends React.Component {
       .then(() => this.context.history.pushState(null, '/home'));
   }
 
+  handlePublish = () => {
+    alert('TODO');
+  }
 
   exportText = () => {
     // Might be easier just to traverse the tree?
@@ -161,18 +164,17 @@ export default class Chapter extends React.Component {
             header={this.props.chapter.get('title')}
             placeholder="Untitled"
             editing={this.props.editing}
-            display={!this.props.editing && this.props.chapter.get('write')}
             update={(t) => { this.props.dispatch(ChapterActions.setChapter({ title: t })) }} />
 
           <ChapterToolbar
             defaultFont={this.cfg.defaultFont}
             id={this.props.chapter.get('id')}
             editing={this.props.editing} 
+            display={this.props.chapter.get('write')}
             setEditing={this.setEditing} 
             save={this.handleSave} 
-            del={this.handleDelete} />
-
-
+            del={this.handleDelete}
+            publish={this.handlePublish} />
           <hr />
         </div>
 

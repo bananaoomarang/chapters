@@ -30,8 +30,8 @@ export const Paragraph = Record({
 
 export const Chapter = Record({
     id:               '',  // Database ID
-    read:             true,
-    write:            true,
+    read:             false,
+    write:            false,
     title:            '',
     description:      '???',
     markdown:         '',  // Markdown

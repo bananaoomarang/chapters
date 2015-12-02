@@ -41,8 +41,13 @@ body {
   }
 
   #chapter-toolbar {
-    float: right;
-    margin: 0.3em 0 0 0;
+    @include media($medium-screen-up) {
+      float: right;
+      margin: 0.3em 0 0 0;
+      button, input {
+        margin: 0;
+      }
+    }
   }
 
   /* Editor defaults */
@@ -58,8 +63,13 @@ body {
       outline: none;
     }
 
-    #title, #author {
+    &-title, &-author {
       outline: none;
+      text-align: center;
+
+      @include media($medium-screen-up) {
+        text-align: left;
+      }
     }
 
     .medium-editor-placeholder:after {

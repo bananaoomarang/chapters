@@ -1,6 +1,5 @@
-import React, { PropTypes }   from 'react';
-import classSet               from 'classnames';
-import * as ChapterActions      from 'actions/ChapterActions';
+import React, { PropTypes } from 'react';
+import classSet             from 'classnames';
 
 export default class Toolbar extends React.Component {
   static propTypes = {
@@ -8,6 +7,7 @@ export default class Toolbar extends React.Component {
     save:        PropTypes.func.isRequired,
     del:         PropTypes.func.isRequired,
     setEditing:  PropTypes.func.isRequired,
+    publish:     PropTypes.func.isRequired,
     editing:     PropTypes.bool.isRequired,
     display:     PropTypes.bool.isRequired,
 
@@ -15,12 +15,13 @@ export default class Toolbar extends React.Component {
   }
 
   render() {
-    const classes = {
-      hidden: this.props.display
-    };
+    const classes = classSet({
+      hidden: !this.props.display
+    });
 
     const editClasses = classSet({
-      hidden:  this.props.editing
+      hidden:  this.props.editing,
+      'btn-group': true
     });
 
     const editingClasses = classSet({
@@ -31,7 +32,8 @@ export default class Toolbar extends React.Component {
     return (
       <div id="chapter-toolbar" className={classes}>
         <div className={editClasses}>
-          <button onClick={this.props.setEditing}>Edit</button>
+          <button className="btn-group-member" onClick={this.props.setEditing}>Edit</button>
+          <button className="btn-group-member" onClick={this.props.publish}>Publish</button>
         </div>
 
         <div className={editingClasses}>
