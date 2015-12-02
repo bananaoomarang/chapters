@@ -26,15 +26,14 @@ header.navigation {
 
   .logo {
     float: left;
-    max-height: $navigation-height;
 
     a {
       max-height: $navigation-height;
-      padding: -$navigation-height  0;
     }
 
     @include media (max-width $small-screen) {
         float: none;
+        max-height: 100%;
     }
 
     @include media ($large-screen) {
@@ -107,6 +106,7 @@ header.navigation {
   }
 
   .nav-item {
+    padding-top: 1em;
     ul {
       position: relative;
 
