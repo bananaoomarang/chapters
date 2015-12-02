@@ -33,6 +33,11 @@ export default class Chapter extends React.Component {
     editing:     PropTypes.bool.isRequired
   }
 
+  static contextTypes = {
+    history: PropTypes.object.isRequired
+  }
+
+
   constructor(props) {
     super(props);
 
@@ -115,6 +120,12 @@ export default class Chapter extends React.Component {
         });
   }
 
+  handleDelete = () => {
+    this.props.dispatch(ChapterActions.deleteChapter(this.props.id))
+      .then(() => this.context.history.pushState(null, '/home'));
+  }
+
+
   exportText = () => {
     // Might be easier just to traverse the tree?
     const html      = this.editor.serialize()['chapter-body'].value;
@@ -132,31 +143,38 @@ export default class Chapter extends React.Component {
   }
 
   render () {
-    const editButtonStyle = {
-      display: (!this.props.editing && this.props.chapter.get('write')) ? 'inline-block' : 'none'
+    const titleStyle = {
+      display: 'inline'
     };
 
     const authorStyle = {
       display: 'inline'
     };
 
+    console.log(this.props.chapter.get('write'));
+
     return (
       <div id="chapter">
-        <ChapterToolbar handleSave={this.handleSave} defaultFont={this.cfg.defaultFont} />
-
-        <button style={editButtonStyle} onClick={this.setEditing}>Edit</button>
-
-        <hr />
-
         <div id="chapter-title">
           <EditableHeader
+            style={titleStyle}
             header={this.props.chapter.get('title')}
             placeholder="Untitled"
             editing={this.props.editing}
+            display={!this.props.editing && this.props.chapter.get('write')}
             update={(t) => { this.props.dispatch(ChapterActions.setChapter({ title: t })) }} />
+
+          <ChapterToolbar
+            defaultFont={this.cfg.defaultFont}
+            id={this.props.chapter.get('id')}
+            editing={this.props.editing} 
+            setEditing={this.setEditing} 
+            save={this.handleSave} 
+            del={this.handleDelete} />
+
+
           <hr />
         </div>
-
 
         <div id="chapter-author">
           <h1 style={authorStyle}>By&nbsp;</h1>

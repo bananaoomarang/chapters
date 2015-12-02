@@ -40,18 +40,9 @@ body {
     margin-top: $base-spacing;
   }
 
-  .toolbar {
-    button, input {
-      text-align: center;
-    }
-    
-
-    input {
-      width: 4em; 
-      height: 3em;
-
-      margin: auto;
-    }
+  #chapter-toolbar {
+    float: right;
+    margin: 0.3em 0 0 0;
   }
 
   /* Editor defaults */
