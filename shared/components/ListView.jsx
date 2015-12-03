@@ -8,6 +8,7 @@ export default class ListView extends React.Component {
   static propTypes = {
     header:     PropTypes.string.isRequired,
     elements:   PropTypes.instanceOf(List).isRequired,
+    createUrl:  PropTypes.string,
     onReorder:  PropTypes.func,
     editable:   PropTypes.bool,
     handleSave: PropTypes.func
@@ -91,34 +92,42 @@ export default class ListView extends React.Component {
         ['no-user-select']: this.props.editable
       },
       editButton: {
+        btn: true,
         hidden: !(this.props.editable && !this.state.editing)
       },
       saveButton: {
+        btn: true,
         hidden: !this.state.editing
       }
     };
 
-    let elements = this.props.elements;
-
-    if(this.state.editing)
-      elements = elements
+    const elements = this.state.editing ?
+      this.props.elements
         .concat([
           {
-            title: 'New'
+            title: 'New',
+            href:  this.props.createUrl
           }
-        ]);
+        ]) : this.props.elements;
 
     return (
       <div className={classSet(classes.container)} ref="container">
         <div className="header">
-          <h2>{this.props.header}</h2>
+          {
+            (() => {
+              return this.props.header ? <h2>{this.props.header}</h2> : null;
+            })()
+          }
 
-          <button className={classSet(classes.editButton)} onClick={() => this.setState({ editing: true })}>Edit</button>
-          <button className={classSet(classes.saveButton)} onClick={this.props.handleSave}>Save</button>
         </div>
+
+        <button className={classSet(classes.editButton)} onClick={() => this.setState({ editing: true })}>Edit</button>
+        <button className={classSet(classes.saveButton)} onClick={this.props.handleSave}>Save</button>
+
         <ul>
           {
             elements.map((element, index) => {
+              console.log(element.href);
               let subElements = [];
 
               if(element.title)
@@ -149,7 +158,6 @@ export default class ListView extends React.Component {
                   </span>
                 );
 
-              console.log(element.href);
               return (
                 <li key={index} ref={'listitem-' + index} data-index={index} className="list-item">
                   <Link to={element.href}>

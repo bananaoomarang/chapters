@@ -4,7 +4,7 @@ import classSet             from 'classnames';
 
 export default class CardsView extends React.Component {
   static propTypes = {
-    items:      PropTypes.array.isRequired,
+    elements:      PropTypes.array.isRequired,
     id:         PropTypes.string,
     header:     PropTypes.string,
     subheader:  PropTypes.string,
@@ -77,11 +77,8 @@ export default class CardsView extends React.Component {
     const yPosition   = e.clientY - e.offsetY;
     const xPosition   = e.clientX - e.offsetX;
 
-    console.log(this.state.dragging);
     const index = this.state.dragging.dataset.index;
     const insertAt = Math.round(yPosition / EL_HEIGHT) - cards.offsetY;
-
-    console.log('inseting %s at %s', index, insertAt);
 
     if(index !== insertAt) {
       this.props.onReorder(index, insertAt);
@@ -116,7 +113,7 @@ export default class CardsView extends React.Component {
       href:  this.props.createUrl
     }] : [];
 
-    const cards = this.props.items.concat(addCard).map((item, index) => {
+    const cards = this.props.elements.concat(addCard).map((item, index) => {
 
       const footerStyle = {
         display: item.footer ? 'inherit' : 'none'
@@ -162,7 +159,6 @@ export default class CardsView extends React.Component {
               return (
                 <div id="header">
                   <h2>{this.props.header}</h2>
-
                 </div>
               );
           })()
@@ -182,7 +178,7 @@ export default class CardsView extends React.Component {
 
         {
           (() => {
-            if(cards.length) {
+            if(cards.count()) {
               return <div className="cards" ref="cards">{cards}</div>;
             }
             else {

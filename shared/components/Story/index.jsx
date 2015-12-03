@@ -19,7 +19,7 @@ export default class Story extends React.Component {
   ]
 
   render() {
-    const sections = this.props.story.get('sections').toJS()
+    const sections = this.props.story.get('sections')
       .map(section => {
         return {
           title: section.title,
@@ -38,7 +38,7 @@ export default class Story extends React.Component {
     return (
       <div id="story">
           <CardsView 
-            items={sections}
+            elements={sections}
             header={this.props.story.get('title')}
             subheader={'By ' + capitalize(this.props.story.get('author'))}
             emptyMsg="No sections"

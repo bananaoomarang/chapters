@@ -3,9 +3,12 @@ import { connect }          from 'react-redux';
 import { List }             from 'immutable';
 import EditableHeader       from './EditableHeader';
 import ChapterToolbar       from './Toolbar';
+import ListView             from 'components/ListView';
+import CardsView            from 'components/CardsView';
 import * as ChapterActions  from 'actions/ChapterActions';
 import ifdefBrowser         from 'lib/ifdefBrowser';
 import getToken             from 'lib/getToken';
+import capitalize           from 'lib/capitalize';
 
 var Dropzone = ifdefBrowser( () => {
   return require('dropzone');
@@ -28,6 +31,7 @@ var CheekyKeys = ifdefBrowser( () => require('lib/cheeky-keys'));
 export default class Chapter extends React.Component {
   static propTypes = {
     dispatch:    PropTypes.func.isRequired,
+    route:       PropTypes.object.isRequired,
     routeParams: PropTypes.object.isRequired,
     chapter:     PropTypes.object.isRequired,
     editing:     PropTypes.bool.isRequired
@@ -36,7 +40,6 @@ export default class Chapter extends React.Component {
   static contextTypes = {
     history: PropTypes.object.isRequired
   }
-
 
   constructor(props) {
     super(props);
@@ -103,10 +106,21 @@ export default class Chapter extends React.Component {
   }
 
   deployChapter = (payload) => {
-    return this.props.routeParams.id ?
-      this.props.dispatch(ChapterActions.patchChapter(this.props.routeParams, payload)) 
-        :
-      this.props.dispatch(ChapterActions.postChapter(payload));
+    const { route, routeParams, dispatch } = this.props;
+
+    switch(route.name) {
+      case 'chapter':
+        return dispatch(ChapterActions.patchChapter(payload));
+
+      case 'newchap':
+        return dispatch(ChapterActions.postChapter(payload));
+
+      case 'new-subchapter':
+        return dispatch(ChapterActions.postChapter(payload, routeParams.id));
+
+      default:
+        return console.error('Can\'t figure out how to deploy chapter');
+    }
   }
 
   exportText = () => {
@@ -162,12 +176,30 @@ export default class Chapter extends React.Component {
 
   render () {
     const titleStyle = {
-      display: 'inline'
+      display: 'inline-block',
+      marginBottom: '0px'
     };
 
     const authorStyle = {
       display: 'inline'
     };
+
+    const subList  = this.props.chapter.get('subOrdered')
+      .map(chapter => ({
+        title:       chapter.get('title'),
+        separator:   '&nbsp;',
+        description: chapter.get('description') || '???',
+        adendum:     'By ' + capitalize(chapter.get('author')),
+        href:        ['/chapters', chapter.get('id')].join('/')
+      }));
+
+    const subCards = this.props.chapter.get('subUnordered')
+      .map(chapter => ({
+        title: chapter.get('title'),
+        body:  <em>{chapter.description}</em>,
+        href:  ['/chapters' + chapter.id].join('/')
+      }));
+
 
     return (
       <div id="chapter">
@@ -205,8 +237,28 @@ export default class Chapter extends React.Component {
           <hr />
         </div>
 
-
         <div id="chapter-body" ref="chapter-body" dangerouslySetInnerHTML={{__html: this.props.chapter.get('html')}}>
+        </div>
+
+        <hr />
+
+        <div id="chapter-list">
+          <ListView
+            elements={subList}
+            editable={this.props.chapter.get('write')} 
+            onReorder={()=>{}}
+            handleSave={()=>{}} 
+            createUrl={['/chapters', this.props.chapter.get('id'), 'new'].join('/')} />
+        </div>
+
+        <hr />
+
+        <div id="chapter-cards">
+          <CardsView
+            elements={subCards}
+            editable={this.props.chapter.get('write')}
+            onReorder={()=>{}}
+            handleSave={()=>{}} />
         </div>
 
         <br/>

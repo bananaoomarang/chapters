@@ -3,7 +3,7 @@ import React, { PropTypes } from 'react';
 export default class NewStory extends React.Component {
   render() {
     const divStyle = {
-      width: '50%',
+      width: '100%',
       'text-align': 'center'
     };
 

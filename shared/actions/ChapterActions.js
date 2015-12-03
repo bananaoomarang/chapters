@@ -17,8 +17,8 @@ export function getChapter(routeParams) {
   };
 }
 
-export function postChapter(child, parent) {
-  const url = parent ? path.join('/chapters', parent.id) : '/chapters';
+export function postChapter(child, parentID) {
+  const url = parent ? path.join('/chapters', parentID) : '/chapters';
 
   return {
     type:    'POST_CHAPTER',

@@ -34,13 +34,13 @@ export default class User extends React.Component {
   }
 
   render() {
-    const stories = this.props.stories.toJS().map(story => ({
+    const stories = this.props.stories.map(story => ({
       title: story.title       || '???',
       body:  story.description || '???',
       href:  '/chapters/' + story.id
     }));
 
-    const personas = this.props.personas.toJS().map(persona => ({
+    const personas = this.props.personas.map(persona => ({
       title: persona.title       || '???',
       body:  persona.description || '???',
       href:  '/users/' + persona.id
@@ -55,7 +55,7 @@ export default class User extends React.Component {
         <hr />
 
         <CardsView
-          items={stories}
+          elements={stories}
           header="Stories"
           emptyMsg={(loggedIn ? 'You have' : 'User has') + '  no stories :\'('}
           editable={loggedIn}
@@ -64,7 +64,7 @@ export default class User extends React.Component {
         <hr />
 
         <CardsView
-          items={personas}
+          elements={personas}
           header="Personas"
           emptyMsg={(loggedIn ? 'You have' : 'User has') + '  no personas :\'('}
           editable={loggedIn}

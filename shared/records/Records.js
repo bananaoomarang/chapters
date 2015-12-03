@@ -39,6 +39,8 @@ export const Chapter = Record({
     html:             '',  // HTML from ^
     author:           '',
     depends:          List(),              // Other chapters this one depends on having read
+    subOrdered:       List(),
+    subUnordered:     List(),
     wordCount:        0,                   // Not currently implemented
     paragraphs:       List([Paragraph()]), // Array of objects holding textContent, alignment, font size etc etc
     focusedParagraph: -1                   // Index of focused paragraph, -1 for 'nothing focused'
