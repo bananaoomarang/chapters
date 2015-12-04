@@ -69,8 +69,12 @@ export default class Chapter extends React.Component {
       formData.append('filename', file.name);
     });
 
+    const isNew = /^new/.test(this.props.route.name);
+
+    if(isNew) return;
+
     if(this.props.routeParams.id) {
-      this.props.dispatch(ChapterActions.getChapter(this.props.routeParams));
+      this.props.dispatch(ChapterActions.getChapter(this.props.routeParams.id));
     }
     else {
       // This is a new chapter
@@ -82,8 +86,8 @@ export default class Chapter extends React.Component {
   }
 
   componentWillUpdate = (nextProps) => {
-    // Editor options
-    const opts = {
+    // Setup editor options
+    const editorOpts = {
       placeholder: {
         text: 'Type something, please'
       },
@@ -93,16 +97,31 @@ export default class Chapter extends React.Component {
     };
 
     if (nextProps.editing && !this.props.editing) {
-      this.editor ? this.editor.setup() : (this.editor = new MediumEditor('#chapter-body', opts));
+      this.editor ? this.editor.setup() : (this.editor = new MediumEditor('#chapter-body', editorOpts));
     }
     else if (!nextProps.editing && this.props.editing) {
       this.editor.destroy();
     }
+
+    const isNewID = (nextProps.routeParams.id !== this.props.routeParams.id);
+    const isNew   = (/^new/.test(nextProps.route.name) && !/^new/.test(this.props.route.name));
+
+    if (isNewID) {
+      this.flushChapter();
+      this.props.dispatch(ChapterActions.getChapter(nextProps.routeParams.id));
+    }
+
+    if (isNew)
+      this.flushChapter();
   }
 
   componentWillUnmount = () => {
-      this.props.dispatch(ChapterActions.flushChapter());
-      this.props.dispatch(ChapterActions.setEditing(false));
+    this.flushChapter();
+    this.props.dispatch(ChapterActions.setEditing(false));
+  }
+
+  flushChapter = () => {
+    this.props.dispatch(ChapterActions.flushChapter());
   }
 
   deployChapter = (payload) => {
@@ -199,7 +218,6 @@ export default class Chapter extends React.Component {
         body:  <em>{chapter.description}</em>,
         href:  ['/chapters' + chapter.id].join('/')
       }));
-
 
     return (
       <div id="chapter">

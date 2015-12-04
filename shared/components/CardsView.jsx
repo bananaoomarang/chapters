@@ -1,10 +1,11 @@
 import React, { PropTypes } from 'react';
 import { Link }             from 'react-router';
 import classSet             from 'classnames';
+import { List }             from 'immutable';
 
 export default class CardsView extends React.Component {
   static propTypes = {
-    elements:      PropTypes.array.isRequired,
+    elements:   PropTypes.instanceOf(List).isRequired,
     id:         PropTypes.string,
     header:     PropTypes.string,
     subheader:  PropTypes.string,

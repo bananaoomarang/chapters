@@ -10,10 +10,10 @@ export const setAlignment        = createSetter('SET_ALIGNMENT', 'alignment', 'i
 export const setFont             = createSetter('SET_FONT', 'font', 'index');
 
 // Load chapter by ID
-export function getChapter(routeParams) {
+export function getChapter(id) {
   return {
     type:    'GET_CHAPTER',
-    promise: request.get('/chapters/' + routeParams.id)
+    promise: request.get('/chapters/' + id)
   };
 }
 

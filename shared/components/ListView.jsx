@@ -6,8 +6,8 @@ import classSet             from 'classnames';
 
 export default class ListView extends React.Component {
   static propTypes = {
-    header:     PropTypes.string.isRequired,
     elements:   PropTypes.instanceOf(List).isRequired,
+    header:     PropTypes.string,
     createUrl:  PropTypes.string,
     onReorder:  PropTypes.func,
     editable:   PropTypes.bool,
@@ -110,6 +110,7 @@ export default class ListView extends React.Component {
           }
         ]) : this.props.elements;
 
+
     return (
       <div className={classSet(classes.container)} ref="container">
         <div className="header">
@@ -127,7 +128,6 @@ export default class ListView extends React.Component {
         <ul>
           {
             elements.map((element, index) => {
-              console.log(element.href);
               let subElements = [];
 
               if(element.title)
