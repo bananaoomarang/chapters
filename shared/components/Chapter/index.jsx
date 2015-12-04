@@ -110,7 +110,7 @@ export default class Chapter extends React.Component {
 
     switch(route.name) {
       case 'chapter':
-        return dispatch(ChapterActions.patchChapter(payload));
+        return dispatch(ChapterActions.patchChapter(routeParams.id, payload));
 
       case 'newchap':
         return dispatch(ChapterActions.postChapter(payload));

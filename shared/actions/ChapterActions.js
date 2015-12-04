@@ -18,7 +18,7 @@ export function getChapter(routeParams) {
 }
 
 export function postChapter(child, parentID) {
-  const url = parent ? path.join('/chapters', parentID) : '/chapters';
+  const url = parentID ? path.join('/chapters', parentID) : '/chapters';
 
   return {
     type:    'POST_CHAPTER',
@@ -26,10 +26,10 @@ export function postChapter(child, parentID) {
   };
 }
 
-export function patchChapter(routeParams, chapter) {
+export function patchChapter(id, chapter) {
   return {
     type:    'PATCH_CHAPTER',
-    promise: request.patch(path.join('/chapters', routeParams.id), chapter)
+    promise: request.patch(path.join('/chapters', id), chapter)
   };
 }
 
