@@ -4,6 +4,7 @@ import EditableHeader       from './EditableHeader';
 import ChapterToolbar       from './Toolbar';
 import ListView             from 'components/ListView';
 import CardsView            from 'components/CardsView';
+import Collapsable          from 'components/Collapsable';
 import * as ChapterActions  from 'actions/ChapterActions';
 import ifdefBrowser         from 'lib/ifdefBrowser';
 import getToken             from 'lib/getToken';
@@ -34,12 +35,16 @@ export default class Chapter extends React.Component {
     routeParams: PropTypes.object.isRequired,
     chapter:     PropTypes.object.isRequired,
     editing:     PropTypes.bool.isRequired,
-    currentUser: PropTypes.string.isRequired
+    currentUser: PropTypes.string.isRequired,
   }
 
   static contextTypes = {
     history: PropTypes.object.isRequired
   }
+
+  state = {
+    bodyCollapsed: true 
+  };
 
   constructor(props) {
     super(props);
@@ -63,7 +68,7 @@ export default class Chapter extends React.Component {
       }
     };
 
-    const dropzone  = new Dropzone('#chapter', dropzoneOpts);
+    const dropzone  = new Dropzone('#chapter-body', dropzoneOpts);
 
     dropzone.on('sending', function(file, xhr, formData) {
       formData.append('filename', file.name);
@@ -216,6 +221,11 @@ export default class Chapter extends React.Component {
         href:  ['/chapters' + chapter.id].join('/')
       }));
 
+    const newChapter = /^new/.test(this.props.route.name);
+
+    const showList  = !(subList.count() ? true : newChapter);
+    const showCards = !(subCards.count() ? true : newChapter);
+
     return (
       <div id="chapter">
         <div id="chapter-title">
@@ -230,7 +240,7 @@ export default class Chapter extends React.Component {
             defaultFont={this.cfg.defaultFont}
             id={this.props.chapter.get('id')}
             editing={this.props.editing} 
-            display={this.props.chapter.get('write') || !this.props.routeParams.id}
+            display={ newChapter || this.props.chapter.get('write')}
             public={this.props.chapter.get('public')}
             setEditing={this.setEditing} 
             save={this.handleSave} 
@@ -249,34 +259,38 @@ export default class Chapter extends React.Component {
             placeholder="Unauthored"
             editing={this.props.editing}
             update={(a) => { this.props.dispatch(ChapterActions.setChapter({ author: a })) }} />
+
+          <hr onClick={() => this.setState( { bodyCollapsed: !this.state.bodyCollapsed } )}/>
+        </div>
+
+        <Collapsable collapsed={this.state.bodyCollapsed}>
+          <div id="chapter-body" ref="chapter-body" dangerouslySetInnerHTML={{__html: this.props.chapter.get('html')}}>
+          </div>
           <hr />
-        </div>
+        </Collapsable>
 
-        <div id="chapter-body" ref="chapter-body" dangerouslySetInnerHTML={{__html: this.props.chapter.get('html')}}>
-        </div>
 
-        <hr />
+        <Collapsable collapsed={showList}>
+          <div id="chapter-list">
+            <ListView
+              elements={subList}
+              editing={this.props.editing} 
+              onReorder={()=>{}}
+              handleSave={()=>{}} 
+              createUrl={['/chapters', this.props.chapter.get('id'), 'new'].join('/')} />
+          </div>
+          <hr />
+        </Collapsable>
 
-        <div id="chapter-list">
-          <ListView
-            elements={subList}
-            editing={this.props.editing} 
-            onReorder={()=>{}}
-            handleSave={()=>{}} 
-            createUrl={['/chapters', this.props.chapter.get('id'), 'new'].join('/')} />
-        </div>
-
-        <hr />
-
-        <div id="chapter-cards">
-          <CardsView
-            elements={subCards}
-            editing={this.props.editing}
-            onReorder={()=>{}}
-            handleSave={()=>{}} />
-        </div>
-
-        <br/>
+        <Collapsable collapsed={showCards}>
+          <div id="chapter-cards">
+            <CardsView
+              elements={subCards}
+              editing={this.props.editing}
+              onReorder={()=>{}}
+              handleSave={()=>{}} />
+          </div>
+        </Collapsable>
       </div>
     );
   }
