@@ -44,7 +44,7 @@ export default class Chapter extends React.Component {
   }
 
   state = {
-    bodyCollapsed: true 
+    bodyCollapsed: false
   };
 
   constructor(props) {
