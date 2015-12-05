@@ -10,25 +10,24 @@ export default class ListView extends React.Component {
     header:     PropTypes.string,
     createUrl:  PropTypes.string,
     onReorder:  PropTypes.func,
-    editable:   PropTypes.bool,
+    editing:   PropTypes.bool,
     handleSave: PropTypes.func
   }
 
   state = {
-    dragging: false,
-    editing:  false
+    dragging: false
   }
 
   componentDidMount = () => {
-    if(this.props.editable)
+    if(this.props.editing)
       this.bindSomeCheekyEvents();
   }
 
   componentDidUpdate = (prevProps, prevState) => {
-    if(prevProps.editable === false && this.props.editable)
+    if(prevProps.editing === false && this.props.editing)
       return this.bindSomeCheekyEvents();
     
-    if (prevProps.editable === true && !this.props.editable)
+    if (prevProps.editing === true && !this.props.editing)
       return this.unbindEvents();
   }
 
@@ -89,19 +88,11 @@ export default class ListView extends React.Component {
     const classes = {
       container: {
         list:               true,
-        ['no-user-select']: this.props.editable
-      },
-      editButton: {
-        btn: true,
-        hidden: !(this.props.editable && !this.state.editing)
-      },
-      saveButton: {
-        btn: true,
-        hidden: !this.state.editing
+        ['no-user-select']: this.props.editing
       }
     };
 
-    const elements = this.state.editing ?
+    const elements = this.props.editing ?
       this.props.elements
         .concat([
           {
@@ -119,11 +110,7 @@ export default class ListView extends React.Component {
               return this.props.header ? <h2>{this.props.header}</h2> : null;
             })()
           }
-
         </div>
-
-        <button className={classSet(classes.editButton)} onClick={() => this.setState({ editing: true })}>Edit</button>
-        <button className={classSet(classes.saveButton)} onClick={this.props.handleSave}>Save</button>
 
         <ul>
           {

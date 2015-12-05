@@ -2,7 +2,6 @@ import React, { PropTypes } from 'react';
 import { connect }          from 'react-redux';
 import { List }             from 'immutable';
 import * as HomeActions     from 'actions/HomeActions';
-import * as SessionActions  from 'actions/SessionActions';
 import Carousel             from './Carousel';
 
 @connect(state => ({
@@ -11,7 +10,8 @@ import Carousel             from './Carousel';
 
 export default class Home extends React.Component {
   static propTypes = {
-    stories: PropTypes.instanceOf(List)
+    dispatch: PropTypes.func.isRequired,
+    stories:  PropTypes.instanceOf(List)
   }
 
   componentDidMount() {

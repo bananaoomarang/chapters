@@ -1,6 +1,6 @@
 'use strict';
 
-require('babel-core/register');
+require('babel-core/register')({});
 require('promise.prototype.finally');
 
 var server = require('./server');

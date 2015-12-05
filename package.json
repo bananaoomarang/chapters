@@ -8,9 +8,9 @@
   },
   "main": "index.js",
   "scripts": {
-    "start": "NODE_PATH=$NODE_PATH:./shared node .",
+    "start": "NODE_ENV=production NODE_PATH=$NODE_PATH:./shared node --harmony .",
+    "dev": "NODE_PATH=$NODE_PATH:./shared node --harmony .",
     "build": "NODE_ENV=production webpack --progress --color -p --config webpack.prod.config.js",
-    "dev": "npm run start & webpack-dev-server --progress --color",
     "validate": "eslint . --ext .js,.jsx",
     "test": "karma start"
   },
@@ -21,8 +21,9 @@
   "author": "Milo Mordaunt <milomord@gmail.com>",
   "license": "Apache-2.0",
   "devDependencies": {
-    "babel": "^5.8.29",
+    "babel-core": "^5.8.34",
     "babel-eslint": "^4.1.5",
+    "babel-plugin-react-transform": "^1.1.1",
     "css-loader": "^0.22.0",
     "eslint": "^1.9.0",
     "eslint-plugin-react": "^3.8.0",
@@ -41,12 +42,18 @@
     "phantomjs": "^1.9.18",
     "pre-commit": "^1.1.2",
     "react-hot-loader": "^1.3.0",
+    "react-tools": "^0.13.3",
+    "react-transform": "0.0.3",
+    "react-transform-catch-errors": "^1.0.0",
+    "react-transform-hmr": "^1.0.1",
+    "redbox-react": "^1.2.0",
     "redux-devtools": "^2.1.5",
     "sass-loader": "^3.1.1",
     "style-loader": "^0.13.0",
     "url-loader": "^0.5.7",
     "webpack": "^1.12.3",
-    "webpack-dev-server": "^1.12.1"
+    "webpack-dev-middleware": "^1.4.0",
+    "webpack-hot-middleware": "^2.6.0"
   },
   "dependencies": {
     "axios": "^0.7.0",

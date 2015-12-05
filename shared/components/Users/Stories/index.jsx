@@ -26,7 +26,7 @@ export default class Stories {
       }));
 
     return (
-      <CardsView items={stories} emptyMsg='User has no stories!' />
+      <CardsView items={stories} emptyMsg="User has no stories!" />
     );
   }
 }

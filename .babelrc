@@ -1,4 +1,6 @@
 {
   "optional": ["es7.decorators", "es7.classProperties", "es7.objectRestSpread", "runtime"],
-  "loose": "all"
+  "loose": "all",
+  "env": {
+  }
 }

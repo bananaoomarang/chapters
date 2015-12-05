@@ -7,9 +7,6 @@ import Login       from 'components/Login';
 import Register    from 'components/Register';
 import Users       from 'components/Users';
 import User        from 'components/User';
-import Story       from 'components/Story';
-import NewStory    from 'components/Story/New';
-import Section     from 'components/Section';
 import Chapter     from 'components/Chapter';
 import UserStories from 'components/Users/Stories';
 
@@ -19,8 +16,6 @@ export default function (onEnter) {
         <Route name="home"           component={Home}        path="home"                 onEnter={onEnter} />
         <Route name="login"          component={Login}       path="/login"               onEnter={onEnter} />
         <Route name="register"       component={Register}    path="register"             onEnter={onEnter} />
-
-        <Route name="new-story"      component={NewStory}    path="/stories/new"         onEnter={onEnter} />
 
         <Route name="new-chapter"    component={Chapter}     path="/chapters/new"        onEnter={onEnter} />
         <Route name="chapter"        component={Chapter}     path="/chapters/:id"        onEnter={onEnter} />

@@ -11,28 +11,27 @@ export default class CardsView extends React.Component {
     subheader:  PropTypes.string,
     emptyMsg:   PropTypes.string,
     onReorder:  PropTypes.func,
-    editable:   PropTypes.bool,
+    editing:   PropTypes.bool,
     handleSave: PropTypes.func
   }
 
   state = {
-    dragging: false,
-    editing:  false
+    dragging: false
   }
 
   componentDidMount = () => {
-    if(!this.props.editable || this.state.bound)
+    if(!this.props.editing || this.state.bound)
       return;
 
     this.bindSomeCheekyEvents();
   }
 
   componentDidUpdate = (prevProps, prevState) => {
-    if(!prevProps.editable && this.props.editable)
+    if(!prevProps.editing && this.props.editing)
       this.bindSomeCheekyEvents();
     
 
-    if(prevProps.editable && !this.props.editable)
+    if(prevProps.editing && !this.props.editing)
       this.unbindEvents();
   }
 
@@ -94,23 +93,15 @@ export default class CardsView extends React.Component {
   render() {
     const classes = {
       container: {
-        ['no-user-select']: this.props.editable
-      },
-
-      editButton: {
-        hidden: !(this.props.editable && !this.state.editing)
-      },
-
-      saveButton: {
-        hidden: !this.state.editing
+        ['no-user-select']: this.props.editing
       }
     };
 
-    const addCard = this.state.editing ? [{
+    const addCard = this.props.editing ? [{
       title: 'New',
       body:  '+',
 
-      // This is temporary, ideally this should be full of contendeditables...
+      // This is temporary, ideally this should be full of contendeditings...
       href:  this.props.createUrl
     }] : [];
 
@@ -173,9 +164,6 @@ export default class CardsView extends React.Component {
               );
           })()
         }
-
-        <button className={classSet(classes.editButton)} onClick={() => this.setState({ editing: true })}>Edit</button>
-        <button className={classSet(classes.saveButton)} onClick={this.props.handleSave}>Save</button>
 
         {
           (() => {

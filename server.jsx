@@ -4,6 +4,7 @@ import React                     from 'react';
 import { renderToString }        from 'react-dom/server'
 import { RoutingContext, match } from 'react-router';
 import axios                     from 'axios';
+import webpackDev                from './webpack.config';
 import createRoutes              from './shared/routes';
 import proxy                     from 'express-http-proxy';
 import { Provider }              from 'react-redux';
@@ -29,7 +30,9 @@ const app = express();
 // Proxy to API
 app.use('/api', proxy(API_URL));
 
-// Serve static assets
+if (process.env.NODE_ENV !== 'production')
+  webpackDev(app);
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 const routes = createRoutes(function (nextState, transition, done) { done(); });

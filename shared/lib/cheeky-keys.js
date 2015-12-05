@@ -16,8 +16,6 @@ function removeChar(string, index) {
 
 function getHtmlPosition(html, offset) {
   const reg      = new RegExp('(&[a-z]+;)|(<[^>]*>)');
-	const relevent = html.split(offset)[0];
-  const noTML    = relevent.replace(reg, '');
 
   if(reg.test(html)) {
     if(html.match(reg).index >= offset) return offset;
@@ -104,8 +102,6 @@ function handleElipsis (node, position) {
      caret.setPosition(position)
      //MediumEditor.selection.moveCursor(document, node, position)
    }
-
-
 }
 
 export default MediumEditor.Extension.extend({

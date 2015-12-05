@@ -6,14 +6,15 @@ export default class EditableHeader extends React.Component {
     update:      PropTypes.func.isRequired,
     header:      PropTypes.string.isRequired,
     editing:     PropTypes.bool.isRequired,
-    placeholder: PropTypes.string.isRequired
+    placeholder: PropTypes.string.isRequired,
+    style:       PropTypes.obj
   }
 
   state = {
     clicked: false
   }
 
-  handleBlur = (e) => {
+  handleBlur = () => {
     this.setState({
       clicked: false
     });

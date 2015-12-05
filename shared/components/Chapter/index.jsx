@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react';
 import { connect }          from 'react-redux';
-import { List }             from 'immutable';
 import EditableHeader       from './EditableHeader';
 import ChapterToolbar       from './Toolbar';
 import ListView             from 'components/ListView';
@@ -34,7 +33,8 @@ export default class Chapter extends React.Component {
     route:       PropTypes.object.isRequired,
     routeParams: PropTypes.object.isRequired,
     chapter:     PropTypes.object.isRequired,
-    editing:     PropTypes.bool.isRequired
+    editing:     PropTypes.bool.isRequired,
+    currentUser: PropTypes.string.isRequired
   }
 
   static contextTypes = {
@@ -71,17 +71,14 @@ export default class Chapter extends React.Component {
 
     const isNew = /^new/.test(this.props.route.name);
 
-    if(isNew) return;
-
-    if(this.props.routeParams.id) {
-      this.props.dispatch(ChapterActions.getChapter(this.props.routeParams.id));
-    }
-    else {
-      // This is a new chapter
+    if(isNew) {
       this.props.dispatch(ChapterActions.setEditing(true));
 
       if(!this.props.chapter.get('author'))
         this.props.dispatch(ChapterActions.setChapter({ author: this.props.currentUser }))
+    }
+    else if(this.props.routeParams.id) {
+      return this.props.dispatch(ChapterActions.getChapter(this.props.routeParams.id));
     }
   }
 
@@ -215,7 +212,7 @@ export default class Chapter extends React.Component {
     const subCards = this.props.chapter.get('subUnordered')
       .map(chapter => ({
         title: chapter.get('title'),
-        body:  <em>{chapter.description}</em>,
+        body:  <em>{chapter.description || '???'}</em>,
         href:  ['/chapters' + chapter.id].join('/')
       }));
 
@@ -263,7 +260,7 @@ export default class Chapter extends React.Component {
         <div id="chapter-list">
           <ListView
             elements={subList}
-            editable={this.props.chapter.get('write')} 
+            editing={this.props.editing} 
             onReorder={()=>{}}
             handleSave={()=>{}} 
             createUrl={['/chapters', this.props.chapter.get('id'), 'new'].join('/')} />
@@ -274,7 +271,7 @@ export default class Chapter extends React.Component {
         <div id="chapter-cards">
           <CardsView
             elements={subCards}
-            editable={this.props.chapter.get('write')}
+            editing={this.props.editing}
             onReorder={()=>{}}
             handleSave={()=>{}} />
         </div>

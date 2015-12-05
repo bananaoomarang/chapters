@@ -58,7 +58,7 @@ export default class User extends React.Component {
           elements={stories}
           header="Stories"
           emptyMsg={(loggedIn ? 'You have' : 'User has') + '  no stories :\'('}
-          editable={loggedIn}
+          editing={loggedIn}
           createUrl="/chapters/new" />
 
         <hr />
@@ -67,7 +67,7 @@ export default class User extends React.Component {
           elements={personas}
           header="Personas"
           emptyMsg={(loggedIn ? 'You have' : 'User has') + '  no personas :\'('}
-          editable={loggedIn}
+          editing={loggedIn}
           createUrl="/personas/new" />
       </div>
     );

@@ -8,7 +8,6 @@ import axios                from 'axios';
 import { Provider }         from 'react-redux';
 import createRoutes         from 'routes';
 import * as reducers        from 'reducers';
-import * as SessionActions  from 'actions/SessionActions';
 import immutifyState        from 'lib/immutifyState';
 import promiseMiddleware    from 'lib/promiseMiddleware';
 import fetchComponentData   from 'lib/fetchComponentData';
