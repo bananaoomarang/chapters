@@ -32,6 +32,7 @@ export default class Chapter extends React.Component {
   static propTypes = {
     dispatch:    PropTypes.func.isRequired,
     route:       PropTypes.object.isRequired,
+    location:    PropTypes.object.isRequired,
     routeParams: PropTypes.object.isRequired,
     chapter:     PropTypes.object.isRequired,
     editing:     PropTypes.bool.isRequired,
@@ -61,7 +62,7 @@ export default class Chapter extends React.Component {
     const sessionToken = getToken();
 
     const dropzoneOpts = {
-      url:     '/api/' + ['chapters', this.props.routeParams.id].join('/'),
+      url:     '/api/chapters' + (this.props.routeParams.id ? ('/' + this.props.routeParams.id) : ''),
       method:  'put',
       headers: {
         Authorization: 'Bearer ' + sessionToken
@@ -133,14 +134,14 @@ export default class Chapter extends React.Component {
       case 'chapter':
         return dispatch(ChapterActions.patchChapter(routeParams.id, payload));
 
-      case 'newchap':
+      case 'new-chapter':
         return dispatch(ChapterActions.postChapter(payload));
 
       case 'new-subchapter':
         return dispatch(ChapterActions.postChapter(payload, routeParams.id));
 
       default:
-        return console.error('Can\'t figure out how to deploy chapter');
+        return console.error("Can't figure out how to deploy chapter");
     }
   }
 
@@ -156,10 +157,13 @@ export default class Chapter extends React.Component {
   }
 
   handleSave = () => {
+    const { query } = this.props.location;
+
     const payload = {
       title:    this.props.chapter.get('title'),
       author:   this.props.chapter.get('author'),
-      markdown: this.exportText()
+      markdown: this.exportText(),
+      ordered:  !!(+query.ordered)
     };
 
     const promise = this.deployChapter(payload);
@@ -176,10 +180,13 @@ export default class Chapter extends React.Component {
   }
 
   handlePublish = (bool) => {
+    const { query } = this.props.location;
+
     const payload = {
       title:    this.props.chapter.get('title'),
       author:   this.props.chapter.get('author'),
       markdown: this.exportText(),
+      ordered:  !!(+query.ordered),
       public:   (bool || bool === false) ? bool : true
     };
 
@@ -223,8 +230,8 @@ export default class Chapter extends React.Component {
 
     const newChapter = /^new/.test(this.props.route.name);
 
-    const showList  = !(subList.count() ? true : newChapter);
-    const showCards = !(subCards.count() ? true : newChapter);
+    const showList  = !(subList.count() ? true  : (this.props.editing || newChapter));
+    const showCards = !(subCards.count() ? true : (this.props.editing || newChapter));
 
     return (
       <div id="chapter">
@@ -277,7 +284,7 @@ export default class Chapter extends React.Component {
               editing={this.props.editing} 
               onReorder={()=>{}}
               handleSave={()=>{}} 
-              createUrl={['/chapters', this.props.chapter.get('id'), 'new'].join('/')} />
+              createUrl={['/chapters', this.props.chapter.get('id'), 'new'].join('/') + '?ordered=1'} />
           </div>
           <hr />
         </Collapsable>
@@ -288,7 +295,8 @@ export default class Chapter extends React.Component {
               elements={subCards}
               editing={this.props.editing}
               onReorder={()=>{}}
-              handleSave={()=>{}} />
+              handleSave={()=>{}}
+              createUrl={['/chapters', this.props.chapter.get('id'), 'new'].join('/') + '?ordered=0'} />
           </div>
         </Collapsable>
       </div>
