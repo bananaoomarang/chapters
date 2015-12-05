@@ -6,6 +6,9 @@ import { Router }           from 'react-router';
 import createBrowserHistory from 'history/lib/createBrowserHistory';
 import axios                from 'axios';
 import { Provider }         from 'react-redux';
+import { createDevTools }   from 'redux-devtools';
+import LogMonitor           from 'redux-devtools-log-monitor';
+import DockMonitor          from 'redux-devtools-dock-monitor';
 import createRoutes         from 'routes';
 import * as reducers        from 'reducers';
 import immutifyState        from 'lib/immutifyState';
@@ -41,17 +44,23 @@ axios.interceptors.request.use(cfg => {
 const initialState = immutifyState(window.__INITIAL_DATA__);
 const reducer      = combineReducers(reducers);
 
-let stores = [createStore];
+const DevTools = createDevTools(
+  <DockMonitor toggleVisibilityKey="H" changePositionKey="Q">
+    <LogMonitor />
+  </DockMonitor>
+);
+
+let stores = [applyMiddleware(promiseMiddleware)];
 
 if (__DEV__ && __DEVTOOLS__) {
   const { devTools, persistState } = require('redux-devtools');
 
-  stores.unshift(devTools(), persistState(window.location.href.match(/[?&]debug_session=([^&]+)\b/)));
+  stores.push(DevTools.instrument(), persistState(window.location.href.match(/[?&]debug_session=([^&]+)\b/)));
 }
 
-const finalCreateStore = compose.apply(null, stores);
+const finalCreateStore = compose.apply(null, stores)(createStore);
 
-const store = applyMiddleware(promiseMiddleware)(finalCreateStore)(reducer, initialState);
+const store = finalCreateStore(reducer, initialState);
 
 const history = createBrowserHistory();
 
@@ -67,18 +76,14 @@ const routes = createRoutes(function (nextState, transition, done) {
 });
 
 if (__DEV__ && __DEVTOOLS__) {
-  const { DevTools, DebugPanel, LogMonitor } = require('../node_modules/redux-devtools/lib/react');
 
-  React.render(
-    <div>
-      <Provider store={store} key="provider">
+  render(
+    <Provider store={store}>
+      <div>
         <Router children={routes} history={history} />
-      </Provider>
-
-      <DebugPanel top right bottom key="malone">
-        <DevTools store={store} monitor={LogMonitor} />
-      </DebugPanel>
-    </div>,
+        <DevTools />
+      </div>
+    </Provider>,
     document.getElementById('react-view')
   );
 } else {

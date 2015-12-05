@@ -51,7 +51,7 @@ module.exports = function (app) {
       new webpack.NoErrorsPlugin(),
       new webpack.DefinePlugin({
         __DEV__:      process.env.NODE_ENV !== 'production',
-        __DEVTOOLS__: false
+        __DEVTOOLS__: true
       })
     ],
     devtool: 'inline-source-map'
