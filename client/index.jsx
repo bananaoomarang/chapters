@@ -45,7 +45,7 @@ const initialState = immutifyState(window.__INITIAL_DATA__);
 const reducer      = combineReducers(reducers);
 
 const DevTools = createDevTools(
-  <DockMonitor toggleVisibilityKey="H" changePositionKey="Q">
+  <DockMonitor toggleVisibilityKey="H" changePositionKey="Q" defaultIsVisible={false}>
     <LogMonitor />
   </DockMonitor>
 );

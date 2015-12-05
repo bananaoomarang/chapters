@@ -146,11 +146,11 @@ export default class ListView extends React.Component {
                 );
 
               return (
-                <li key={index} ref={'listitem-' + index} data-index={index} className="list-item">
-                  <Link to={element.href}>
+                <Link to={element.href} key={index}>
+                  <li ref={'listitem-' + index} data-index={index} className="list-item">
                     {subElements}
-                  </Link>
-                </li>
+                  </li>
+                </Link>
               );
             })
           }
