@@ -2,4 +2,4 @@
 
 [Sign up](http://chapters.space)
 
-Platform for self-publishing of literary worlds.
+Platform for non-linear storytellings. Publish and read stories as graphs. 
