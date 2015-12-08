@@ -21,12 +21,10 @@ export default class EditableHeader extends React.Component {
   }
 
   handleFocus = () => {
-    var headerDOM = this.refs.header;
-
-    if (headerDOM.textContent === this.props.placeholder)
-      headerDOM.textContent = '';
+    const headerDOM = this.refs.header;
 
     this.setState({ clicked: true }, function () {
+      console.log('about to focus');
       headerDOM.focus();
     });
   }
@@ -48,7 +46,7 @@ export default class EditableHeader extends React.Component {
       );
 
     return (
-      <h1 style={this.props.style} ref="header" className={classes} contentEditable={this.props.editing} onFocus={this.handleFocus} onBlur={this.handleBlur} onInput={this.handleChange} >
+      <h1 style={this.props.style} ref="header" className={classes} contentEditable={this.props.editing} onClick={this.handleFocus} onFocus={this.handleFocus} onBlur={this.handleBlur} onInput={this.handleChange} >
         {
           this.state.clicked ?
             (this.props.header || '') :
