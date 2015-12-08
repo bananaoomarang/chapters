@@ -241,7 +241,7 @@ export default class Chapter extends React.Component {
 
     const newChapter = /^new/.test(this.props.route.name);
 
-    const showBody  = !!this.props.chapter.get('markdown');
+    const showBody  = (this.props.chapter.get('markdown') || this.props.editing);
     const showList  = !(subList.count() ? true  : (this.props.editing || newChapter));
     const showCards = !(subCards.count() ? true : (this.props.editing || newChapter));
 
@@ -281,15 +281,19 @@ export default class Chapter extends React.Component {
             capitalize={true}
             update={(a) => { this.props.dispatch(ChapterActions.setChapter({ author: a })) }} />
 
-          <hr onClick={() => this.setState( { bodyCollapsed: !this.state.bodyCollapsed } )}/>
+          <hr />
         </div>
 
-        <Collapsable collapsed={this.state.bodyCollapsed && showBody}>
+        <Collapsable collapsed={!showBody}>
+          <button onClick={() => this.setState( { bodyCollapsed: !this.state.bodyCollapsed } )}>Collapse</button>
+          <hr />
+        </Collapsable>
+
+        <Collapsable collapsed={this.state.bodyCollapsed || !showBody}>
           <div id="chapter-body" ref="chapter-body" dangerouslySetInnerHTML={{__html: this.props.chapter.get('html')}}>
           </div>
           <hr />
         </Collapsable>
-
 
         <Collapsable collapsed={showList}>
           <div id="chapter-list">
