@@ -60,7 +60,6 @@ export default class Chapter extends React.Component {
 
   componentDidMount = () => {
     const sessionToken = getToken();
-
     const dropzoneOpts = {
       url:     '/api/chapters' + (this.props.routeParams.id ? ('/' + this.props.routeParams.id) : ''),
       method:  'put',
@@ -69,13 +68,13 @@ export default class Chapter extends React.Component {
       },
       clickable: false
     };
+    const isNew   = /^new/.test(this.props.route.name);
+    const editing = !!(+this.props.location.query.edit);
 
     (new Dropzone('#chapter-body', dropzoneOpts))
       .on('sending', function(file, xhr, formData) {
         formData.append('filename', file.name);
       });
-
-    const isNew = /^new/.test(this.props.route.name);
 
     if(isNew) {
       this.props.dispatch(ChapterActions.setEditing(true));
@@ -84,8 +83,10 @@ export default class Chapter extends React.Component {
         this.props.dispatch(ChapterActions.setChapter({ author: this.props.currentUser }))
     }
     else if(this.props.routeParams.id) {
-      return this.props.dispatch(ChapterActions.getChapter(this.props.routeParams.id));
+      this.props.dispatch(ChapterActions.getChapter(this.props.routeParams.id));
     }
+
+    this.props.dispatch(ChapterActions.setEditing(editing));
   }
 
   componentWillUpdate = (nextProps) => {
@@ -128,6 +129,7 @@ export default class Chapter extends React.Component {
   }
 
   deployChapter = (payload) => {
+    console.log(payload.markdown);
     const { route, routeParams, dispatch } = this.props;
 
     switch(route.name) {
@@ -151,7 +153,9 @@ export default class Chapter extends React.Component {
 
     // Yeah I'm going all the way with this. This is what wine does.
     const peas = splitPeas
-      .map(p => p.replace(/<p>|<br>|\n/, ''));
+      .map(p => p.replace(/(\<p\>)|(\<br\>)|\n/, ''))
+
+    console.log(peas);
 
     if((peas.length === 1) && peas[0] === '')
       return '';
@@ -247,6 +251,7 @@ export default class Chapter extends React.Component {
 
     const newChapter = /^new/.test(this.props.route.name);
 
+    console.log(this.props.chapter.get('markdown'));
     const showBody  = (this.props.chapter.get('markdown') || this.props.editing);
     const showList  = !(subList.count() ? true  : (this.props.editing || newChapter));
     const showCards = !(subCards.count() ? true : (this.props.editing || newChapter));
