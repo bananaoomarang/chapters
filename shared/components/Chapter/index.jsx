@@ -10,17 +10,17 @@ import ifdefBrowser         from 'lib/ifdefBrowser';
 import getToken             from 'lib/getToken';
 import capitalize           from 'lib/capitalize';
 
-var Dropzone = ifdefBrowser( () => {
+const Dropzone = ifdefBrowser( () => {
   return require('dropzone');
 });
 
-var MediumEditor = ifdefBrowser( () => {
+const MediumEditor = ifdefBrowser( () => {
     require('medium-editor/dist/css/medium-editor.min.css');
 
     return require('medium-editor');
 });
 
-var CheekyKeys = ifdefBrowser( () => require('lib/cheeky-keys'));
+const CheekyKeys = ifdefBrowser( () => require('lib/cheeky-keys'));
 
 @connect(state => ({
   chapter:     state.chapter.get('chapter'),
@@ -66,14 +66,14 @@ export default class Chapter extends React.Component {
       method:  'put',
       headers: {
         Authorization: 'Bearer ' + sessionToken
-      }
+      },
+      clickable: false
     };
 
-    const dropzone  = new Dropzone('#chapter-body', dropzoneOpts);
-
-    dropzone.on('sending', function(file, xhr, formData) {
-      formData.append('filename', file.name);
-    });
+    (new Dropzone('#chapter-body', dropzoneOpts))
+      .on('sending', function(file, xhr, formData) {
+        formData.append('filename', file.name);
+      });
 
     const isNew = /^new/.test(this.props.route.name);
 
@@ -203,6 +203,17 @@ export default class Chapter extends React.Component {
   }
 
   render () {
+    const dropzoneOpts = {
+      url:     '/api/chapters' + (this.props.routeParams.id ? ('/' + this.props.routeParams.id) : ''),
+      method:  'put',
+      headers: {
+        Authorization:       'Bearer ' + getToken(),
+        ['X-chapter-id']:    this.props.routeParams.id || null,
+        ['X-chapter-title']: this.props.chapter.get('title') || null
+      },
+      clickable: true
+    };
+
     const titleStyle = {
       display: 'inline-block',
       marginBottom: '0px'
@@ -245,14 +256,15 @@ export default class Chapter extends React.Component {
 
           <ChapterToolbar
             defaultFont={this.cfg.defaultFont}
-            id={this.props.chapter.get('id')}
+            dropzoneOpts={dropzoneOpts}
             editing={this.props.editing} 
             display={ newChapter || this.props.chapter.get('write')}
             public={this.props.chapter.get('public')}
             setEditing={this.setEditing} 
             save={this.handleSave} 
             del={this.handleDelete}
-            publish={this.handlePublish} />
+            publish={this.handlePublish}
+            uploadURL={'/api/chapters' + (this.props.routeParams.id ? ('/' + this.props.routeParams.id) : '')} />
           <hr />
         </div>
 
@@ -265,6 +277,7 @@ export default class Chapter extends React.Component {
             prefix="By&nbsp;"
             placeholder="Unauthored"
             editing={this.props.editing}
+            capitalize={true}
             update={(a) => { this.props.dispatch(ChapterActions.setChapter({ author: a })) }} />
 
           <hr onClick={() => this.setState( { bodyCollapsed: !this.state.bodyCollapsed } )}/>

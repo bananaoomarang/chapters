@@ -1,18 +1,31 @@
 import React, { PropTypes } from 'react';
 import classSet             from 'classnames';
+import ifdefBrowser         from 'lib/ifdefBrowser';
+import getToken             from 'lib/getToken';
+
+const Dropzone = ifdefBrowser( () => {
+  return require('dropzone');
+});
 
 export default class Toolbar extends React.Component {
   static propTypes = {
-    defaultFont: PropTypes.object.isRequired,
-    save:        PropTypes.func.isRequired,
-    del:         PropTypes.func.isRequired,
-    setEditing:  PropTypes.func.isRequired,
-    publish:     PropTypes.func.isRequired,
-    public:      PropTypes.bool.isRequired,
-    editing:     PropTypes.bool.isRequired,
-    display:     PropTypes.bool.isRequired,
+    defaultFont:  PropTypes.object.isRequired,
+    dropzoneOpts: PropTypes.object.isRequired,
+    save:         PropTypes.func.isRequired,
+    del:          PropTypes.func.isRequired,
+    setEditing:   PropTypes.func.isRequired,
+    publish:      PropTypes.func.isRequired,
+    public:       PropTypes.bool.isRequired,
+    editing:      PropTypes.bool.isRequired,
+    display:      PropTypes.bool.isRequired
+  }
 
-    id:          PropTypes.string
+  static contextTypes = {
+    routeParams: PropTypes.object
+  }
+
+  componentDidMount = () => {
+    new Dropzone('#toolbar-upload-button', this.props.dropzoneOpts);
   }
 
   render() {
@@ -48,6 +61,7 @@ export default class Toolbar extends React.Component {
 
         <div className={editingClasses}>
           <button className="btn-group-member" name="save"   onClick={this.props.save}>Save</button>
+          <button id="toolbar-upload-button" className="btn-group-member" name="upload">Upload</button>
         </div>
       </div>
     );

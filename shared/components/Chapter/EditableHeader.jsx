@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import classSet             from 'classnames';
+import capitalize           from 'lib/capitalize';
 
 export default class EditableHeader extends React.Component {
   static propTypes = {
@@ -7,7 +8,9 @@ export default class EditableHeader extends React.Component {
     header:      PropTypes.string.isRequired,
     editing:     PropTypes.bool.isRequired,
     placeholder: PropTypes.string.isRequired,
-    style:       PropTypes.obj
+
+    style:       PropTypes.object,
+    capitalize:  PropTypes.bool
   }
 
   state = {
@@ -24,7 +27,6 @@ export default class EditableHeader extends React.Component {
     const headerDOM = this.refs.header;
 
     this.setState({ clicked: true }, function () {
-      console.log('about to focus');
       headerDOM.focus();
     });
   }
@@ -41,7 +43,7 @@ export default class EditableHeader extends React.Component {
     if(!this.props.editing)
       return (
         <h1 style={this.props.style} className={classes} onFocus={this.handleFocus}>
-          {this.props.header || this.props.placeholder}
+          {this.props.capitalize ? capitalize(this.props.header || this.props.placeholder) : (this.props.header || this.props.placeholder)}
         </h1>
       );
 
