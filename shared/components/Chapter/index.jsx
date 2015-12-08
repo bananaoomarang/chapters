@@ -151,7 +151,10 @@ export default class Chapter extends React.Component {
 
     // Yeah I'm going all the way with this. This is what wine does.
     const peas = splitPeas
-      .map(p => p.replace('<p>', ''));
+      .map(p => p.replace(/<p>|<br>|\n/, ''));
+
+    if((peas.length === 1) && peas[0] === '')
+      return '';
 
     return peas.join('\n\n');
   }
@@ -163,14 +166,17 @@ export default class Chapter extends React.Component {
       title:    this.props.chapter.get('title'),
       author:   this.props.chapter.get('author'),
       markdown: this.exportText(),
-      ordered:  !!(+query.ordered)
+      ordered:  query.ordered ? !!(+query.ordered) : this.props.chapter.get('ordered')
     };
 
     const promise = this.deployChapter(payload);
 
     return promise
         .then(success => {
-            if(success) this.props.dispatch(ChapterActions.setEditing(false));
+          if(success) {
+            this.props.dispatch(ChapterActions.setEditing(false));
+            this.context.history.pushState(null, '/chapters/' + this.props.routeParams.id);
+          }
         });
   }
 
@@ -186,7 +192,7 @@ export default class Chapter extends React.Component {
       title:    this.props.chapter.get('title'),
       author:   this.props.chapter.get('author'),
       markdown: this.exportText(),
-      ordered:  !!(+query.ordered),
+      ordered:  query.ordered ? !!(+query.ordered) : this.props.chapter.get('ordered'),
       public:   (bool || bool === false) ? bool : true
     };
 
