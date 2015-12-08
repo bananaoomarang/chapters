@@ -236,11 +236,12 @@ export default class Chapter extends React.Component {
       .map(chapter => ({
         title: chapter.get('title'),
         body:  <em>{chapter.description || '???'}</em>,
-        href:  ['/chapters' + chapter.id].join('/')
+        href:  ['/chapters', chapter.get('id')].join('/')
       }));
 
     const newChapter = /^new/.test(this.props.route.name);
 
+    const showBody  = !!this.props.chapter.get('markdown');
     const showList  = !(subList.count() ? true  : (this.props.editing || newChapter));
     const showCards = !(subCards.count() ? true : (this.props.editing || newChapter));
 
@@ -283,7 +284,7 @@ export default class Chapter extends React.Component {
           <hr onClick={() => this.setState( { bodyCollapsed: !this.state.bodyCollapsed } )}/>
         </div>
 
-        <Collapsable collapsed={this.state.bodyCollapsed}>
+        <Collapsable collapsed={this.state.bodyCollapsed && showBody}>
           <div id="chapter-body" ref="chapter-body" dangerouslySetInnerHTML={{__html: this.props.chapter.get('html')}}>
           </div>
           <hr />

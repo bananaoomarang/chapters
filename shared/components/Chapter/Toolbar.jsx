@@ -1,7 +1,9 @@
 import React, { PropTypes } from 'react';
 import classSet             from 'classnames';
 import ifdefBrowser         from 'lib/ifdefBrowser';
-import getToken             from 'lib/getToken';
+import assign               from 'object-assign';
+
+Object.assign = assign;
 
 const Dropzone = ifdefBrowser( () => {
   return require('dropzone');
@@ -25,7 +27,11 @@ export default class Toolbar extends React.Component {
   }
 
   componentDidMount = () => {
-    new Dropzone('#toolbar-upload-button', this.props.dropzoneOpts);
+    this.dropzone = new Dropzone('#toolbar-upload-button', this.props.dropzoneOpts);
+  }
+
+  componentWillUpdate = (nextProps) => {
+    this.dropzone.options = Object.assign(this.dropzone.options, nextProps.dropzoneOpts);
   }
 
   render() {
