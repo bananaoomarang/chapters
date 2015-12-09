@@ -51,15 +51,24 @@ export default class ListView extends React.Component {
   }
 
   componentDidUpdate = (prevProps) => {
-    if(prevProps.editing !== this.props.editing) {
-      if(this.props.editing) this.bindSomeCheekyEvents();
-      else                   this.unbindEvents();
+
+    if (prevProps.editing !== this.props.editing) {
+      if (this.props.editing) {
+        this.bindSomeCheekyEvents();
+        this.setState({
+          itemHeight: document.querySelector('.list-item') ? document.querySelector('.list-item').clientHeight : 0
+        });
+      }
+      else {
+        this.unbindEvents();
+      }
     }
     
-    if (this.props.elements !== prevProps.elements)
+    if (this.props.elements !== prevProps.elements) {
       this.setState({
         order: range(this.props.elements.count())
       });
+    }
   }
 
   componentWillUnmount = () => {
@@ -74,6 +83,16 @@ export default class ListView extends React.Component {
 
     container.addEventListener('mousemove', this.handlePointerMove);
     window.addEventListener('mouseup',   this.handlePointerUp);
+
+
+    window.onresize = () => {
+      const itemHeight = document.querySelector('.list-item') ? document.querySelector('.list-item').clientHeight : 0;
+
+      if(this.state.itemHeight !== itemHeight)
+        this.setState({
+          itemHeight
+        });
+    }
   }
 
   unbindEvents = () => {
@@ -95,11 +114,11 @@ export default class ListView extends React.Component {
   }
 
   handlePointerMove = ({ pageY }) => {
-    const { isPressed, delta, order, lastPressed } = this.state;
+    const { isPressed, delta, order, lastPressed, itemHeight } = this.state;
 
     if (isPressed) {
       const mouse    = pageY - delta;
-      const row      = clamp(Math.round(mouse / this.state.itemHeight), 0, this.props.elements.count() - 1);
+      const row      = clamp(Math.round(mouse / itemHeight), 0, this.props.elements.count() - 1);
       const newOrder = reinsert(order, order.indexOf(lastPressed), row);
 
       this.setState({
@@ -123,7 +142,7 @@ export default class ListView extends React.Component {
   }
 
   render() {
-    const { mouse, isPressed, lastPressed, order } = this.state;
+    const { mouse, isPressed, lastPressed, order, itemHeight } = this.state;
 
     const classes = {
       container: classSet({
@@ -137,7 +156,7 @@ export default class ListView extends React.Component {
 
     if(this.props.editing)
       return (
-        <div className={classes.container} ref="container" style={{ height: `${this.props.elements.count()*this.state.itemHeight + 40}px` }}>
+        <div className={classes.container} ref="container" style={{ height: `${this.props.elements.count()*itemHeight + 40}px` }}>
           <div className="header">
             {
               (() => {
@@ -158,7 +177,7 @@ export default class ListView extends React.Component {
                   {
                     scale:  spring(1, springConfig),
                     shadow: spring(1, springConfig),
-                    y:      spring(order.indexOf(i) * this.state.itemHeight, springConfig)
+                    y:      spring(order.indexOf(i) * itemHeight, springConfig)
                   };
 
                 return (
@@ -203,7 +222,8 @@ export default class ListView extends React.Component {
                             style={{
                               position:        'absolute',
                               width:           '100%',
-                              marginLeft:      '2em',
+                              left:            '50%',
+                              marginLeft:      '-45%',
                               boxShadow:       `rgba(0, 0, 0, 0.2) 0px ${shadow}px ${2 * shadow}px 0px`,
                               transform:       `translate3d(0, ${y}px, 0) scale(${scale})`,
                               WebkitTransform: `translate3d(0, ${y}px, 0) scale(${scale})`,
