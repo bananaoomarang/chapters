@@ -28,7 +28,7 @@ export default class ListView extends React.Component {
     header:     PropTypes.string,
     createUrl:  PropTypes.string,
     onReorder:  PropTypes.func,
-    editing:   PropTypes.bool,
+    editing:    PropTypes.bool,
     handleSave: PropTypes.func
   }
 
@@ -46,12 +46,11 @@ export default class ListView extends React.Component {
       this.bindSomeCheekyEvents();
 
     this.setState({
-      order: range(this.props.elements.count())
+      order: range(this.props.elements.count() + 1)
     });
   }
 
   componentDidUpdate = (prevProps) => {
-
     if (prevProps.editing !== this.props.editing) {
       if (this.props.editing) {
         this.bindSomeCheekyEvents();
@@ -63,10 +62,10 @@ export default class ListView extends React.Component {
         this.unbindEvents();
       }
     }
-    
-    if (this.props.elements !== prevProps.elements) {
+
+    if (this.props.elements.count() !== prevProps.elements.count()) {
       this.setState({
-        order: range(this.props.elements.count())
+        order: range(this.props.elements.count() + 1)
       });
     }
   }
@@ -105,7 +104,7 @@ export default class ListView extends React.Component {
       delta:       pageY - pressY,
       mouse:       pressY,
       isPressed:   true,
-      lastPressed: pos 
+      lastPressed: pos
     });
   }
 
@@ -152,11 +151,15 @@ export default class ListView extends React.Component {
     };
 
     const elements = this.props.editing ?
-      this.props.elements : this.props.elements;
+      this.props.elements
+        .concat([{
+          title: 'New',
+          href:  this.props.createUrl
+        }]) : this.props.elements;
 
     if(this.props.editing)
       return (
-        <div className={classes.container} ref="container" style={{ height: `${this.props.elements.count()*itemHeight + 40}px` }}>
+        <div className={classes.container} ref="container" style={{ height: `${elements.count()*itemHeight + 40}px` }}>
           <div className="header">
             {
               (() => {
@@ -169,27 +172,31 @@ export default class ListView extends React.Component {
             { range(elements.count()).map(i => {
                 const style = (lastPressed === i && isPressed) ?
                   {
-                    scale:  spring(1.1, springConfig),
-                    shadow: spring(16, springConfig),
+                    scale:  spring(1.03, springConfig),
+                    shadow: spring(6, springConfig),
                     y:      mouse
                   }
                   :
                   {
                     scale:  spring(1, springConfig),
-                    shadow: spring(1, springConfig),
+                    shadow: spring(0, springConfig),
                     y:      spring(order.indexOf(i) * itemHeight, springConfig)
                   };
+
+                const isNewButton = (i === elements.count() - 1);
 
                 return (
                   <Motion style={style} key={i}>
                     {({ scale, shadow, y }) => {
-                        const element   = this.props.elements.get(i);
+                        const element   = elements.get(i);
                         let subElements = [];
+
+                        const prefix = isNewButton ? '' : (order.indexOf(i) + 1) + '. ';
 
                         if(element.title)
                           subElements.push(
                             <span className="title" key="title">
-                              {capitalize(element.title)}
+                              {prefix + capitalize(element.title)}
                             </span>
                           );
 
@@ -212,23 +219,36 @@ export default class ListView extends React.Component {
                             <span className="adendum" key="adendum">
                               {element.adendum}
                             </span>
-                          );
+                            );
 
+                        const liStyle = {
+                          position:        'absolute',
+                          width:           '100%',
+                          left:            '50%',
+                          marginLeft:      '-45%',
+                          borderBottom:    '1px solid lightgrey',
+                          boxShadow:       `rgba(0, 0, 0, 0.8) ${shadow}px ${shadow}px 0px 0px`,
+                          transform:       `translate3d(0, ${y}px, 0) scale(${scale})`,
+                          WebkitTransform: `translate3d(0, ${y}px, 0) scale(${scale})`,
+                          zIndex:          (i === lastPressed) ? 99 : i
+                        };
+
+                        if(isNewButton)
+                          return (
+                            <Link to={element.href}>
+                              <li
+                                className="clickable list-item"
+                                style={liStyle}>
+                                {subElements}
+                              </li>
+                            </Link>
+                          )
                         return (
                           <li
                             className="list-item"
-                            onMouseDown={this.handlePointerDown.bind(null, i, y)}
-                            onTouchStart={this.handleTouchStart.bind(null, i, y)}
-                            style={{
-                              position:        'absolute',
-                              width:           '100%',
-                              left:            '50%',
-                              marginLeft:      '-45%',
-                              boxShadow:       `rgba(0, 0, 0, 0.2) 0px ${shadow}px ${2 * shadow}px 0px`,
-                              transform:       `translate3d(0, ${y}px, 0) scale(${scale})`,
-                              WebkitTransform: `translate3d(0, ${y}px, 0) scale(${scale})`,
-                              zIndex:          (i === lastPressed) ? 99 : i
-                            }}>
+                            onMouseDown={  isNewButton ? ()=>({}) : this.handlePointerDown.bind(null, i, y)}
+                            onTouchStart={ isNewButton ? ()=>({}) : this.handleTouchStart.bind(null, i, y)}
+                            style={liStyle}>
                             {subElements}
                           </li>
                         );
@@ -260,7 +280,7 @@ export default class ListView extends React.Component {
               if(element.title)
                 subElements.push(
                   <span className="title" key="title">
-                    {capitalize(element.title)}
+                    {index + 1 + '. ' + capitalize(element.title)}
                   </span>
                 );
 

@@ -129,7 +129,6 @@ export default class Chapter extends React.Component {
   }
 
   deployChapter = (payload) => {
-    console.log(payload.markdown);
     const { route, routeParams, dispatch } = this.props;
 
     switch(route.name) {
@@ -154,8 +153,6 @@ export default class Chapter extends React.Component {
     // Yeah I'm going all the way with this. This is what wine does.
     const peas = splitPeas
       .map(p => p.replace(/(\<p\>)|(\<br\>)|\n/, ''))
-
-    console.log(peas);
 
     if((peas.length === 1) && peas[0] === '')
       return '';
@@ -251,7 +248,6 @@ export default class Chapter extends React.Component {
 
     const newChapter = /^new/.test(this.props.route.name);
 
-    console.log(this.props.chapter.get('markdown'));
     const showBody  = (this.props.chapter.get('markdown') || this.props.editing);
     const showList  = !(subList.count() ? true  : (this.props.editing || newChapter));
     const showCards = !(subCards.count() ? true : (this.props.editing || newChapter));
