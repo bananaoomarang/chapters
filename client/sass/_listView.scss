@@ -8,9 +8,6 @@
   .list-item {
     @include outer-container(90%);
 
-    @extend .clickable;
-
-    height: 100%;
     border: $base-border;
     border-bottom: none;
     padding: $base-spacing;

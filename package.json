@@ -69,6 +69,7 @@
     "immutable": "^3.7.5",
     "keyboardjs": "^2.2.0",
     "keycode": "^2.1.0",
+    "lodash.range": "^3.0.1",
     "medium-editor": "^5.10.0",
     "normalize.css": "^3.0.3",
     "object-assign": "^4.0.1",
