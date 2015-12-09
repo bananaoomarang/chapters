@@ -74,6 +74,9 @@ export default class Chapter extends React.Component {
     (new Dropzone('#chapter-body', dropzoneOpts))
       .on('sending', function(file, xhr, formData) {
         formData.append('filename', file.name);
+      })
+      .on('complete', () => {
+        this.dispatch(ChapterActions.getChapter(this.props.chapter.get('id')));
       });
 
     if(isNew) {
@@ -115,8 +118,10 @@ export default class Chapter extends React.Component {
       this.props.dispatch(ChapterActions.getChapter(nextProps.routeParams.id));
     }
 
-    if (isNew)
+    if (isNew) {
       this.flushChapter();
+      window.scroll(0, 0);
+    }
   }
 
   componentWillUnmount = () => {
@@ -129,7 +134,6 @@ export default class Chapter extends React.Component {
   }
 
   deployChapter = (payload) => {
-    console.log(payload.markdown);
     const { route, routeParams, dispatch } = this.props;
 
     switch(route.name) {
@@ -154,8 +158,6 @@ export default class Chapter extends React.Component {
     // Yeah I'm going all the way with this. This is what wine does.
     const peas = splitPeas
       .map(p => p.replace(/(\<p\>)|(\<br\>)|\n/, ''))
-
-    console.log(peas);
 
     if((peas.length === 1) && peas[0] === '')
       return '';
@@ -251,7 +253,6 @@ export default class Chapter extends React.Component {
 
     const newChapter = /^new/.test(this.props.route.name);
 
-    console.log(this.props.chapter.get('markdown'));
     const showBody  = (this.props.chapter.get('markdown') || this.props.editing);
     const showList  = !(subList.count() ? true  : (this.props.editing || newChapter));
     const showCards = !(subCards.count() ? true : (this.props.editing || newChapter));
@@ -276,7 +277,8 @@ export default class Chapter extends React.Component {
             save={this.handleSave} 
             del={this.handleDelete}
             publish={this.handlePublish}
-            uploadURL={'/api/chapters' + (this.props.routeParams.id ? ('/' + this.props.routeParams.id) : '')} />
+            refreshChapter={() => { this.props.dispatch(ChapterActions.getChapter(this.props.chapter.get('id'))) }}
+            uploadURL={'/api/chapteArs' + (this.props.routeParams.id ? ('/' + this.props.routeParams.id) : '')} />
           <hr />
         </div>
 
