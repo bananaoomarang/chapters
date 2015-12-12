@@ -25,11 +25,13 @@ const springConfig = [300, 50];
 export default class ListView extends React.Component {
   static propTypes = {
     elements:   PropTypes.instanceOf(List).isRequired,
+
+    reinsert:  PropTypes.func,
+
     header:     PropTypes.string,
     createUrl:  PropTypes.string,
-    onReorder:  PropTypes.func,
+
     editing:    PropTypes.bool,
-    handleSave: PropTypes.func
   }
 
   state = {
@@ -120,6 +122,10 @@ export default class ListView extends React.Component {
       const row      = clamp(Math.round(mouse / itemHeight), 0, this.props.elements.count() - 1);
       const newOrder = reinsert(order, order.indexOf(lastPressed), row);
 
+      // This is to sync the real list
+      if(order.indexOf(lastPressed) !== row)
+        this.props.reinsert(order.indexOf(lastPressed), row);
+
       this.setState({
         mouse: mouse,
         order: newOrder
@@ -133,10 +139,10 @@ export default class ListView extends React.Component {
     this.handlePointerMove(e.touches[0]);
   }
 
-  handlePointerUp = () => {
+  handlePointerUp = ({ pageY }) => {
     this.setState({
-      isPressed: false,
-      delta:     0
+      isPressed:   false,
+      delta:       0,
     });
   }
 
@@ -188,7 +194,7 @@ export default class ListView extends React.Component {
                 return (
                   <Motion style={style} key={i}>
                     {({ scale, shadow, y }) => {
-                        const element   = elements.get(i);
+                        const element   = elements.get(order.indexOf(i));
                         let subElements = [];
 
                         const prefix = isNewButton ? '' : (order.indexOf(i) + 1) + '. ';

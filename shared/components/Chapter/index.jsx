@@ -164,10 +164,11 @@ export default class Chapter extends React.Component {
     const { query } = this.props.location;
 
     const payload = {
-      title:    this.props.chapter.get('title'),
-      author:   this.props.chapter.get('author'),
-      markdown: this.exportText(),
-      ordered:  query.ordered ? !!(+query.ordered) : this.props.chapter.get('ordered')
+      title:      this.props.chapter.get('title'),
+      author:     this.props.chapter.get('author'),
+      markdown:   this.exportText(),
+      ordered:    query.ordered ? !!(+query.ordered) : this.props.chapter.get('ordered'),
+      subOrdered: this.props.chapter.get('subOrdered').toJS().map((i) => i.id)
     };
 
     const promise = this.deployChapter(payload);
@@ -307,8 +308,21 @@ export default class Chapter extends React.Component {
             <ListView
               elements={subList}
               editing={this.props.editing} 
-              onReorder={()=>{}}
-              handleSave={()=>{}} 
+              reinsert={function (from, to) {
+                const current = this.props.chapter.get('subOrdered');
+                const val     = current.get(from);
+                const newList = current
+                  .splice(from, 1)
+                  .splice(to, 0, val);
+
+                this.props.dispatch(
+                  ChapterActions.setChapter({
+                    subOrdered: newList
+                  })
+                );
+
+                return newList;
+              }.bind(this)}
               createUrl={['/chapters', this.props.chapter.get('id'), 'new'].join('/') + '?ordered=1'} />
           </div>
           <hr />
