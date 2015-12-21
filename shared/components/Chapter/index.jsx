@@ -74,6 +74,9 @@ export default class Chapter extends React.Component {
     (new Dropzone('#chapter-body', dropzoneOpts))
       .on('sending', function(file, xhr, formData) {
         formData.append('filename', file.name);
+      })
+      .on('complete', () => {
+        this.dispatch(ChapterActions.getChapter(this.props.chapter.get('id')));
       });
 
     if(isNew) {
@@ -115,8 +118,10 @@ export default class Chapter extends React.Component {
       this.props.dispatch(ChapterActions.getChapter(nextProps.routeParams.id));
     }
 
-    if (isNew)
+    if (isNew) {
       this.flushChapter();
+      window.scroll(0, 0);
+    }
   }
 
   componentWillUnmount = () => {
@@ -273,7 +278,8 @@ export default class Chapter extends React.Component {
             save={this.handleSave} 
             del={this.handleDelete}
             publish={this.handlePublish}
-            uploadURL={'/api/chapters' + (this.props.routeParams.id ? ('/' + this.props.routeParams.id) : '')} />
+            refreshChapter={() => { this.props.dispatch(ChapterActions.getChapter(this.props.chapter.get('id'))) }}
+            uploadURL={'/api/chapteArs' + (this.props.routeParams.id ? ('/' + this.props.routeParams.id) : '')} />
           <hr />
         </div>
 

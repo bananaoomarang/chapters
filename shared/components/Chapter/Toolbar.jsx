@@ -11,15 +11,18 @@ const Dropzone = ifdefBrowser( () => {
 
 export default class Toolbar extends React.Component {
   static propTypes = {
-    defaultFont:  PropTypes.object.isRequired,
-    dropzoneOpts: PropTypes.object.isRequired,
-    save:         PropTypes.func.isRequired,
-    del:          PropTypes.func.isRequired,
-    setEditing:   PropTypes.func.isRequired,
-    publish:      PropTypes.func.isRequired,
-    public:       PropTypes.bool.isRequired,
-    editing:      PropTypes.bool.isRequired,
-    display:      PropTypes.bool.isRequired
+    defaultFont:    PropTypes.object.isRequired,
+    dropzoneOpts:   PropTypes.object.isRequired,
+
+    save:           PropTypes.func.isRequired,
+    del:            PropTypes.func.isRequired,
+    setEditing:     PropTypes.func.isRequired,
+    publish:        PropTypes.func.isRequired,
+    refreshChapter: PropTypes.func.isRequired,
+
+    public:         PropTypes.bool.isRequired,
+    editing:        PropTypes.bool.isRequired,
+    display:        PropTypes.bool.isRequired
   }
 
   static contextTypes = {
@@ -28,6 +31,14 @@ export default class Toolbar extends React.Component {
 
   componentDidMount = () => {
     this.dropzone = new Dropzone('#toolbar-upload-button', this.props.dropzoneOpts);
+    
+    this.dropzone
+      .on('sending', function(file, xhr, formData) {
+        formData.append('filename', file.name);
+      })
+      .on('complete', () => {
+        this.props.refreshChapter();
+      });
   }
 
   componentWillUpdate = (nextProps) => {

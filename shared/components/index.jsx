@@ -56,7 +56,6 @@ export default class MainView extends React.Component {
 
     return (
       <div id="main-view">
-
         <Navbar />
 
         <hr/>
