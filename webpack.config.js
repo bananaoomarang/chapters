@@ -5,6 +5,27 @@ var prodCfg = require('./webpack.prod.config.js');
 
 Object.assign = require('object-assign');
 
+const BABEL_QUERY = {
+  presets: ['react', 'es2015-loose'],
+  plugins: [
+    ['transform-object-rest-spread'],
+    ['transform-class-properties'],
+    ['transform-decorators-legacy'],
+    [
+      'react-transform',
+      {
+        transforms: [
+          {
+            transform: 'react-transform-hmr',
+            imports:    ['react'],
+            locals:     ['module']
+          }
+        ]
+      }
+    ]
+  ]
+}
+
 module.exports = function (app) {
   const config = Object.assign(prodCfg, {
     entry:  [
@@ -17,19 +38,7 @@ module.exports = function (app) {
           test:    /\.jsx?$/,
           exclude: /node_modules|axios/,
           loader: 'babel',
-          query:   {
-            stage:   0,
-            plugins: ['react-transform'],
-            extra:   {
-              'react-transform': {
-                transforms: [{
-                  transform: 'react-transform-hmr',
-                  imports:   ['react'],
-                  locals:    ['module']
-                }]
-              }
-            }
-          }
+          query:   BABEL_QUERY
         },
         {
           test:   /\.scss$/,

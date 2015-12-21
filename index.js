@@ -3,7 +3,7 @@
 require('babel-core/register')({});
 require('promise.prototype.finally');
 
-var server = require('./server');
+var server = require('./server').default;
 var api    = require('chapters-server');
 
 server.listen(3000, function () {
