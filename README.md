@@ -2,4 +2,4 @@
 
 [Sign up](http://chapters.space)
 
-Platform for non-linear storytellings. Publish and read stories as graphs. 
+[WIP] Platform for scaleable linear => non-linear storytellings. Publish and read stories as graphs.
