@@ -76,7 +76,6 @@ const routes = createRoutes(function (nextState, transition, done) {
 });
 
 if (__DEV__ && __DEVTOOLS__) {
-
   render(
     <Provider store={store}>
       <div>
@@ -88,7 +87,7 @@ if (__DEV__ && __DEVTOOLS__) {
   );
 } else {
   render(
-    <Provider store={store} key="provider">
+    <Provider store={store}>
       <Router children={routes} history={history} />
     </Provider>,
     document.getElementById('react-view')

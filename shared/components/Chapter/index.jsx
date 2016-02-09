@@ -20,7 +20,7 @@ const MediumEditor = ifdefBrowser( () => {
     return require('medium-editor');
 });
 
-const CheekyKeys = ifdefBrowser( () => require('lib/cheeky-keys'));
+const CheekyKeys = ifdefBrowser( () => require('lib/cheeky-keys').default);
 
 @connect(state => ({
   chapter:     state.chapter.get('chapter'),
@@ -40,7 +40,8 @@ export default class Chapter extends React.Component {
   }
 
   static contextTypes = {
-    history: PropTypes.object.isRequired
+    history: PropTypes.object.isRequired,
+    store:   PropTypes.object
   }
 
   state = {
