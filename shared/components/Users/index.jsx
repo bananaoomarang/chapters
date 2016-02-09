@@ -12,7 +12,7 @@ export default class UsersList {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
     users:    PropTypes.object.isRequired
-  }
+  };
 
   componentDidMount() {
     this.props.dispatch(UsersActions.getUsers())

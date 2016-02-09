@@ -13,11 +13,11 @@ export default class Section extends React.Component {
     dispatch:    PropTypes.func.isRequired,
     routeParams: PropTypes.object.isRequired,
     section:     PropTypes.object.isRequired
-  }
+  };
 
   static needs = [
     SectionActions.getSection
-  ]
+  ];
 
   onReorder = (index, insertAt) => {
     const newChapters = this.props.section
@@ -30,13 +30,13 @@ export default class Section extends React.Component {
     this.props.dispatch(
       SectionActions.setSection(newSection)
     );
-  }
+  };
 
   handleSave = () => {
     this.props.dispatch(
       SectionActions.patchSection(this.props.section.toJS(), this.props.routeParams)
     );
-  }
+  };
 
   render() {
     const chapters = this.props.section

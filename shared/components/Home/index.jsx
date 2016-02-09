@@ -12,7 +12,7 @@ export default class Home extends React.Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
     stories:  PropTypes.instanceOf(List)
-  }
+  };
 
   componentDidMount() {
     this.props.dispatch(

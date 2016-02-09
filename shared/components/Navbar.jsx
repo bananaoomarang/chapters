@@ -15,12 +15,12 @@ export default class Navbar extends React.Component {
     legit:     PropTypes.bool.isRequired,
     nightMode: PropTypes.bool.isRequired,
     username:  PropTypes.string
-  }
+  };
 
   handleSignOut = () => {
     window.sessionStorage.removeItem('token');
     this.props.dispatch(SessionActions.close());
-  }
+  };
 
   render() {
     const appearLoggedIn = {

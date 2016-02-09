@@ -23,11 +23,11 @@ export default class Toolbar extends React.Component {
     public:         PropTypes.bool.isRequired,
     editing:        PropTypes.bool.isRequired,
     display:        PropTypes.bool.isRequired
-  }
+  };
 
   static contextTypes = {
     routeParams: PropTypes.object
-  }
+  };
 
   componentDidMount = () => {
     this.dropzone = new Dropzone('#toolbar-upload-button', this.props.dropzoneOpts);
@@ -39,11 +39,11 @@ export default class Toolbar extends React.Component {
       .on('complete', () => {
         this.props.refreshChapter();
       });
-  }
+  };
 
   componentWillUpdate = (nextProps) => {
     this.dropzone.options = Object.assign(this.dropzone.options, nextProps.dropzoneOpts);
-  }
+  };
 
   render() {
     const classes = classSet({

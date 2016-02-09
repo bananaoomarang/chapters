@@ -4,7 +4,7 @@ import classSet             from 'classnames';
 export default class Collapsable extends React.Component {
   static propTypes = {
     collapsed: PropTypes.bool.isRequired
-  }
+  };
 
   render () {
     const classes = classSet({

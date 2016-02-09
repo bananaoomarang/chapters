@@ -17,14 +17,14 @@ export default class MainView extends React.Component {
     loading:   PropTypes.bool.isRequired,
     nightMode: PropTypes.bool.isRequired,
     children:  PropTypes.object
-  }
+  };
 
   setNightMode = (bool) => {
     if(bool)
       document.body.className += 'night-mode';
     else
       document.body.className = document.body.className.replace('night-mode', '');
-  }
+  };
 
   componentDidMount() {
     const storedToken = window.sessionStorage.getItem('token');
@@ -39,7 +39,7 @@ export default class MainView extends React.Component {
     if(nextProps.nightMode !== this.props.nightMode) {
       this.setNightMode(nextProps.nightMode);
     }
-  }
+  };
 
   render() {
     const Loader = (

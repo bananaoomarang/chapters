@@ -11,17 +11,17 @@ export default class EditableHeader extends React.Component {
 
     style:       PropTypes.object,
     capitalize:  PropTypes.bool
-  }
+  };
 
   state = {
     clicked: false
-  }
+  };
 
   handleBlur = () => {
     this.setState({
       clicked: false
     });
-  }
+  };
 
   handleFocus = () => {
     const headerDOM = this.refs.header;
@@ -29,11 +29,11 @@ export default class EditableHeader extends React.Component {
     this.setState({ clicked: true }, function () {
       headerDOM.focus();
     });
-  }
+  };
 
   handleChange = (e) => {
     this.props.update(e.target.textContent);
-  }
+  };
 
   render () {
     const classes = classSet({

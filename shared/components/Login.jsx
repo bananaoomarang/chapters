@@ -16,7 +16,7 @@ export default class Login extends React.Component {
     history:  PropTypes.object.isRequired,
     error:    PropTypes.string,
     legit:    PropTypes.bool
-  }
+  };
 
   render() {
     const cfg = {

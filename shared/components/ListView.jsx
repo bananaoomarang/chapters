@@ -12,16 +12,16 @@ export default class ListView extends React.Component {
     onReorder:  PropTypes.func,
     editing:   PropTypes.bool,
     handleSave: PropTypes.func
-  }
+  };
 
   state = {
     dragging: false
-  }
+  };
 
   componentDidMount = () => {
     if(this.props.editing)
       this.bindSomeCheekyEvents();
-  }
+  };
 
   componentDidUpdate = (prevProps, prevState) => {
     if(prevProps.editing === false && this.props.editing)
@@ -29,11 +29,11 @@ export default class ListView extends React.Component {
     
     if (prevProps.editing === true && !this.props.editing)
       return this.unbindEvents();
-  }
+  };
 
   componentWillUnmount = () => {
     this.unbindEvents();
-  }
+  };
 
   bindSomeCheekyEvents = () => {
     const container = this.refs.container;
@@ -51,16 +51,16 @@ export default class ListView extends React.Component {
           .onmousedown = this.handlePointerDown;
       }
     }
-  }
+  };
 
   unbindEvents = () => {
     window.removeEventListener('touchmove', this.handlePointerMove);
     window.removeEventListener('mouseup',   this.handlePointerUp);
-  }
+  };
 
   handlePointerDown = e => {
     this.setState({ dragging: e.target });
-  }
+  };
 
   handlePointerMove = e => {
     if(!this.state.dragging)
@@ -77,11 +77,11 @@ export default class ListView extends React.Component {
       this.props.onReorder(index, insertAt);
       this.setState({ dragging: this.refs['listitem-' + insertAt] });
     }
-  }
+  };
 
   handlePointerUp = () => {
     this.setState({ dragging: false });
-  }
+  };
 
   render() {
 
