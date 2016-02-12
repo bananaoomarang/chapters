@@ -12,7 +12,7 @@ export default class Stories {
   static propTypes = {
     dispatch:    PropTypes.func.isRequired,
     stories:     PropTypes.instanceOf(List).isRequired
-  }
+  };
 
   componentDidMount() {
     this.props.dispatch(StoryActions.getUserStories())

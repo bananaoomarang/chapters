@@ -30,7 +30,6 @@ export default class ListView extends React.Component {
 
     header:     PropTypes.string,
     createUrl:  PropTypes.string,
-
     editing:    PropTypes.bool,
   }
 
@@ -74,7 +73,7 @@ export default class ListView extends React.Component {
 
   componentWillUnmount = () => {
     this.unbindEvents();
-  }
+  };
 
   bindSomeCheekyEvents = () => {
     const container = this.refs.container;
@@ -94,12 +93,12 @@ export default class ListView extends React.Component {
           itemHeight
         });
     }
-  }
+  };
 
   unbindEvents = () => {
     window.removeEventListener('touchend', this.handlePointerMove);
     window.removeEventListener('mouseup',   this.handlePointerUp);
-  }
+  };
 
   handlePointerDown = (pos, pressY, { pageY }) => {
     this.setState({
@@ -131,7 +130,7 @@ export default class ListView extends React.Component {
         order: newOrder
       });
     }
-  }
+  };
 
   handleTouchMove = (e) => {
     e.preventDefault();

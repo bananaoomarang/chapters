@@ -19,7 +19,7 @@ export default class User extends React.Component {
     currentUser: PropTypes.string,
     stories:     PropTypes.instanceOf(List),
     personas:    PropTypes.instanceOf(List)
-  }
+  };
 
   componentDidMount() {
     const username = this.props.routeParams.user || this.props.currentUser;

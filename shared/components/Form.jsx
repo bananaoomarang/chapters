@@ -17,9 +17,9 @@ export default class Form extends React.Component {
     submitText:    PropTypes.string,
     alsoDispatch:  PropTypes.object,
     didDispatch:   PropTypes.func
-  }
+  };
 
-  state = {}
+  state = {};
 
   handleFormSubmit = (e) => {
     e.preventDefault();
@@ -56,7 +56,7 @@ export default class Form extends React.Component {
 
     Promise.resolve(this.props.dispatch(this.props.actionCreator(payload, this.props.routeParams)))
       .then(this.props.didDispatch || function(){});
-  }
+  };
 
   render() {
     const errorClasses = classSet({

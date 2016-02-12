@@ -11,12 +11,12 @@ import Form                 from 'components/Form';
 export default class NewStory extends React.Component {
   static contextTypes = {
     router: PropTypes.object.isRequired
-  }
+  };
 
   static propTypes = {
     section:     PropTypes.object.isRequired,
     routeParams: PropTypes.object.isRequired
-  }
+  };
 
   render() {
     const cfg = {

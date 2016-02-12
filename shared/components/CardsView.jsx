@@ -13,18 +13,18 @@ export default class CardsView extends React.Component {
     onReorder:  PropTypes.func,
     editing:   PropTypes.bool,
     handleSave: PropTypes.func
-  }
+  };
 
   state = {
     dragging: false
-  }
+  };
 
   componentDidMount = () => {
     if(!this.props.editing || this.state.bound)
       return;
 
     this.bindSomeCheekyEvents();
-  }
+  };
 
   componentDidUpdate = (prevProps, prevState) => {
     if(!prevProps.editing && this.props.editing)
@@ -33,11 +33,11 @@ export default class CardsView extends React.Component {
 
     if(prevProps.editing && !this.props.editing)
       this.unbindEvents();
-  }
+  };
 
   componentWillUnmount = () => {
       this.unbindEvents();
-  }
+  };
 
   bindSomeCheekyEvents = () => {
     const container = this.refs.container;
@@ -55,16 +55,16 @@ export default class CardsView extends React.Component {
           .onmousedown = this.handlePointerDown;
       }
     }
-  }
+  };
 
   unbindEvents = () => {
     window.removeEventListener('touchmove', this.handlePointerMove);
     window.removeEventListener('mouseup',   this.handlePointerUp);
-  }
+  };
 
   handlePointerDown = e => {
     this.setState({ dragging: e.target });
-  }
+  };
 
   handlePointerMove = e => {
     if(!this.state.dragging)
@@ -84,11 +84,11 @@ export default class CardsView extends React.Component {
       this.props.onReorder(index, insertAt);
       this.setState({ dragging: this.refs['card-' + insertAt] });
     }
-  }
+  };
 
   handlePointerUp = () => {
     this.setState({ dragging: false });
-  }
+  };
 
   render() {
     const classes = {

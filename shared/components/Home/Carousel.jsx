@@ -7,7 +7,7 @@ import capitalize           from 'lib/capitalize'
 export default class Carousel extends React.Component {
   static propTypes = {
     stories: PropTypes.instanceOf(List).isRequired
-  }
+  };
 
   render() {
     const cfg = {

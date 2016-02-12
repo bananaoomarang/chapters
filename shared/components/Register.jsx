@@ -12,7 +12,7 @@ export default class Register extends React.Component {
     dispatch: PropTypes.func.isRequired,
     history:  PropTypes.object.isRequired,
     error:    PropTypes.string
-  }
+  };
 
   render() {
     const cfg = {

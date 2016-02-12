@@ -37,7 +37,7 @@ export default class Chapter extends React.Component {
     chapter:     PropTypes.object.isRequired,
     editing:     PropTypes.bool.isRequired,
     currentUser: PropTypes.string.isRequired,
-  }
+  };
 
   static contextTypes = {
     history: PropTypes.object.isRequired,
@@ -91,7 +91,7 @@ export default class Chapter extends React.Component {
     }
 
     this.props.dispatch(ChapterActions.setEditing(editing));
-  }
+  };
 
   componentWillUpdate = (nextProps) => {
     // Setup editor options
@@ -123,16 +123,16 @@ export default class Chapter extends React.Component {
       this.flushChapter();
       window.scroll(0, 0);
     }
-  }
+  };
 
   componentWillUnmount = () => {
     this.flushChapter();
     this.props.dispatch(ChapterActions.setEditing(false));
-  }
+  };
 
   flushChapter = () => {
     this.props.dispatch(ChapterActions.flushChapter());
-  }
+  };
 
   deployChapter = (payload) => {
     const { route, routeParams, dispatch } = this.props;
@@ -150,7 +150,7 @@ export default class Chapter extends React.Component {
       default:
         return console.error("Can't figure out how to deploy chapter");
     }
-  }
+  };
 
   exportText = () => {
     const html      = this.refs['chapter-body'].innerHTML;
@@ -164,7 +164,7 @@ export default class Chapter extends React.Component {
       return '';
 
     return peas.join('\n\n');
-  }
+  };
 
   handleSave = () => {
     const { query } = this.props.location;
@@ -186,12 +186,12 @@ export default class Chapter extends React.Component {
             this.context.history.pushState(null, '/chapters/' + this.props.routeParams.id);
           }
         });
-  }
+  };
 
   handleDelete = () => {
     this.props.dispatch(ChapterActions.deleteChapter(this.props.routeParams.id))
       .then(() => this.context.history.pushState(null, '/home'));
-  }
+  };
 
   handlePublish = (bool) => {
     const { query } = this.props.location;
@@ -210,11 +210,11 @@ export default class Chapter extends React.Component {
       .then(success => {
         if(success) this.props.dispatch(ChapterActions.setEditing(false));
       });
-  }
+  };
 
   setEditing = () => {
     this.props.dispatch(ChapterActions.setEditing(true));
-  }
+  };
 
   render () {
     const dropzoneOpts = {

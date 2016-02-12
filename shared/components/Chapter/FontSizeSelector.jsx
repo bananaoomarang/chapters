@@ -5,11 +5,11 @@ export default class FontSizeSelector extends React.Component {
     setFont:          React.PropTypes.func.isRequired,
     defaultSize:      React.PropTypes.number.isRequired,
     focusedParagraph: React.PropTypes.number
-  }
+  };
 
   state = {
     value: this.props.defaultSize
-  }
+  };
 
   componentDidMount = () => {
     var font = {
@@ -17,7 +17,7 @@ export default class FontSizeSelector extends React.Component {
     };
 
     this.props.setFont(font, this.props.focusedParagraph);
-  }
+  };
 
   onChange = (e) => {
     var font = {
@@ -29,7 +29,7 @@ export default class FontSizeSelector extends React.Component {
     this.setState({
       value: event.target.value
     });
-  }
+  };
 
   render () {
 
