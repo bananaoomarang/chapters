@@ -31,7 +31,7 @@ export default class ListView extends React.Component {
     header:     PropTypes.string,
     createUrl:  PropTypes.string,
     editing:    PropTypes.bool,
-  }
+  };
 
   state = {
     delta:       0,
@@ -40,16 +40,16 @@ export default class ListView extends React.Component {
     lastPressed: 0,
     order:       [],
     itemHeight:  123
-  }
+  };
 
   componentDidMount = () => {
     if(this.props.editing)
       this.bindSomeCheekyEvents();
 
     this.setState({
-      order: range(this.props.elements.count() + 1)
+      order: range(this.props.elements.size + 1)
     });
-  }
+  };
 
   componentDidUpdate = (prevProps) => {
     if (prevProps.editing !== this.props.editing) {
@@ -64,12 +64,12 @@ export default class ListView extends React.Component {
       }
     }
 
-    if (this.props.elements.count() !== prevProps.elements.count()) {
+    if (this.props.elements.size !== prevProps.elements.size) {
       this.setState({
-        order: range(this.props.elements.count() + 1)
+        order: range(this.props.elements.size + 1)
       });
     }
-  }
+  };
 
   componentWillUnmount = () => {
     this.unbindEvents();
@@ -107,18 +107,18 @@ export default class ListView extends React.Component {
       isPressed:   true,
       lastPressed: pos
     });
-  }
+  };
 
   handleTouchStart = (key, pressLocation, e) => {
     this.handlePointerDown(key, pressLocation, e.touches[0]);
-  }
+  };
 
   handlePointerMove = ({ pageY }) => {
     const { isPressed, delta, order, lastPressed, itemHeight } = this.state;
 
     if (isPressed) {
       const mouse    = pageY - delta;
-      const row      = clamp(Math.round(mouse / itemHeight), 0, this.props.elements.count() - 1);
+      const row      = clamp(Math.round(mouse / itemHeight), 0, this.props.elements.size - 1);
       const newOrder = reinsert(order, order.indexOf(lastPressed), row);
 
       // This is to sync the real list
@@ -136,14 +136,14 @@ export default class ListView extends React.Component {
     e.preventDefault();
 
     this.handlePointerMove(e.touches[0]);
-  }
+  };
 
   handlePointerUp = ({ pageY }) => {
     this.setState({
       isPressed:   false,
       delta:       0,
     });
-  }
+  };
 
   render() {
     const { mouse, isPressed, lastPressed, order, itemHeight } = this.state;
@@ -164,7 +164,7 @@ export default class ListView extends React.Component {
 
     if(this.props.editing)
       return (
-        <div className={classes.container} ref="container" style={{ height: `${elements.count()*itemHeight + 40}px` }}>
+        <div className={classes.container} ref="container" style={{ height: `${elements.size*itemHeight + 40}px` }}>
           <div className="header">
             {
               (() => {
@@ -174,7 +174,7 @@ export default class ListView extends React.Component {
           </div>
 
           <ul>
-            { range(elements.count()).map(i => {
+            { range(elements.size).map(i => {
                 const style = (lastPressed === i && isPressed) ?
                   {
                     scale:  spring(1.03, springConfig),
@@ -188,7 +188,7 @@ export default class ListView extends React.Component {
                     y:      spring(order.indexOf(i) * itemHeight, springConfig)
                   };
 
-                const isNewButton = (i === elements.count() - 1);
+                const isNewButton = (i === elements.size - 1);
 
                 return (
                   <Motion style={style} key={i}>

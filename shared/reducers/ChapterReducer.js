@@ -21,15 +21,18 @@ const defaultState = fromJS({
 export default function chapterReducer(state = defaultState, action) {
   switch(action.type) {
     case 'GET_CHAPTER':
-      const chapter = {
-        id: action.res.data.id,
-        ...action.res.data
-      };
+      const chapter = new Chapter(action.res.data);
 
       return chapterReducer(state, {
         type: 'SET_CHAPTER',
         chapter
       });
+
+    case 'POST_CHAPTER':
+      return chapterReducer(state, {
+        type: 'SET_CHAPTER',
+        chapter: new Chapter(action.res.data)
+        });
 
     case 'SET_CHAPTER':
       return state

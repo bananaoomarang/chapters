@@ -22,8 +22,8 @@ export const Chapter = Record({
     html:             '',  // HTML from ^
     author:           '',
     depends:          List(),              // Other chapters this one depends on having read
-    subOrdered:       List(),
-    subUnordered:     List(),
+    ordered:          List(),
+    unordered:        List(),
     wordCount:        0,                   // Not currently implemented
 });
 

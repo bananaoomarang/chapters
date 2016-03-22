@@ -1,20 +1,19 @@
 require('promise.prototype.finally');
 
-import React                from 'react';
-import { render }           from 'react-dom';
-import { Router }           from 'react-router';
-import createBrowserHistory from 'history/lib/createBrowserHistory';
-import axios                from 'axios';
-import { Provider }         from 'react-redux';
-import { createDevTools }   from 'redux-devtools';
-import LogMonitor           from 'redux-devtools-log-monitor';
-import DockMonitor          from 'redux-devtools-dock-monitor';
-import createRoutes         from 'routes';
-import * as reducers        from 'reducers';
-import immutifyState        from 'lib/immutifyState';
-import promiseMiddleware    from 'lib/promiseMiddleware';
-import fetchComponentData   from 'lib/fetchComponentData';
-import getToken             from 'lib/getToken';
+import React                      from 'react';
+import { render }                 from 'react-dom';
+import { Router, browserHistory } from 'react-router';
+import axios                      from 'axios';
+import { Provider }               from 'react-redux';
+import { createDevTools }         from 'redux-devtools';
+import LogMonitor                 from 'redux-devtools-log-monitor';
+import DockMonitor                from 'redux-devtools-dock-monitor';
+import createRoutes               from 'routes';
+import * as reducers              from 'reducers';
+import immutifyState              from 'lib/immutifyState';
+import promiseMiddleware          from 'lib/promiseMiddleware';
+import fetchComponentData         from 'lib/fetchComponentData';
+import getToken                   from 'lib/getToken';
 import { createStore,
          compose,
          combineReducers,
@@ -62,8 +61,6 @@ const finalCreateStore = compose.apply(null, stores)(createStore);
 
 const store = finalCreateStore(reducer, initialState);
 
-const history = createBrowserHistory();
-
 const routes = createRoutes(function (nextState, transition, done) {
   if(nextState.location.action === 'POP')
       return done();
@@ -79,7 +76,7 @@ if (__DEV__ && __DEVTOOLS__) {
   render(
     <Provider store={store}>
       <div>
-        <Router children={routes} history={history} />
+          <Router children={routes} history={browserHistory} />
         <DevTools />
       </div>
     </Provider>,

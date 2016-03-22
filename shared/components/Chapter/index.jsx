@@ -40,9 +40,9 @@ export default class Chapter extends React.Component {
   };
 
   static contextTypes = {
-    history: PropTypes.object.isRequired,
-    store:   PropTypes.object
-  }
+    router: PropTypes.object.isRequired,
+    store:  PropTypes.object
+  };
 
   state = {
     bodyCollapsed: false
@@ -111,7 +111,10 @@ export default class Chapter extends React.Component {
       this.editor.destroy();
     }
 
-    const isNewID = (nextProps.routeParams.id !== this.props.routeParams.id);
+    const isNewID = (
+      (nextProps.routeParams.id) &&
+      (nextProps.routeParams.id !== this.props.routeParams.id)
+    );
     const isNew   = (/^new/.test(nextProps.route.name) && !/^new/.test(this.props.route.name));
 
     if (isNewID) {
@@ -123,6 +126,12 @@ export default class Chapter extends React.Component {
       this.flushChapter();
       window.scroll(0, 0);
     }
+
+
+    const newChapterId = (nextProps.chapter.get('id') !== this.props.chapter.get('id'));
+
+    if(newChapterId)
+      this.context.router.push('/chapters/' + nextProps.chapter.get('id'));
   };
 
   componentWillUnmount = () => {
@@ -138,6 +147,7 @@ export default class Chapter extends React.Component {
     const { route, routeParams, dispatch } = this.props;
 
     switch(route.name) {
+
       case 'chapter':
         return dispatch(ChapterActions.patchChapter(routeParams.id, payload));
 
@@ -167,14 +177,11 @@ export default class Chapter extends React.Component {
   };
 
   handleSave = () => {
-    const { query } = this.props.location;
-
     const payload = {
       title:      this.props.chapter.get('title'),
       author:     this.props.chapter.get('author'),
       markdown:   this.exportText(),
-      ordered:    query.ordered ? !!(+query.ordered) : this.props.chapter.get('ordered'),
-      subOrdered: this.props.chapter.get('subOrdered').toJS().map((i) => i.id)
+      ordered: this.props.chapter.get('ordered').toJS().map((i) => i.id)
     };
 
     const promise = this.deployChapter(payload);
@@ -183,24 +190,22 @@ export default class Chapter extends React.Component {
         .then(success => {
           if(success) {
             this.props.dispatch(ChapterActions.setEditing(false));
-            this.context.history.pushState(null, '/chapters/' + this.props.routeParams.id);
           }
         });
   };
 
   handleDelete = () => {
     this.props.dispatch(ChapterActions.deleteChapter(this.props.routeParams.id))
-      .then(() => this.context.history.pushState(null, '/home'));
+      .then(() => this.context.router.push('/home'));
   };
 
   handlePublish = (bool) => {
-    const { query } = this.props.location;
-
     const payload = {
       title:    this.props.chapter.get('title'),
       author:   this.props.chapter.get('author'),
       markdown: this.exportText(),
-      ordered:  query.ordered ? !!(+query.ordered) : this.props.chapter.get('ordered'),
+        // ordered:  query.ordered ? !!(+query.ordered) : this.props.chapter.get('ordered'),
+      ordered:  [],
       public:   (bool || bool === false) ? bool : true
     };
 
@@ -217,6 +222,7 @@ export default class Chapter extends React.Component {
   };
 
   render () {
+
     const dropzoneOpts = {
       url:     '/api/chapters' + (this.props.routeParams.id ? ('/' + this.props.routeParams.id) : ''),
       method:  'put',
@@ -237,7 +243,7 @@ export default class Chapter extends React.Component {
       display: 'inline'
     };
 
-    const subList  = this.props.chapter.get('subOrdered')
+    const subList  = this.props.chapter.get('ordered')
       .map(chapter => ({
         title:       chapter.get('title'),
         separator:   '&nbsp;',
@@ -246,7 +252,7 @@ export default class Chapter extends React.Component {
         href:        ['/chapters', chapter.get('id')].join('/')
       }));
 
-    const subCards = this.props.chapter.get('subUnordered')
+    const subCards = this.props.chapter.get('unordered')
       .map(chapter => ({
         title: chapter.get('title'),
         body:  <em>{chapter.description || '???'}</em>,
@@ -256,8 +262,8 @@ export default class Chapter extends React.Component {
     const newChapter = /^new/.test(this.props.route.name);
 
     const showBody  = (this.props.chapter.get('markdown') || this.props.editing);
-    const showList  = !(subList.count() ? true  : (this.props.editing || newChapter));
-    const showCards = !(subCards.count() ? true : (this.props.editing || newChapter));
+    const showList  = !(subList.size ? true  : (this.props.editing || newChapter));
+    const showCards = !(subCards.size ? true : (this.props.editing || newChapter));
 
     return (
       <div id="chapter">
@@ -316,7 +322,7 @@ export default class Chapter extends React.Component {
               elements={subList}
               editing={this.props.editing} 
               reinsert={function (from, to) {
-                const current = this.props.chapter.get('subOrdered');
+                const current = this.props.chapter.get('ordered');
                 const val     = current.get(from);
                 const newList = current
                   .splice(from, 1)
@@ -324,7 +330,7 @@ export default class Chapter extends React.Component {
 
                 this.props.dispatch(
                   ChapterActions.setChapter({
-                    subOrdered: newList
+                    ordered: newList
                   })
                 );
 

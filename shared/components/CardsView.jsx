@@ -167,7 +167,7 @@ export default class CardsView extends React.Component {
 
         {
           (() => {
-            if(cards.count()) {
+            if(cards.size) {
               return <div className="cards" ref="cards">{cards}</div>;
             }
             else {

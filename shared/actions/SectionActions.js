@@ -12,6 +12,7 @@ export function postSection (section, routeParams) {
 export function getSection (routeParams) {
   const url = '/stories/' + [routeParams.id, routeParams.section].join('/');
 
+
   return {
     type:    'GET_SECTION',
     promise: request.get(url)
