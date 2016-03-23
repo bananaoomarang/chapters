@@ -17,10 +17,12 @@ export default class EditableHeader extends React.Component {
     clicked: false
   };
 
-  handleBlur = () => {
+  handleBlur = (e) => {
     this.setState({
       clicked: false
     });
+
+    this.props.update(e.target.textContent);
   };
 
   handleFocus = () => {
@@ -29,10 +31,6 @@ export default class EditableHeader extends React.Component {
     this.setState({ clicked: true }, function () {
       headerDOM.focus();
     });
-  };
-
-  handleChange = (e) => {
-    this.props.update(e.target.textContent);
   };
 
   render () {
@@ -48,7 +46,7 @@ export default class EditableHeader extends React.Component {
       );
 
     return (
-      <h1 style={this.props.style} ref="header" className={classes} contentEditable={this.props.editing} onClick={this.handleFocus} onFocus={this.handleFocus} onBlur={this.handleBlur} onInput={this.handleChange} >
+      <h1 style={this.props.style} ref="header" className={classes} contentEditable={this.props.editing} onClick={this.handleFocus} onFocus={this.handleFocus} onBlur={this.handleBlur} >
         {
           this.state.clicked ?
             (this.props.header || '') :

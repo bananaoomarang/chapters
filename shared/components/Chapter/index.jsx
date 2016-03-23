@@ -126,12 +126,6 @@ export default class Chapter extends React.Component {
       this.flushChapter();
       window.scroll(0, 0);
     }
-
-
-    const newChapterId = (nextProps.chapter.get('id') !== this.props.chapter.get('id'));
-
-    if(newChapterId)
-      this.context.router.push('/chapters/' + nextProps.chapter.get('id'));
   };
 
   componentWillUnmount = () => {
@@ -178,10 +172,10 @@ export default class Chapter extends React.Component {
 
   handleSave = () => {
     const payload = {
-      title:      this.props.chapter.get('title'),
-      author:     this.props.chapter.get('author'),
-      markdown:   this.exportText(),
-      ordered: this.props.chapter.get('ordered').toJS().map((i) => i.id)
+      title:    this.props.chapter.get('title'),
+      author:   this.props.chapter.get('author'),
+      markdown: this.exportText(),
+      ordered:  this.props.chapter.get('ordered').map((i) => i.id)
     };
 
     const promise = this.deployChapter(payload);
@@ -190,6 +184,7 @@ export default class Chapter extends React.Component {
         .then(success => {
           if(success) {
             this.props.dispatch(ChapterActions.setEditing(false));
+            this.context.router.push('/chapters/' + this.props.chapter.get('id'));
           }
         });
   };
@@ -222,7 +217,6 @@ export default class Chapter extends React.Component {
   };
 
   render () {
-
     const dropzoneOpts = {
       url:     '/api/chapters' + (this.props.routeParams.id ? ('/' + this.props.routeParams.id) : ''),
       method:  'put',

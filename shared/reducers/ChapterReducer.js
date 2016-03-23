@@ -21,20 +21,19 @@ const defaultState = fromJS({
 export default function chapterReducer(state = defaultState, action) {
   switch(action.type) {
     case 'GET_CHAPTER':
-      const chapter = new Chapter(action.res.data);
-
       return chapterReducer(state, {
         type: 'SET_CHAPTER',
-        chapter
+        chapter: action.res.data
       });
 
     case 'POST_CHAPTER':
       return chapterReducer(state, {
         type: 'SET_CHAPTER',
-        chapter: new Chapter(action.res.data)
-        });
+        chapter: action.res.data
+      });
 
     case 'SET_CHAPTER':
+      console.log(action.chapter);
       return state
         .mergeDeepIn(['chapter'], fromJS(action.chapter));
 
