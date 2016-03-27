@@ -104,10 +104,12 @@ export default class Chapter extends React.Component {
       }
     };
 
-    if (nextProps.editing && !this.props.editing) {
-      this.editor ? this.editor.setup() : (this.editor = new MediumEditor('#chapter-body', editorOpts));
-    }
-    else if (!nextProps.editing && this.props.editing) {
+    if(nextProps.editing && !this.props.editing) {
+      if(this.editor)
+        this.editor.setup();
+
+      this.editor = new MediumEditor('#chapter-body', editorOpts);
+    } else if(this.props.editing && !nextProps.editing) {
       this.editor.destroy();
     }
 
@@ -115,6 +117,7 @@ export default class Chapter extends React.Component {
       (nextProps.routeParams.id) &&
       (nextProps.routeParams.id !== this.props.routeParams.id)
     );
+
     const isNew   = (/^new/.test(nextProps.route.name) && !/^new/.test(this.props.route.name));
 
     if (isNewID) {
@@ -125,6 +128,7 @@ export default class Chapter extends React.Component {
     if (isNew) {
       this.flushChapter();
       window.scroll(0, 0);
+      this.props.dispatch(ChapterActions.setChapter({ author: this.props.currentUser }))
     }
   };
 
@@ -172,21 +176,20 @@ export default class Chapter extends React.Component {
 
   handleSave = () => {
     const payload = {
-      title:    this.props.chapter.get('title'),
-      author:   this.props.chapter.get('author'),
-      markdown: this.exportText(),
-      ordered:  this.props.chapter.get('ordered').map((i) => i.id)
+      title:     this.props.chapter.get('title'),
+      author:    this.props.chapter.get('author'),
+      markdown:  this.exportText(),
+      ordered:   this.props.chapter.get('ordered').map((i) => i.id),
+      isOrdered: this.props.location.query.ordered === '1' ? true : false
     };
 
-    const promise = this.deployChapter(payload);
-
-    return promise
-        .then(success => {
-          if(success) {
-            this.props.dispatch(ChapterActions.setEditing(false));
-            this.context.router.push('/chapters/' + this.props.chapter.get('id'));
-          }
-        });
+    return this.deployChapter(payload)
+      .then(success => {
+        if(success) {
+          this.props.dispatch(ChapterActions.setEditing(false));
+          this.context.router.push('/chapters/' + this.props.chapter.get('id'));
+        }
+      });
   };
 
   handleDelete = () => {

@@ -35,23 +35,23 @@ export default class EditableHeader extends React.Component {
 
   render () {
     const classes = classSet({
-      greyed: this.props.header ? false : true
+      greyed: !this.props.header 
     });
 
-    if(!this.props.editing)
+    if(this.props.editing)
       return (
-        <h1 style={this.props.style} className={classes} onFocus={this.handleFocus}>
-          {this.props.capitalize ? capitalize(this.props.header || this.props.placeholder) : (this.props.header || this.props.placeholder)}
+        <h1 style={this.props.style} ref="header" className={classes} contentEditable={this.props.editing} onClick={this.handleFocus} onFocus={this.handleFocus} onBlur={this.handleBlur} >
+          {
+            this.state.clicked ?
+            (this.props.header || '') :
+            (this.props.header || this.props.placeholder)
+          }
         </h1>
       );
 
     return (
-      <h1 style={this.props.style} ref="header" className={classes} contentEditable={this.props.editing} onClick={this.handleFocus} onFocus={this.handleFocus} onBlur={this.handleBlur} >
-        {
-          this.state.clicked ?
-            (this.props.header || '') :
-            (this.props.header || this.props.placeholder)
-        }
+      <h1 style={this.props.style} className={classes} onFocus={this.handleFocus}>
+        {this.props.capitalize ? capitalize(this.props.header || this.props.placeholder) : (this.props.header || this.props.placeholder)}
       </h1>
     );
   }
