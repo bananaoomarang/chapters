@@ -3,13 +3,7 @@ import { Link }             from 'react-router';
 import { connect }          from 'react-redux';
 import * as SessionActions  from 'actions/SessionActions';
 
-@connect(state => ({
-  legit:    state.session.get('legit'),
-  username: state.session.get('name'),
-  nightMode: state.session.get('nightMode')
-}))
-
-export default class Navbar extends React.Component {
+class Navbar extends React.Component {
   static propTypes = {
     dispatch:  PropTypes.func.isRequired,
     legit:     PropTypes.bool.isRequired,
@@ -79,3 +73,13 @@ export default class Navbar extends React.Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    legit:    state.session.get('legit'),
+    username: state.session.get('name'),
+    nightMode: state.session.get('nightMode')
+  }
+};
+
+export default connect(mapStateToProps)(Navbar);

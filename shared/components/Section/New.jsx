@@ -3,12 +3,7 @@ import { connect }          from 'react-redux';
 import * as SectionActions  from 'actions/SectionActions';
 import Form                 from 'components/Form';
 
-@connect(state => ({
-  section:  state.section.get('section'),
-  error:    state.story.get('error')
-}))
-
-export default class NewStory extends React.Component {
+class NewStory extends React.Component {
   static contextTypes = {
     router: PropTypes.object.isRequired
   };
@@ -45,3 +40,12 @@ export default class NewStory extends React.Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    section:  state.section.get('section'),
+    error:    state.story.get('error')
+  }
+};
+
+export default connect(mapStateToProps)(NewStory);

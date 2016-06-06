@@ -3,11 +3,7 @@ import * as UsersActions   from 'actions/UsersActions';
 import { connect }         from 'react-redux';
 import Form                from 'components/Form';
 
-@connect(state => ({
-  error: state.users.get('regError')
-}))
-
-export default class Register extends React.Component {
+class Register extends React.Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
     history:  PropTypes.object.isRequired,
@@ -63,3 +59,10 @@ export default class Register extends React.Component {
   }
 }
 
+function mapStateToProps(state) {
+  return {
+    error: state.users.get('regError')
+  }
+};
+
+export default connect(mapStateToProps)(Register);

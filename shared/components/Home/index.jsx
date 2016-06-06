@@ -4,11 +4,7 @@ import { List }             from 'immutable';
 import * as HomeActions     from 'actions/HomeActions';
 import Carousel             from './Carousel';
 
-@connect(state => ({
-  stories: state.home.get('stories')
-}))
-
-export default class Home extends React.Component {
+class Home extends React.Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
     stories:  PropTypes.instanceOf(List)
@@ -33,3 +29,11 @@ export default class Home extends React.Component {
   }
 
 }
+
+function mapStateToProps(state) {
+  return {
+    stories: state.home.get('stories')
+  }
+};
+
+export default connect(mapStateToProps)(Home);

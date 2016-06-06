@@ -4,11 +4,7 @@ import * as UsersActions    from 'actions/UsersActions';
 import capitalize           from 'lib/capitalize';
 import CardsView            from 'components/CardsView';
 
-@connect(state => ({
-  users: state.users.get('users')
-}))
-
-export default class UsersList {
+class UsersList {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
     users:    PropTypes.object.isRequired
@@ -30,3 +26,11 @@ export default class UsersList {
     return <CardsView items={users} emptyMsg="No users :'(" />;
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    users: state.users.get('users')
+  }
+};
+
+export default connect(mapStateToProps)(UsersList);

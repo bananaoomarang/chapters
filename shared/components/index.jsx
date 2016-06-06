@@ -4,13 +4,7 @@ import classSet             from 'classnames';
 import Navbar               from 'components/Navbar';
 import * as SessionActions  from 'actions/SessionActions';
 
-@connect(state => ({
-  legit:     state.session.get('legit'),
-  loading:   state.session.get('loading'),
-  nightMode: state.session.get('nightMode')
-}))
-
-export default class MainView extends React.Component {
+class MainView extends React.Component {
   static propTypes = {
     dispatch:  PropTypes.func.isRequired,
     legit:     PropTypes.bool.isRequired,
@@ -34,12 +28,6 @@ export default class MainView extends React.Component {
 
     this.setNightMode(this.props.nightMode);
   }
-
-  componentWillReceiveProps = (nextProps) => {
-    if(nextProps.nightMode !== this.props.nightMode) {
-      this.setNightMode(nextProps.nightMode);
-    }
-  };
 
   render() {
     const Loader = (
@@ -74,3 +62,13 @@ export default class MainView extends React.Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    legit:     state.session.get('legit'),
+    loading:   state.session.get('loading'),
+    nightMode: state.session.get('nightMode')
+  }
+};
+
+export default connect(mapStateToProps)(MainView);

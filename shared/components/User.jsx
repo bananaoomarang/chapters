@@ -5,13 +5,7 @@ import CardsView            from 'components/CardsView';
 import capitalize           from 'lib/capitalize';
 import * as UsersActions    from 'actions/UsersActions';
 
-@connect(state => ({
-  stories:     state.users.get('stories'),
-  personas:    state.users.get('personas'),
-  currentUser: state.session.get('name')
-}))
-
-export default class User extends React.Component {
+class User extends React.Component {
   static propTypes = {
     dispatch:    PropTypes.func.isRequired,
     routeParams: PropTypes.object.isRequired,
@@ -73,3 +67,13 @@ export default class User extends React.Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    stories:     state.users.get('stories'),
+    personas:    state.users.get('personas'),
+    currentUser: state.session.get('name')
+  }
+};
+
+export default connect(mapStateToProps)(User);

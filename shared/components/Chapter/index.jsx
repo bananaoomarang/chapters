@@ -22,13 +22,7 @@ const MediumEditor = ifdefBrowser( () => {
 
 const CheekyKeys = ifdefBrowser( () => require('lib/cheeky-keys').default);
 
-@connect(state => ({
-  chapter:     state.chapter.get('chapter'),
-  editing:     state.chapter.get('editing'),
-  currentUser: state.session.get('name')
-}))
-
-export default class Chapter extends React.Component {
+class Chapter extends React.Component {
   static propTypes = {
     dispatch:    PropTypes.func.isRequired,
     route:       PropTypes.object.isRequired,
@@ -202,7 +196,6 @@ export default class Chapter extends React.Component {
       title:    this.props.chapter.get('title'),
       author:   this.props.chapter.get('author'),
       markdown: this.exportText(),
-        // ordered:  query.ordered ? !!(+query.ordered) : this.props.chapter.get('ordered'),
       ordered:  [],
       public:   (bool || bool === false) ? bool : true
     };
@@ -352,3 +345,13 @@ export default class Chapter extends React.Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    chapter:     state.chapter.get('chapter'),
+    editing:     state.chapter.get('editing'),
+    currentUser: state.session.get('name')
+  }
+};
+
+export default connect(mapStateToProps)(Chapter);

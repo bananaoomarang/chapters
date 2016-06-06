@@ -10,7 +10,6 @@ const BABEL_QUERY = {
   plugins: [
     ['transform-object-rest-spread'],
     ['transform-class-properties'],
-    ['transform-decorators-legacy'],
     [
       'react-transform',
       {

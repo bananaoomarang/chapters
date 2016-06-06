@@ -35,7 +35,7 @@ export default class EditableHeader extends React.Component {
 
   render () {
     const classes = classSet({
-      greyed: !this.props.header 
+      greyed: !this.props.header
     });
 
     if(this.props.editing)

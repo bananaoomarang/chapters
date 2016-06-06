@@ -4,11 +4,7 @@ import * as StoryActions    from 'actions/StoryActions';
 import CardsView            from 'components/CardsView';
 import { List }             from 'immutable';
 
-@connect(state => ({
-  stories: state.story.get('userStories')
-}))
-
-export default class Stories {
+class Stories {
   static propTypes = {
     dispatch:    PropTypes.func.isRequired,
     stories:     PropTypes.instanceOf(List).isRequired
@@ -30,3 +26,11 @@ export default class Stories {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    stories: state.story.get('userStories')
+  }
+};
+
+export default connect(mapStateToProps)(Stories);

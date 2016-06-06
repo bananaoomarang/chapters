@@ -6,11 +6,7 @@ import { connect }         from 'react-redux';
 import * as SessionActions from 'actions/SessionActions';
 import Form                from 'components/Form';
 
-@connect(state => ({
-  error: state.session.get('error')
-}))
-
-export default class Login extends React.Component {
+class Login extends React.Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
     history:  PropTypes.object.isRequired,
@@ -48,3 +44,11 @@ export default class Login extends React.Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    error: state.session.get('error')
+  }
+};
+
+export default connect(mapStateToProps)(Login);

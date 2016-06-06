@@ -12,18 +12,18 @@ export const Story = Record({
 });
 
 export const Chapter = Record({
-    id:               '',  // Database ID
+    id:               '',     // Database ID
     public:           false,
     read:             false,
     write:            false,
     title:            '',
     description:      '???',
-    markdown:         '',  // Markdown
-    html:             '',  // HTML from ^
+    markdown:         '',     // Markdown
+    html:             '',     // HTML from ^
     author:           '',
-    depends:          List(),              // Other chapters this one depends on having read
+    depends:          List(), // Other chapters this one depends on having read
     ordered:          List(),
     unordered:        List(),
-    wordCount:        0,                   // Not currently implemented
+    wordCount:        0,      // Not currently implemented
 });
 

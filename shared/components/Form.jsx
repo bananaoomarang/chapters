@@ -2,10 +2,7 @@ import React, { PropTypes } from 'react';
 import { connect }          from 'react-redux';
 import classSet             from 'classnames';
 
-// Inject a cheeky dispatch prop
-@connect(() => ({}))
-
-export default class Form extends React.Component {
+class Form extends React.Component {
   static propTypes = {
     dispatch:      PropTypes.func.isRequired,
     routeParams:   PropTypes.object.isRequired,
@@ -88,3 +85,4 @@ export default class Form extends React.Component {
   }
 }
 
+export default connect()(Form);

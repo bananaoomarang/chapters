@@ -4,11 +4,7 @@ import ListView             from 'components/ListView';
 import capitalize           from 'lib/capitalize';
 import * as SectionActions  from 'actions/SectionActions';
 
-@connect(state => ({
-  section: state.section.get('section')
-}))
-
-export default class Section extends React.Component {
+class Section extends React.Component {
   static propTypes = {
     dispatch:    PropTypes.func.isRequired,
     routeParams: PropTypes.object.isRequired,
@@ -61,3 +57,11 @@ export default class Section extends React.Component {
       );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    section: state.section.get('section')
+  }
+};
+
+export default connect(mapStateToProps)(Section);
