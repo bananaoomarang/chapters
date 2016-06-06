@@ -33,7 +33,6 @@ export default function chapterReducer(state = defaultState, action) {
       });
 
     case 'SET_CHAPTER':
-      console.log(action.chapter);
       return state
         .mergeDeepIn(['chapter'], fromJS(action.chapter));
 

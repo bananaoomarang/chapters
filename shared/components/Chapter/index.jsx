@@ -169,11 +169,13 @@ class Chapter extends React.Component {
   };
 
   handleSave = () => {
+
     const payload = {
       title:     this.props.chapter.get('title'),
       author:    this.props.chapter.get('author'),
       markdown:  this.exportText(),
-      ordered:   this.props.chapter.get('ordered').map((i) => i.id),
+      ordered:   this.props.chapter.get('ordered').toJS().map(i => i.id),
+      unordered: this.props.chapter.get('unordered').toJS().map(i => i.id),
       isOrdered: this.props.location.query.ordered === '1' ? true : false
     };
 
@@ -268,11 +270,11 @@ class Chapter extends React.Component {
           <ChapterToolbar
             defaultFont={this.cfg.defaultFont}
             dropzoneOpts={dropzoneOpts}
-            editing={this.props.editing} 
+            editing={this.props.editing}
             display={ newChapter || this.props.chapter.get('write')}
             public={this.props.chapter.get('public')}
-            setEditing={this.setEditing} 
-            save={this.handleSave} 
+            setEditing={this.setEditing}
+            save={this.handleSave}
             del={this.handleDelete}
             publish={this.handlePublish}
             refreshChapter={() => { this.props.dispatch(ChapterActions.getChapter(this.props.chapter.get('id'))) }}
