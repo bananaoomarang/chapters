@@ -64,7 +64,6 @@ class Chapter extends React.Component {
       clickable: false
     };
     const isNew   = /^new/.test(this.props.route.name);
-    const editing = !!(+this.props.location.query.edit);
 
     (new Dropzone('#chapter-body', dropzoneOpts))
       .on('sending', function(file, xhr, formData) {
@@ -83,8 +82,6 @@ class Chapter extends React.Component {
     else if(this.props.routeParams.id) {
       this.props.dispatch(ChapterActions.getChapter(this.props.routeParams.id));
     }
-
-    this.props.dispatch(ChapterActions.setEditing(editing));
   };
 
   componentWillUpdate = (nextProps) => {
