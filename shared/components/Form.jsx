@@ -79,7 +79,7 @@ class Form extends React.Component {
 
         <br />
 
-        <a className={errorClasses}>{this.props.error || this.state.error}</a>
+        <span className={errorClasses}>{this.props.error || this.state.error}</span>
       </form>
     );
   }
