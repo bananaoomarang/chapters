@@ -38,9 +38,13 @@ export default class EditableHeader extends React.Component {
       greyed: !this.props.header
     });
 
-    if(this.props.editing)
+    const editClasses = classSet({
+      greyed: !this.state.clicked && !this.props.header
+    });
+
+    if(this.props.editing) {
       return (
-        <h1 style={this.props.style} ref="header" className={classes} contentEditable={this.props.editing} onClick={this.handleFocus} onFocus={this.handleFocus} onBlur={this.handleBlur} >
+        <h1 style={this.props.style} ref="header" className={editClasses} contentEditable={this.props.editing} onClick={this.handleFocus} onFocus={this.handleFocus} onBlur={this.handleBlur} >
           {
             this.state.clicked ?
             (this.props.header || '') :
@@ -48,6 +52,7 @@ export default class EditableHeader extends React.Component {
           }
         </h1>
       );
+    }
 
     return (
       <h1 style={this.props.style} className={classes} onFocus={this.handleFocus}>
