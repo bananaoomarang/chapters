@@ -96,10 +96,10 @@ class Chapter extends React.Component {
     };
 
     if(nextProps.editing && !this.props.editing) {
-      if(this.editor)
+      if(this.editor) 
         this.editor.setup();
-
-      this.editor = new MediumEditor('#chapter-body', editorOpts);
+      else
+        this.editor = new MediumEditor('#chapter-body', editorOpts);
     } else if(this.props.editing && !nextProps.editing) {
       this.editor.destroy();
     }
