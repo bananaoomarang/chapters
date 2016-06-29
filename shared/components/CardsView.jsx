@@ -97,6 +97,11 @@ export default class CardsView extends React.Component {
       }
     };
 
+    const cardClasses = {
+      ['card-wrapper']: true,
+      ['card-editing']: this.props.editing
+    }
+
     const addCard = this.props.editing ? [{
       title: 'New',
       body:  '+',
@@ -105,15 +110,21 @@ export default class CardsView extends React.Component {
       href:  this.props.createUrl
     }] : [];
 
-    const cards = this.props.elements.concat(addCard).map((item, index) => {
+    const blockIfEditing = function (e) {
+      if(this.props.editing) {
+        e.stopPropagation();
+        e.preventDefault();
+      }
+    }.bind(this);
 
+    const cards = this.props.elements.concat(addCard).map((item, index) => {
       const footerStyle = {
         display: item.footer ? 'inherit' : 'none'
       };
 
       return (
-        <div className="card-wrapper" key={index} ref={['card', index].join('-')} data-index={index} >
-          <Link to={item.href}>
+        <div className={classSet(cardClasses)} key={index} ref={['card', index].join('-')} data-index={index} >
+          <Link to={item.href} onClick={blockIfEditing}>
             <div className="card">
               {
                 (() => {
@@ -127,7 +138,7 @@ export default class CardsView extends React.Component {
               {
                 (() => {
                   if(item.body)
-                    return <div className="card-body">{item.body}</div>;
+                    return <div className="card-body" contentEditable={this.props.editing}>{item.body}</div>;
                 })()
               }
 

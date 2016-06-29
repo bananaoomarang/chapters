@@ -151,7 +151,8 @@ export default class ListView extends React.Component {
     const classes = {
       container: classSet({
         list:               true,
-        ['no-user-select']: this.props.editing
+        ['no-user-select']: this.props.editing,
+        ['list-editing']:   this.props.editing
       })
     };
 
@@ -213,7 +214,7 @@ export default class ListView extends React.Component {
                           );
 
                           subElements.push(
-                            <span className="description" key="description">
+                            <span className="description" key="description" contentEditable="true">
                               <em>{element.description}</em>
                             </span>
                           );

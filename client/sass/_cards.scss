@@ -46,4 +46,13 @@
       border-top: none;
     }
   }
+
+  .card-editing {
+    cursor: default;
+
+    .card-body {
+      outline: none;
+    }
+  }
+
 }

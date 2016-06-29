@@ -1,5 +1,13 @@
+  .list-editing {
+    .list-item {
+      .description {
+        outline: none;
+      }
+    }
+  }
 .list {
   padding: $base-spacing;
+
 
   .header {
     font-size: $header-font-size
