@@ -107,20 +107,22 @@ export default class CardsView extends React.Component {
       body:  '+',
 
       // This is temporary, ideally this should be full of contendeditings...
-      href:  this.props.createUrl
+      href:       this.props.createUrl,
+      uneditable: true
     }] : [];
 
-    const blockIfEditing = function (e) {
-      if(this.props.editing) {
-        e.stopPropagation();
-        e.preventDefault();
-      }
-    }.bind(this);
 
     const cards = this.props.elements.concat(addCard).map((item, index) => {
       const footerStyle = {
         display: item.footer ? 'inherit' : 'none'
       };
+
+      const blockIfEditing = function (e) {
+        if(this.props.editing && !item.uneditable) {
+          e.stopPropagation();
+          e.preventDefault();
+        }
+      }.bind(this);
 
       return (
         <div className={classSet(cardClasses)} key={index} ref={['card', index].join('-')} data-index={index} >
@@ -138,7 +140,7 @@ export default class CardsView extends React.Component {
               {
                 (() => {
                   if(item.body)
-                    return <div className="card-body" contentEditable={this.props.editing}>{item.body}</div>;
+                    return <div className="card-body" contentEditable={this.props.editing && !item.uneditable}>{item.body}</div>;
                 })()
               }
 

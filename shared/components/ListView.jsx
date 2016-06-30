@@ -159,8 +159,9 @@ export default class ListView extends React.Component {
     const elements = this.props.editing ?
       this.props.elements
         .concat([{
-          title: 'New',
-          href:  this.props.createUrl
+          title:      'New',
+          href:       this.props.createUrl,
+          uneditable: true
         }]) : this.props.elements;
 
     if(this.props.editing)
@@ -214,7 +215,7 @@ export default class ListView extends React.Component {
                           );
 
                           subElements.push(
-                            <span className="description" key="description" contentEditable="true">
+                            <span className="description" key="description" contentEditable={!item.uneditable}>
                               <em>{element.description}</em>
                             </span>
                           );
