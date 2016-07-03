@@ -27,3 +27,7 @@ export const Chapter = Record({
     wordCount:        0,      // Not currently implemented
 });
 
+export const Breadcrumb = Record({
+  id:    '',
+  title: '',
+});

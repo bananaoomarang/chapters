@@ -26,7 +26,8 @@ export default class ListView extends React.Component {
   static propTypes = {
     elements:   PropTypes.instanceOf(List).isRequired,
 
-    reinsert:  PropTypes.func,
+    reinsert:   PropTypes.func,
+    onChange:   PropTypes.func,
 
     header:     PropTypes.string,
     createUrl:  PropTypes.string,
@@ -93,13 +94,30 @@ export default class ListView extends React.Component {
           itemHeight
         });
     }
+
+    window.onkeyup = this.handleKeyup;
   };
 
   unbindEvents = () => {
     window.removeEventListener('touchend', this.handlePointerMove);
     window.removeEventListener('mouseup',   this.handlePointerUp);
+
+    window.onkeyup = null;
   };
 
+  handleKeyup = (e) => {
+    const el = e.target;
+
+    const change = {
+      index: el.dataset.index,
+      changes: {
+        [el.dataset.key]: el.textContent
+      }
+    };
+
+    this.props.onChange(change)
+  };
+  
   handlePointerDown = (pos, pressY, { pageY }) => {
     this.setState({
       delta:       pageY - pressY,
@@ -215,7 +233,7 @@ export default class ListView extends React.Component {
                           );
 
                           subElements.push(
-                            <span className="description" key="description" contentEditable={!item.uneditable}>
+                            <span className="description" key="description" contentEditable={!element.uneditable} data-index={i} data-key="description">
                               <em>{element.description}</em>
                             </span>
                           );

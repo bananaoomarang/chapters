@@ -72,6 +72,16 @@ body {
       }
     }
 
+    &-breadcrumbs {
+      cursor: pointer;
+      text-align: left;
+      margin-left: $base-spacing;
+
+      .crumb {
+        margin-right: $small-spacing;
+      }
+    }
+
     .medium-editor-placeholder:after {
       padding: inherit;
     }

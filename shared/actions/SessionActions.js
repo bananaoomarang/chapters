@@ -34,3 +34,16 @@ export function loadResource(promise) {
     promise
   }
 }
+
+export function pushBreadcrumb(crumb) {
+  return {
+    type: 'PUSH_BREADCRUMB',
+    crumb
+  }
+}
+
+export function popBreadcrumb() {
+  return {
+    type: 'POP_BREADCRUMB'
+  }
+}

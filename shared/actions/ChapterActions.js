@@ -9,6 +9,15 @@ export const setEditing          = createSetter('SET_EDITING', 'editing');
 export const setAlignment        = createSetter('SET_ALIGNMENT', 'alignment', 'index');
 export const setFont             = createSetter('SET_FONT', 'font', 'index');
 
+export function setSubChapter (type, index, changes) {
+  return {
+    type:    'SET_SUBCHAPTER',
+    subType: type,
+    index,
+    chapter: changes
+  }
+}
+
 // Load chapter by ID
 export function getChapter(id) {
   return {

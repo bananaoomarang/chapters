@@ -2,13 +2,16 @@ import React, { PropTypes } from 'react';
 import { connect }          from 'react-redux';
 import EditableHeader       from './EditableHeader';
 import ChapterToolbar       from './Toolbar';
+import ChapterBreadcrumbs   from './Breadcrumbs';
 import ListView             from 'components/ListView';
 import CardsView            from 'components/CardsView';
 import Collapsable          from 'components/Collapsable';
 import * as ChapterActions  from 'actions/ChapterActions';
+import * as SessionActions  from 'actions/SessionActions';
 import ifdefBrowser         from 'lib/ifdefBrowser';
 import getToken             from 'lib/getToken';
 import capitalize           from 'lib/capitalize';
+import { List }             from 'immutable';
 
 const Dropzone = ifdefBrowser( () => {
   return require('dropzone');
@@ -31,6 +34,7 @@ class Chapter extends React.Component {
     chapter:     PropTypes.object.isRequired,
     editing:     PropTypes.bool.isRequired,
     currentUser: PropTypes.string.isRequired,
+    breadcrumbs: PropTypes.instanceOf(List),
   };
 
   static contextTypes = {
@@ -51,9 +55,24 @@ class Chapter extends React.Component {
       },
       defaultAlignment: 'center'
     };
+
+    this.componentDidMount    = this.componentDidMount.bind(this);
+    this.componentWillUpdate  = this.componentWillUpdate.bind(this)
+    this.componentWillUnmount = this.componentWillUnmount.bind(this);
+    this.deployChapter        = this.deployChapter.bind(this);
+    this.flushChapter         = this.flushChapter.bind(this);
+    this.deployChapter        = this.deployChapter.bind(this);
+    this.exportText           = this.exportText.bind(this);
+    this.handleSave           = this.handleSave.bind(this);
+    this.handleDelete         = this.handleDelete.bind(this);
+    this.handlePublish        = this.handlePublish.bind(this);
+    this.setEditing           = this.setEditing.bind(this);
+    this.pushBreadcrumb       = this.pushBreadcrumb.bind(this);
+    this.updateChapter        = this.updateChapter.bind(this);
+    this.updateSubChapter     = this.updateSubChapter.bind(this);
   }
 
-  componentDidMount = () => {
+  componentDidMount () {
     const sessionToken = getToken();
     const dropzoneOpts = {
       url:     '/api/chapters' + (this.props.routeParams.id ? ('/' + this.props.routeParams.id) : ''),
@@ -70,21 +89,23 @@ class Chapter extends React.Component {
         formData.append('filename', file.name);
       })
       .on('complete', () => {
-        this.dispatch(ChapterActions.getChapter(this.props.chapter.get('id')));
+        this.props.dispatch(ChapterActions.getChapter(this.props.chapter.get('id')));
       });
 
     if(isNew) {
       this.props.dispatch(ChapterActions.setEditing(true));
 
       if(!this.props.chapter.get('author'))
-        this.props.dispatch(ChapterActions.setChapter({ author: this.props.currentUser }))
+        this.updateChapter({ author: this.props.currentUser })
     }
     else if(this.props.routeParams.id) {
       this.props.dispatch(ChapterActions.getChapter(this.props.routeParams.id));
     }
+
+    this.pushBreadcrumb()
   };
 
-  componentWillUpdate = (nextProps) => {
+  componentWillUpdate (nextProps) {
     // Setup editor options
     const editorOpts = {
       placeholder: {
@@ -113,26 +134,31 @@ class Chapter extends React.Component {
 
     if (isNewID) {
       this.flushChapter();
+
       this.props.dispatch(ChapterActions.getChapter(nextProps.routeParams.id));
+
+      if (this.props.breadcrumbs.get(this.props.breadcrumbs.count() - 1).get('id') !== this.props.chapter.get('id')) {
+        this.pushBreadcrumb();
+      }
     }
 
     if (isNew) {
       this.flushChapter();
       window.scroll(0, 0);
-      this.props.dispatch(ChapterActions.setChapter({ author: this.props.currentUser }))
+      this.updateChapter({ author: this.props.currentUser });
     }
   };
 
-  componentWillUnmount = () => {
+  componentWillUnmount () {
     this.flushChapter();
     this.props.dispatch(ChapterActions.setEditing(false));
   };
 
-  flushChapter = () => {
+  flushChapter () {
     this.props.dispatch(ChapterActions.flushChapter());
   };
 
-  deployChapter = (payload) => {
+  deployChapter (payload) {
     const { route, routeParams, dispatch } = this.props;
 
     switch(route.name) {
@@ -151,7 +177,7 @@ class Chapter extends React.Component {
     }
   };
 
-  exportText = () => {
+  exportText () {
     const html      = this.refs['chapter-body'].innerHTML;
     const splitPeas = html.split('</p>');
 
@@ -165,13 +191,19 @@ class Chapter extends React.Component {
     return peas.join('\n\n');
   };
 
-  handleSave = () => {
-
+  handleSave () {
     const payload = {
       title:     this.props.chapter.get('title'),
       author:    this.props.chapter.get('author'),
       markdown:  this.exportText(),
-      ordered:   this.props.chapter.get('ordered').toJS().map(i => i.id),
+      ordered:   this.props.chapter
+                     .get('ordered')
+                     .toJS()
+                     .map(chapter => ({
+                       id:          chapter.id,
+                       title:       chapter.title,
+                       description: chapter.description
+                     })),
       unordered: this.props.chapter.get('unordered').toJS().map(i => i.id),
       isOrdered: this.props.location.query.ordered === '1' ? true : false
     };
@@ -185,12 +217,12 @@ class Chapter extends React.Component {
       });
   };
 
-  handleDelete = () => {
+  handleDelete () {
     this.props.dispatch(ChapterActions.deleteChapter(this.props.routeParams.id))
       .then(() => this.context.router.push('/home'));
   };
 
-  handlePublish = (bool) => {
+  handlePublish () {
     const payload = {
       title:    this.props.chapter.get('title'),
       author:   this.props.chapter.get('author'),
@@ -207,9 +239,30 @@ class Chapter extends React.Component {
       });
   };
 
-  setEditing = () => {
+  setEditing () {
     this.props.dispatch(ChapterActions.setEditing(true));
   };
+
+  pushBreadcrumb () {
+    this.props.dispatch(SessionActions.pushBreadcrumb(
+      {
+        id:    this.props.chapter.get('id'),
+        title: this.props.chapter.get('title'),
+      }
+    ));
+  }
+
+  updateChapter (changes) {
+    this.props.dispatch(
+      ChapterActions.setChapter(changes)
+    );
+  }
+
+  updateSubChapter (type, index, changes) {
+    this.props.dispatch(
+      ChapterActions.setSubChapter(type, index, changes)
+    );
+  }
 
   render () {
     const dropzoneOpts = {
@@ -248,6 +301,8 @@ class Chapter extends React.Component {
         href:  ['/chapters', chapter.get('id')].join('/')
       }));
 
+    console.log(subList.toJS());
+
     const newChapter = /^new/.test(this.props.route.name);
 
     const showBody  = (this.props.chapter.get('markdown') || this.props.editing);
@@ -256,13 +311,15 @@ class Chapter extends React.Component {
 
     return (
       <div id="chapter">
+        <ChapterBreadcrumbs crumbs={this.props.breadcrumbs} />
+
         <div id="chapter-title">
           <EditableHeader
             style={titleStyle}
             header={this.props.chapter.get('title')}
             placeholder="Untitled"
             editing={this.props.editing}
-            update={(t) => { this.props.dispatch(ChapterActions.setChapter({ title: t })) }} />
+            update={(t) => { this.updateChapter({ title: t }) }} />
 
           <ChapterToolbar
             defaultFont={this.cfg.defaultFont}
@@ -289,7 +346,7 @@ class Chapter extends React.Component {
             placeholder="Unauthored"
             editing={this.props.editing}
             capitalize={true}
-            update={(a) => { this.props.dispatch(ChapterActions.setChapter({ author: a })) }} />
+            update={(a) => { this.updateChapter({ author: a }) }} />
 
           <hr />
         </div>
@@ -309,23 +366,23 @@ class Chapter extends React.Component {
           <div id="chapter-list">
             <ListView
               elements={subList}
-              editing={this.props.editing} 
-              reinsert={function (from, to) {
+              editing={this.props.editing}
+              createUrl={['/chapters', this.props.chapter.get('id'), 'new'].join('/') + '?ordered=1'}
+              reinsert={(from, to) => {
                 const current = this.props.chapter.get('ordered');
                 const val     = current.get(from);
                 const newList = current
                   .splice(from, 1)
                   .splice(to, 0, val);
 
-                this.props.dispatch(
-                  ChapterActions.setChapter({
-                    ordered: newList
-                  })
-                );
+                  this.updateChapter({ ordered: newList });
 
-                return newList;
-              }.bind(this)}
-              createUrl={['/chapters', this.props.chapter.get('id'), 'new'].join('/') + '?ordered=1'} />
+                  return newList;
+                }}
+              onChange={change => {
+                  this.updateSubChapter('ordered', change.index, change.changes);
+                }}
+            />
           </div>
           <hr />
         </Collapsable>
@@ -338,6 +395,9 @@ class Chapter extends React.Component {
               onReorder={()=>{}}
               handleSave={()=>{}}
               createUrl={['/chapters', this.props.chapter.get('id'), 'new'].join('/') + '?ordered=0'} />
+              handleChange={change => {
+                  this.updateSubChapter('unordered', change.index, change.changes);
+                }}
           </div>
         </Collapsable>
       </div>
@@ -349,7 +409,8 @@ function mapStateToProps(state) {
   return {
     chapter:     state.chapter.get('chapter'),
     editing:     state.chapter.get('editing'),
-    currentUser: state.session.get('name')
+    currentUser: state.session.get('name'),
+    breadcrumbs: state.session.get('breadcrumbs')
   }
 };
 

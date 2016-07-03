@@ -29,7 +29,6 @@ export default class CardsView extends React.Component {
   componentDidUpdate = (prevProps, prevState) => {
     if(!prevProps.editing && this.props.editing)
       this.bindSomeCheekyEvents();
-    
 
     if(prevProps.editing && !this.props.editing)
       this.unbindEvents();

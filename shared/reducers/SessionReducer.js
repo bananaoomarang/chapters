@@ -1,4 +1,5 @@
-import { fromJS } from 'immutable';
+import { fromJS }     from 'immutable';
+import { Breadcrumb } from 'records/Records'
 
  const defaultState = fromJS({
    //
@@ -17,10 +18,12 @@ import { fromJS } from 'immutable';
    //
    // API Interaction
    //
-   loading: false
+   loading: false,
+
+   breadcrumbs: []
  });
 
- export default function sessionReducer(state = defaultState, action) {
+export default function sessionReducer(state = defaultState, action) {
    switch(action.type) {
      case 'OPEN_SESSION':
        // Update window.sessionStorage
@@ -56,9 +59,17 @@ import { fromJS } from 'immutable';
     case 'SET_LOADING':
       return state.set('loading', action.loading);
 
-   case 'SET_NIGHT_MODE':
-     console.log(action)
+    case 'SET_NIGHT_MODE':
       return state.set('nightMode', action.bool);
+
+    case 'PUSH_BREADCRUMB':
+      return state.set('breadcrumbs', state.get('breadcrumbs').push(new Breadcrumb(action.crumb)));
+
+    case 'POP_BREADCRUMB':
+      return state.set('breadcrumbs', state.get('breadcrumbs').pop());
+
+    case 'FLUSH_BREADCRUMBS':
+      return state.set('breadcrumbs', fromJS([]));
 
      default:
        return state;

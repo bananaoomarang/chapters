@@ -36,6 +36,10 @@ export default function chapterReducer(state = defaultState, action) {
       return state
         .mergeDeepIn(['chapter'], fromJS(action.chapter));
 
+    case 'SET_SUBCHAPTER':
+      return state
+        .mergeDeepIn(['chapter', action.subType, action.index], fromJS(action.chapter));
+
     case 'SET_EDITABLE_CHAPTERS':
       return state.set('editableStories', fromJS(action.list));
 
