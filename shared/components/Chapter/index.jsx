@@ -398,10 +398,10 @@ class Chapter extends React.Component {
               editing={this.props.editing}
               onReorder={()=>{}}
               handleSave={()=>{}}
-              createUrl={['/chapters', this.props.chapter.get('id'), 'new'].join('/') + '?ordered=0'} />
+              createUrl={['/chapters', this.props.chapter.get('id'), 'new'].join('/') + '?ordered=0'}
               handleChange={change => {
                   this.updateSubChapter('unordered', change.index, change.changes);
-                }}
+                }} />
           </div>
         </Collapsable>
       </div>
