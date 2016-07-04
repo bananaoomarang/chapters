@@ -12,7 +12,7 @@ export const Story = Record({
 });
 
 export const Chapter = Record({
-    id:               '',     // Database ID
+    id:               null,     // Database ID
     public:           false,
     read:             false,
     write:            false,

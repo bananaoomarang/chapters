@@ -28,10 +28,11 @@ export default class ListView extends React.Component {
 
     reinsert:   PropTypes.func,
     onChange:   PropTypes.func,
+    addNew:     PropTypes.func,
 
     header:     PropTypes.string,
     createUrl:  PropTypes.string,
-    editing:    PropTypes.bool,
+    editing:    PropTypes.bool
   };
 
   state = {
@@ -159,9 +160,12 @@ export default class ListView extends React.Component {
   handlePointerUp = ({ pageY }) => {
     this.setState({
       isPressed:   false,
-      delta:       0,
+      delta:       0
     });
   };
+
+  addNew = () => {
+  }
 
   render() {
     const { mouse, isPressed, lastPressed, order, itemHeight } = this.state;
@@ -177,9 +181,8 @@ export default class ListView extends React.Component {
     const elements = this.props.editing ?
       this.props.elements
         .concat([{
-          title:      'New',
-          href:       this.props.createUrl,
-          uneditable: true
+          title:       'New',
+          uneditable:  true
         }]) : this.props.elements;
 
     if(this.props.editing)
@@ -218,12 +221,11 @@ export default class ListView extends React.Component {
 
                         const prefix = isNewButton ? '' : (order.indexOf(i) + 1) + '. ';
 
-                        if(element.title)
-                          subElements.push(
-                            <span className="title" key="title">
-                              {prefix + capitalize(element.title)}
-                            </span>
-                          );
+                       subElements.push(
+                         <span className="title" key="title" contentEditable={!element.uneditable} data-index={i} data-key="title">
+                           {element.title}
+                         </span>
+                       );
 
                         if(element.description) {
                           subElements.push(
@@ -239,12 +241,11 @@ export default class ListView extends React.Component {
                           );
                         }
 
-                        if(element.adendum)
-                          subElements.push(
-                            <span className="adendum" key="adendum">
-                              {element.adendum}
-                            </span>
-                            );
+                       subElements.push(
+                         <span className="adendum" key="adendum">
+                           {element.adendum}
+                         </span>
+                       );
 
                         const liStyle = {
                           position:        'absolute',
@@ -260,13 +261,12 @@ export default class ListView extends React.Component {
 
                         if(isNewButton)
                           return (
-                            <Link to={element.href}>
-                              <li
-                                className="clickable list-item"
-                                style={liStyle}>
-                                {subElements}
-                              </li>
-                            </Link>
+                            <li
+                              className="clickable list-item"
+                              style={liStyle}
+                              onClick={this.props.addNew}>
+                              {subElements}
+                            </li>
                           )
                         return (
                           <li

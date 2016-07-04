@@ -12,6 +12,7 @@ import ifdefBrowser         from 'lib/ifdefBrowser';
 import getToken             from 'lib/getToken';
 import capitalize           from 'lib/capitalize';
 import { List }             from 'immutable';
+import { Chapter as ChapterRecord }          from 'records/Records';
 
 const Dropzone = ifdefBrowser( () => {
   return require('dropzone');
@@ -381,6 +382,9 @@ class Chapter extends React.Component {
                 }}
               onChange={change => {
                   this.updateSubChapter('ordered', change.index, change.changes);
+                }}
+              addNew={() => {
+                  this.updateChapter({ ordered: this.props.chapter.get('ordered').push(ChapterRecord()) });
                 }}
             />
           </div>
