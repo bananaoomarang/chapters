@@ -15,6 +15,14 @@ class User extends React.Component {
     personas:    PropTypes.instanceOf(List)
   };
 
+  state = { editing: false };
+
+  constructor(props) {
+    super(props);
+
+    this.handleEditClick = this.handleEditClick.bind(this);
+  }
+
   componentDidMount() {
     const username = this.props.routeParams.user || this.props.currentUser;
 
@@ -25,6 +33,10 @@ class User extends React.Component {
     this.props.dispatch(
       UsersActions.getUserPersonas(username)
     );
+  }
+
+  handleEditClick() {
+    this.setState({ editing: !this.state.editing });
   }
 
   render() {
@@ -44,6 +56,10 @@ class User extends React.Component {
 
     return (
       <div>
+        <button className="btn btn-primary" onClick={this.handleEditClick}>{this.state.editing ? 'Save' : 'Edit'}</button>
+
+        <hr />
+
         <h2>{capitalize(this.props.routeParams.user || 'You')}</h2>
 
         <hr />
@@ -52,7 +68,7 @@ class User extends React.Component {
           elements={stories}
           header="Stories"
           emptyMsg={(loggedIn ? 'You have' : 'User has') + '  no stories :\'('}
-          editing={loggedIn}
+          editing={this.state.editing}
           createUrl="/chapters/new" />
 
         <hr />
@@ -61,7 +77,7 @@ class User extends React.Component {
           elements={personas}
           header="Personas"
           emptyMsg={(loggedIn ? 'You have' : 'User has') + '  no personas :\'('}
-          editing={loggedIn}
+          editing={this.state.editing}
           createUrl="/personas/new" />
       </div>
     );

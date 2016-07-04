@@ -164,9 +164,6 @@ export default class ListView extends React.Component {
     });
   };
 
-  addNew = () => {
-  }
-
   render() {
     const { mouse, isPressed, lastPressed, order, itemHeight } = this.state;
 
