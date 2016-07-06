@@ -11,7 +11,8 @@ export default class CardsView extends React.Component {
     subheader:  PropTypes.string,
     emptyMsg:   PropTypes.string,
     onReorder:  PropTypes.func,
-    editing:   PropTypes.bool,
+    onChange:   PropTypes.func,
+    editing:    PropTypes.bool,
     handleSave: PropTypes.func
   };
 
@@ -54,11 +55,15 @@ export default class CardsView extends React.Component {
           .onmousedown = this.handlePointerDown;
       }
     }
+
+    window.onkeyup = this.handleKeyup;
   };
 
   unbindEvents = () => {
     window.removeEventListener('touchmove', this.handlePointerMove);
     window.removeEventListener('mouseup',   this.handlePointerUp);
+
+    window.onkeyup = null;
   };
 
   handlePointerDown = e => {
@@ -87,6 +92,19 @@ export default class CardsView extends React.Component {
 
   handlePointerUp = () => {
     this.setState({ dragging: false });
+  };
+
+  handleKeyup = (e) => {
+    const el = e.target;
+
+    const change = {
+      index: el.dataset.index,
+      changes: {
+        [el.dataset.key]: el.textContent
+      }
+    };
+
+    this.props.onChange(change)
   };
 
   render() {
@@ -131,7 +149,7 @@ export default class CardsView extends React.Component {
                 (() => {
                   if(item.title)
                     return (
-                      <h2 className="card-header">{item.title}</h2>
+                      <h2 className="card-header" contentEditable={this.props.editing && !item.uneditable} data-index={index} data-key="title">{item.title}</h2>
                     );
                 })()
               }
@@ -139,14 +157,14 @@ export default class CardsView extends React.Component {
               {
                 (() => {
                   if(item.body)
-                    return <div className="card-body" contentEditable={this.props.editing && !item.uneditable}>{item.body}</div>;
+                    return <div className="card-body" contentEditable={this.props.editing && !item.uneditable} data-index={index} data-key="description">{item.body}</div>;
                 })()
               }
 
               {
                 (() => {
                   if(item.footer)
-                    return <div style={footerStyle} className="card-footer">{item.footer}</div>;
+                    return <div style={footerStyle} className="card-footer" contentEditable={this.props.editing && !item.uneditable} data-index={index} data-key="author">{item.footer}</div>;
                 })()
               }
               </div>

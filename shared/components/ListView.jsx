@@ -86,7 +86,6 @@ export default class ListView extends React.Component {
     container.addEventListener('mousemove', this.handlePointerMove);
     window.addEventListener('mouseup',   this.handlePointerUp);
 
-
     window.onresize = () => {
       const itemHeight = document.querySelector('.list-item') ? document.querySelector('.list-item').clientHeight : 0;
 
@@ -118,7 +117,7 @@ export default class ListView extends React.Component {
 
     this.props.onChange(change)
   };
-  
+
   handlePointerDown = (pos, pressY, { pageY }) => {
     this.setState({
       delta:       pageY - pressY,
