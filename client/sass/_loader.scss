@@ -1,0 +1,58 @@
+.loader {
+  $size: 8em;
+  $border: 0.6em;
+  $time: 1.4s;
+
+  height: $size;
+  width: $size;
+  background-color: #000;
+  left: 50%;
+  top: 50%;
+  margin-top: 1em;
+  border-radius: $size;
+  margin: $size / -2 0 0 ($size / -2) - $border;
+  position: absolute;
+  opacity: 0;
+  animation: pulsate $time;
+  animation-iteration-count: infinite;
+
+  .blot {
+    border-radius: inherit;
+    opacity: inherit;
+    background-color: inherit;
+    animation: pulsate $time;
+    animation-iteration-count: infinite;
+  }
+
+  @keyframes pulsate {
+    0% {
+      transform: scale(0.6);
+      opacity: 0;
+    }
+
+    75% {
+      opacity: 1
+    }
+
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  #blot1 {
+    width: $size / 3;
+    height: $size / 3;
+    float: right;
+  }
+
+  #blot2 {
+    width: $size / 2;
+    height: $size / 2;
+  }
+
+  #blot3 {
+    width: $size / 1.25;
+    height: $size / 1.25;
+    float: right;
+  }
+}

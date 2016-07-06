@@ -17,15 +17,13 @@ body {
   min-height: 100%;
 }
 
-#home {
-  overflow: hidden;
-}
-
 #main-view {
   /* Make sure to play nice with container */
   overflow: auto;
   width: 100%;
   height: 100%;
+  
+  text-align: center;
 
   a {
       color: inherit;
@@ -40,53 +38,6 @@ body {
     margin-top: $base-spacing;
   }
 
-  #chapter-toolbar {
-    @include media($medium-screen-up) {
-      float: right;
-      margin: 0.3em 0 0 0;
-      button, input {
-        margin: 0;
-      }
-    }
-  }
-
-  /* Editor defaults */
-  text-align: center;
-
-  #chapter {
-    &-body, &-author, &-title {
-      text-align: left;
-      max-width: 50em;
-      padding: 0 1em 0 1em;
-      font-size: $base-font-size*1.2;
-      margin: auto;
-      outline: none;
-    }
-
-    &-title, &-author {
-      outline: none;
-      text-align: center;
-
-      @include media($medium-screen-up) {
-        text-align: left;
-      }
-    }
-
-    &-breadcrumbs {
-      cursor: pointer;
-      text-align: left;
-      margin-left: $base-spacing;
-
-      .crumb {
-        margin-right: $small-spacing;
-      }
-    }
-
-    .medium-editor-placeholder:after {
-      padding: inherit;
-    }
-  }
-
   p {
     outline: none;
     line-height: 1.25em;
@@ -96,20 +47,6 @@ body {
   .paragraphs {
     font-size: $base-font-size;
     padding: $small-spacing;
-  }
-}
-
-.form {
-  a, input[type=text], input[type=email], input[type=password] {
-    width: 25%;
-    min-width: 16em;
-    margin: auto;
-    margin-bottom: $base-spacing;
-  }
-
-  input[type=submit] {
-    @extend button;
-    margin-bottom: $base-spacing;
   }
 }
 
@@ -138,67 +75,4 @@ body {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-}
-
-.loader {
-  $size: 8em;
-  $border: 0.6em;
-  $time: 1.4s;
-
-  height: $size;
-  width: $size;
-  background-color: #000;
-  left: 50%;
-  top: 50%;
-  margin-top: 1em;
-  border-radius: $size;
-  margin: $size / -2 0 0 ($size / -2) - $border;
-  position: absolute;
-  opacity: 0;
-  animation: pulsate $time;
-  animation-iteration-count: infinite;
-
-  .blot {
-    border-radius: inherit;
-    opacity: inherit;
-    background-color: inherit;
-    animation: pulsate $time;
-    animation-iteration-count: infinite;
-  }
-
-  @keyframes pulsate {
-    0% {
-      transform: scale(0.6);
-      opacity: 0;
-    }
-
-    75% {
-      opacity: 1
-    }
-
-    100% {
-      transform: scale(1);
-    }
-  }
-
-  #blot1 {
-    width: $size / 3;
-    height: $size / 3;
-    float: right;
-  }
-
-  #blot2 {
-    width: $size / 2;
-    height: $size / 2;
-  }
-
-  #blot3 {
-    width: $size / 1.25;
-    height: $size / 1.25;
-    float: right;
-  }
-}
-
-.dz-preview, .dz-file-preview, .dz-processing, .dz-success, .dz-complete {
-  display: none;
 }

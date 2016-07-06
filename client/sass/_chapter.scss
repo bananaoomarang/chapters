@@ -1,0 +1,43 @@
+#chapter-toolbar {
+  @include media($medium-screen-up) {
+    float: right;
+    margin: 0.3em 0 0 0;
+    button, input {
+      margin: 0;
+    }
+  }
+}
+
+#chapter {
+  &-body, &-author, &-title {
+    text-align: left;
+    max-width: 50em;
+    padding: 0 1em 0 1em;
+    font-size: $base-font-size*1.2;
+    margin: auto;
+    outline: none;
+  }
+
+  &-title, &-author {
+    outline: none;
+    text-align: center;
+
+    @include media($medium-screen-up) {
+      text-align: left;
+    }
+  }
+
+  &-breadcrumbs {
+    cursor: pointer;
+    text-align: left;
+    margin-left: $base-spacing;
+
+    .crumb {
+      margin-right: $small-spacing;
+    }
+  }
+
+  .medium-editor-placeholder:after {
+    padding: inherit;
+  }
+}

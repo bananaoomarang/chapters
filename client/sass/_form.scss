@@ -1,0 +1,13 @@
+.form {
+  a, input[type=text], input[type=email], input[type=password] {
+    width: 25%;
+    min-width: 16em;
+    margin: auto;
+    margin-bottom: $base-spacing;
+  }
+
+  input[type=submit] {
+    @extend button;
+    margin-bottom: $base-spacing;
+  }
+}
