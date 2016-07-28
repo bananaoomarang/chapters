@@ -76,7 +76,7 @@ if (__DEV__ && __DEVTOOLS__) {
   render(
     <Provider store={store}>
       <div>
-          <Router children={routes} history={browserHistory} />
+        <Router children={routes} history={browserHistory} />
         <DevTools />
       </div>
     </Provider>,
@@ -85,7 +85,7 @@ if (__DEV__ && __DEVTOOLS__) {
 } else {
   render(
     <Provider store={store}>
-      <Router children={routes} history={history} />
+      <Router children={routes} history={browserHistory} />
     </Provider>,
     document.getElementById('react-view')
   );

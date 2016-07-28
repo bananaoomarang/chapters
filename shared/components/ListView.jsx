@@ -20,7 +20,10 @@ function clamp(n, min, max) {
   return Math.max(Math.min(n, max), min);
 }
 
-const springConfig = [300, 50];
+const springConfig = {
+  stiffness: 300,
+  damping:   50
+};
 
 export default class ListView extends React.Component {
   static propTypes = {
@@ -41,17 +44,21 @@ export default class ListView extends React.Component {
     isPressed:   false,
     lastPressed: 0,
     order:       [],
-    itemHeight:  123
+    itemHeight:  0
   };
 
   componentDidMount = () => {
     if(this.props.editing)
       this.bindSomeCheekyEvents();
 
-    this.setState({
-      order: range(this.props.elements.size + 1)
-    });
-  };
+        // Pretty uggers, but otherwise clientHeight is innacurate
+        setTimeout(() => {
+          this.setState({
+            order: range(this.props.elements.size + 1),
+            itemHeight: document.querySelector('.list-item') ? document.querySelector('.list-item').clientHeight : 0
+          });
+        }, 1000);
+  }
 
   componentDidUpdate = (prevProps) => {
     if (prevProps.editing !== this.props.editing) {
@@ -71,11 +78,11 @@ export default class ListView extends React.Component {
         order: range(this.props.elements.size + 1)
       });
     }
-  };
+  }
 
   componentWillUnmount = () => {
     this.unbindEvents();
-  };
+  }
 
   bindSomeCheekyEvents = () => {
     const container = this.refs.container;
@@ -93,20 +100,24 @@ export default class ListView extends React.Component {
         this.setState({
           itemHeight
         });
-    }
+    };
 
-    window.onkeyup = this.handleKeyup;
-  };
+    window.addEventListener('keyup', this.handleKeyup);
+  }
 
   unbindEvents = () => {
     window.removeEventListener('touchend', this.handlePointerMove);
     window.removeEventListener('mouseup',   this.handlePointerUp);
 
     window.onkeyup = null;
-  };
+  }
 
   handleKeyup = (e) => {
     const el = e.target;
+
+    if(!/list\-item/.test(el.className)) {
+      return;
+    }
 
     const change = {
       index: el.dataset.index,
@@ -116,7 +127,7 @@ export default class ListView extends React.Component {
     };
 
     this.props.onChange(change)
-  };
+  }
 
   handlePointerDown = (pos, pressY, { pageY }) => {
     this.setState({
@@ -125,11 +136,11 @@ export default class ListView extends React.Component {
       isPressed:   true,
       lastPressed: pos
     });
-  };
+  }
 
   handleTouchStart = (key, pressLocation, e) => {
     this.handlePointerDown(key, pressLocation, e.touches[0]);
-  };
+  }
 
   handlePointerMove = ({ pageY }) => {
     const { isPressed, delta, order, lastPressed, itemHeight } = this.state;
@@ -148,20 +159,20 @@ export default class ListView extends React.Component {
         order: newOrder
       });
     }
-  };
+  }
 
   handleTouchMove = (e) => {
     e.preventDefault();
 
     this.handlePointerMove(e.touches[0]);
-  };
+  }
 
   handlePointerUp = ({ pageY }) => {
     this.setState({
       isPressed:   false,
       delta:       0
     });
-  };
+  }
 
   render() {
     const { mouse, isPressed, lastPressed, order, itemHeight } = this.state;
@@ -181,7 +192,7 @@ export default class ListView extends React.Component {
           uneditable:  true
         }]) : this.props.elements;
 
-    if(this.props.editing)
+    if(this.props.editing) {
       return (
         <div className={classes.container} ref="container" style={{ height: `${elements.size*itemHeight + 40}px` }}>
           <div className="header">
@@ -194,6 +205,8 @@ export default class ListView extends React.Component {
 
           <ul>
             { range(elements.size).map(i => {
+                const isNewButton = (i === elements.size - 1);
+
                 const style = (lastPressed === i && isPressed) ?
                   {
                     scale:  spring(1.03, springConfig),
@@ -204,24 +217,23 @@ export default class ListView extends React.Component {
                   {
                     scale:  spring(1, springConfig),
                     shadow: spring(0, springConfig),
-                    y:      spring(order.indexOf(i) * itemHeight, springConfig)
+                    y:      spring((isNewButton ? i : order.indexOf(i)) * itemHeight, springConfig)
                   };
-
-                const isNewButton = (i === elements.size - 1);
 
                 return (
                   <Motion style={style} key={i}>
                     {({ scale, shadow, y }) => {
-                        const element   = elements.get(order.indexOf(i));
+                        const element   = elements.get(isNewButton ? i : order.indexOf(i));
                         let subElements = [];
 
+                        // TODO Fix
                         const prefix = isNewButton ? '' : (order.indexOf(i) + 1) + '. ';
 
-                       subElements.push(
-                         <span className="title" key="title" contentEditable={!element.uneditable} data-index={i} data-key="title">
-                           {element.title}
-                         </span>
-                       );
+                        subElements.push(
+                          <span className="title" key="title" contentEditable={!element.uneditable} data-index={i} data-key="title">
+                            {element.title}
+                          </span>
+                        );
 
                         if(element.description) {
                           subElements.push(
@@ -255,7 +267,7 @@ export default class ListView extends React.Component {
                           zIndex:          (i === lastPressed) ? 99 : i
                         };
 
-                        if(isNewButton)
+                        if(isNewButton) {
                           return (
                             <li
                               className="clickable list-item"
@@ -264,6 +276,7 @@ export default class ListView extends React.Component {
                               {subElements}
                             </li>
                           )
+                        }
                         return (
                           <li
                             className="list-item"
@@ -282,7 +295,7 @@ export default class ListView extends React.Component {
           </ul>
         </div>
       );
-
+    }
     return (
       <div className={classSet(classes.container)} ref="container">
         <div className="header">

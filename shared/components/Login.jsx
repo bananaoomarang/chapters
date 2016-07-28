@@ -9,10 +9,13 @@ import Form                from 'components/Form';
 class Login extends React.Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
-    history:  PropTypes.object.isRequired,
     error:    PropTypes.string,
     legit:    PropTypes.bool
   };
+
+  static contextTypes = {
+    router: PropTypes.object.isRequired
+  }
 
   render() {
     const cfg = {
@@ -34,8 +37,9 @@ class Login extends React.Component {
       ],
 
       didDispatch: success => {
-        if(success)
-          this.props.history.pushState(null, '/me');
+        if(success) {
+          this.context.router.push('/me');
+        }
       }
     };
 

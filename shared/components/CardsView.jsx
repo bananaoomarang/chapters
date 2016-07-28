@@ -13,7 +13,8 @@ export default class CardsView extends React.Component {
     onReorder:  PropTypes.func,
     onChange:   PropTypes.func,
     editing:    PropTypes.bool,
-    handleSave: PropTypes.func
+    handleSave: PropTypes.func,
+    addNew:     PropTypes.func
   };
 
   state = {
@@ -56,18 +57,18 @@ export default class CardsView extends React.Component {
       }
     }
 
-    window.onkeyup = this.handleKeyup;
+    window.addEventListener('keyup', this.handleKeyup);
   };
 
   unbindEvents = () => {
     window.removeEventListener('touchmove', this.handlePointerMove);
     window.removeEventListener('mouseup',   this.handlePointerUp);
 
-    window.onkeyup = null;
+    window.removeEventListener('keyup', this.handleKeyup);
   };
 
   handlePointerDown = e => {
-    this.setState({ dragging: e.target });
+    this.setState({ dragging: e.currentTarget });
   };
 
   handlePointerMove = e => {
@@ -95,7 +96,11 @@ export default class CardsView extends React.Component {
   };
 
   handleKeyup = (e) => {
-    const el = e.target;
+    const el = e.currentTarget;
+
+    if(!/card/.test(el.className)) {
+      return;
+    }
 
     const change = {
       index: el.dataset.index,
@@ -122,9 +127,7 @@ export default class CardsView extends React.Component {
     const addCard = this.props.editing ? [{
       title: 'New',
       body:  '+',
-
-      // This is temporary, ideally this should be full of contendeditings...
-      href:       this.props.createUrl,
+      href: this.props.createUrl,
       uneditable: true
     }] : [];
 
@@ -142,7 +145,7 @@ export default class CardsView extends React.Component {
       }.bind(this);
 
       return (
-        <div className={classSet(cardClasses)} key={index} ref={['card', index].join('-')} data-index={index} >
+        <div className={classSet(cardClasses)} key={index} ref={['card', index].join('-')} data-index={index}>
           <Link to={item.href} onClick={blockIfEditing}>
             <div className="card">
               {

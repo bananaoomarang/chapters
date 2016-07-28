@@ -34,7 +34,7 @@ class Chapter extends React.Component {
     routeParams: PropTypes.object.isRequired,
     chapter:     PropTypes.object.isRequired,
     editing:     PropTypes.bool.isRequired,
-    currentUser: PropTypes.string.isRequired,
+    currentUser: PropTypes.string,
     breadcrumbs: PropTypes.instanceOf(List),
   };
 
@@ -302,8 +302,6 @@ class Chapter extends React.Component {
         href:  ['/chapters', chapter.get('id')].join('/')
       }));
 
-    console.log(subList.toJS());
-
     const newChapter = /^new/.test(this.props.route.name);
 
     const showBody  = (this.props.chapter.get('markdown') || this.props.editing);
@@ -400,7 +398,6 @@ class Chapter extends React.Component {
               handleSave={()=>{}}
               createUrl={['/chapters', this.props.chapter.get('id'), 'new'].join('/') + '?ordered=0'}
               onChange={change => {
-                  console.log(change);
                   this.updateSubChapter('unordered', change.index, change.changes);
                 }}
               addNew={() => {

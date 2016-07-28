@@ -6,9 +6,12 @@ import Form                from 'components/Form';
 class Register extends React.Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
-    history:  PropTypes.object.isRequired,
     error:    PropTypes.string
   };
+
+  static contextTypes = {
+    router: PropTypes.object.isRequired
+  }
 
   render() {
     const cfg = {
@@ -48,8 +51,9 @@ class Register extends React.Component {
       },
 
       didDispatch: success => {
-        if(success)
-          this.props.history.pushState(null, '/home');
+        if(success) {
+          this.context.router.push('/login');
+        }
       }
     };
 
